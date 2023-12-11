@@ -1,0 +1,63 @@
+/////////////////////////// Enter loginIfPossible /////////////////////////////////////////
+
+getLoggedInName Logged in name= Hanni
+loginIfPossible logged_in_name= Hanni i_user_name= Gunnar
+isTimeLimitXmlExceeded diff_minutes= 1149 Limit 15 Return true
+loginIfPossible Case: logged_in_name != i_user_name && b_time_limit_exceeded Case _user
+setLoggedInName i_logged_in_name= Gunnar Time stamp XML June 03 2021 09:15:38.
+
+/////////////////////////// Exit  loginIfPossible /////////////////////////////////////////
+/////////////////////////// Enter clickLoginLogout ////////////////////////////////////////
+
+getLoggedInName Logged in name= Gunnar
+clickLoginLogout logged_in_name= Gunnar i_user_name= Gunnar
+isTimeLimitXmlExceeded diff_minutes= 1 Limit 15 Return false
+clickLoginLogout logged_in_name == i_user_name && i_user_logged_in == TRUE Case _logout
+setLoggedInName i_logged_in_name= NobodyIsLoggedIn Time stamp XML June 03 2021 09:17:33.
+
+/////////////////////////// Exit  clickLoginLogout ////////////////////////////////////////
+/////////////////////////// Enter clickLoginLogout ////////////////////////////////////////
+
+getLoggedInName Logged in name= NobodyIsLoggedIn
+clickLoginLogout logged_in_name= NobodyIsLoggedIn i_user_name= Gunnar
+isTimeLimitXmlExceeded diff_minutes= 0 Limit 15 Return false
+clickLoginLogout logged_in_name == i_name_nobody && i_user_logged_in == FALSE Case _login
+setLoggedInName i_logged_in_name= Gunnar Time stamp XML June 03 2021 09:17:38.
+
+/////////////////////////// Exit  clickLoginLogout ////////////////////////////////////////
+/////////////////////////// Enter loginIfPossible /////////////////////////////////////////
+
+getLoggedInName Logged in name= Gunnar
+loginIfPossible logged_in_name= Gunnar i_user_name= Beate
+isTimeLimitXmlExceeded diff_minutes= 0 Limit 15 Return false
+loginIfPossible else (not possible to login) Case _other
+
+/////////////////////////// Exit  loginIfPossible /////////////////////////////////////////
+/////////////////////////// Enter clickLoginLogout ////////////////////////////////////////
+
+getLoggedInName Logged in name= Gunnar
+clickLoginLogout logged_in_name= Gunnar i_user_name= Beate
+isTimeLimitXmlExceeded diff_minutes= 0 Limit 15 Return false
+clickLoginLogout logged_in_name != i_user_name && i_user_logged_in == FALSE && 
+                 !b_time_limit_exceeded Force not possible Case _other
+
+/////////////////////////// Exit  clickLoginLogout ////////////////////////////////////////
+/////////////////////////// Enter clickLoginLogout ////////////////////////////////////////
+
+getLoggedInName Logged in name= Gunnar
+clickLoginLogout logged_in_name= Gunnar i_user_name= Beate
+isTimeLimitXmlExceeded diff_minutes= 23 Limit 15 Return true
+clickLoginLogout logged_in_name != i_user_name && i_user_logged_in == FALSE && 
+                 b_time_limit_exceeded Case _forced
+setLoggedInName i_logged_in_name= Beate Time stamp XML June 03 2021 09:42:48.
+
+/////////////////////////// Exit  clickLoginLogout ////////////////////////////////////////
+/////////////////////////// Enter clickLoginLogout ////////////////////////////////////////
+
+getLoggedInName Logged in name= Beate
+clickLoginLogout logged_in_name= Beate i_user_name= Beate
+isTimeLimitXmlExceeded diff_minutes= 0 Limit 15 Return false
+clickLoginLogout logged_in_name == i_user_name && i_user_logged_in == TRUE Case _logout
+setLoggedInName i_logged_in_name= NobodyIsLoggedIn Time stamp XML June 03 2021 09:42:54.
+
+/////////////////////////// Exit  clickLoginLogout ////////////////////////////////////////

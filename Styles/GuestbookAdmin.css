@@ -1,0 +1,49 @@
+/* 
+File: GuestbookAdmin.css Date: 2023-12-11
+
+Author: Gunnar Liden
+
+General information
+========================
+
+Defines all style classe for the application guestbook admin
+
+
+*/
+
+/* The whole page */
+.cl_admin_page
+{
+    border: solid 2px blue;
+    font-family: 'Arial';
+    width: 500px;
+    margin-top: 20px;
+    margin-left: 20px;
+    height: 670px;
+}
+
+/* For all <label> elements */
+label
+{
+    margin-left: 10px;
+}
+
+/* Logo <div> element */
+.cl_admin_logo
+{
+    /* border: solid 2px yellow; */
+    text-align: center;
+    background-color: black;
+    color: rgb(255, 0, 40);
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+}
+
+/* Image <img> Elemente in <div> element logo */
+.cl_admin_logo img
+{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
