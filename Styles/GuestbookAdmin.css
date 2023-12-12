@@ -47,3 +47,198 @@ label
     margin-right: 15px;
 }
 
+/* The group <div> for the dropdown guest record and guest record number */
+.cl_div_admin_dropdown_number
+{
+    border: solid 1px black;
+    margin-top: 10px;
+    margin-left: 10px;
+    overflow: hidden;   
+    clear: both;
+}
+
+.cl_div_admin_dropdown
+{
+    border: solid 1px yellow;
+    padding: 2px;
+    float: left;
+    width: 75%;
+}
+
+/* HTML <select> elements */
+select 
+{
+    cursor: pointer;
+}
+
+/* HTML <button> elements */
+button 
+{
+    cursor: pointer;
+}
+
+.cl_div_admin_number
+{
+    border: solid 1px yellow;
+    padding: 2px;
+    float: left;
+    width: 20%;
+}
+.cl_div_admin_image_row
+{
+    border: solid 1px black;
+    margin-top: 10px;
+    margin-left: 10px;
+    overflow: hidden;   
+    clear: both;    
+}
+
+.cl_div_admin_image_row_left
+{
+    border: solid 1px green;
+    padding: 2px;
+    padding: 2px;
+    float: left;
+    width: 60%;   
+}
+
+.cl_div_admin_filename
+{
+    width: 95%;
+    clear: both;
+}
+
+.cl_div_admin_image_container
+{
+    border: solid 1px yellow;
+    height: 200px;
+    width: 95%;
+    clear: both;
+}
+
+.cl_div_admin_image_row_right
+{
+    border: solid 1px yellow;
+    padding: 2px;
+    float: left;
+    width: 35%;   
+}
+
+.m_div_admin_checkbox_new
+{
+    border: solid 1px yellow;
+    width: 95%;
+    clear: both;   
+}
+
+.m_div_admin_upload_download
+{
+    border: solid 1px blue;
+    overflow: hidden;   
+    clear: both;    
+}
+
+.m_div_admin_upload
+{
+    border: solid 1px yellow;
+    width: 48%;
+    float: left;    
+}
+
+.m_div_admin_download
+{
+    border: solid 1px yellow;
+    width: 48%;
+    float: left;    
+}
+
+.m_div_admin_status
+{
+    border: solid 1px yellow;
+    width: 95%;
+    clear: both;       
+}
+
+.m_div_admin_dropdown_concert
+{
+    border: solid 1px yellow;
+    width: 95%;
+    clear: both;    
+}
+
+.m_div_admin_date
+{
+    border: solid 1px yellow;
+    width: 95%;
+    clear: both;       
+}
+
+.m_div_admin_band
+{
+    border: solid 1px yellow;
+    width: 95%;
+    clear: both;        
+}
+
+.m_div_admin_musicians
+{
+    border: solid 1px yellow;
+    width: 95%;
+    clear: both;        
+}
+
+.m_div_admin_text
+{
+    border: solid 1px yellow;
+    width: 95%;
+    clear: both;        
+}
+
+.m_div_admin_names_email
+{
+    border: solid 1px blue;
+    overflow: hidden;   
+    clear: both;   
+}
+
+.m_div_admin_names
+{
+    border: solid 1px yellow;
+    width: 48%;
+    float: left;     
+}
+
+.m_div_admin_email
+{
+    border: solid 1px yellow;
+    width: 48%;
+    float: left;     
+}
+
+.m_div_admin_bottom_row
+{
+    border: solid 1px blue;
+    overflow: hidden;   
+    clear: both;   
+}
+
+.m_div_admin_publish
+{
+    border: solid 1px yellow;
+    width: 32%;
+    float: left;     
+}
+
+.m_div_admin_delete
+{
+    border: solid 1px yellow;
+    width: 32%;
+    float: left;     
+}
+
+.m_div_admin_save
+{
+    border: solid 1px yellow;
+    width: 32%;
+    float: left;     
+}
