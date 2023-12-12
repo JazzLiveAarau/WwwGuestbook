@@ -61,8 +61,8 @@ label
 {
     border: solid 1px yellow;
     padding: 2px;
+    width: 45%;
     float: left;
-    width: 75%;
 }
 
 /* HTML <select> elements */
@@ -77,12 +77,19 @@ button
     cursor: pointer;
 }
 
+.m_div_admin_checkbox_new
+{
+    border: solid 1px yellow;
+    width: 25%;
+    float: left;
+}
+
 .cl_div_admin_number
 {
     border: solid 1px yellow;
     padding: 2px;
-    float: left;
     width: 20%;
+    float: left;
 }
 .cl_div_admin_image_row
 {
@@ -122,13 +129,6 @@ button
     padding: 2px;
     float: left;
     width: 35%;   
-}
-
-.m_div_admin_checkbox_new
-{
-    border: solid 1px yellow;
-    width: 95%;
-    clear: both;   
 }
 
 .m_div_admin_upload_download
@@ -181,6 +181,13 @@ button
 }
 
 .m_div_admin_musicians
+{
+    border: solid 1px yellow;
+    width: 95%;
+    clear: both;        
+}
+
+.m_div_admin_header
 {
     border: solid 1px yellow;
     width: 95%;

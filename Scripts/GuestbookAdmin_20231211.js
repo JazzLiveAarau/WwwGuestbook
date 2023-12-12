@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2023-12-11
+// Date: 2023-12-12
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -123,6 +123,8 @@ function callbackAllXmlObjectsCreated()
 {
     initLoginLogout();
 
+    createAdminControls();
+
 } // callbackAllXmlObjectsCreated
 
 // Initialization for login and logout
@@ -169,6 +171,77 @@ function callbackLoginIfPossible(i_logged_in_name, i_b_user_has_logged_in)
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Main Functions //////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Event Functions ///////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// User clicked the date control
+function eventUserSelectedRecordDate()
+{
+    alert("User clicked g_record_date_text_box");
+
+} // eventUserSelectedRecordDate
+
+// User clicked the upload button
+function onClickOfAdminUploadButton()
+{
+    alert("User clicked the upload button");
+
+} // onClickOfAdminUploadButton
+
+// User clicked the download button
+function onClickOfAdminDownloadButton()
+{
+    alert("User clicked the download button");
+
+} // onClickOfAdminDownloadButton
+
+// User clicked the delete button
+function onClickOfAdminDeleteButton()
+{
+    alert("User clicked the delete button");
+
+} // onClickOfAdminDeleteButton
+
+// User clicked the save button
+function onClickOfAdminSaveButton()
+{
+    alert("User clicked the save button");
+
+} // onClickOfAdminSaveButton
+
+// User selected a guest record
+function eventSelectAdminGuestDropDown()
+{
+    alert("User selected a guest record");
+
+} // eventSelectAdminGuestDropDown
+
+// User selected a concert
+function eventSelectAdminConcertDropDown()
+{
+    alert("User selected a concert");
+
+} // eventSelectAdminConcertDropDown
+
+// User clicked the check box for new records only
+function eventClickCheckBoxNewRecords()
+{
+    alert("User clicked the check box for new records only");
+
+} // eventClickCheckBoxNewRecords
+
+// User clicked the publish check box
+function eventClickCheckBoxAdminPublish()
+{
+    alert("User clicked the publish check box");
+
+} // eventClickCheckBoxAdminPublish
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Event Functions /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
