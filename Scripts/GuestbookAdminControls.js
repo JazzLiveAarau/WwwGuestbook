@@ -1,5 +1,5 @@
 // File: GuestbookAdminControls.js
-// Date: 2023-12-13
+// Date: 2023-12-19
 // Authors: Gunnar Lidén
 
 // Content
@@ -96,7 +96,7 @@ function createAdminControls()
 
     createCheckBoxAdminPublish();
 
-    createTextBoxAdminNumber();
+    // createTextBoxAdminNumber();
 
     createTextBoxFileName();
 
@@ -225,23 +225,22 @@ function createAdminConcertDropdown()
 {
     g_concert_drop_down = new JazzDropdown('id_admin_dropdown_concert', 'id_div_admin_dropdown_concert');
 
-    var concert_array = [];
-	concert_array[0] = 'No specific concert';
-	concert_array[1] = 'Concert 1';
-	concert_array[2] = 'Concert 2';
-	concert_array[3] = 'Concert 3';
+    var concert_array = g_season_xml.getBandNameArray();
+
+    g_concert_drop_down.setAppendString('Kein Konzert');
 
     g_concert_drop_down.setNameArray(concert_array);
 
     g_concert_drop_down.setOnchangeFunctionName("eventSelectAdminConcertDropDown");
 
-    g_concert_drop_down.setLabelText("Konzert wählen");
+    g_concert_drop_down.setLabelText("Konzert oder kein Konzert wählen");
 
     g_concert_drop_down.setLabelTextPositionAbove();
 
-    g_concert_drop_down.setTitle("Konzert wählen");
+    g_concert_drop_down.setTitle("Konzert wählen oder kein Konzert wähle. Ein gewähltes Konzert bestimmt das Datum.");
 
-    //g_concert_drop_down.setAppendString("Kein Konzert wälen");
+    g_concert_drop_down.setSelectOptionNumber(concert_array.length + 1);
+
 
 } // createAdminConcertDropdown
 
@@ -252,11 +251,11 @@ function createCheckBoxNewRecords()
 
     g_new_records_check_box.setOninputFunctionName("eventClickCheckBoxNewRecords");
 
-    g_new_records_check_box.setLabelText("Nur neue");
+    g_new_records_check_box.setLabelText("Aufgeladene");
 	
-	g_new_records_check_box.setLabelTextPositionAbove();
+	g_new_records_check_box.setLabelTextPositionRight();
 
-     g_new_records_check_box.setTitle("Zeige nur neue Einträge");
+     g_new_records_check_box.setTitle("Alle existierende oder neue vom Publikum aufgeladene");
 
      g_new_records_check_box.setCheck("TRUE");
 

@@ -1,5 +1,5 @@
 // File: GuestbookAdminElements.js
-// Date: 2023-12-11
+// Date: 2023-12-19
 // Author: Gunnar Liden
 
 // File content
@@ -27,3 +27,17 @@ function getIdLoginLogoutButton()
     return 'id_login_logout_button';
 
 } // getIdLoginLogoutButton
+
+// Returns the the container element div for the image
+function getElementDivImageContainer()
+{
+    return document.getElementById(getIdDivImageContainer());
+
+} // getElementDivImageContainer
+
+// Returns the identity of the container div for the image
+function getIdDivImageContainer()
+{
+    return 'id_div_admin_image_container';
+
+} // getIdDivImageContainer

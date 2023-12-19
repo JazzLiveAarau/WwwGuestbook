@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2023-12-12
+// Date: 2023-12-19
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -14,8 +14,20 @@
 // Object corresponding to JazzGuests.xml
 var g_guests_xml = null;
 
-// Object corresponding to JazzGuestsUpdate.xml
-var g_guests_update_xml = null;
+// Object corresponding to JazzGuestsUploaded.xml
+var g_guests_uploaded_xml = null;
+
+// Active XML object
+var g_active_xml = null;
+
+// Active guest record number for g_guests_xml
+var g_record_active_number = -12345;
+
+// Active guest record number for g_guests_uploaded_xml
+var g_record_active_uploaded_number = -12345;
+
+// Active record jazz guest that is displayed for the user
+var g_record_active_guest = null;
 
 // Object corresponding to JazzSeasonProgram_yyyy_yyyy.xml
 var g_season_xml = null;
@@ -82,21 +94,30 @@ function setUserHasLoggedIn(i_b_has_logged_in)
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Main Functions ////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
 function initGuestbookAdmin()
 {
     var n_level_xml = 1;
 
-    g_guests_xml = new JazzGuestsXml(callbackGuestbookUpdateXml, n_level_xml);
+    var update_xml = false;
+
+    g_guests_xml = new JazzGuestsXml(callbackGuestbookUploadedXml, n_level_xml, update_xml);
 
 } // initGuestbookAdmin
 
-function callbackGuestbookUpdateXml()
+function callbackGuestbookUploadedXml()
 {
     // TODO Load update
+    var n_level_xml = 1;
 
-    callbackSeasonXml();
+    var update_xml = true;
 
-} // callbackGuestbookUpdateXml
+    g_guests_uploaded_xml = new JazzGuestsXml(callbackSeasonXml, n_level_xml, update_xml);
+
+} // callbackGuestbookUploadedXml
 
 function callbackSeasonXml()
 {
@@ -117,15 +138,6 @@ function callbackApplicationXml()
     g_application_xml = new JazzApplicationXml(callbackAllXmlObjectsCreated, n_level_xml);
 
 } // initApplicationXmlAfterLoadOfJazzTasksXml
-
-// All XML objects have been created
-function callbackAllXmlObjectsCreated()
-{
-    initLoginLogout();
-
-    createAdminControls();
-
-} // callbackAllXmlObjectsCreated
 
 // Initialization for login and logout
 function initLoginLogout()
@@ -166,16 +178,305 @@ function callbackLoginIfPossible(i_logged_in_name, i_b_user_has_logged_in)
 } // callbackLoginIfPossible
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Main Functions //////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Main Functions ////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+// All XML objects have been created
+function callbackAllXmlObjectsCreated()
+{
+    initLoginLogout();
+
+    g_record_active_number = g_guests_xml.getNumberOfGuestRecords();
+
+    g_record_active_uploaded_number = 1;
+    
+    if (g_guests_xml.getNumberOfGuestRecords() == 0)
+    {
+        g_record_active_uploaded_number = 0;
+    }
+
+    createAdminControls();
+
+    initAdminControls();
+
+    setAdminControls();
+
+} // callbackAllXmlObjectsCreated
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Main Functions //////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Set Functions /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Intialize admin controls at startup and when user
+// selects uploaded or existent guest records
+function initAdminControls()
+{
+    setActiveXmlObject();
+
+    setAdminGuestDropdown();
+
+    setActiveGuestRecord();
+
+} // initAdminControls
+
+// Sets the admin controls
+// 1. Set active XML object g_active_xml. Call of setActiveXmlObject.
+// 2. Set the admin guest dropdown g_guest_drop_down. Call of setAdminGuestDropdown
+// 3. Set the active guest record g_record_active_guest. Call of 
+function setAdminControls()
+{
+    setAdminGuestImage();
+
+    setAdminTextBoxes();
+    
+    setAdminCheckBox();
+
+    setAdminGuestDate();
+
+} // setAdminControls()
+
+// Set active XML object
+function setActiveXmlObject()
+{
+    if (g_new_records_check_box.getCheck() == 'TRUE')
+    {
+        g_active_xml = g_guests_uploaded_xml;
+    }
+    else
+    {
+        g_active_xml = g_guests_xml;
+    }
+
+} // setActiveXmlObject
+
+// Set the admin guest dropdown g_guest_drop_down
+function setAdminGuestDropdown()
+{
+    var active_select_option_number = -12345;
+
+    var active_append_str;
+
+    if (g_new_records_check_box.getCheck() == 'TRUE')
+    {
+
+        active_append_str = '';
+
+        active_select_option_number = g_record_active_uploaded_number;
+    }
+    else
+    {
+        active_append_str = 'Bild zufügen';
+
+        active_select_option_number = g_record_active_number;
+    }
+    
+    var guest_array = null;
+
+    guest_array = g_active_xml.getHeaderArray();
+
+    g_guest_drop_down.setAppendString(active_append_str);
+
+    g_guest_drop_down.setNameArray(guest_array);
+
+    g_guest_drop_down.setSelectOptionNumber(active_select_option_number);
+
+} // setAdminGuestDropdown
+
+// Set the active guest record g_record_active_guest
+function setActiveGuestRecord()
+{
+    var active_select_option_number = -12345;
+
+    if (g_new_records_check_box.getCheck() == 'TRUE')
+    {
+        active_select_option_number = g_record_active_uploaded_number;
+    }
+    else
+    {
+        active_select_option_number = g_record_active_number;
+    }
+
+    g_record_active_guest = new JazzGuest();
+
+    var record_number = active_select_option_number;
+
+    g_record_active_guest.setJazzGuestRecord(g_active_xml, record_number);
+
+
+} // setActiveGuestRecord
+
+// Set the guest image
+function setAdminGuestImage()
+{
+    var file_name = 'https://jazzliveaarau.ch/' + g_record_active_guest.getFileName();
+    UtilImage.replaceImageInDivContainer(file_name, getElementDivImageContainer());
+
+} // setAdminGuestImage
+
+// Set admin text boxes
+function setAdminTextBoxes()
+{
+    // g_admin_number_text_box.setValue(g_record_active_guest.getRegNumber());
+
+    g_admin_filename_text_box.setValue(g_record_active_guest.getFileName());
+
+    g_admin_status_text_box.setValue(g_record_active_guest.getStatus());
+
+    g_admin_band_text_box.setValue(g_record_active_guest.getBand());
+
+    g_admin_musicians_text_box.setValue(g_record_active_guest.getMusicians());
+
+    g_admin_header_text_box.setValue(g_record_active_guest.getHeader());
+
+    g_admin_text_text_box.setValue(g_record_active_guest.getText());
+
+    g_admin_names_text_box.setValue(g_record_active_guest.getNames());
+
+    g_admin_email_text_box.setValue(g_record_active_guest.getEmail());
+
+} // setAdminTextBoxes
+
+// Set admin check box
+function setAdminCheckBox()
+{
+    g_admin_publish_check_box.setCheck(g_record_active_guest.getPublish());
+
+} // setAdminCheckBox
+
+// Set date
+function setAdminGuestDate()
+{
+    var band_name = g_record_active_guest.getBand();
+
+    var band_name_array = g_season_xml.getBandNameArray();
+
+    var guest_year = 'Undefined';
+    var guest_month = 'Undefined';
+    var guest_day = 'Undefined';
+
+    var concert_select_option_number = -12345;
+
+    for (var index_band=0; index_band < band_name_array.length; index_band++)
+    {
+        if (band_name == band_name_array[index_band])
+        {
+            guest_year = g_season_xml.getYear(index_band + 1);
+
+            guest_month = g_season_xml.getMonth(index_band + 1);
+
+            guest_day = g_season_xml.getDay(index_band + 1);
+
+            g_record_active_guest.setYear(guest_year);
+
+            g_record_active_guest.setMonth(guest_month);
+
+            g_record_active_guest.setDay(guest_day);
+
+            concert_select_option_number = index_band + 1;
+
+            break;
+        }
+
+    } // index_band
+
+    var iso_date_str = UtilDate.getIsoDateString(g_record_active_guest.getYear(), 
+            g_record_active_guest.getMonth(), g_record_active_guest.getDay());
+
+    g_record_date_text_box.setValue(iso_date_str);
+
+    if (concert_select_option_number > 0)
+    {
+        g_concert_drop_down.setSelectOptionNumber(concert_select_option_number);
+    }
+    else
+    {
+        g_concert_drop_down.setSelectOptionNumber(band_name_array.length + 1);
+    }
+
+} // setAdminGuestDate
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Set Functions ///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Event Functions ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+// User selected a guest record
+function eventSelectAdminGuestDropDown()
+{
+    var selected_option_number = g_guest_drop_down.getSelectOptionNumber();
+
+    var b_append = g_guest_drop_down.selectedOptionNumberIsAppendItem(selected_option_number);
+
+    if (g_new_records_check_box.getCheck() == 'TRUE')
+    {
+        g_record_active_uploaded_number = selected_option_number;
+        
+    }
+    else
+    {
+        g_record_uploaded_number = selected_option_number; // TODO ???????????????
+
+        g_record_active_number = selected_option_number; 
+
+        if (b_append)
+        {
+        
+            alert("eventSelectAdminGuestDropDown Adding guest record not yet implemented");
+
+            g_record_uploaded_number = 1; // QQQQQQ Temporary
+        }
+    }
+    
+    initAdminControls();
+
+    setAdminControls();
+
+} // eventSelectAdminGuestDropDown
+
+// User selected a concert
+function eventSelectAdminConcertDropDown()
+{
+    var selected_concert_option_number = g_concert_drop_down.getSelectOptionNumber();
+
+    var b_append = g_concert_drop_down.selectedOptionNumberIsAppendItem(selected_concert_option_number);
+
+    if (b_append)
+    {
+        g_record_active_guest.setBand("");
+    }
+    else
+    {
+        var band_name_array = g_season_xml.getBandNameArray();
+
+        var index_band = parseInt(selected_concert_option_number) - 1;
+
+        g_record_active_guest.setBand(band_name_array[index_band]);
+    }
+
+    setAdminControls();
+
+} // eventSelectAdminConcertDropDown
+
+// User clicked the check box for new records only
+function eventClickCheckBoxNewRecords()
+{
+    initAdminControls();
+
+    setAdminControls();
+
+} // eventClickCheckBoxNewRecords
 
 // User clicked the date control
 function eventUserSelectedRecordDate()
@@ -211,27 +512,6 @@ function onClickOfAdminSaveButton()
     alert("User clicked the save button");
 
 } // onClickOfAdminSaveButton
-
-// User selected a guest record
-function eventSelectAdminGuestDropDown()
-{
-    alert("User selected a guest record");
-
-} // eventSelectAdminGuestDropDown
-
-// User selected a concert
-function eventSelectAdminConcertDropDown()
-{
-    alert("User selected a concert");
-
-} // eventSelectAdminConcertDropDown
-
-// User clicked the check box for new records only
-function eventClickCheckBoxNewRecords()
-{
-    alert("User clicked the check box for new records only");
-
-} // eventClickCheckBoxNewRecords
 
 // User clicked the publish check box
 function eventClickCheckBoxAdminPublish()
