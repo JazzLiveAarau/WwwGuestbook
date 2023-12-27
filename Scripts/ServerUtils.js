@@ -10,6 +10,7 @@
 // TODO Should become a class (or classes), i.e. create a project WwwServer
 //      Find a solution how the PHP files shall be handled is a problem ...
 //      These functions are used by Guestbook, Flyer and Tasks
+//  THERE IS A CLASS Remove this function
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Load XML Function  ////////////////////////////////////////

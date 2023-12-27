@@ -80,9 +80,9 @@ function createAdminControls()
 {
     createRecordDatePickerControl();
 
-    createAdminUploadButton();
+    //TODO createAdminUploadButton();
 
-    createAdminDownloadButton();
+    // TODO createAdminDownloadButton();
 
     createAdminDeleteButton();
 
@@ -100,7 +100,7 @@ function createAdminControls()
 
     createTextBoxFileName();
 
-    createTextBoxAdminStatus();
+    //TODO createTextBoxAdminStatus();
 
     createTextBoxAdminBand();
 
@@ -233,11 +233,11 @@ function createAdminConcertDropdown()
 
     g_concert_drop_down.setOnchangeFunctionName("eventSelectAdminConcertDropDown");
 
-    g_concert_drop_down.setLabelText("Konzert oder kein Konzert wählen");
+    g_concert_drop_down.setLabelText("Wenn Eintrag für ein bestimmtes Konzert ist, bitte Konzert wählen. <br>");
 
     g_concert_drop_down.setLabelTextPositionAbove();
 
-    g_concert_drop_down.setTitle("Konzert wählen oder kein Konzert wähle. Ein gewähltes Konzert bestimmt das Datum.");
+    g_concert_drop_down.setTitle("Wenn Eintrag für ein bestimmtes Konzert ist, bitte Konzert wählen");
 
     g_concert_drop_down.setSelectOptionNumber(concert_array.length + 1);
 

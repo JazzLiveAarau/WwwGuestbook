@@ -132,18 +132,21 @@ button
     width: 35%;   
 }
 
-.m_div_admin_upload_download
+.cl_div_admin_upload_download
 {
     border: solid 1px blue;
     overflow: hidden;   
+    text-align: center;
     clear: both;    
 }
 
+/* Not used 
 .m_div_admin_upload
 {
     border: solid 1px yellow;
     width: 48%;
     float: left;    
+    visibility: hidden;
 }
 
 .m_div_admin_download
@@ -151,6 +154,27 @@ button
     border: solid 1px yellow;
     width: 48%;
     float: left;    
+    visibility: hidden;
+}
+Not used */
+
+/* Hide the input button and use <label> as button */
+input[type=file]
+{
+    width: 0;
+    height: 0;
+    z-index: -1;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+}
+
+/* The <label> element that is used as a button for the hidden input button  */
+.cl_div_admin_upload_download label
+{
+    cursor: pointer;
+    font-style: italic;
+    font-weight: bold;
 }
 
 .m_div_admin_status
@@ -160,18 +184,28 @@ button
     clear: both;       
 }
 
+.cl_div_admin_band_date  
+{
+    border: solid 1px blue;
+    width: 95%;
+    padding-left: 10px;
+    font-size: 12px;
+    overflow: hidden;  
+    clear: both;       
+}
+
 .m_div_admin_dropdown_concert
 {
     border: solid 1px yellow;
-    width: 95%;
-    clear: both;    
+    width: 70%;
+    float: left;;    
 }
 
 .m_div_admin_date
 {
     border: solid 1px yellow;
-    width: 95%;
-    clear: both;       
+    width: 15%;
+    float: right;;       
 }
 
 .m_div_admin_band

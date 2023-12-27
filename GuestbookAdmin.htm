@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="Styles/GuestbookAdmin.css">
 
     <!--  Utility functions for server functions -->
-    <script type="text/javascript" src="Scripts/ServerUtils.js"></script>
+    <!-- QQQQQ <script type="text/javascript" src="Scripts/ServerUtils.js"></script> -->
 
     <!--  Main function for the application guestbook admin -->
     <script type="text/javascript" src="Scripts/GuestbookAdmin_20231211.js"></script>
@@ -54,6 +54,9 @@
 
     <!--  Functions to get identies, objects and classes -->
     <script type="text/javascript" src="Scripts/GuestbookAdminElements.js"></script>
+
+    <!--  Functions to upload an image -->
+    <script type="text/javascript" src="Scripts/JazzUploadImage.js"></script>
 
 
 
@@ -89,14 +92,19 @@
                 </div>
 
                 <div id="id_div_admin_image_row_right" class="cl_div_admin_image_row_right" >
-                    <div id="id_div_admin_upload_download" class="m_div_admin_upload_download" >
-                        <div id="id_div_admin_upload" class="m_div_admin_upload" >Upload</div>
-                        <div id="id_div_admin_download" class="m_div_admin_download" >Download</div>
+                    <div id="id_div_admin_upload_download" class="cl_div_admin_upload_download" >
+                        <!-- QQQQ <div id="id_div_admin_status" class="m_div_admin_status" >Status</div> -->
+                        <input id="id_fileupload" type="file" accept="image/png, image/jpeg, image/jpg" name="fileupload" /> 
+                        <label for="id_fileupload">Neues Bild hochladen</label>
+                        <!-- QQQQ <div id="id_div_admin_upload" class="m_div_admin_upload" >Upload</div> -->
+                        <!-- QQQQ <div id="id_div_admin_download" class="m_div_admin_download" >Download</div> -->
                     </div>
-                    <div id="id_div_admin_status" class="m_div_admin_status" >Status</div>
-                    <div id="id_div_admin_dropdown_concert" class="m_div_admin_dropdown_concert" >Dropdown concert</div>
-                    <div id="id_div_admin_date" class="m_div_admin_date" >Datum</div>
+                    
                 </div>                
+            </div>
+            <div id="id_div_admin_band_date" class="cl_div_admin_band_date" >
+                <div id="id_div_admin_dropdown_concert" class="m_div_admin_dropdown_concert" >Dropdown concert</div>
+                <div id="id_div_admin_date" class="m_div_admin_date" >Datum</div>               
             </div>
             <div id="id_div_admin_band" class="m_div_admin_band ">Band</div>
             <div id="id_div_admin_musicians" class="m_div_admin_musicians ">Musiker</div>

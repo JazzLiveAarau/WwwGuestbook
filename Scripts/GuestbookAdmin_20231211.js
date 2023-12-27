@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2023-12-19
+// Date: 2023-12-27
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -199,6 +199,8 @@ function callbackAllXmlObjectsCreated()
         g_record_active_uploaded_number = 0;
     }
 
+    addEventListenerForInputFileElement();
+
     createAdminControls();
 
     initAdminControls();
@@ -206,6 +208,15 @@ function callbackAllXmlObjectsCreated()
     setAdminControls();
 
 } // callbackAllXmlObjectsCreated
+
+// Adds an event listener for the inout file element
+function addEventListenerForInputFileElement()
+{
+    var input_file_el = getElementInputFile();
+
+    input_file_el.addEventListener("change", userSelectedFiles);
+
+} // addEventListenerForInputFileElement
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -329,7 +340,7 @@ function setAdminTextBoxes()
 
     g_admin_filename_text_box.setValue(g_record_active_guest.getFileName());
 
-    g_admin_status_text_box.setValue(g_record_active_guest.getStatus());
+    // TODO g_admin_status_text_box.setValue(g_record_active_guest.getStatus());
 
     g_admin_band_text_box.setValue(g_record_active_guest.getBand());
 
@@ -412,6 +423,13 @@ function setAdminGuestDate()
 ///////////////////////// Start Event Functions ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+// User selected files with the input element, type file
+function userSelectedFiles()
+{
+    uploadImageToServer();
+
+} // userSelectedFiles
+
 // User selected a guest record
 function eventSelectAdminGuestDropDown()
 {
@@ -485,15 +503,17 @@ function eventUserSelectedRecordDate()
 
 } // eventUserSelectedRecordDate
 
-// User clicked the upload button
+// User clicked the upload button // TODO Not used at the moment
 function onClickOfAdminUploadButton()
 {
-    alert("User clicked the upload button");
+    // alert("User clicked the upload button");
+
+    uploadImageToServer();
 
 } // onClickOfAdminUploadButton
 
 // User clicked the download button
-function onClickOfAdminDownloadButton()
+function onClickOfAdminDownloadButton() // TODO Not used at the moment
 {
     alert("User clicked the download button");
 
