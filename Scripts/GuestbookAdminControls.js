@@ -80,9 +80,9 @@ function createAdminControls()
 {
     createRecordDatePickerControl();
 
-    //TODO createAdminUploadButton();
+    createAdminUploadButton();
 
-    // TODO createAdminDownloadButton();
+    createAdminDownloadButton();
 
     createAdminDeleteButton();
 

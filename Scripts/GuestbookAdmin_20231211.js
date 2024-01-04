@@ -423,13 +423,6 @@ function setAdminGuestDate()
 ///////////////////////// Start Event Functions ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// User selected files with the input element, type file
-function userSelectedFiles()
-{
-    uploadImageToServer();
-
-} // userSelectedFiles
-
 // User selected a guest record
 function eventSelectAdminGuestDropDown()
 {

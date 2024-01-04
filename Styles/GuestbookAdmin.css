@@ -140,23 +140,22 @@ button
     clear: both;    
 }
 
-/* Not used 
-.m_div_admin_upload
+
+.cl_div_admin_upload
 {
     border: solid 1px yellow;
-    width: 48%;
-    float: left;    
+    width: 90%;
+    clear: both;   
     visibility: hidden;
 }
 
-.m_div_admin_download
+.cl_div_admin_download
 {
     border: solid 1px yellow;
     width: 48%;
-    float: left;    
-    visibility: hidden;
+    clear: both;   
 }
-Not used */
+
 
 /* Hide the input button and use <label> as button */
 input[type=file]
