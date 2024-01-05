@@ -1,5 +1,5 @@
 // File: JazzUploadImage.js
-// Date: 2024-01-04
+// Date: 2024-01-05
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -49,7 +49,7 @@ class JazzUploadImage
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // User selected files with the input element, type file
-function userSelectedFiles()
+async function userSelectedFiles()
 {
     var max_size_mb = 1.5;
 
@@ -79,10 +79,9 @@ function userSelectedFiles()
         return;
     }
 
-    var compressed_file = getCompressedImageFile(max_size_mb);
- 
-    alert("userSelectedFiles TODO ");
+    var compressed_file = await getCompressedImageFile(max_size_mb);
 
+    uploadImageToServer(compressed_file);
 
 } // userSelectedFiles
 
@@ -263,10 +262,25 @@ const compressImage = async (file, { quality = 1, type = file.type }) => {
         canvas.toBlob(resolve, type, quality)
     );
 
+    console.log("compressImage blob= ");
+    console.log(blob);
+
+    // Turn Blob into File
+    const ret_file = new File([blob], file.name, {
+        type: blob.type,
+    });
+
+    console.log("compressImage ret_file= ");
+    console.log(ret_file);
+
+    return ret_file;
+
+    /* Original
     // Turn Blob into File
     return new File([blob], file.name, {
         type: blob.type,
     });
+    Original */
 };
 
 /*
