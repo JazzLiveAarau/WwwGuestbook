@@ -1,0 +1,137 @@
+/* 
+File: GuestbookAdmin.css Date: 2024-01-05
+
+Author: Gunnar Liden
+
+General information
+====================
+
+Defines all style classes for the application guestbook upload image
+
+*/
+
+/* The whole page */
+.cl_upload_page
+{
+    border: solid 2px blue;
+    font-family: 'Arial';
+    width: 350px;
+    margin-top: 20px;
+    margin-left: 20px;
+    height: 400px;
+}
+
+/* For all <label> elements */
+label
+{
+    margin-left: 10px;
+}
+
+
+/* For all <button> elements */
+button
+{
+    padding: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Logo <div> element */
+.cl_upload_logo
+{
+    /* border: solid 2px yellow; */
+    text-align: center;
+    background-color: black;
+    color: rgb(255, 0, 40);
+    font-size: 20px;
+    font-weight: bold;
+    
+    overflow: hidden;   
+    width: 100%;
+}
+
+/* Image <img> Elemente in <div> element logo */
+.cl_upload_logo img
+{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.cl_div_upload_names_email_code
+{
+    border: solid 1px black;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    overflow: hidden;   
+    clear: both;    
+}
+
+.cl_div_upload_names
+{
+    border: solid 1px yellow;
+    clear: both;    
+}
+
+.cl_div_upload_email
+{
+    border: solid 1px yellow;
+    clear: both;    
+}
+
+.cl_div_upload_button_code
+{
+    border: solid 1px yellow;
+    clear: both;    
+}
+
+.cl_div_upload_code
+{
+    border: solid 1px yellow;
+    clear: both;    
+}
+
+.cl_div_upload_code_cell
+{
+    border: solid 1px green;
+    min-width: 30px;
+    margin-left: 5px;
+    float: left;
+}
+
+.cl_div_upload_code_cell input
+{
+    font-weight: bold;
+    text-align: center;
+}
+
+
+.cl_div_upload_button_send
+{
+    border: solid 1px yellow;
+    clear: both;    
+}
+
+
+.cl_div_upload_image
+{
+    border: solid 1px black;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    overflow: hidden;   
+    clear: both;    
+}
+
+.cl_div_upload_texts
+{
+    border: solid 1px black;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    overflow: hidden;   
+    clear: both;    
+}
