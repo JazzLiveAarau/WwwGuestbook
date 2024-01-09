@@ -14,6 +14,10 @@
 // Holds the user input data
 var g_guestbook_data = null;
 
+// Keys for the local storage of names and email
+var g_local_storage_guestbook_names = "guestbook_names_str";
+var g_local_storage_guestbook_email = "guestbook_email_str";
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
@@ -29,7 +33,9 @@ function initGuestbookUpload()
 
     createUpdateControls();
 
-    hideElementDivUploadImage();
+    setGuestbookNamesAndEmailFromLocalStorage();
+
+    hideElementDivUploadContainerTwo();
 
     hideElementDivUploadTexts();
 
@@ -319,7 +325,7 @@ function onClickSendCodeButton()
     {
         hideElementDivNamesEmailCode();
 
-        displayElementDivUploadImage();
+        displayElementDivUploadContainerTwo();
     }
     else
     {
@@ -358,6 +364,8 @@ function getGuestbookNames()
 
     g_guestbook_data.m_names = guestbook_names;
 
+    localStorage.setItem(g_local_storage_guestbook_names, guestbook_names);
+
     return true;
 
 } // getGuestbookNames
@@ -376,9 +384,30 @@ function getGuestbookEmail()
 
     g_guestbook_data.m_email = guestbook_email;
 
+    localStorage.setItem(g_local_storage_guestbook_email, guestbook_email);
+
     return true;
 
 } // getGuestbookEmail
+
+// Get names and email from local storage and set controls
+function setGuestbookNamesAndEmailFromLocalStorage()
+{
+   // Set it also as local storage to be used the next time the user makes a reservation
+   var name_txt = localStorage.getItem(g_local_storage_guestbook_names);
+   var email_txt = localStorage.getItem(g_local_storage_guestbook_email);
+
+   if (name_txt == null || email_txt == null)
+   {
+       return;
+   }
+
+   g_upload_names_text_box.setValue(name_txt);
+
+   g_upload_email_text_box.setValue(email_txt); 
+
+} // setGuestbookNamesAndEmailFromLocalStorage
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

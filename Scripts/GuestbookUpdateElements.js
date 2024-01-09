@@ -36,30 +36,30 @@ function getIdDivNamesEmailCode()
 } // getIdDivNamesEmailCode
 
 // Hides the container element div for the upload of the image
-function hideElementDivUploadImage()
+function hideElementDivUploadContainerTwo()
 {
-    getElementDivUploadImage().style.display = 'none';
+    getElementDivUploadContainerTwo().style.display = 'none';
 
 } // hideElementDivUploadImage
 
 // Displays the container element div for the upload of the image
-function displayElementDivUploadImage()
+function displayElementDivUploadContainerTwo()
 {
-    getElementDivUploadImage().style.display = 'block';
+    getElementDivUploadContainerTwo().style.display = 'block';
 
 } // displayElementDivUploadImage
 
 // Returns the container element div for the upload of the image
-function getElementDivUploadImage()
+function getElementDivUploadContainerTwo()
 {
-    return document.getElementById(getIdDivUploadImage());
+    return document.getElementById(getIdDivUploadContainerTwo());
 
 } // getElementDivUploadImage
 
 // Returns the identity of the container div for the upload of the image
-function getIdDivUploadImage()
+function getIdDivUploadContainerTwo()
 {
-    return 'id_div_upload_image';
+    return 'id_div_upload_container_part_two';
 
 } // getIdDivUploadImage
 

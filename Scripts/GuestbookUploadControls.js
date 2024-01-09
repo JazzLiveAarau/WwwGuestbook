@@ -82,7 +82,7 @@ function createTextBoxUpdateNames()
 
     g_upload_names_text_box.setSize("39");
 
-    g_upload_names_text_box.setValue("Gunnar Lidén"); // Temporary QQQQQQQQ
+    g_upload_names_text_box.setValue("");
 
     g_upload_names_text_box.setReadOnlyFlag(false);
 
@@ -101,7 +101,7 @@ function createTextBoxUpdateEmail()
 
     g_upload_email_text_box.setSize("39");
 
-    g_upload_email_text_box.setValue("gunnar.liden@viewsoncad.ch"); // Temporary QQQQQQQQ
+    g_upload_email_text_box.setValue(""); 
 
     g_upload_email_text_box.setReadOnlyFlag(false);
 
