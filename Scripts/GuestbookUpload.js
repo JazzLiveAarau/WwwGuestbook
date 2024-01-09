@@ -14,6 +14,9 @@
 // Holds the user input data
 var g_guestbook_data = null;
 
+// Object UploadImage control
+var g_upload_image_object = null;
+
 // Keys for the local storage of names and email
 var g_local_storage_guestbook_names = "guestbook_names_str";
 var g_local_storage_guestbook_email = "guestbook_email_str";
@@ -326,6 +329,10 @@ function onClickSendCodeButton()
         hideElementDivNamesEmailCode();
 
         displayElementDivUploadContainerTwo();
+
+        var default_img_file_name = 'Icons/default_upload_image.png';
+
+        g_upload_image_object = new JazzUploadImage('guest_upload', getIdDivUploadContainerTwo(), default_img_file_name);
     }
     else
     {
