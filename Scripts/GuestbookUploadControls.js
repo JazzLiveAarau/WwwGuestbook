@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-01-05
+// Date: 2024-01-09
 // Authors: Gunnar Lidén
 
 // Content
@@ -76,17 +76,17 @@ function createTextBoxUpdateNames()
 {
     g_upload_names_text_box = new JazzTextBox("id_upload_names", 'id_div_upload_names');
 
-    g_upload_names_text_box.setLabelText("Vorname(n) und Nachname(n)");
+    g_upload_names_text_box.setLabelText(GuestStr.labelTextBoxNames());
 
     g_upload_names_text_box.setLabelTextPositionAbove();
 
-    g_upload_names_text_box.setSize("42");
+    g_upload_names_text_box.setSize("39");
 
     g_upload_names_text_box.setValue("Gunnar Lidén"); // Temporary QQQQQQQQ
 
     g_upload_names_text_box.setReadOnlyFlag(false);
 
-    g_upload_names_text_box.setTitle("Name oder Namen eingeben. Mehrere personen mit Komma trennen");
+    g_upload_names_text_box.setTitle(GuestStr.titleTextBoxNames());
 
 } // createTextBoxUpdateNames
 
@@ -95,17 +95,17 @@ function createTextBoxUpdateEmail()
 {
     g_upload_email_text_box = new JazzTextBox("id_upload_email", 'id_div_upload_email');
 
-    g_upload_email_text_box.setLabelText("E-Mail");
+    g_upload_email_text_box.setLabelText(GuestStr.labelTextBoxEmail());
 
     g_upload_email_text_box.setLabelTextPositionAbove();
 
-    g_upload_email_text_box.setSize("42");
+    g_upload_email_text_box.setSize("39");
 
     g_upload_email_text_box.setValue("gunnar.liden@viewsoncad.ch"); // Temporary QQQQQQQQ
 
     g_upload_email_text_box.setReadOnlyFlag(false);
 
-    g_upload_email_text_box.setTitle("E-Mail-Adresse");
+    g_upload_email_text_box.setTitle(GuestStr.titleTextBoxEmail());
 
 } // createTextBoxUpdateEmail
 
@@ -116,11 +116,11 @@ function createRequestCodeButton()
 
     g_request_code_button.setOnclickFunctionName("onClickRequestCodeButton");
 
-    g_request_code_button.setCaption("Code verlangen");
+    g_request_code_button.setCaption(GuestStr.captionButtonRequestCode());
 
     g_request_code_button.setLabelText("");
 
-    g_request_code_button.setTitle("Ein E-Mail mit dem Code wird gesendet");
+    g_request_code_button.setTitle(GuestStr.titleButtonRequestCode());
 
 } // createRequestCodeButton
 
@@ -129,7 +129,7 @@ function createTextBoxCodeOne()
 {
     g_code_one_text_box = new JazzTextBox("id_upload_code_one", 'id_div_upload_code_one');
 
-    g_code_one_text_box.setLabelText("Code ");
+    g_code_one_text_box.setLabelText(GuestStr.labelTextBoxCodeOne());
 
     g_code_one_text_box.setLabelTextPositionLeft();
 
@@ -141,7 +141,7 @@ function createTextBoxCodeOne()
 
     g_code_one_text_box.setReadOnlyFlag(false);
 
-    g_code_one_text_box.setTitle("Erste Zahl des Codes");
+    g_code_one_text_box.setTitle(GuestStr.titleTextBoxCodeOne());
 
 } // createTextBoxCodeOne
 
@@ -162,7 +162,7 @@ function createTextBoxCodeTwo()
 
     g_code_two_text_box.setReadOnlyFlag(false);
 
-    g_code_two_text_box.setTitle("Zweite Zahl des Codes");
+    g_code_two_text_box.setTitle(GuestStr.titleTextBoxCodeTwo());
 
 } // createTextBoxCodeTwo
 
@@ -183,7 +183,7 @@ function createTextBoxCodeThree()
 
     g_code_three_text_box.setReadOnlyFlag(false);
 
-    g_code_three_text_box.setTitle("Dritte Zahl des Codes");
+    g_code_three_text_box.setTitle(GuestStr.titleTextBoxCodeThree());
 
 } // createTextBoxCodeThree
 
@@ -204,7 +204,7 @@ function createTextBoxCodeFour()
 
     g_code_four_text_box.setReadOnlyFlag(false);
 
-    g_code_four_text_box.setTitle("Vierte Zahl des Codes");
+    g_code_four_text_box.setTitle(GuestStr.titleTextBoxCodeFour());
 
 } // createTextBoxCodeFour
 
@@ -225,7 +225,7 @@ function createTextBoxCodeFive()
 
     g_code_five_text_box.setReadOnlyFlag(false);
 
-    g_code_five_text_box.setTitle("Fünfte Zahl des Codes");
+    g_code_five_text_box.setTitle(GuestStr.titleTextBoxCodeFive());
 
 } // createTextBoxCodeFive
 
@@ -236,11 +236,11 @@ function createSendCodeButton()
 
     g_send_code_button.setOnclickFunctionName("onClickSendCodeButton");
 
-    g_send_code_button.setCaption("Code senden");
+    g_send_code_button.setCaption(GuestStr.captionButtonSendCode());
 
     g_send_code_button.setLabelText("");
 
-    g_send_code_button.setTitle("Nach dem Senden kann ein Bild aufgeladen werden");
+    g_send_code_button.setTitle(GuestStr.titleButtonSendCode());
 
 } // createSendCodeButton
 

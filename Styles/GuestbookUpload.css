@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-01-05
+File: GuestbookAdmin.css Date: 2024-01-09
 
 Author: Gunnar Liden
 
@@ -15,6 +15,8 @@ Defines all style classes for the application guestbook upload image
 {
     border: solid 2px blue;
     font-family: 'Arial';
+    font-size: 15px;
+    font-weight: bold;
     width: 350px;
     margin-top: 20px;
     margin-left: 20px;
@@ -32,11 +34,12 @@ label
 button
 {
     padding: 5px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
-    margin-left: 50px;
+    margin-left: 60px;
     margin-top: 10px;
     margin-bottom: 10px;
+    width: 180px;
 }
 
 /* Logo <div> element */
@@ -48,7 +51,6 @@ button
     color: rgb(255, 0, 40);
     font-size: 20px;
     font-weight: bold;
-    
     overflow: hidden;   
     width: 100%;
 }
@@ -62,7 +64,7 @@ button
 
 .cl_div_upload_names_email_code
 {
-    border: solid 1px black;
+    /*  border: solid 1px black; */
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
@@ -72,31 +74,43 @@ button
 
 .cl_div_upload_names
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
+    margin-bottom: 10px;
     clear: both;    
+}
+
+.cl_div_upload_names input
+{
+    font-weight: bold;
 }
 
 .cl_div_upload_email
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     clear: both;    
+}
+
+
+.cl_div_upload_email input
+{
+    font-weight: bold;
 }
 
 .cl_div_upload_button_code
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     clear: both;    
 }
 
 .cl_div_upload_code
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     clear: both;    
 }
 
 .cl_div_upload_code_cell
 {
-    border: solid 1px green;
+    /* border: solid 1px green; */
     min-width: 30px;
     margin-left: 5px;
     float: left;
@@ -111,8 +125,20 @@ button
 
 .cl_div_upload_button_send
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     clear: both;    
+}
+
+.cl_div_upload_icon
+{
+    clear: both;    
+}
+
+.cl_div_upload_icon img
+{
+    margin-top: 10px;
+    margin-left: 45px;
+    width: 200px;
 }
 
 

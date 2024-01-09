@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-01-06
+// Date: 2024-01-09
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -70,6 +70,8 @@ function onClickRequestCodeButton()
         return;
     }
 
+    hideElementDivImageUploadIcon();
+
     sendGuestbookCodeEmail();
 
     displayElementDivInputCode();
@@ -99,12 +101,39 @@ function sendGuestbookCodeEmail()
 {
     var random_code = g_guestbook_data.getRandomCode();
 
-    alert("E-Mail an " + g_guestbook_data.m_email + " wurde gesendet.")
+    var email_from = GuestStr.emailCodeFrom();
 
-    alert("Noch nicht implemented! Code= " + random_code);
+    var email_subject = GuestStr.emailCodeSubject() + random_code;
+
+    var email_message = GuestStr.emailCodeMessage() + random_code;
+
+    var email_to = g_guestbook_data.m_email;
+    
+    var email_bcc = GuestStr.emailCodeFrom();
+
+    var n_top = 2;
+
+    if (!UtilServer.execApplicationOnServer())
+    {
+        alert("sendGuestbookCodeEmail PHP cannot execute with Visual Studio Live Server. The code: " + random_code);
+
+        return;
+    }
+    
+    var b_send = UtilEmail.send(email_from, email_subject, email_message, email_to, email_bcc, n_top);
+
+    if (b_send)
+    {
+        alert(GuestStr.emailCodeSent(email_to));
+    }
+    else
+    {
+        alert(GuestStr.emailCodeError(email_to));
+    }
 
 } // sendGuestbookCodeEmail
 
+// Set focus on textbox forthe input of the code
 function inputCheckSetCodeFocus(i_code_number)
 {
     var current_text_box = null;

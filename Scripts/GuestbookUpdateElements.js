@@ -1,5 +1,5 @@
 // File: GuestbookUploadElements.js
-// Date: 2024-01-05
+// Date: 2024-01-09
 // Author: Gunnar Liden
 
 // File content
@@ -146,4 +146,33 @@ function getIdDivButtonSendCode()
     return 'id_div_upload_button_send';
 
 } // getIdDivButtonSendCode
+
+// Hides the container element div for the upload icon
+function hideElementDivImageUploadIcon()
+{
+    getElementDivImageUploadIcon().style.display = 'none';
+
+} // hideElementDivImageUploadIcon
+
+// Displays the container element div for the upload icon
+function displayElementDivImageUploadIcon()
+{
+    getElementDivImageUploadIcon().style.display = 'block';
+
+} // displayElementDivImageUploadIcon
+
+// Returns the container element div for the upload icon
+function getElementDivImageUploadIcon()
+{
+    return document.getElementById(getIdDivImageUploadIcon());
+
+} // getElementDivImageUploadIcon
+
+// Returns the identity of the container div for the upload icon
+function getIdDivImageUploadIcon()
+{
+    return 'id_div_upload_icon';
+
+} // getIdDivImageUploadIcon
+
 
