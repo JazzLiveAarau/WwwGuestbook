@@ -181,77 +181,6 @@ class JazzUploadImage
         
     } // getInputHtml
 
-    /*QQQQQQQ
-
-    // <button type="button">Click Me!</button>
-    getDivButtonsTwoHtml(i_n_tab)
-    {
-        var button_back_html = '';
-
-        button_back_html = button_back_html + '<button type="button" ';
-
-        button_back_html = button_back_html + ' id="' + this.getIdUploadButtonBackTwo() + '" ';
-
-        button_back_html = button_back_html + ' onclick="clickButtonBackTwo()" ';
-
-        button_back_html = button_back_html + this.getButtonStyleString(' float: left; ');
-
-        button_back_html = button_back_html + ' >' + this.m_caption_button_back;
-
-        button_back_html = button_back_html + '</button>';
-
-        var button_forward_html = '';
-
-        button_forward_html = button_forward_html + '<button type="button" ';
-
-        button_forward_html = button_forward_html + ' id="' + this.getIdUploadButtonForwardTwo() + '" ';
-
-        button_forward_html = button_forward_html + ' onclick="clickButtonForwardTwo()" ';
-
-        button_forward_html = button_forward_html + this.getButtonStyleString(' float: right; ');
-
-        button_forward_html = button_forward_html + ' >' + this.m_caption_button_forward;
-
-        button_forward_html = button_forward_html + '</button>';
-
-        var id_div_buttons_two = this.getIdDivUploadButtonsTwo();
-
-        var buttons_two_styles_str = 'overflow: hidden; clear: both';
-
-
-        var div_buttons_two_html = UtilHtml.getDivElementLeafStyleString(id_div_buttons_two, buttons_two_styles_str, button_back_html + button_forward_html, i_n_tab);
-
-        return div_buttons_two_html;
-
-    } // getDivButtonsTwoHtml
-
-    getButtonStyleString(i_style_float_str)
-    {
-        var button_style_str = '';
-
-        button_style_str =  button_style_str + ' style= "';
-     
-        button_style_str =  button_style_str + 'width: ' + this.m_input_button_width + '; '; 
-        button_style_str =  button_style_str + 'border: solid 3px black; ';
-        button_style_str =  button_style_str + 'padding: 5px; ';
-        button_style_str =  button_style_str + 'font-size: 18px; ';
-        button_style_str =  button_style_str + 'font-weight: bold; ';
-        button_style_str =  button_style_str + 'margin-left: 20px;';
-        button_style_str =  button_style_str + 'margin-right: 20px;';
-        button_style_str =  button_style_str + 'margin-top: 10px;';
-        button_style_str =  button_style_str + 'margin-bottom: 10px;';
-        button_style_str =  button_style_str + 'background-color: rgb(229, 225, 218);';
-        button_style_str =  button_style_str + 'cursor: pointer; ';
-        button_style_str =  button_style_str + i_style_float_str;
-
-        button_style_str =  button_style_str + '" ';
-
-        return button_style_str;
-
-    } // getButtonStyleString
-
-    QQQQ*/
-
     // Returns the <input> element
     getElementFileInput()
     {
@@ -314,44 +243,6 @@ class JazzUploadImage
         return 'id_upload_image_' + this.m_id_my_fctn_str;
 
     } // getIdUploadImage
-
-    /* QQQQQ
-    // Returns the element upload <button> back part two
-    getElementUploadButtonBackTwo()
-    {
-        return document.getElementById(this.getIdUploadButtonBackTwo());
-
-    } // getElementUploadButtonBackTwo
-
-    // Returns the identity string for the upload <button> back part two
-    getIdUploadButtonBackTwo()
-    {
-        return 'id_button_part_two_back_' + this.m_id_my_fctn_str;
-
-    } // getIdUploadButtonBackTwo
-
-    // Returns the element upload <button> forward part two
-    getElementUploadButtonForwardTwo()
-    {
-        return document.getElementById(this.getIdUploadButtonForwardTwo());
-
-    } // getElementUploadButtonForwardTwo
-
-    // Returns the identity string for the upload <button> back part two
-    getIdUploadButtonForwardTwo()
-    {
-        return 'id_button_part_two_forward_' + this.m_id_my_fctn_str;
-
-    } // getIdUploadButtonForwardTwo
-
-    // Returns the identity string for the upload <div> buttons part two
-    getIdDivUploadButtonsTwo()
-    {
-        return 'id_div_upload_buttons_two_' + this.m_id_my_fctn_str;
-
-    } // getIdDivUploadButtonsTwo
-
-    QQQQ*/
 
 } // JazzUploadImage
 

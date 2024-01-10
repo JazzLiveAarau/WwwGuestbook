@@ -238,29 +238,6 @@ function getElementDivUploadButtonForwardTwo()
 
 } // getElementDivUploadButtonForwardTwo
 
-/*
-// Returns the identity of the container div for the button forward part two
-function getIdDivUploadButtonForwardTwo()
-{
-    return 'id_div_upload_button_forward_part_two';
-
-} // getIdDivUploadButtonForwardTwo
-
-// Hides the container element div for the buttons container part three
-function hideElementDivUploadButtonBackForwardThree()
-{
-    getElementDivUploadButtonBackForwardThree().style.display = 'none';
-
-} // hideElementDivUploadButtonBackForwardThree
-
-// Displays the container element div for the buttons container part three
-function displayElementDivUploadButtonBackForwardThree()
-{
-    getElementDivUploadButtonBackForwardThree().style.display = 'block';
-
-} // displayElementDivUploadButtonBackForwardThree
-*/
-
 // Returns the container element div for the buttons container part three
 function getElementDivUploadButtonBackForwardThree()
 {
@@ -274,33 +251,3 @@ function getIdDivUploadButtonBackForwardThree()
     return 'id_div_upload_button_back_forward_part_three';
 
 } // getIdDivUploadButtonBackForwardThree
-
-/* 
-// Returns the container element div for the button back part three
-function getElementDivUploadButtonBackThree()
-{
-    return document.getElementById(getIdDivUploadButtonBackThree());
-
-} // getElementDivUploadButtonBackThree
-
-// Returns the identity of the container div for the button back part three
-function getIdDivUploadButtonBackThree()
-{
-    return 'id_div_upload_button_back_part_three';
-
-} // getIdDivUploadButtonBackThree
-
-// Returns the container element div for the button forward part three
-function getElementDivUploadButtonForwardThree()
-{
-    return document.getElementById(getIdDivUploadButtonForwardThree());
-
-} // getElementDivUploadButtonForwardThree
-
-// Returns the identity of the container div for the button forward part three
-function getIdDivUploadButtonForwardThree()
-{
-    return 'id_div_upload_button_forward_part_three';
-
-} // getIdDivUploadButtonForwardThree
-*/
