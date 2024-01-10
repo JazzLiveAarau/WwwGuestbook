@@ -175,4 +175,132 @@ function getIdDivImageUploadIcon()
 
 } // getIdDivImageUploadIcon
 
+// Returns the container element <div> continer for the JazzUploadImage object
+function getElementDivUploadFileImage()
+{
+    return document.getElementById(getIdDivUploadFileImage());
 
+} // getElementDivUploadFileImage
+
+// Returns the identity of the <div> continer for the JazzUploadImage object
+function getIdDivUploadFileImage()
+{
+    return 'id_div_upload_input_file_image';
+
+} // getIdDivUploadFileImage
+
+// Hides the container element div for the buttons container part two
+function hideElementDivUploadButtonBackForwardTwo()
+{
+    getElementDivUploadButtonBackForwardTwo().style.display = 'none';
+
+} // hideElementDivUploadButtonBackForwardTwo
+
+// Displays the container element div for the buttons container part two
+function displayElementDivUploadButtonBackForwardTwo()
+{
+    getElementDivUploadButtonBackForwardTwo().style.display = 'block';
+
+} // displayElementDivUploadButtonBackForwardTwo
+
+// Returns the container element div for the buttons container part two
+function getElementDivUploadButtonBackForwardTwo()
+{
+    return document.getElementById(getIdDivUploadButtonBackForwardTwo());
+
+} // getElementDivUploadButtonBackForwardTwo
+
+// Returns the identity of the container div for the buttons container part two
+function getIdDivUploadButtonBackForwardTwo()
+{
+    return 'id_div_upload_button_back_forward_part_two';
+
+} // getIdDivUploadButtonBackForwardTwo
+
+// Returns the container element div for the button back part two
+function getElementDivUploadButtonBackTwo()
+{
+    return document.getElementById(getIdDivUploadButtonBackTwo());
+
+} // getElementDivUploadButtonBackTwo
+
+// Returns the identity of the container div for the button back part two
+function getIdDivUploadButtonBackTwo()
+{
+    return 'id_div_upload_button_back_part_two';
+
+} // getIdDivUploadButtonBackTwo
+
+// Returns the container element div for the button forward part two
+function getElementDivUploadButtonForwardTwo()
+{
+    return document.getElementById(getIdDivUploadButtonForwardTwo());
+
+} // getElementDivUploadButtonForwardTwo
+
+/*
+// Returns the identity of the container div for the button forward part two
+function getIdDivUploadButtonForwardTwo()
+{
+    return 'id_div_upload_button_forward_part_two';
+
+} // getIdDivUploadButtonForwardTwo
+
+// Hides the container element div for the buttons container part three
+function hideElementDivUploadButtonBackForwardThree()
+{
+    getElementDivUploadButtonBackForwardThree().style.display = 'none';
+
+} // hideElementDivUploadButtonBackForwardThree
+
+// Displays the container element div for the buttons container part three
+function displayElementDivUploadButtonBackForwardThree()
+{
+    getElementDivUploadButtonBackForwardThree().style.display = 'block';
+
+} // displayElementDivUploadButtonBackForwardThree
+*/
+
+// Returns the container element div for the buttons container part three
+function getElementDivUploadButtonBackForwardThree()
+{
+    return document.getElementById(getIdDivUploadButtonBackForwardThree());
+
+} // getElementDivUploadButtonBackForwardThree
+
+// Returns the identity of the container div for the buttons container part three
+function getIdDivUploadButtonBackForwardThree()
+{
+    return 'id_div_upload_button_back_forward_part_three';
+
+} // getIdDivUploadButtonBackForwardThree
+
+/* 
+// Returns the container element div for the button back part three
+function getElementDivUploadButtonBackThree()
+{
+    return document.getElementById(getIdDivUploadButtonBackThree());
+
+} // getElementDivUploadButtonBackThree
+
+// Returns the identity of the container div for the button back part three
+function getIdDivUploadButtonBackThree()
+{
+    return 'id_div_upload_button_back_part_three';
+
+} // getIdDivUploadButtonBackThree
+
+// Returns the container element div for the button forward part three
+function getElementDivUploadButtonForwardThree()
+{
+    return document.getElementById(getIdDivUploadButtonForwardThree());
+
+} // getElementDivUploadButtonForwardThree
+
+// Returns the identity of the container div for the button forward part three
+function getIdDivUploadButtonForwardThree()
+{
+    return 'id_div_upload_button_forward_part_three';
+
+} // getIdDivUploadButtonForwardThree
+*/

@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-01-09
+File: GuestbookAdmin.css Date: 2024-01-10
 
 Author: Gunnar Liden
 
@@ -30,7 +30,7 @@ label
 }
 
 
-/* For all <button> elements */
+/* For some <button> elements */
 button
 {
     padding: 5px;
@@ -141,7 +141,6 @@ button
     width: 200px;
 }
 
-
 .cl_div_upload_container_part_two
 {
     border: solid 1px red;
@@ -154,6 +153,44 @@ button
     clear: both;    
 }
 
+/* For part two <button> elements */
+.cl_div_upload_container_part_two button
+{
+    padding: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 110px;
+}
+
+
+.cl_div_upload_button_back_forward_part_two
+{
+    border: solid 1px green;
+    overflow: hidden;   
+    clear: both;
+}
+
+.cl_div_upload_button_back_part_two
+{
+    border: solid 1px yellow;
+    margin-left: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    float: left;
+}
+
+.cl_div_upload_button_forward_part_two
+{
+    border: solid 1px yellow;
+    margin-right: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    float: right;
+}
+
 .cl_div_upload_texts
 {
     border: solid 1px black;
@@ -162,4 +199,41 @@ button
     margin-right: 10px;
     overflow: hidden;   
     clear: both;    
+}
+
+.cl_div_upload_button_back_forward_part_three
+{
+    border: solid 1px green;
+    overflow: hidden;   
+    clear: both;
+}
+
+/* For part three <button> elements */
+.cl_div_upload_container_part_three button
+{
+    padding: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 110px;
+}
+
+.cl_div_upload_button_back_part_three
+{
+    border: solid 1px yellow;
+    margin-left: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    float: left;
+}
+
+.cl_div_upload_button_forward_part_three
+{
+    border: solid 1px yellow;
+    margin-right: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    float: right;
 }

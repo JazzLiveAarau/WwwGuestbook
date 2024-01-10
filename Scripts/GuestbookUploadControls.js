@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-01-09
+// Date: 2024-01-10
 // Authors: Gunnar Lidén
 
 // Content
@@ -40,6 +40,18 @@ var g_code_five_text_box = null;
 // The send code button
 var g_send_code_button = null;
 
+// The back two button
+var g_upload_back_two_button = null;
+
+// The forward two button
+var g_upload_forward_two_button = null;
+
+// The back three button
+var g_upload_back_three_button = null;
+
+// The forward three button (Send/Save)
+var g_upload_forward_three_button = null;
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +80,14 @@ function createUpdateControls()
     createTextBoxCodeFive();
 
     createSendCodeButton();
+
+    createBackTwoButton();
+
+    createForwardTwoButton();
+
+    createBackThreeButton();
+
+    createForwardThreeButton();
 
 } // createUpdateControls
 
@@ -243,6 +263,66 @@ function createSendCodeButton()
     g_send_code_button.setTitle(GuestStr.titleButtonSendCode());
 
 } // createSendCodeButton
+
+// Creates the back two button
+function createBackTwoButton()
+{
+    g_upload_back_two_button = new JazzButton('id_upload_button_back_part_two', 'id_div_upload_button_back_part_two');
+
+    g_upload_back_two_button.setOnclickFunctionName("onClickBackTwoButton");
+
+    g_upload_back_two_button.setCaption(GuestStr.captionButtonBack());
+
+    g_upload_back_two_button.setLabelText("");
+
+    g_upload_back_two_button.setTitle(GuestStr.titleButtonBack());
+
+} // createBackTwoButton
+
+// Creates the forward two button
+function createForwardTwoButton()
+{
+    g_upload_forward_two_button = new JazzButton('id_upload_button_forward_part_two', 'id_div_upload_button_forward_part_two');
+
+    g_upload_forward_two_button.setOnclickFunctionName("onClickForwardTwoButton");
+
+    g_upload_forward_two_button.setCaption(GuestStr.captionButtonForward());
+
+    g_upload_forward_two_button.setLabelText("");
+
+    g_upload_forward_two_button.setTitle(GuestStr.titleButtonForward());
+
+} // createForwardTwoButton
+
+// Creates the back three button (Send/Save)
+function createBackThreeButton()
+{
+    g_upload_back_three_button = new JazzButton('id_upload_button_back_part_three', 'id_div_upload_button_back_part_three');
+
+    g_upload_back_three_button.setOnclickFunctionName("onClickBackThreeButton");
+
+    g_upload_back_three_button.setCaption(GuestStr.captionButtonBack());
+
+    g_upload_back_three_button.setLabelText("");
+
+    g_upload_back_three_button.setTitle(GuestStr.titleButtonBack());
+
+} // createBackThreeButton
+
+// Creates the forward three button (Send/Save)
+function createForwardThreeButton()
+{
+    g_upload_forward_three_button = new JazzButton('id_upload_button_forward_part_three', 'id_div_upload_button_forward_part_three');
+
+    g_upload_forward_three_button.setOnclickFunctionName("onClickForwardThreeButton");
+
+    g_upload_forward_three_button.setCaption(GuestStr.captionButtonSave());
+
+    g_upload_forward_three_button.setLabelText("");
+
+    g_upload_forward_three_button.setTitle(GuestStr.titleButtonSave());
+
+} // createForwardThreeButton
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Create Controls /////////////////////////////////////////////

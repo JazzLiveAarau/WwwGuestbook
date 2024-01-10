@@ -126,8 +126,6 @@ class JazzUploadImage
 
         ret_html = ret_html + div_image_container_html;
 
-        ret_html = ret_html + this.getDivButtonsTwoHtml(tabs_two);
-
         return ret_html;
 
     } // getHtml
@@ -182,6 +180,8 @@ class JazzUploadImage
         return ret_input_html;
         
     } // getInputHtml
+
+    /*QQQQQQQ
 
     // <button type="button">Click Me!</button>
     getDivButtonsTwoHtml(i_n_tab)
@@ -250,6 +250,8 @@ class JazzUploadImage
 
     } // getButtonStyleString
 
+    QQQQ*/
+
     // Returns the <input> element
     getElementFileInput()
     {
@@ -313,6 +315,7 @@ class JazzUploadImage
 
     } // getIdUploadImage
 
+    /* QQQQQ
     // Returns the element upload <button> back part two
     getElementUploadButtonBackTwo()
     {
@@ -347,6 +350,8 @@ class JazzUploadImage
         return 'id_div_upload_buttons_two_' + this.m_id_my_fctn_str;
 
     } // getIdDivUploadButtonsTwo
+
+    QQQQ*/
 
 } // JazzUploadImage
 

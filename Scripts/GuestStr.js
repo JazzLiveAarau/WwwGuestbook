@@ -143,5 +143,46 @@ class GuestStr
 
     } // titleTextBoxCodeFive
 
+    // Caption for the button back
+    static captionButtonBack()
+    {
+        return 'Zurück';
+
+    } // captionButtonBack
+
+    // Title (tooltip) for the button back
+    static titleButtonBack()
+    {
+        return 'Zurück zum vorigen Dialog';
+
+    } // titleButtonBack
+
+    // Caption for the button forward
+    static captionButtonForward()
+    {
+        return 'Weiter';
+
+    } // captionButtonForward
+
+    // Title (tooltip) for the button forward
+    static titleButtonForward()
+    {
+        return 'Weiter zum nächsten Dialog';
+
+    } // titleButtonForward
+
+    // Caption for the button save
+    static captionButtonSave()
+    {
+        return 'Speichern';
+
+    } // captionButtonSave
+
+    // Title (tooltip) for the button save
+    static titleButtonSave()
+    {
+        return 'Daten auflauden und speichern. Eine Bestätigung E-Mail wird gesendet';
+
+    } // titleButtonSave
 
 } // GuestStr

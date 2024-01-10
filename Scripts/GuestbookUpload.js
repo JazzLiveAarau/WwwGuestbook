@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-01-09
+// Date: 2024-01-10
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -332,13 +332,40 @@ function onClickSendCodeButton()
 
         var default_img_file_name = 'Icons/default_upload_image.png';
 
-        g_upload_image_object = new JazzUploadImage('guest_upload', getIdDivUploadContainerTwo(), default_img_file_name);
+        g_upload_image_object = new JazzUploadImage('guest_upload',  getIdDivUploadFileImage(), default_img_file_name);
     }
     else
     {
         alert("Eingabe Code ist falsch");
     }
 
+} // onClickReqireCodeButton
+
+// User clicked the back two button
+function onClickBackTwoButton()
+{
+    alert("onClickBackTwoButton");
+
+} // onClickReqireCodeButton
+
+// User clicked the forward two button
+function onClickForwardTwoButton()
+{
+    alert("onClickForwardTwoButton");
+
+} // onClickReqireCodeButton
+
+// User clicked the back three button
+function onClickBackThreeButton()
+{
+    alert("onClickBackThreeButton");
+
+} // onClickReqireCodeButton
+
+// User clicked the forward three button
+function onClickForwardThreeButton()
+{
+    alert("onClickForwardThreeButton");
 
 } // onClickReqireCodeButton
 
