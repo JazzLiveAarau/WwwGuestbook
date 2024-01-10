@@ -115,26 +115,28 @@ class JazzUploadImage
 
         console.log("Original image size is " + original_size.toString());
 
+        var file_name = image_file.name;
+
+        var file_name_el = JazzUploadImage.getElementDivFileName();
+
+        file_name_el.innerHTML = file_name;
+
         if (original_size < max_size_mb)
         {
             console.log("JazzUploadImage.userSelectedFiles The original image is not changed");
 
             JazzUploadImage.uploadImageToServer(image_file);
-
-            // alert('JazzUploadImage.userSelectedFiles The original image is not changed');
-
-            return;
         }
+        else
+        {
+            // Note again that this. not cannot be used for getCompressedImageFile, i.e. this
+            // function must be static
+            var compressed_file = await JazzUploadImage.getCompressedImageFile(image_file, max_size_mb);
 
-        // Note again that this. not cannot be used for getCompressedImageFile, i.e. this
-        // function must be static
-        var compressed_file = await JazzUploadImage.getCompressedImageFile(image_file, max_size_mb);
+            console.log("JazzUploadImage.userSelectedFiles The image was compressed");
 
-        console.log("JazzUploadImage.userSelectedFiles The image was compressed");
-
-        // alert('JazzUploadImage.userSelectedFiles The image was compressed');
-
-        JazzUploadImage.uploadImageToServer(compressed_file);
+            JazzUploadImage.uploadImageToServer(compressed_file);
+        }
 
     } // userSelectedFiles
 
@@ -147,6 +149,8 @@ class JazzUploadImage
     
             return;
         }
+
+        var file_name_orig = i_image_file.name;
     
         var form_data = new FormData(); 
         
@@ -188,7 +192,9 @@ class JazzUploadImage
     
         if (response.ok)
         {
-            alert('The file has been uploaded successfully.');
+            // alert('The file has been uploaded successfully.');
+
+            JazzUploadImage.displayImageUploadedUmage(file_name_orig);
         }
         else
         {
@@ -197,6 +203,14 @@ class JazzUploadImage
      
     
     } // uploadFile
+
+    // Display the uploaded image
+    static async displayImageUploadedUmage(i_file_name)
+    {
+        var url_file = 'https://jazzliveaarau.ch/JazzGuests/Uploaded/' + i_file_name;
+        UtilImage.replaceImageInDivContainer(url_file, JazzUploadImage.getElementDivImageContainer());
+
+    } // displayImageUploadedUmage
     
 
     // Get a compressed image if bigger as the input maximum size in Megabyte
@@ -278,7 +292,7 @@ class JazzUploadImage
 
         var div_input_html = UtilHtml.getDivElementLeafStyleString(id_div_input, input_styles_str, div_input_inner_html, tabs_two);
 
-        var id_div_label_name = this.getIdDivFileName();
+        var id_div_label_name = JazzUploadImage.getIdDivFileName();
 
         var file_name_styles_str = 'border: solid 1px green; margin-top: 10px; clear: both;';
 
@@ -286,7 +300,7 @@ class JazzUploadImage
 
         var div_file_name_html = UtilHtml.getDivElementLeafStyleString(id_div_label_name, file_name_styles_str, div_file_name_inner_html, tabs_two);
 
-        var id_div_image_container = this.getIdDivImageContainer();
+        var id_div_image_container = JazzUploadImage.getIdDivImageContainer();
 
         var image_container_styles_str = 'border: solid 1px blue; margin-top: 10px; clear: both;';
 
@@ -389,30 +403,32 @@ class JazzUploadImage
     } // getIdDivFileInput
 
     // Returns the div element file name
-    getElementDivFileName()
+    static getElementDivFileName()
     {
-        return document.getElementById(this.getIdDivFileName());
+        return document.getElementById(JazzUploadImage.getIdDivFileName());
 
     } // getElementDivFileName
 
     // Returns the identity string for the file name <div>
-    getIdDivFileName()
+    // No this.m_id_my_fctn_str
+    static getIdDivFileName()
     {
-        return 'id_div_guestbook_file_name_' + this.m_id_my_fctn_str;
+        return 'id_div_guestbook_file_name';
 
     } // getIdDivFileName
 
     // Returns the div element image container
-    getElementDivImageContainer()
+    static getElementDivImageContainer()
     {
-        return document.getElementById(this.getIdDivImageContainer());
+        return document.getElementById(JazzUploadImage.getIdDivImageContainer());
 
     } // getElementDivImageContainer
 
     // Returns the identity string for the image container <div>
-    getIdDivImageContainer()
+    // No this.m_id_my_fctn_str
+    static getIdDivImageContainer()
     {
-        return 'id_div_image_container_' + this.m_id_my_fctn_str;
+        return 'id_div_image_container';
 
     } // getIdDivImageContainer
 
