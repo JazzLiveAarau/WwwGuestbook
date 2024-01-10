@@ -126,7 +126,9 @@ function sendGuestbookCodeEmail()
 
     var email_to = g_guestbook_data.m_email;
     
-    var email_bcc = GuestStr.emailCodeFrom();
+    // var email_bcc = GuestStr.emailCodeFrom();
+    // Not necessary that we see that somebody has got a code
+    var email_bcc = '';
 
     var n_top = 2;
 

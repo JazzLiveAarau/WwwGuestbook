@@ -1,5 +1,5 @@
 // File: JazzUploadImage.js
-// Date: 2024-01-09
+// Date: 2024-01-10
 // Author: Gunnar Lidén
 
 // Content
