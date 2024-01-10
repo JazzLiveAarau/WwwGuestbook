@@ -46,6 +46,14 @@ function initGuestbookUpload()
 
     hideElementDivButtonSendCode();
 
+    var default_img_file_name = 'Icons/default_upload_image.png';
+
+    // Temporary TODO var uniqe_str = 'guest_upload';
+
+    var uniqe_str = '';
+
+    g_upload_image_object = new JazzUploadImage(uniqe_str,  getIdDivUploadFileImage(), default_img_file_name);
+
     var n_level_xml = 1;
 
     var update_xml = false;
@@ -330,13 +338,13 @@ function onClickSendCodeButton()
 
         displayElementDivUploadContainerTwo();
 
-        var default_img_file_name = 'Icons/default_upload_image.png';
+        // var default_img_file_name = 'Icons/default_upload_image.png';
 
-        g_upload_image_object = new JazzUploadImage('guest_upload',  getIdDivUploadFileImage(), default_img_file_name);
+        // Moved to init g_upload_image_object = new JazzUploadImage('guest_upload',  getIdDivUploadFileImage(), default_img_file_name);
     }
     else
     {
-        alert("Eingabe Code ist falsch");
+        alert(GuestStr.inputCodeError());
     }
 
 } // onClickReqireCodeButton

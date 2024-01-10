@@ -75,7 +75,193 @@ class JazzUploadImage
 
         this.m_el_div_container.innerHTML = html_content;
 
+        this.addEventListenerForInputFileElement();
+
     } // init
+
+    // Adds an event listener for the inout file element
+    // https://www.w3schools.com/js/tryit.asp?filename=tryjs_addeventlistener_parameters
+    addEventListenerForInputFileElement()
+    {
+        var input_file_el = this.getElementFileInput();
+
+        input_file_el.addEventListener("change", this.userSelectedFiles);
+
+    } // addEventListenerForInputFileElement
+
+    // User selected files with the input element, type file
+    // This is a member function that is called with this.userSelectedFiles
+    // But it is obviusly an event function that is a member of the 
+    // <input> object, i.e. this. inside this function is the input> object
+    // TODO Find out more about this 
+    async userSelectedFiles()
+    {
+        var max_size_mb = 1.5;
+
+        var image_file = this.files[0];
+    
+        if (!JazzUploadImage.fileIsOfTypeImage(image_file))
+        {
+            alert("JazzUploadImage.userSelectedFiles The file is not an image.");
+    
+            return;
+        }
+        else
+        {
+            console.log("JazzUploadImage.userSelectedFiles The input file is an image");
+        }
+    
+        var original_size = image_file.size/1000000.0;
+
+        console.log("Original image size is " + original_size.toString());
+
+        if (original_size < max_size_mb)
+        {
+            console.log("JazzUploadImage.userSelectedFiles The original image is not changed");
+
+            JazzUploadImage.uploadImageToServer(image_file);
+
+            // alert('JazzUploadImage.userSelectedFiles The original image is not changed');
+
+            return;
+        }
+
+        // Note again that this. not cannot be used for getCompressedImageFile, i.e. this
+        // function must be static
+        var compressed_file = await JazzUploadImage.getCompressedImageFile(image_file, max_size_mb);
+
+        console.log("JazzUploadImage.userSelectedFiles The image was compressed");
+
+        // alert('JazzUploadImage.userSelectedFiles The image was compressed');
+
+        JazzUploadImage.uploadImageToServer(compressed_file);
+
+    } // userSelectedFiles
+
+    // Upload image to the server
+    static async uploadImageToServer(i_image_file) 
+    {
+        if (null == i_image_file)
+        {
+            alert("uploadImageToServer Input image file is null");
+    
+            return;
+        }
+    
+        var form_data = new FormData(); 
+        
+        form_data.append("file_input", i_image_file);
+    
+        console.log("uploadImageToServer Sent to PHP is FormData where the following data has been appended ");
+    
+        console.log(i_image_file);
+    
+        if (!UtilServer.execApplicationOnServer())
+        {
+            alert("uploadImageToServer Images cannot be uploaded with PHP functions. Please upload and execute the application on the server");
+    
+            return;
+        }
+    
+        var response = null;
+    
+        try
+        {
+            response = await fetch('Php/UploadImageToServer.php', 
+            {
+            method: "POST", 
+            body: form_data
+            }
+          );    
+        }
+        catch (error) 
+        {
+            console.log(error);
+    
+            alert('Failure uploading file: ' + error);
+    
+            return;
+        }
+    
+        console.log("uploadImageToServer response=");
+        console.log(response);
+    
+        if (response.ok)
+        {
+            alert('The file has been uploaded successfully.');
+        }
+        else
+        {
+            alert('Failure uploading file (respons).');
+        }
+     
+    
+    } // uploadFile
+    
+
+    // Get a compressed image if bigger as the input maximum size in Megabyte
+    static async getCompressedImageFile(i_image_file, i_max_size_mb)
+    {
+        if (!JazzUploadImage.fileIsOfTypeImage(i_image_file))
+        {
+            alert("JazzUploadImage.getCompressedImageFile The file is not an image.");
+
+            return null;
+        }
+        else
+        {
+            console.log("JazzUploadImage.getCompressedImageFile The input file is an image");
+        }
+
+        var original_size = i_image_file.size/1000000.0;
+
+        console.log("JazzUploadImage.getCompressedImageFile Original image size is " + original_size.toString());
+
+        if (original_size < i_max_size_mb)
+        {
+            console.log("JazzUploadImage.getCompressedImageFile The original image is not changed");
+
+            return i_image_file;
+        }
+
+        var scale_factor = i_max_size_mb/original_size;
+        
+        console.log("JazzUploadImage.getCompressedImageFile Scaling factor " + scale_factor.toString());
+
+        const compressed_file = await compressImage(i_image_file, {
+            quality: scale_factor,
+            type: 'image/jpeg',
+        });
+
+        if (null == compressed_file)
+        {
+            alert("JazzUploadImage.getCompressedImageFile Compressed image file is null");
+            
+            return null;
+        }
+
+        return compressed_file;
+
+    } // getCompressedImageFile
+
+    // Returns true if the input file is of type image
+    // Type of image is for instance 'image/jpeg'
+    static fileIsOfTypeImage(i_file)
+    {
+        var file_type_str = i_file.type;
+
+        var index_image = file_type_str.indexOf('image');
+
+        if (index_image >= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    } // fileIsOfTypeImage
 
     // Get the HTML string defining the content of i_id_div_container
     getHtml()
@@ -261,15 +447,15 @@ async function userSelectedFiles()
 
     var image_file = getElementInputFile().files[0];
 
-    if (!fileIsOfTypeImage(image_file))
+    if (!JazzUploadImage.fileIsOfTypeImage(image_file))
     {
-        alert("userSelectedFiles The file is not an image.");
+        alert("JazzUploadImage.userSelectedFiles The file is not an image.");
 
         return;
     }
     else
     {
-        console.log("userSelectedFiles The input file is an image");
+        console.log("JazzUploadImage.userSelectedFiles The input file is an image");
     }
 
     var original_size = image_file.size/1000000.0;
@@ -278,16 +464,22 @@ async function userSelectedFiles()
 
     if (original_size < max_size_mb)
     {
-        console.log("The original image is not changed");
+        console.log("JazzUploadImage.userSelectedFiles The original image is not changed");
 
-        uploadImageToServer(image_file);
+        //TODO uploadImageToServer(image_file);
+
+        alert('JazzUploadImage.userSelectedFiles The original image is not changed');
 
         return;
     }
 
     var compressed_file = await getCompressedImageFile(max_size_mb);
 
-    uploadImageToServer(compressed_file);
+    console.log("JazzUploadImage.userSelectedFiles The image was compressed");
+
+    alert('JazzUploadImage.userSelectedFiles The image was compressed');
+
+    //TODO uploadImageToServer(compressed_file);
 
 } // userSelectedFiles
 
@@ -296,7 +488,7 @@ async function getCompressedImageFile(i_max_size_mb)
 {
     var image_file = getElementInputFile().files[0];
 
-    if (!fileIsOfTypeImage(image_file))
+    if (!JazzUploadImage.fileIsOfTypeImage(image_file))
     {
         alert("getCompressedImageFile The file is not an image.");
 
@@ -338,6 +530,7 @@ async function getCompressedImageFile(i_max_size_mb)
 
 } // getCompressedImageFile
 
+/*QQQQQ
 // Returns true if the input file is of type image
 // Type of image is for instance 'image/jpeg'
 function fileIsOfTypeImage(i_file)
@@ -356,6 +549,7 @@ function fileIsOfTypeImage(i_file)
     }
 
 } // fileIsOfTypeImage
+QQQQ*/
 
 // https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Ajax-JavaScript-file-upload-example
 // https://www.php.net/manual/en/features.file-upload.post-method.php

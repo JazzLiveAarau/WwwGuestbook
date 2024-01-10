@@ -45,6 +45,13 @@ class GuestStr
 
     } // emailCodeError
 
+    // Error message input code is not correct
+    static inputCodeError()
+    {
+        return 'Eingabe Code ist falsch';
+
+    } // inputCodeError
+
     // Caption for the button request code
     static captionButtonRequestCode()
     {
