@@ -38,7 +38,7 @@ function initGuestbookUpload()
 
     setGuestbookNamesAndEmailFromLocalStorage();
 
-    //Temporary hideElementDivUploadContainerTwo();
+    hideElementDivUploadContainerTwo();
 
     hideElementDivUploadTexts();
 
