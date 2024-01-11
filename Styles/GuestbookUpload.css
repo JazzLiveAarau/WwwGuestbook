@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-01-10
+File: GuestbookAdmin.css Date: 2024-01-11
 
 Author: Gunnar Liden
 
@@ -20,6 +20,7 @@ Defines all style classes for the application guestbook upload image
     width: 350px;
     margin-top: 20px;
     margin-left: 20px;
+    
     height: 400px;
 }
 
@@ -33,13 +34,13 @@ label
 /* For some <button> elements */
 button
 {
-    padding: 5px;
-    font-size: 18px;
+    border: solid 2px black;
     font-weight: bold;
-    margin-left: 60px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 180px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 95%;
 }
 
 /* Logo <div> element */
@@ -143,7 +144,7 @@ button
 
 .cl_div_upload_container_part_two
 {
-    border: solid 1px red;
+    /* border: solid 1px red; */
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
@@ -153,29 +154,17 @@ button
     clear: both;    
 }
 
-/* For part two <button> elements */
-.cl_div_upload_container_part_two button
-{
-    padding: 5px;
-    font-size: 18px;
-    font-weight: bold;
-    margin-left: 10px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    width: 110px;
-}
-
 
 .cl_div_upload_button_back_forward_part_two
 {
-    border: solid 1px green;
+    /* border: solid 1px green; */
     overflow: hidden;   
     clear: both;
 }
 
 .cl_div_upload_button_back_part_two
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     margin-left: 10px;
     padding-top: 6px;
     padding-bottom: 6px;
@@ -184,12 +173,31 @@ button
 
 .cl_div_upload_button_forward_part_two
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     margin-right: 10px;
     padding-top: 6px;
     padding-bottom: 6px;
     float: right;
 }
+
+.cl_div_upload_button_back_part_three
+{
+    /* border: solid 1px yellow; */
+    margin-left: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    float: left;
+}
+
+.cl_div_upload_button_forward_part_three
+{
+    /* border: solid 1px yellow; */
+    margin-right: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    float: right;
+}
+
 
 .cl_div_upload_texts
 {
@@ -208,32 +216,25 @@ button
     clear: both;
 }
 
-/* For part three <button> elements */
-.cl_div_upload_container_part_three button
+/* For part two <button> elements */
+.cl_div_upload_container_part_two button
 {
-    padding: 5px;
-    font-size: 18px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     font-weight: bold;
-    margin-left: 10px;
     margin-top: 10px;
     margin-bottom: 5px;
     width: 110px;
 }
 
-.cl_div_upload_button_back_part_three
+/* For part three <button> elements */
+.cl_div_upload_texts button
 {
-    border: solid 1px yellow;
-    margin-left: 10px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    float: left;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 110px;
 }
 
-.cl_div_upload_button_forward_part_three
-{
-    border: solid 1px yellow;
-    margin-right: 10px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    float: right;
-}

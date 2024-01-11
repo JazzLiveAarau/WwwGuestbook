@@ -69,8 +69,6 @@ class JazzUploadImage
         // The container element object
         this.m_el_div_container = null;
 
-        this.m_input_label_width = '180px'; // TODO Define as %
-
         // Initialization
         this.init();
 
@@ -93,6 +91,10 @@ class JazzUploadImage
         this.m_el_div_container.innerHTML = html_content;
 
         this.addEventListenerForInputFileElement(this, this.m_input_data);
+
+       // Funktioniert nicht here ????
+       //var url_default_image = this.m_input_data.m_default_img;
+       //UtilImage.replaceImageInDivContainer(url_default_image, JazzUploadImage.getElementDivImageContainer());
 
     } // init
 
@@ -314,7 +316,7 @@ class JazzUploadImage
 
         var id_div_input = JazzUploadImage.getIdDivFileInput();
 
-        var input_styles_str = 'overflow: hidden; clear: both';
+        var input_styles_str = 'overflow: hidden; clear: both; text-align: center;';
 
         var div_input_inner_html = this.getInputHtml();
 
@@ -322,21 +324,21 @@ class JazzUploadImage
 
         var id_div_label_name = JazzUploadImage.getIdDivFileName();
 
-        var file_name_styles_str = 'border: solid 1px green; margin-top: 10px; clear: both;';
+        var file_name_styles_str = 'border: solid 1px grey; margin-top: 10px; clear: both;text-align: center;';
 
-        var div_file_name_inner_html = 'Datei-Name des ausgewählten Bildes'; // TODO Remove text
+        var div_file_name_inner_html = '...'; 
 
         var div_file_name_html = UtilHtml.getDivElementLeafStyleString(id_div_label_name, file_name_styles_str, div_file_name_inner_html, tabs_two);
 
         var id_div_image_container = JazzUploadImage.getIdDivImageContainer();
 
-        var image_container_styles_str = 'border: solid 1px blue; margin-top: 10px; clear: both;';
+        var image_container_styles_str = 'border: solid 1px blue;  margin-top: 10px; clear: both;'; // TODO Must have a border, otherwise it disappears ??
 
         var id_upload_image = JazzUploadImage.getIdUploadImage();
 
         var image_styles_str = '';
 
-        var image_width = '60%';
+        var image_width = '98%';
 
         var event_fctn = '';
 
@@ -380,16 +382,15 @@ class JazzUploadImage
 
         var label_style_str = '';
 
+        // https://www.w3docs.com/snippets/css/how-to-control-the-width-of-the-label-tag.html
         label_style_str =  label_style_str + ' style= "';
      
-        label_style_str =  label_style_str + 'width: ' + this.m_input_label_width + '; '; 
-        label_style_str =  label_style_str + 'border: solid 3px black; ';
-        label_style_str =  label_style_str + 'padding: 10px; ';
-        label_style_str =  label_style_str + 'font-size: 18px; ';
-        label_style_str =  label_style_str + 'font-weight: bold; ';
-        label_style_str =  label_style_str + 'margin-left: 90px;';
-        label_style_str =  label_style_str + 'margin-top: 10px;';
-        label_style_str =  label_style_str + 'margin-bottom: 10px;';
+        label_style_str =  label_style_str + 'display: inline-block; '; 
+        label_style_str =  label_style_str + 'width: 95%; '; 
+        label_style_str =  label_style_str + 'border: solid 2px black; ';
+        label_style_str =  label_style_str + 'padding-top: 5px; ';
+        label_style_str =  label_style_str + 'padding-bottom: 5px; ';
+        label_style_str =  label_style_str + 'margin-left: 0px;';
         label_style_str =  label_style_str + 'background-color: rgb(229, 225, 218);';
         label_style_str =  label_style_str + 'cursor: pointer ';
 

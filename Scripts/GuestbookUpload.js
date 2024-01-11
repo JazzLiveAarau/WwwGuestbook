@@ -38,7 +38,7 @@ function initGuestbookUpload()
 
     setGuestbookNamesAndEmailFromLocalStorage();
 
-    hideElementDivUploadContainerTwo();
+    //Temporary hideElementDivUploadContainerTwo();
 
     hideElementDivUploadTexts();
 
@@ -50,7 +50,7 @@ function initGuestbookUpload()
 
     var image_max_size_mb = 1.5;
 
-    var default_img = 'Icons/default_upload_image.png';
+    var default_img = 'Icons/default_upload_image.jpg';
 
     var caption_select_img = 'Bild wählen';
 
@@ -358,7 +358,11 @@ function onClickSendCodeButton()
 // User clicked the back two button
 function onClickBackTwoButton()
 {
-    alert("onClickBackTwoButton");
+    // alert("onClickBackTwoButton"); 
+
+    displayElementDivNamesEmailCode();
+
+    hideElementDivUploadContainerTwo();
 
 } // onClickReqireCodeButton
 
