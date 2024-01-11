@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-01-10
+// Date: 2024-01-11
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -46,13 +46,17 @@ function initGuestbookUpload()
 
     hideElementDivButtonSendCode();
 
-    var default_img_file_name = 'Icons/default_upload_image.png';
+    var upload_path = '../../JazzGuests/Uploaded/';
 
-    // Temporary TODO var uniqe_str = 'guest_upload';
+    var image_max_size_mb = 1.5;
 
-    var uniqe_str = '';
+    var default_img = 'Icons/default_upload_image.png';
 
-    g_upload_image_object = new JazzUploadImage(uniqe_str,  getIdDivUploadFileImage(), default_img_file_name);
+    var caption_select_img = 'Bild wählen';
+
+    var input_data = new JazzUploadImageInput(upload_path, image_max_size_mb, default_img, caption_select_img);
+
+    g_upload_image_object = new JazzUploadImage(getIdDivUploadFileImage(), input_data);
 
     var n_level_xml = 1;
 

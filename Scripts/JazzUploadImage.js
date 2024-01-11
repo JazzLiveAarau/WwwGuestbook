@@ -1,5 +1,5 @@
 // File: JazzUploadImage.js
-// Date: 2024-01-10
+// Date: 2024-01-11
 // Author: Gunnar Lidén
 
 // Content
@@ -11,48 +11,65 @@
 ///////////////////////// Start Control Upload Image //////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+// Input data for JazzUploadImage
+// i_upload_path:        The server (relative) path for the file to be uploaded
+// i_image_max_size_mb:  Maximum image size in MByte. If bigger the image will be compressed
+// i_default_img:        URL for the default (start) image in the image container <div>
+// i_caption_select_img: Caption for the select image button
+class JazzUploadImageInput
+{
+    // Creates the instance of the class
+    constructor(i_upload_path, i_image_max_size_mb, i_default_img, i_caption_select_img)
+    {
+        // Name of the upload file, e.g. Image_2024mmddhhmmss.jpg
+        this.m_upload_file_name = '';
+
+        // The server (relative) path for m_upload_file_name
+        this.m_upload_path = i_upload_path;
+
+        // Maximum image size in MByte. If bigger the image will be compressed
+        this.m_image_max_size_mb = i_image_max_size_mb;
+
+        // URL for the default image, i.e. an start image that is diplayed in the image container
+        this.m_default_img = i_default_img;
+
+        // Caption for the select image button (actually a label)
+        this.m_caption_select_img = i_caption_select_img;
+    }
+
+    // Sets the name of the upload file, e.g. Image_yyymmddhhmmss.jpg
+    setImageFileName(i_upload_file_name)
+    {
+        this.m_upload_file_name = i_upload_file_name; 
+
+    } // setImageFileName
+
+} // JazzUploadImageInput
 
 // Class for the upload of an image to the server 
 class JazzUploadImage
 {
     // Creates the instance of the class
-    // i_id_my_fctn_str: 
-    // Application unique string for the calling function. 
     // Used to construct identities and class names and handling of event functions
     // i_id_div_container:
     // Place holder for all the the upload controls
-    // i_default_img:
-    // The default image for the image container (created by the class)
-    constructor(i_id_my_fctn_str, i_id_div_container, i_default_img) 
+    // i_input_data:
+    // Instance of JazzUploadImageInput with data (settings) for the upload
+    constructor(i_id_div_container, i_input_data) 
     {
         // Member variables
         // ================
 
-        // String used to construct identities and class names that are
-        // unique for an application
-        this.m_id_my_fctn_str = i_id_my_fctn_str;
-
         // The identity of the container for the upload controls
         this.m_id_div_container = i_id_div_container;
 
-         // The default image for the image container
-        this.m_default_img = i_default_img;
+        // Input data object JazzUploadImageInput
+        this.m_input_data = i_input_data;
 
         // The container element object
         this.m_el_div_container = null;
 
-        // Caption for the button (actually label) for the selection of a picture
-        this.m_caption_select_img = 'Bild wählen';
-
-        // Caption for the back button
-        this.m_caption_button_back = 'Zurück';
-
-        // Caption for the forward button
-        this.m_caption_button_forward = 'Weiter';
-
-        this.m_input_label_width = '180px';
-
-        this.m_input_button_width = '110px';
+        this.m_input_label_width = '180px'; // TODO Define as %
 
         // Initialization
         this.init();
@@ -75,30 +92,41 @@ class JazzUploadImage
 
         this.m_el_div_container.innerHTML = html_content;
 
-        this.addEventListenerForInputFileElement();
+        this.addEventListenerForInputFileElement(this, this.m_input_data);
 
     } // init
 
     // Adds an event listener for the inout file element
+    // i_upload_image_object: This JazzUploadImage object
+    // i_input_data:          An instance of JazzUploadImageInput
+    //
+    // Inside this function 'this' is the <input> object that holds the data about
+    // the file that shall be uploaded. This data must of course be passed on
+    // to the event execution member function userSelectedFiles.
+    // The function userSelectedFiles is a member of the JazzUploadImage class. Therefore
+    // must the object JazzUploadImageInput i_upload_image_object be input to this function.
+    //
     // https://www.w3schools.com/js/tryit.asp?filename=tryjs_addeventlistener_parameters
-    addEventListenerForInputFileElement()
+    addEventListenerForInputFileElement(i_upload_image_object, i_input_data)
     {
-        var input_file_el = this.getElementFileInput();
+        var input_file_el = JazzUploadImage.getElementFileInput();
 
-        input_file_el.addEventListener("change", this.userSelectedFiles);
+        input_file_el.addEventListener("change", function() {
+            i_upload_image_object.userSelectedFiles(this, i_input_data);
+        });
 
     } // addEventListenerForInputFileElement
 
-    // User selected files with the input element, type file
-    // This is a member function that is called with this.userSelectedFiles
-    // But it is obviusly an event function that is a member of the 
-    // <input> object, i.e. this. inside this function is the input> object
-    // TODO Find out more about this 
-    async userSelectedFiles()
+    // Event function when the user selected files with the input element, type file
+    // i_input_object: Element <input> holding the data about the file that shall be uploaded
+    // i_input_data:   An instance of JazzUploadImageInput holding data for the upload
+    async userSelectedFiles(i_input_object, i_input_data)
     {
         var max_size_mb = 1.5;
 
-        var image_file = this.files[0];
+        // var image_file = this.files[0];
+
+        var image_file = i_input_object.files[0];
     
         if (!JazzUploadImage.fileIsOfTypeImage(image_file))
         {
@@ -284,7 +312,7 @@ class JazzUploadImage
 
         const tabs_two = 2;
 
-        var id_div_input = this.getIdDivFileInput();
+        var id_div_input = JazzUploadImage.getIdDivFileInput();
 
         var input_styles_str = 'overflow: hidden; clear: both';
 
@@ -304,7 +332,7 @@ class JazzUploadImage
 
         var image_container_styles_str = 'border: solid 1px blue; margin-top: 10px; clear: both;';
 
-        var id_upload_image = this.getIdUploadImage();
+        var id_upload_image = JazzUploadImage.getIdUploadImage();
 
         var image_styles_str = '';
 
@@ -312,7 +340,7 @@ class JazzUploadImage
 
         var event_fctn = '';
 
-        var file_name_icon = this.m_default_img;
+        var file_name_icon = this.m_input_data.m_default_img;
 
         var image_title = '';
 
@@ -367,7 +395,7 @@ class JazzUploadImage
 
         label_style_str =  label_style_str + '" ';
 
-        var id_input_str = this.getIdFileInput();
+        var id_input_str = JazzUploadImage.getIdFileInput();
 
         ret_input_html = ret_input_html + '<input id="' + id_input_str + '" type="file" accept="image/png, image/jpeg, image/jpg"';
 
@@ -375,30 +403,30 @@ class JazzUploadImage
 
         ret_input_html = ret_input_html + '<label for="' + id_input_str + '" ';
 
-        ret_input_html = ret_input_html + label_style_str + '>' + this.m_caption_select_img + '</label>';
+        ret_input_html = ret_input_html + label_style_str + '>' + this.m_input_data.m_caption_select_img + '</label>';
 
         return ret_input_html;
         
     } // getInputHtml
 
     // Returns the <input> element
-    getElementFileInput()
+    static getElementFileInput()
     {
-        return document.getElementById(this.getIdFileInput());
+        return document.getElementById(JazzUploadImage.getIdFileInput());
 
     } // getElementFileInput
 
     // Returns the identity string for the <input> element
-    getIdFileInput()
+    static getIdFileInput()
     {
-        return 'id_guestbook_fileupload_' + this.m_id_my_fctn_str;
+        return 'id_jazzuploadimage_fileupload';
 
     } // getIdFileInput
 
     // Returns the identity string for the <div> that has the <input> element
-    getIdDivFileInput()
+    static getIdDivFileInput()
     {
-        return 'id_div_guestbook_fileupload_' + this.m_id_my_fctn_str;
+        return 'id_div_jazzuploadimage_fileupload';
 
     } // getIdDivFileInput
 
@@ -410,10 +438,9 @@ class JazzUploadImage
     } // getElementDivFileName
 
     // Returns the identity string for the file name <div>
-    // No this.m_id_my_fctn_str
     static getIdDivFileName()
     {
-        return 'id_div_guestbook_file_name';
+        return 'id_div_jazzuploadimage_file_name';
 
     } // getIdDivFileName
 
@@ -425,28 +452,28 @@ class JazzUploadImage
     } // getElementDivImageContainer
 
     // Returns the identity string for the image container <div>
-    // No this.m_id_my_fctn_str
     static getIdDivImageContainer()
     {
-        return 'id_div_image_container';
+        return 'id_div_jazzuploadimage_image_container';
 
     } // getIdDivImageContainer
 
     // Returns the element upload <img>
-    getElementUploadImage()
+    static getElementUploadImage()
     {
-        return document.getElementById(this.getIdUploadImage());
+        return document.getElementById(JazzUploadImage.getIdUploadImage());
 
     } // getElementUploadImage
 
     // Returns the identity string for the upload <img>
-    getIdUploadImage()
+    static getIdUploadImage()
     {
-        return 'id_upload_image_' + this.m_id_my_fctn_str;
+        return 'id_jazzuploadimage_upload_image';
 
     } // getIdUploadImage
 
 } // JazzUploadImage
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Control Upload Image ////////////////////////////////////////
