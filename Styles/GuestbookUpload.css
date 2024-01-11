@@ -238,3 +238,23 @@ button
     width: 110px;
 }
 
+.cl_div_upload_texts_concert
+{
+    clear: both;
+}
+
+.cl_div_upload_texts_title
+{
+    clear: both;
+}
+
+.cl_div_upload_texts_text
+{
+    clear: both;
+}
+
+.cl_div_upload_texts_remark
+{
+    clear: both;
+}
+

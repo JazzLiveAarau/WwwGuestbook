@@ -369,23 +369,55 @@ function onClickBackTwoButton()
 // User clicked the forward two button
 function onClickForwardTwoButton()
 {
-    alert("onClickForwardTwoButton");
+    // alert("onClickForwardTwoButton");
+
+    hideElementDivUploadContainerTwo();
+
+    displayElementDivUploadTexts();
 
 } // onClickReqireCodeButton
 
 // User clicked the back three button
 function onClickBackThreeButton()
 {
-    alert("onClickBackThreeButton");
+    // alert("onClickBackThreeButton");
+
+    hideElementDivUploadTexts();
+
+    displayElementDivUploadContainerTwo();
 
 } // onClickReqireCodeButton
 
 // User clicked the forward three button
 function onClickForwardThreeButton()
 {
-    alert("onClickForwardThreeButton");
+   alert("onClickForwardThreeButton");
 
 } // onClickReqireCodeButton
+
+// User selected a concert
+function eventSelectUploadConcertDropDown()
+{
+    var selected_concert_option_number = g_upload_concert_drop_down.getSelectOptionNumber();
+
+    var b_append = g_upload_concert_drop_down.selectedOptionNumberIsAppendItem(selected_concert_option_number);
+
+    if (b_append)
+    {
+        g_record_active_guest.setBand("");
+    }
+    else
+    {
+        var band_name_array = g_season_xml.getBandNameArray();
+
+        var index_band = parseInt(selected_concert_option_number) - 1;
+
+        // TODO g_record_active_guest.setBand(band_name_array[index_band]);
+    }
+
+    setAdminControls();
+
+} // eventSelectUploadConcertDropDown
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Event Functions /////////////////////////////////////////////

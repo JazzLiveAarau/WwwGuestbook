@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-01-09
+// Date: 2024-01-11
 // Author: Gunnar Liden
 
 // File content
@@ -191,5 +191,56 @@ class GuestStr
         return 'Daten auflauden und speichern. Eine Bestätigung E-Mail wird gesendet';
 
     } // titleButtonSave
+
+
+
+    // Label for the textbox title
+    static labelTextBoxTitle()
+    {
+        return 'Bildtext';
+
+    } // labelTextBoxTitle
+
+    // Title (tooltip) for the textbox title
+    static titleTextBoxTitle()
+    {
+        return 'Kurzer Bildtext';
+
+    } // titleTextBoxTitle
+
+    // Label for the concert dropdown
+    static labelDropdownConcert()
+    {
+        return 'Konzert wählen (optional)';
+
+    } // labelDropdownConcert
+
+    // Title (tooltip) for the concert dropdown
+    static titleDropdownConcert()
+    {
+        return 'Wenn Eintrag für ein bestimmtes Konzert ist, bitte Konzert wählen';
+
+    } // titleDropdownConcert
+
+    // Append for the concert dropdown
+    static appendDropdownConcert()
+    {
+        return 'Kein Konzert';
+
+    } // appendDropdownConcert
+
+    // Label for the textbox remark
+    static labelTextBoxRemark()
+    {
+        return 'Bemerkung';
+
+    } // labelTextBoxRemark
+
+    // Title (tooltip) for the textbox remark
+    static titleTextBoxRemark()
+    {
+        return 'Bemerkung';
+
+    } // titleTextBoxRemark
 
 } // GuestStr

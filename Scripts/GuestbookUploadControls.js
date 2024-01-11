@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-01-10
+// Date: 2024-01-11
 // Authors: Gunnar Lidén
 
 // Content
@@ -52,6 +52,16 @@ var g_upload_back_three_button = null;
 // The forward three button (Send/Save)
 var g_upload_forward_three_button = null;
 
+
+// The upload concert dropdown control
+var g_upload_concert_drop_down = null;
+
+// Textbox upload title
+var g_upload_title_text_box = null;
+
+// Textbox upload remark
+var g_upload_remark_text_box = null;
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -88,6 +98,12 @@ function createUpdateControls()
     createBackThreeButton();
 
     createForwardThreeButton();
+
+    createUploadConcertDropdown();
+
+    createTextBoxUpdateTitle();
+    
+    createTextBoxUpdateRemark();
 
 } // createUpdateControls
 
@@ -323,6 +339,72 @@ function createForwardThreeButton()
     g_upload_forward_three_button.setTitle(GuestStr.titleButtonSave());
 
 } // createForwardThreeButton
+
+// Creates the upload concert dropdown control
+function createUploadConcertDropdown()
+{
+    g_upload_concert_drop_down = new JazzDropdown('id_upload_texts_concert', 'id_div_upload_texts_concert');
+
+    //TODO var concert_array = g_season_xml.getBandNameArray();
+
+    var concert_array = []; // 
+    concert_array[0] = 'Konzert 1';
+    concert_array[1] = 'Konzert 2';
+    concert_array[2] = 'Konzert 3';
+
+    g_upload_concert_drop_down.setAppendString(GuestStr.appendDropdownConcert());
+
+    g_upload_concert_drop_down.setNameArray(concert_array);
+
+    g_upload_concert_drop_down.setOnchangeFunctionName("eventSelectUploadConcertDropDown");
+
+    g_upload_concert_drop_down.setLabelText(GuestStr.labelDropdownConcert());
+
+    g_upload_concert_drop_down.setLabelTextPositionAbove();
+
+    g_upload_concert_drop_down.setTitle(GuestStr.titleDropdownConcert());
+
+    g_upload_concert_drop_down.setSelectOptionNumber(concert_array.length + 1);
+
+} // createUploadConcertDropdown
+
+// Create the upload title text box
+function createTextBoxUpdateTitle()
+{
+    g_upload_title_text_box = new JazzTextBox("id_upload_texts_title", 'id_div_upload_texts_title');
+
+    g_upload_title_text_box.setLabelText(GuestStr.labelTextBoxTitle());
+
+    g_upload_title_text_box.setLabelTextPositionAbove();
+
+    g_upload_title_text_box.setSize("39");
+
+    g_upload_title_text_box.setValue("");
+
+    g_upload_title_text_box.setReadOnlyFlag(false);
+
+    g_upload_title_text_box.setTitle(GuestStr.titleTextBoxTitle());
+
+} // createTextBoxUpdateTitle
+
+// Create the upload remark text box
+function createTextBoxUpdateRemark()
+{
+    g_upload_remark_text_box = new JazzTextBox("id_upload_texts_remark", 'id_div_upload_texts_remark');
+
+    g_upload_remark_text_box.setLabelText(GuestStr.labelTextBoxRemark());
+
+    g_upload_remark_text_box.setLabelTextPositionAbove();
+
+    g_upload_remark_text_box.setSize("39");
+
+    g_upload_remark_text_box.setValue("");
+
+    g_upload_remark_text_box.setReadOnlyFlag(false);
+
+    g_upload_remark_text_box.setTitle(GuestStr.titleTextBoxRemark());
+
+} // createTextBoxUpdateRemark
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Create Controls /////////////////////////////////////////////
