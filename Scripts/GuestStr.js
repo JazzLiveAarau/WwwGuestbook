@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-01-11
+// Date: 2024-01-12
 // Author: Gunnar Liden
 
 // File content
@@ -228,6 +228,20 @@ class GuestStr
         return 'Kein Konzert';
 
     } // appendDropdownConcert
+
+     // Label for the textarea text
+    static labelTextAreaText()
+    {
+        return 'Text (optional)';
+
+    } // labelTextAreaText
+
+     // Title (tooltip) for the textarea text
+     static titleTextAreaText()
+     {
+         return 'Freier Text';
+ 
+     } // titleTextAreaText
 
     // Label for the textbox remark
     static labelTextBoxRemark()

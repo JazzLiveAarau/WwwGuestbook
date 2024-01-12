@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-01-11
+// Date: 2024-01-12
 // Authors: Gunnar Lidén
 
 // Content
@@ -52,12 +52,14 @@ var g_upload_back_three_button = null;
 // The forward three button (Send/Save)
 var g_upload_forward_three_button = null;
 
-
 // The upload concert dropdown control
 var g_upload_concert_drop_down = null;
 
 // Textbox upload title
 var g_upload_title_text_box = null;
+
+// Textarea for text
+var g_text_textarea = null;
 
 // Textbox upload remark
 var g_upload_remark_text_box = null;
@@ -102,6 +104,8 @@ function createUpdateControls()
     createUploadConcertDropdown();
 
     createTextBoxUpdateTitle();
+
+    createTextTextArea();
     
     createTextBoxUpdateRemark();
 
@@ -386,6 +390,23 @@ function createTextBoxUpdateTitle()
     g_upload_title_text_box.setTitle(GuestStr.titleTextBoxTitle());
 
 } // createTextBoxUpdateTitle
+
+// Creates the textarea for theguest text
+function createTextTextArea()
+{
+    g_text_textarea = new JazzTextArea("id_upload_texts_text", "id_div_upload_texts_text", "3", "39");
+
+    g_text_textarea.setLabelText(GuestStr.labelTextAreaText());
+
+    g_text_textarea.setLabelTextPositionAbove();
+
+    g_text_textarea.setValue("Test text ........");
+
+    g_text_textarea.setReadOnlyFlag(false);
+
+    g_text_textarea.setTitle(GuestStr.titleTextAreaText());
+
+} // createTextTextArea
 
 // Create the upload remark text box
 function createTextBoxUpdateRemark()

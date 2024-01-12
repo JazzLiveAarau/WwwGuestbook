@@ -1,5 +1,5 @@
-// File: GuestbookAdmin.js
-// Date: 2024-01-11
+// File: GuestbookUpload.js
+// Date: 2024-01-12
 // Author: Gunnar Lidén
 
 // Inhalt

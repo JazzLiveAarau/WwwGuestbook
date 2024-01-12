@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-01-11
+File: GuestbookAdmin.css Date: 2024-01-12
 
 Author: Gunnar Liden
 
@@ -201,7 +201,7 @@ button
 
 .cl_div_upload_texts
 {
-    border: solid 1px black;
+    /* border: solid 1px black; */
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
@@ -211,7 +211,7 @@ button
 
 .cl_div_upload_button_back_forward_part_three
 {
-    border: solid 1px green;
+    /* border: solid 1px green; */
     overflow: hidden;   
     clear: both;
 }
@@ -240,21 +240,25 @@ button
 
 .cl_div_upload_texts_concert
 {
+    margin-top: 10px;
     clear: both;
 }
 
 .cl_div_upload_texts_title
 {
+    margin-top: 10px;
     clear: both;
 }
 
 .cl_div_upload_texts_text
 {
+    margin-top: 10px;
     clear: both;
 }
 
 .cl_div_upload_texts_remark
 {
+    margin-top: 10px;
     clear: both;
 }
 
