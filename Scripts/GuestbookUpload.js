@@ -30,7 +30,17 @@ var g_local_storage_guestbook_email = "guestbook_email_str";
 ///////////////////////// Start Main Functions ////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+// Initialization for Guestbook Upload
 function initGuestbookUpload()
+{
+    g_load_for_guestbook_admin = false;
+
+    loadAllXmlObjectsForAdminAndUpload();
+
+} // initGuestbookUpload
+
+// All XML objects have been created
+function callbackAllXmlObjectsCreatedForUpload()
 {
     g_guestbook_data = new GuestbookData();
 
@@ -58,13 +68,7 @@ function initGuestbookUpload()
 
     g_upload_image_object = new JazzUploadImage(getIdDivUploadFileImage(), input_data);
 
-    var n_level_xml = 1;
-
-    var update_xml = false;
-
-    //g_guests_xml = new JazzGuestsXml(callbackGuestbookUploadedXml, n_level_xml, update_xml);
-
-} // initGuestbookUpload
+} // callbackAllXmlObjectsCreatedForUpload
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Main Functions //////////////////////////////////////////////
@@ -415,7 +419,7 @@ function eventSelectUploadConcertDropDown()
         // TODO g_record_active_guest.setBand(band_name_array[index_band]);
     }
 
-    setAdminControls();
+    // TODO setAdminControls();
 
 } // eventSelectUploadConcertDropDown
 

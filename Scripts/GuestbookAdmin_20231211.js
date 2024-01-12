@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2023-12-27
+// Date: 2024-01-12
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -10,12 +10,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Global Parameters /////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-// Object corresponding to JazzGuests.xml
-var g_guests_xml = null;
-
-// Object corresponding to JazzGuestsUploaded.xml
-var g_guests_uploaded_xml = null;
 
 // Active XML object
 var g_active_xml = null;
@@ -28,12 +22,6 @@ var g_record_active_uploaded_number = -12345;
 
 // Active record jazz guest that is displayed for the user
 var g_record_active_guest = null;
-
-// Object corresponding to JazzSeasonProgram_yyyy_yyyy.xml
-var g_season_xml = null;
-
-// Object with get functions for the XML file JazzApplication.xml
-var g_application_xml = null;
 
 // Object that handles the user name
 var g_user_name_object = null;
@@ -98,46 +86,14 @@ function setUserHasLoggedIn(i_b_has_logged_in)
 ///////////////////////// Start Main Functions ////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+// Initialisation for Guestbook Admin
 function initGuestbookAdmin()
 {
-    var n_level_xml = 1;
+    g_load_for_guestbook_admin = true;
 
-    var update_xml = false;
-
-    g_guests_xml = new JazzGuestsXml(callbackGuestbookUploadedXml, n_level_xml, update_xml);
+    loadAllXmlObjectsForAdminAndUpload();
 
 } // initGuestbookAdmin
-
-function callbackGuestbookUploadedXml()
-{
-    // TODO Load update
-    var n_level_xml = 1;
-
-    var update_xml = true;
-
-    g_guests_uploaded_xml = new JazzGuestsXml(callbackSeasonXml, n_level_xml, update_xml);
-
-} // callbackGuestbookUploadedXml
-
-function callbackSeasonXml()
-{
-    var n_level_xml = 1;
-
-    var season_start_year = SeasonXml.getCurrentSeasonStartYear();
-
-    g_season_xml = new SeasonXml(callbackApplicationXml, n_level_xml, season_start_year);
-
-} // callbackSeasonXml
-
-// Load of JazzApplication.xml
-function callbackApplicationXml()
-{
-   // Number of directory levels to top directory for directory /www/XML/
-   var n_level_xml = 1;
-
-    g_application_xml = new JazzApplicationXml(callbackAllXmlObjectsCreated, n_level_xml);
-
-} // initApplicationXmlAfterLoadOfJazzTasksXml
 
 // Initialization for login and logout
 function initLoginLogout()
@@ -186,7 +142,7 @@ function callbackLoginIfPossible(i_logged_in_name, i_b_user_has_logged_in)
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // All XML objects have been created
-function callbackAllXmlObjectsCreated()
+function callbackAllXmlObjectsCreatedForAdmin()
 {
     initLoginLogout();
 

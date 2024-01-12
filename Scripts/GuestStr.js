@@ -12,7 +12,7 @@ class GuestStr
     // Subject for the request code email
     static emailCodeSubject()
     {
-        return 'JAZZ live AARAU Gästebuch Code ';
+        return 'JAZZ live AARAU Gaestebuch Code ';
 
     } // EmailCodeSubject
 
