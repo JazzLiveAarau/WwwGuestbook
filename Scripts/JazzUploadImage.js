@@ -1,5 +1,5 @@
 // File: JazzUploadImage.js
-// Date: 2024-01-11
+// Date: 2024-01-13
 // Author: Gunnar Lidén
 
 // Content
@@ -12,17 +12,22 @@
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // Input data for JazzUploadImage
-// i_upload_path:        The server (relative) path for the file to be uploaded
-// i_image_max_size_mb:  Maximum image size in MByte. If bigger the image will be compressed
-// i_default_img:        URL for the default (start) image in the image container <div>
-// i_caption_select_img: Caption for the select image button
+// i_upload_file_name:      The name of the file to be uploaded without extension
+// i_upload_file_extension: The extension of the file to be uploaded
+// i_upload_path:           The server (relative) path for the file to be uploaded
+// i_image_max_size_mb:     Maximum image size in MByte. If bigger the image will be compressed
+// i_default_img:           URL for the default (start) image in the image container <div>
+// i_caption_select_img:    Caption for the select image button
 class JazzUploadImageInput
 {
     // Creates the instance of the class
-    constructor(i_upload_path, i_image_max_size_mb, i_default_img, i_caption_select_img)
+    constructor(i_upload_file_name, i_upload_file_extension, i_upload_path, i_image_max_size_mb, i_default_img, i_caption_select_img)
     {
-        // Name of the upload file, e.g. Image_2024mmddhhmmss.jpg
-        this.m_upload_file_name = '';
+        // Name of the upload file without extension, e.g. Image_2024mmddhhmmss
+        this.m_upload_file_name = i_upload_file_name;
+
+        // Extension of the upload file,e.g. .jpg
+        this.m_upload_file_extension = i_upload_file_extension;
 
         // The server (relative) path for m_upload_file_name
         this.m_upload_path = i_upload_path;
@@ -37,12 +42,44 @@ class JazzUploadImageInput
         this.m_caption_select_img = i_caption_select_img;
     }
 
-    // Sets the name of the upload file, e.g. Image_yyymmddhhmmss.jpg
+    // Sets the name of the upload file without extension, e.g. Image_yyymmddhhmmss
     setImageFileName(i_upload_file_name)
     {
         this.m_upload_file_name = i_upload_file_name; 
 
     } // setImageFileName
+
+    // Sets the extension of the upload file, e.g. .jpg
+    setImageFileExtension(i_upload_file_extension)
+    {
+        this.m_upload_file_extension = i_upload_file_extension;
+
+    } // setImageFileExtension
+
+    // Sets the extension of the upload file from another file, e.g. .jpg
+    setFileExtensionFromAnotherFile(i_image_file)
+    {
+        var last_index_point = i_image_file.lastIndexOf('.');
+
+        if (last_index_point < 0)
+        {
+            alert("JazzUploadImageInput.setImageFileExtension No file extension: " + i_image_file);
+
+            return;
+        }
+
+        var extension_str = i_image_file.substring(last_index_point);
+
+        this.m_upload_file_extension = extension_str;
+
+    } // setFileExtensionFromAnotherFile
+
+    // Returns the server file name (URL) for the file that shall be uploaded
+    getImageFileFullName()
+    {
+        return this.m_upload_path + this.m_upload_file_name + this.m_upload_file_extension;
+
+    } // getImageFileFullName
 
 } // JazzUploadImageInput
 
@@ -124,11 +161,15 @@ class JazzUploadImage
     // i_input_data:   An instance of JazzUploadImageInput holding data for the upload
     async userSelectedFiles(i_input_object, i_input_data)
     {
-        var max_size_mb = 1.5;
-
-        // var image_file = this.files[0];
+        var max_size_mb = i_input_data.m_image_max_size_mb;
 
         var image_file = i_input_object.files[0];
+
+        var file_name_orig = image_file.name;
+
+        var file_name_el = JazzUploadImage.getElementDivFileName();
+
+        file_name_el.innerHTML = file_name_orig;
     
         if (!JazzUploadImage.fileIsOfTypeImage(image_file))
         {
@@ -145,17 +186,19 @@ class JazzUploadImage
 
         console.log("Original image size is " + original_size.toString());
 
-        var file_name = image_file.name;
-
-        var file_name_el = JazzUploadImage.getElementDivFileName();
-
-        file_name_el.innerHTML = file_name;
+        var full_server_file_name = '';
 
         if (original_size < max_size_mb)
         {
             console.log("JazzUploadImage.userSelectedFiles The original image is not changed");
 
-            JazzUploadImage.uploadImageToServer(image_file);
+            var file_name = image_file.name;
+
+            i_input_data.setFileExtensionFromAnotherFile(file_name);
+
+            full_server_file_name = i_input_data.getImageFileFullName();
+
+            JazzUploadImage.uploadImageToServer(image_file, full_server_file_name);
         }
         else
         {
@@ -165,13 +208,17 @@ class JazzUploadImage
 
             console.log("JazzUploadImage.userSelectedFiles The image was compressed");
 
-            JazzUploadImage.uploadImageToServer(compressed_file);
+            i_input_data.setFileExtensionFromAnotherFile(compressed_file.name);
+
+            full_server_file_name = i_input_data.getImageFileFullName();
+
+            JazzUploadImage.uploadImageToServer(compressed_file, full_server_file_name);
         }
 
     } // userSelectedFiles
 
     // Upload image to the server
-    static async uploadImageToServer(i_image_file) 
+    static async uploadImageToServer(i_image_file, i_full_server_file_name) 
     {
         if (null == i_image_file)
         {
@@ -179,14 +226,16 @@ class JazzUploadImage
     
             return;
         }
-
-        var file_name_orig = i_image_file.name;
     
         var form_data = new FormData(); 
         
         form_data.append("file_input", i_image_file);
+
+        form_data.append("to_file_name", i_full_server_file_name);
     
         console.log("uploadImageToServer Sent to PHP is FormData where the following data has been appended ");
+
+        console.log(i_full_server_file_name);
     
         console.log(i_image_file);
     
@@ -224,7 +273,7 @@ class JazzUploadImage
         {
             // alert('The file has been uploaded successfully.');
 
-            JazzUploadImage.displayImageUploadedUmage(file_name_orig);
+            JazzUploadImage.displayImageUploadedUmage(i_full_server_file_name);
         }
         else
         {

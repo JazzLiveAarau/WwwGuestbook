@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-01-12
+// Date: 2024-01-13
 // Authors: Gunnar Lidén
 
 // Content
@@ -350,12 +350,6 @@ function createUploadConcertDropdown()
     g_upload_concert_drop_down = new JazzDropdown('id_upload_texts_concert', 'id_div_upload_texts_concert');
 
     var concert_array = g_season_xml.getBandNameArray();
-    /*QQQQQ
-    var concert_array = []; // 
-    concert_array[0] = 'Konzert 1';
-    concert_array[1] = 'Konzert 2';
-    concert_array[2] = 'Konzert 3';
-    QQQQ*/
 
     g_upload_concert_drop_down.setAppendString(GuestStr.appendDropdownConcert());
 
