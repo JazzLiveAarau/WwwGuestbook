@@ -161,6 +161,8 @@ class JazzUploadImage
     // i_input_data:   An instance of JazzUploadImageInput holding data for the upload
     async userSelectedFiles(i_input_object, i_input_data)
     {
+        displayElementDivUploadButtonForwardTwo();
+        
         var max_size_mb = i_input_data.m_image_max_size_mb;
 
         var image_file = i_input_object.files[0];

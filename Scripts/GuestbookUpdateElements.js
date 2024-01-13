@@ -1,5 +1,5 @@
 // File: GuestbookUploadElements.js
-// Date: 2024-01-09
+// Date: 2024-01-13
 // Author: Gunnar Liden
 
 // File content
@@ -245,9 +245,114 @@ function getElementDivUploadButtonBackForwardThree()
 
 } // getElementDivUploadButtonBackForwardThree
 
-// Returns the identity of the container div for the buttons container part three
-function getIdDivUploadButtonBackForwardThree()
+// Hides the container element div for the button forward container part two
+function hideElementDivUploadButtonBackTwo()
 {
-    return 'id_div_upload_button_back_forward_part_three';
+    getElementDivUploadButtonBackTwo().style.display = 'none';
 
-} // getIdDivUploadButtonBackForwardThree
+} // hideElementDivUploadButtonBackTwo
+
+// Displays the container element div for the button forward container part two
+function displayElementDivUploadButtonBackTwo()
+{
+    getElementDivUploadButtonBackTwo().style.display = 'block';
+
+} // displayElementDivUploadButtonBackTwo
+
+// Returns the container element div for the button forward container part two
+function getElementDivUploadButtonBackTwo()
+{
+    return document.getElementById(getIdDivUploadButtonBackTwo());
+
+} // getElementDivUploadButtonBackTwo
+
+// Returns the identity of the container div for the button forward container part two
+function getIdDivUploadButtonBackTwo()
+{
+    return 'id_div_upload_button_back_part_two';
+
+} // getIdDivUploadButtonBackTwo
+
+// Hides the container element div for the button forward container part two
+function hideElementDivUploadButtonForwardTwo()
+{
+    getElementDivUploadButtonForwardTwo().style.display = 'none';
+
+} // hideElementDivUploadButtonForwardTwo
+
+// Displays the container element div for the button forward container part two
+function displayElementDivUploadButtonForwardTwo()
+{
+    getElementDivUploadButtonForwardTwo().style.display = 'block';
+
+} // displayElementDivUploadButtonForwardTwo
+
+// Returns the container element div for the button forward container part two
+function getElementDivUploadButtonForwardTwo()
+{
+    return document.getElementById(getIdDivUploadButtonForwardTwo());
+
+} // getElementDivUploadButtonForwardTwo
+
+// Returns the identity of the container div for the button forward container part two
+function getIdDivUploadButtonForwardTwo()
+{
+    return 'id_div_upload_button_forward_part_two';
+
+} // getIdDivUploadButtonForwardTwo
+
+// Hides the container element div for the button back container part three
+function hideElementDivUploadButtonBackThree()
+{
+    getElementDivUploadButtonBackThree().style.display = 'none';
+
+} // hideElementDivUploadButtonBackThree
+
+// Displays the container element div for the button back container part three
+function displayElementDivUploadButtonBackThree()
+{
+    getElementDivUploadButtonBackThree().style.display = 'block';
+
+} // displayElementDivUploadButtonBackThree
+
+// Returns the container element div for the button back container part three
+function getElementDivUploadButtonBackThree()
+{
+    return document.getElementById(getIdDivUploadButtonBackThree());
+
+} // getElementDivUploadButtonBackThree
+
+// Returns the identity of the container div for the button back container part three
+function getIdDivUploadButtonBackThree()
+{
+    return 'id_div_upload_button_back_part_three';
+
+} // getIdDivUploadButtonBackThree
+
+// Hides the container element div for the button forward container part two
+function hideElementDivUploadButtonForwardThree()
+{
+    getElementDivUploadButtonForwardThree().style.display = 'none';
+
+} // hideElementDivUploadButtonForwardThree
+
+// Displays the container element div for the button forward container part two
+function displayElementDivUploadButtonForwardThree()
+{
+    getElementDivUploadButtonForwardThree().style.display = 'block';
+
+} // displayElementDivUploadButtonForwardThree
+
+// Returns the container element div for the button forward container part two
+function getElementDivUploadButtonForwardThree()
+{
+    return document.getElementById(getIdDivUploadButtonForwardThree());
+
+} // getElementDivUploadButtonForwardThree
+
+// Returns the identity of the container div for the button forward container part two
+function getIdDivUploadButtonForwardThree()
+{
+    return 'id_div_upload_button_forward_part_three';
+
+} // getIdDivUploadButtonForwardThree

@@ -52,6 +52,10 @@ function callbackAllXmlObjectsCreatedForUpload()
 
     hideElementDivUploadTexts();
 
+    hideElementDivUploadButtonForwardTwo();
+
+    hideElementDivUploadButtonForwardThree();
+
     hideElementDivInputCode();
 
     hideElementDivButtonSendCode();
