@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-12
+// Date: 2024-01-14
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -92,8 +92,6 @@ function callbackAllXmlObjectsCreatedForUpload()
 // User clicked the request code button
 function onClickRequestCodeButton()
 {
-    // alert("onClickRequestCodeButton");
-
     initAllInputCodes();
 
     if (!getGuestbookNames())
@@ -119,6 +117,8 @@ function onClickRequestCodeButton()
 function initAllInputCodes()
 {
     g_guestbook_data.initAllInputCodes();
+
+    g_guestbook_data.setRandomCode();
 
     g_code_one_text_box.setValue("");
 
@@ -285,13 +285,43 @@ function inputCodeIsEqualToRandomCode()
     if (g_guestbook_data.inputCodeEqualToRandomCode())
     {
         displayElementDivButtonSendCode();
+        setBackgroundColorValidElementDivInputCode();
     }
     else if (g_guestbook_data.allInputCodeAreSet() && !g_guestbook_data.inputCodeEqualToRandomCode())
     {
-        alert("Code ist falsch");
+        // alert("Code ist falsch");
+        setBackgroundColorInvalidElementDivInputCode();
+
+        hideElementDivButtonSendCode();
     }
 
 } // inputCodeIsEqualToRandomCode
+
+// User input of email character
+function onInputTextUpdateEmail()
+{
+    var guestbook_email = g_upload_email_text_box.getValue();
+
+    if (!g_guestbook_data.inputCodeEqualToRandomCode())
+    {
+        g_guestbook_data.m_email = guestbook_email;
+
+    }
+    else
+    {
+        if (g_guestbook_data.m_email != guestbook_email)
+        {
+            hideElementDivButtonSendCode();
+
+            hideElementDivInputCode();
+    
+            initAllInputCodes();
+    
+            alert(GuestStr.emailChangedNewCodeRequired());
+        }
+    }
+
+} // onInputTextUdateEmail
 
 // Input of code figure one
 function onInputCodeOne()
@@ -433,6 +463,24 @@ function eventSelectUploadConcertDropDown()
     // TODO setAdminControls();
 
 } // eventSelectUploadConcertDropDown
+
+// User input of text in the title textbox
+function onInputTextBoxUpdateTitle()
+{
+    var titel_text = g_upload_title_text_box.getValue();
+
+    titel_text = titel_text.trim();
+
+    if (titel_text.length > 0)
+    {
+        displayElementDivUploadButtonForwardThree()
+    }
+    else
+    {
+        hideElementDivUploadButtonForwardThree();
+    }
+
+} // onInputTextBoxUpdateTitle
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Event Functions /////////////////////////////////////////////
@@ -657,6 +705,24 @@ class GuestbookData
         this.m_input_five = "";
 
     } // initAllInputCodes
+
+    /*QQQQQ
+    // Init all random codes to not set
+    initAllRandomCodes()
+    {
+        this.m_random_one = "";
+
+        this.m_random_two = "";
+
+        this.m_random_three = "";
+
+        this.m_random_four = "";
+
+        this.m_random_five = "";
+
+    } // initAllRandomCodes
+
+QQQQ*/
 
     // Returns true for a valid code number, i.e. 0, 1, 2, 3, .. or 9
     static validCodeNumber(i_code_number)

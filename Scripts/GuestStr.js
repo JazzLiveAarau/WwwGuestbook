@@ -83,7 +83,7 @@ class GuestStr
     // Label for the textbox names
     static labelTextBoxNames()
     {
-        return 'Vorname(n) und Nachname(n)';
+        return '* Vorname(n) und Nachnamen(n)';
 
     } // labelTextBoxNames
 
@@ -97,14 +97,14 @@ class GuestStr
     // Label for the textbox email
     static labelTextBoxEmail()
     {
-        return 'E-Mail';
+        return '* E-Mail';
 
     } // labelTextBoxEmail
 
     // Title (tooltip) for the textbox email
     static titleTextBoxEmail()
     {
-        return 'Ihre E-Mail-Adresse eingeben';
+        return 'Ihre E-Mail-Adresse eingeben. Nach einer Änderung einen neuen Code verlangen';
 
     } // titleTextBoxEmail
 
@@ -192,12 +192,10 @@ class GuestStr
 
     } // titleButtonSave
 
-
-
     // Label for the textbox title
     static labelTextBoxTitle()
     {
-        return 'Bildtext';
+        return '* Bildtext';
 
     } // labelTextBoxTitle
 
@@ -211,7 +209,7 @@ class GuestStr
     // Label for the concert dropdown
     static labelDropdownConcert()
     {
-        return 'Konzert wählen (optional)';
+        return 'Konzert wählen';
 
     } // labelDropdownConcert
 
@@ -232,7 +230,7 @@ class GuestStr
      // Label for the textarea text
     static labelTextAreaText()
     {
-        return 'Text (optional)';
+        return 'Text';
 
     } // labelTextAreaText
 
@@ -256,5 +254,10 @@ class GuestStr
         return 'Bemerkung';
 
     } // titleTextBoxRemark
+
+    static emailChangedNewCodeRequired()
+    {
+        return 'Bitte einen neuen Code verlangen für die geänderte E-Mail Adresse';
+    }
 
 } // GuestStr

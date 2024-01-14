@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-01-13
+// Date: 2024-01-14
 // Authors: Gunnar Lidén
 
 // Content
@@ -142,6 +142,8 @@ function createTextBoxUpdateEmail()
     g_upload_email_text_box.setSize("39");
 
     g_upload_email_text_box.setValue(""); 
+
+    g_upload_email_text_box.setOninputFunctionName("onInputTextUpdateEmail");
 
     g_upload_email_text_box.setReadOnlyFlag(false);
 
@@ -351,6 +353,9 @@ function createUploadConcertDropdown()
 
     var concert_array = g_season_xml.getBandNameArray();
 
+    var max_n_chars = 40;
+    concert_array = limitStringLengthOfArray(concert_array, max_n_chars);
+
     g_upload_concert_drop_down.setAppendString(GuestStr.appendDropdownConcert());
 
     g_upload_concert_drop_down.setNameArray(concert_array);
@@ -367,6 +372,39 @@ function createUploadConcertDropdown()
 
 } // createUploadConcertDropdown
 
+// Limit the string length in an array
+function limitStringLengthOfArray(i_array, i_max_n_chars)
+{
+    if (i_max_n_chars < 10 || i_max_n_chars > 100 || null == i_array || i_array.length == 0)
+    {
+        alert("limitStringLengthOfArray Invalid input: Array not defined or i_max_n_chars= " + i_max_n_chars.toString());
+
+        return i_array;
+    }
+
+    var out_array = [];
+
+    for (var index_str=0; index_str < i_array.length; index_str++)
+    {
+        var current_str = i_array[index_str];
+
+        if (current_str.length <= i_max_n_chars)
+        {
+            out_array[index_str] = current_str;
+        }
+        else
+        {
+            current_str = current_str.substring(0, i_max_n_chars - 4) + ' ...';
+
+            out_array[index_str] = current_str;
+        }
+
+    }// index_str
+
+    return out_array;
+
+} // limitStringLengthOfArray
+
 // Create the upload title text box
 function createTextBoxUpdateTitle()
 {
@@ -379,6 +417,8 @@ function createTextBoxUpdateTitle()
     g_upload_title_text_box.setSize("39");
 
     g_upload_title_text_box.setValue("");
+
+    g_upload_title_text_box.setOninputFunctionName("onInputTextBoxUpdateTitle")
 
     g_upload_title_text_box.setReadOnlyFlag(false);
 
@@ -395,7 +435,7 @@ function createTextTextArea()
 
     g_text_textarea.setLabelTextPositionAbove();
 
-    g_text_textarea.setValue("Test text ........");
+    g_text_textarea.setValue("");
 
     g_text_textarea.setReadOnlyFlag(false);
 

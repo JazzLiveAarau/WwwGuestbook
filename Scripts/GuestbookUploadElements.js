@@ -105,6 +105,20 @@ function displayElementDivInputCode()
 
 } // displayElementDivInputCode
 
+// Sets the background color to valid (code)
+function setBackgroundColorValidElementDivInputCode()
+{
+    getElementDivInputCode().style.background = 'white';
+
+} // setBackgroundColorValidElementDivInputCode
+
+// Sets the background color to invalid (code)
+function setBackgroundColorInvalidElementDivInputCode()
+{
+    getElementDivInputCode().style.background = 'red';
+
+} // setBackgroundColorInvalidElementDivInputCode
+
 // Returns the container element div for the input of the code
 function getElementDivInputCode()
 {
