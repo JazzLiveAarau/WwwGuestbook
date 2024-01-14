@@ -255,9 +255,26 @@ class GuestStr
 
     } // titleTextBoxRemark
 
+    // Upload code has been inputted and is valid and the user has changed the email address
+    // This warning tells the user that a new code must requested for the new email 
     static emailChangedNewCodeRequired()
     {
         return 'Bitte einen neuen Code verlangen für die geänderte E-Mail Adresse';
+
+    } // emailChangedNewCodeRequired
+
+    // The user klicks the button for part three (input texts) and an image is not uploaded
+    // This error message the user to upload an image
+    static imageNotUploaded()
+    {
+        return 'Bitte Bild zuerst wählen';
     }
+
+    // There must a title for the image
+    static titleNotSet()
+    {
+        return 'Bitte Bild Titel eingeben';
+
+    } // titleNotSet
 
 } // GuestStr

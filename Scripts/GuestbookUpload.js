@@ -11,7 +11,7 @@
 ///////////////////////// Start Global Parameters /////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// Holds the user input data
+// Instance of GuestbookData that holds all the user input data
 var g_guestbook_data = null;
 
 // Object UploadImage control
@@ -61,8 +61,6 @@ function callbackAllXmlObjectsCreatedForUpload()
     hideElementDivButtonSendCode();
 
     var upload_path = '../../JazzGuests/Uploaded/';
-
-    // upload_file_name, upload_file_extension
 
     var upload_file_name = 'Image_' + UtilDate.getTimeStamp();
 
@@ -378,7 +376,8 @@ function onInputCodeFive()
 
 } // onInputCodeFive
 
-// User clicked the send code button
+// User clicked the send code button, i.e. the code input is valid
+// and the user can in part two upload an image
 function onClickSendCodeButton()
 {
     // alert("onClickSendCodeButton");
@@ -411,10 +410,20 @@ function onClickBackTwoButton()
 
 } // onClickReqireCodeButton
 
-// User clicked the forward two button
+// User clicked the forward part two (upload of image) button, i.e. the user 
+// can in part three input the image title and other texts
 function onClickForwardTwoButton()
 {
-    // alert("onClickForwardTwoButton");
+    var image_file_url = g_upload_image_object.getImageFileFullName();
+
+    if (image_file_url.length == 0)
+    {
+        alert(GuestStr.imageNotUploaded());
+
+        return;
+    }
+
+    g_guestbook_data.setImageFile(image_file_url);
 
     hideElementDivUploadContainerTwo();
 
@@ -422,7 +431,7 @@ function onClickForwardTwoButton()
 
 } // onClickReqireCodeButton
 
-// User clicked the back three button
+// User clicked the back part three (texts input) button
 function onClickBackThreeButton()
 {
     // alert("onClickBackThreeButton");
@@ -433,10 +442,16 @@ function onClickBackThreeButton()
 
 } // onClickReqireCodeButton
 
-// User clicked the forward three button
+// User clicked the forward three part three (texts input) button. i.e.
+// the user wants to save the data (finish the input of data)
 function onClickForwardThreeButton()
 {
-   alert("onClickForwardThreeButton");
+    if(!getCheckGuestbookDataPartThree())
+    {
+        return;
+    }
+
+    saveGuestbookUploadData();
 
 } // onClickReqireCodeButton
 
@@ -449,18 +464,28 @@ function eventSelectUploadConcertDropDown()
 
     if (b_append)
     {
-        g_record_active_guest.setBand("");
-    }
-    else
-    {
-        var band_name_array = g_season_xml.getBandNameArray();
+        alert("eventSelectUploadConcertDropDown Programming error append");
 
-        var index_band = parseInt(selected_concert_option_number) - 1;
-
-        // TODO g_record_active_guest.setBand(band_name_array[index_band]);
+        return;
     }
 
-    // TODO setAdminControls();
+    var concert_number = parseInt(selected_concert_option_number);
+
+    var band_name = g_season_xml.getBandName(concert_number);
+
+    var concert_year = g_season_xml.getYear(concert_number);
+
+    var concert_month = g_season_xml.getMonth(concert_number);
+
+    var concert_day = g_season_xml.getDay(concert_number);
+
+    g_guestbook_data.setBand(band_name);
+
+    g_guestbook_data.setYear(concert_year);
+
+    g_guestbook_data.setMonth(concert_month);
+
+    g_guestbook_data.setDay(concert_day);
 
 } // eventSelectUploadConcertDropDown
 
@@ -555,10 +580,53 @@ function setGuestbookNamesAndEmailFromLocalStorage()
 
 } // setGuestbookNamesAndEmailFromLocalStorage
 
+// Get the texts from the part three user input. Returns false if data not is OK
+function getCheckGuestbookDataPartThree()
+{
+    var image_title = g_upload_title_text_box.getValue();
 
+    image_title = image_title.trim();
+
+    if (image_title.length == 0)
+    {
+        alert(GuestStr.titleNotSet());
+
+        return false;
+    }
+
+    g_guestbook_data.setImageTitle(image_title);
+
+    var image_text = g_text_textarea.getValue();
+
+    g_guestbook_data.setImageText(image_text);
+
+    var image_renark = g_upload_remark_text_box.getValue();
+
+    g_guestbook_data.setImageRemark(image_renark);
+
+    return true;
+
+} // getGuestbookDataPartThree
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Get User Input //////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Register Uploaded Data ////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Save (append) the data in the upload XML file JazzGuestLoaded.xml object (g_guests_uploaded_xml)
+function saveGuestbookUploadData()
+{
+    console.log("Enter saveGuestbookUploadData GuestbookData= ");
+    console.log(g_guestbook_data);
+
+
+} // saveGuestbookUploadData
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Register Uploaded Data //////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -588,6 +656,8 @@ class GuestbookData
 
         this.m_day = "";
 
+        this.m_image_file = '';
+
         this.m_random = null;
 
         // Generated code
@@ -615,7 +685,134 @@ class GuestbookData
 
         this.setRandomCode();
 
+        this.setCurrentDate();
+
     } // init
+
+    // Set current data
+    setCurrentDate()
+    {
+        var current_date = new Date();
+
+        this.m_year = current_date.getFullYear();
+
+        this.m_month = UtilDate.getFormattedTenNumber(current_date.getMonth() + 1);
+
+        this.m_day = UtilDate.getFormattedTenNumber(current_date.getDate());
+
+    } // setCurrentDate
+
+    // Sets the image band name
+    setBand(i_band)
+    {
+        this.m_band = i_band;
+
+    } // setBand
+
+    // Returns the image band name
+    getBand()
+    {
+        return this.m_band;
+        
+    } // getBand
+
+    // Sets the image year
+    setYear(i_year)
+    {
+        this.m_year = i_year;
+
+    } // setYear
+
+    // Returns the image year
+    getYear()
+    {
+        return this.m_year;
+
+    } // getYear
+
+    // Sets the image month
+    setMonth(i_month)
+    {
+        this.m_month = i_month;
+
+    } // setMonth
+
+    // Returns the image month
+    getMonth()
+    {
+        return this.m_month;
+
+    } // getMonth
+
+    // Sets the image day
+    setDay(i_day)
+    {
+        this.m_day = i_day;
+
+    } // setYear
+
+    // Returns the image day
+    getDay()
+    {
+        return this.m_day;
+
+    } // getYear
+
+    // Sets the image file name (URL)
+    setImageFile(i_image_file)
+    {
+        this.m_image_file = i_image_file;
+
+    } // setImageFile
+
+    // Returns the image file name (URL)
+    getImageFile()
+    {
+        return this.m_image_file;
+        
+    } // setImageFile
+
+    // Sets the image title
+    setImageTitle(i_title)
+    {
+        this.m_title = i_title;
+
+    } // setImageTitle
+
+    // Returns the image title
+    getImageTitle()
+    {
+        return this.m_title;
+        
+    } // getImageTitle
+
+    // Sets the image text
+    setImageText(i_text)
+    {
+        this.m_text = i_text;
+
+    } // setImageText
+
+    // Returns the image text
+    getImageText()
+    {
+        return this.m_text;
+        
+    } // getImageText
+
+    // Sets the image remark
+    setImageRemark(i_remark)
+    {
+        this.m_remark = i_remark;
+
+    } // setImageRemark
+
+    // Returns the image remark
+    getImageRemark(i_remark)
+    {
+        return this.m_remark;
+
+    } // getImageRemark
 
     // Generate random code
     setRandomCode()
@@ -705,24 +902,6 @@ class GuestbookData
         this.m_input_five = "";
 
     } // initAllInputCodes
-
-    /*QQQQQ
-    // Init all random codes to not set
-    initAllRandomCodes()
-    {
-        this.m_random_one = "";
-
-        this.m_random_two = "";
-
-        this.m_random_three = "";
-
-        this.m_random_four = "";
-
-        this.m_random_five = "";
-
-    } // initAllRandomCodes
-
-QQQQ*/
 
     // Returns true for a valid code number, i.e. 0, 1, 2, 3, .. or 9
     static validCodeNumber(i_code_number)

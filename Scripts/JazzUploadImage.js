@@ -1,5 +1,5 @@
 // File: JazzUploadImage.js
-// Date: 2024-01-13
+// Date: 2024-01-14
 // Author: Gunnar Lidén
 
 // Content
@@ -106,6 +106,9 @@ class JazzUploadImage
         // The container element object
         this.m_el_div_container = null;
 
+        // The full server file name (URL) to the uploaded image
+        this.m_full_server_file_name = '';
+
         // Initialization
         this.init();
 
@@ -134,6 +137,22 @@ class JazzUploadImage
        //UtilImage.replaceImageInDivContainer(url_default_image, JazzUploadImage.getElementDivImageContainer());
 
     } // init
+
+    // Swt the full server file name (URL) to the uploaded image
+    setImageFileFullName(i_full_server_file_name)
+    {
+                
+        this.m_full_server_file_name = i_full_server_file_name;
+
+    } // setImageFileFullName
+
+    // Swt the full server file name (URL) to the uploaded image
+    getImageFileFullName(i_full_server_file_name)
+    {
+                
+        return this.m_full_server_file_name;
+
+    } // getImageFileFullName
 
     // Adds an event listener for the inout file element
     // i_upload_image_object: This JazzUploadImage object
@@ -216,6 +235,8 @@ class JazzUploadImage
 
             JazzUploadImage.uploadImageToServer(compressed_file, full_server_file_name);
         }
+
+        this.setImageFileFullName(full_server_file_name);
 
     } // userSelectedFiles
 
