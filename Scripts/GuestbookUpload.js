@@ -622,8 +622,59 @@ function saveGuestbookUploadData()
     console.log("Enter saveGuestbookUploadData GuestbookData= ");
     console.log(g_guestbook_data);
 
+    appendSetSaveGuestbookUploadData();
+
 
 } // saveGuestbookUploadData
+
+function appendSetSaveGuestbookUploadData()
+{
+    g_guests_uploaded_xml.appendGuestNode();
+
+    var n_records = g_guests_uploaded_xml.getNumberOfGuestRecords();
+
+    g_guests_uploaded_xml.setGuestYear(n_records, g_guestbook_data.getYear());
+
+    g_guests_uploaded_xml.setGuestMonth(n_records, g_guestbook_data.getMonth());
+
+    g_guests_uploaded_xml.setGuestDay(n_records, g_guestbook_data.getDay());
+
+    g_guests_uploaded_xml.setGuestBand(n_records, g_guestbook_data.getBand());
+
+    // TODO g_guests_uploaded_xml.setGuestMusicians(n_records, g_guestbook_data.getMusicians());
+
+    g_guests_uploaded_xml.setGuestMusicians(n_records, 'Musicians TODO');
+
+    g_guests_uploaded_xml.setGuestHeader(n_records, g_guestbook_data.getImageTitle());
+
+    g_guests_uploaded_xml.setGuestText(n_records, g_guestbook_data.getImageText());
+  
+    g_guests_uploaded_xml.setGuestNames(n_records, g_guestbook_data.getImageNames());
+
+    g_guests_uploaded_xml.setGuestRemark(n_records, g_guestbook_data.getImageRemark());
+
+    g_guests_uploaded_xml.setGuestFileName(n_records, g_guestbook_data.getImageFile());
+
+    g_guests_uploaded_xml.setGuestFileType(n_records, 'IMG');
+
+    // Not used here g_guests_uploaded_xml.setGuestFileName(n_records, '');
+
+    g_guests_uploaded_xml.setGuestEmail(n_records, g_guestbook_data.getImageEmail());
+
+    // Not used here g_guests_uploaded_xml.setGuestTelephone(n_records, '');
+
+    g_guests_uploaded_xml.setGuestStatusUploadedByGuest(n_records);
+
+    g_guests_uploaded_xml.setGuestPublishBool(n_records, true);
+
+    g_guests_uploaded_xml.setGuestRegNumber(n_records, 'TODO Reg number');
+
+
+    console.log("appendSetSaveGuestbookUploadData getGuestYear= " + g_guests_uploaded_xml.getGuestYear(n_records));
+    console.log("appendSetSaveGuestbookUploadData getGuestDay= " + g_guests_uploaded_xml.getGuestDay(n_records));
+
+
+} // appendSetSaveGuestbookUploadData
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Register Uploaded Data //////////////////////////////////////
@@ -694,7 +745,7 @@ class GuestbookData
     {
         var current_date = new Date();
 
-        this.m_year = current_date.getFullYear();
+        this.m_year = current_date.getFullYear().toString();
 
         this.m_month = UtilDate.getFormattedTenNumber(current_date.getMonth() + 1);
 
@@ -771,6 +822,34 @@ class GuestbookData
         return this.m_image_file;
         
     } // setImageFile
+
+    // Sets image names
+    setImageNames(i_names)
+    {
+        this.m_names = i_names;
+
+    } // setImageNames
+
+    // Returns image names
+    getImageNames(i_names)
+    {
+        return this.m_names;
+
+    } // getImageNames
+
+    // Sets the image email
+    setImageEmail(i_email)
+    {
+        this.m_email = i_email;
+
+    } // setImageEmail
+
+    // Returns the image email
+    getImageEmail()
+    {
+        return this.m_email;
+
+    } // getImageEmail
 
     // Sets the image title
     setImageTitle(i_title)
