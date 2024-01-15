@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-14
+// Date: 2024-01-15
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -460,11 +460,16 @@ function eventSelectUploadConcertDropDown()
 {
     var selected_concert_option_number = g_upload_concert_drop_down.getSelectOptionNumber();
 
+    // Append is 'No concert' here
     var b_append = g_upload_concert_drop_down.selectedOptionNumberIsAppendItem(selected_concert_option_number);
 
     if (b_append)
     {
-        alert("eventSelectUploadConcertDropDown Programming error append");
+        g_guestbook_data.setCurrentDate();
+
+        g_guestbook_data.setBand('');
+
+        g_guestbook_data.setMusicians('');
 
         return;
     }
@@ -479,7 +484,26 @@ function eventSelectUploadConcertDropDown()
 
     var concert_day = g_season_xml.getDay(concert_number);
 
+    var n_musicians = g_season_xml.getNumberOfMusicians(concert_number);
+
+    var musicians_str = '';
+
+    for (var musician_number=1; musician_number <= n_musicians; musician_number++)
+    {
+        var musician_name = g_season_xml.getMusicianName(concert_number, musician_number);
+
+        musicians_str = musicians_str + musician_name;
+
+        if (musician_number < n_musicians)
+        {
+            musicians_str = musicians_str + ', ';
+        }
+
+    }
+
     g_guestbook_data.setBand(band_name);
+
+    g_guestbook_data.setMusicians(musicians_str);
 
     g_guestbook_data.setYear(concert_year);
 
@@ -641,9 +665,7 @@ function appendSetSaveGuestbookUploadData()
 
     g_guests_uploaded_xml.setGuestBand(n_records, g_guestbook_data.getBand());
 
-    // TODO g_guests_uploaded_xml.setGuestMusicians(n_records, g_guestbook_data.getMusicians());
-
-    g_guests_uploaded_xml.setGuestMusicians(n_records, 'Musicians TODO');
+    g_guests_uploaded_xml.setGuestMusicians(n_records, g_guestbook_data.getMusicians());
 
     g_guests_uploaded_xml.setGuestHeader(n_records, g_guestbook_data.getImageTitle());
 
@@ -657,7 +679,7 @@ function appendSetSaveGuestbookUploadData()
 
     g_guests_uploaded_xml.setGuestFileType(n_records, 'IMG');
 
-    // Not used here g_guests_uploaded_xml.setGuestFileName(n_records, '');
+    // Not used here g_guests_uploaded_xml.JazzGuestAvatar(n_records, '');
 
     g_guests_uploaded_xml.setGuestEmail(n_records, g_guestbook_data.getImageEmail());
 
@@ -667,10 +689,10 @@ function appendSetSaveGuestbookUploadData()
 
     g_guests_uploaded_xml.setGuestPublishBool(n_records, true);
 
-    g_guests_uploaded_xml.setGuestRegNumber(n_records, 'TODO Reg number');
+    g_guests_uploaded_xml.setGuestRegNumber(n_records, 'Will be set when moved to JazzGuests.xml');
 
 
-    console.log("appendSetSaveGuestbookUploadData getGuestYear= " + g_guests_uploaded_xml.getGuestYear(n_records));
+    console.log("appendSetSaveGuestbookUploadData getGuestMusicians= " + g_guests_uploaded_xml.getGuestMusicians(n_records));
     console.log("appendSetSaveGuestbookUploadData getGuestDay= " + g_guests_uploaded_xml.getGuestDay(n_records));
 
 
@@ -700,6 +722,8 @@ class GuestbookData
         this.m_remark = "";
 
         this.m_band = "";
+
+        this.m_musicians = "";
 
         this.m_year = "";
 
@@ -766,6 +790,20 @@ class GuestbookData
         return this.m_band;
         
     } // getBand
+
+    // Sets the image musician names
+    setMusicians(i_musicians)
+    {
+        this.m_musicians = i_musicians;
+
+    } // setMusicians
+
+    // Returns the image musician names
+    getMusicians()
+    {
+        return this.m_musicians;
+        
+    } // getMusicians
 
     // Sets the image year
     setYear(i_year)
@@ -923,6 +961,11 @@ class GuestbookData
             return false;
         }
 
+        if (this.inputCodeEqualToSecretCode())
+        {
+            return true;
+        }
+
         if (this.m_random_one != g_guestbook_data.m_input_one || this.m_random_one.length == 0)
         {
             return false;
@@ -951,6 +994,21 @@ class GuestbookData
         return true;
 
     } // inputCodeEqualToRandomCode
+
+    // Secret code for the memnbers in the jazzclub
+    inputCodeEqualToSecretCode()
+    {
+        if (g_guestbook_data.m_input_one   == '8' && g_guestbook_data.m_input_two  == '9' && 
+            g_guestbook_data.m_input_three == '6' && g_guestbook_data.m_input_four == '8' && 
+            g_guestbook_data.m_input_five  == '0')
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    } // inputCodeEqualToSecretCode
 
     // Returns true if input code values have been set
     allInputCodeAreSet()
