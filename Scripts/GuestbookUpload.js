@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-15
+// Date: 2024-01-16
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -147,8 +147,6 @@ function sendGuestbookCodeEmail()
     // Not necessary that we see that somebody has got a code
     var email_bcc = '';
 
-    var n_top = 2;
-
     if (!UtilServer.execApplicationOnServer())
     {
         alert("sendGuestbookCodeEmail PHP cannot execute with Visual Studio Live Server. The code: " + random_code);
@@ -156,7 +154,7 @@ function sendGuestbookCodeEmail()
         return;
     }
     
-    var b_send = UtilEmail.send(email_from, email_subject, email_message, email_to, email_bcc, n_top);
+    var b_send = UtilEmail.send(email_from, email_subject, email_message, email_to, email_bcc);
 
     if (b_send)
     {
