@@ -692,7 +692,7 @@ function appendSetSaveGuestbookUploadData()
 
     saveJazzGuestsUploadedXmlOnServer();
 
-    alert(GuestStr.guestbookRecordIsUploaded());
+    alert(GuestStr.guestbookRecordIsUploaded(g_guestbook_data.getImageNames()));
 
     location.reload();
 
@@ -801,9 +801,9 @@ class GuestbookData
 
         this.m_year = current_date.getFullYear().toString();
 
-        this.m_month = UtilDate.getFormattedTenNumber(current_date.getMonth() + 1);
+        this.m_month = (current_date.getMonth() + 1).toString();
 
-        this.m_day = UtilDate.getFormattedTenNumber(current_date.getDate());
+        this.m_day = current_date.getDate().toString();
 
     } // setCurrentDate
 

@@ -278,11 +278,11 @@ class GuestStr
     } // titleNotSet
 
     // There must a title for the image
-    static guestbookRecordIsUploaded()
+    static guestbookRecordIsUploaded(i_names)
     {
         var ret_str = '';
 
-        ret_str = ret_str + 'Vielen Dank!' + '\n';
+        ret_str = ret_str + 'Vielen Dank ' + i_names + '!' + '\n';
 
         ret_str = ret_str + 'Bild und Texte sind aufgeladen' + '\n';
 
