@@ -649,6 +649,7 @@ function saveGuestbookUploadData()
 
 } // saveGuestbookUploadData
 
+// Add and set an XML record for JazzGuestsUploaded.xml
 function appendSetSaveGuestbookUploadData()
 {
     g_guests_uploaded_xml.appendGuestNode();
@@ -689,12 +690,43 @@ function appendSetSaveGuestbookUploadData()
 
     g_guests_uploaded_xml.setGuestRegNumber(n_records, 'Will be set when moved to JazzGuests.xml');
 
+    saveJazzGuestsUploadedXmlOnServer();
 
-    console.log("appendSetSaveGuestbookUploadData getGuestMusicians= " + g_guests_uploaded_xml.getGuestMusicians(n_records));
-    console.log("appendSetSaveGuestbookUploadData getGuestDay= " + g_guests_uploaded_xml.getGuestDay(n_records));
+    alert(GuestStr.guestbookRecordIsUploaded());
 
+    location.reload();
 
 } // appendSetSaveGuestbookUploadData
+
+// Saves the XML as a (an updated) file JazzGuestsUploaded.xml on the server.
+// For the case that the application executes locally and the input display element is set
+// the updated XML file will be displayed. 
+function saveJazzGuestsUploadedXmlOnServer()
+{
+    var pretty_print = new PrettyPrintXml(g_guests_uploaded_xml.getXmlObject());
+
+    var xml_content_str = pretty_print.xmlToWinFormattedString();
+
+    // TODO
+    var url_relative = '../'  +  g_guests_uploaded_xml.getXmlJazzGuestsFileName();
+
+    var b_execute_server = UtilServer.execApplicationOnServer();
+	 
+    if (!b_execute_server)
+    {
+        alert("saveJazzGuestUploadXmlOnServer Not saved on the server. Result is only displayed on the console");
+
+        return;
+    }
+
+    var b_save = UtilServer.saveFile(url_relative, xml_content_str);
+
+    if (!b_save)
+    {
+        alert("saveJazzGuestUploadedXmlOnServer Save XML (JazzGuestsUploaded.xml) failed");
+    }
+
+} //saveJazzGuestsUploadedXmlOnServer
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Register Uploaded Data //////////////////////////////////////
@@ -855,7 +887,10 @@ class GuestbookData
     // Returns the image file name (URL)
     getImageFile()
     {
-        return this.m_image_file;
+        // TODO 
+        var ret_file_name = this.m_image_file.substring(6);
+        
+        return ret_file_name;
         
     } // setImageFile
 

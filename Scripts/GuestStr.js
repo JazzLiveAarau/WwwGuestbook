@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-01-12
+// Date: 2024-01-18
 // Author: Gunnar Liden
 
 // File content
@@ -276,5 +276,18 @@ class GuestStr
         return 'Bitte Bild Titel eingeben';
 
     } // titleNotSet
+
+    // There must a title for the image
+    static guestbookRecordIsUploaded()
+    {
+        var ret_str = '';
+
+        ret_str = ret_str + 'Vielen Dank!' + '\n';
+
+        ret_str = ret_str + 'Bild und Texte sind aufgeladen' + '\n';
+
+        return  ret_str;
+
+    } // guestbookRecordIsUploaded
 
 } // GuestStr
