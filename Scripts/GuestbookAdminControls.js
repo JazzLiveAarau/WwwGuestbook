@@ -126,13 +126,13 @@ function createRecordDatePickerControl()
 {
     g_record_date_text_box = new JazzDatePicker('id_admin_date', 'id_div_admin_date');
 
-    g_record_date_text_box.setLabelText("Datum");
+    g_record_date_text_box.setLabelText(GuestStr.labelTextBoxDate());
 
     g_record_date_text_box.setSize("7");
 
     g_record_date_text_box.setLabelTextPositionAbove();
 
-    g_record_date_text_box.setTitle("TODO Beschreibung Datum");
+    g_record_date_text_box.setTitle(GuestStr.titleTextBoxDate());
 
     g_record_date_text_box.setOnchangeFunctionName("eventUserSelectedRecordDate");
 
@@ -147,11 +147,11 @@ function createAdminConfirmButton()
 
     g_admin_confirm_button.setOnclickFunctionName("onClickOfAdminConfirmButton");
 
-    g_admin_confirm_button.setCaption("Bestätigen");
+    g_admin_confirm_button.setCaption(GuestStr.captionButtonConfirm());
 
     g_admin_confirm_button.setLabelText("");
 
-    g_admin_confirm_button.setTitle("Bild zum Server aufladen");
+    g_admin_confirm_button.setTitle(GuestStr.titleButtonConfirm());
 
 } // createAdminConfirmButton
 
@@ -162,11 +162,11 @@ function createAdminDownloadButton()
 
     g_admin_download_button.setOnclickFunctionName("onClickOfAdminDownloadButton");
 
-    g_admin_download_button.setCaption("Download");
+    g_admin_download_button.setCaption(GuestStr.captionButtonDownload());
 
     g_admin_download_button.setLabelText("");
 
-    g_admin_download_button.setTitle("Bild vom Server herunterladen");
+    g_admin_download_button.setTitle(GuestStr.titleButtonDownload());
 
 } // createAdminDownloadButton
 
@@ -177,11 +177,11 @@ function createAdminDeleteButton()
 
     g_admin_delete_button.setOnclickFunctionName("onClickOfAdminDeleteButton");
 
-    g_admin_delete_button.setCaption("Löschen");
+    g_admin_delete_button.setCaption(GuestStr.captionButtonDelete());
 
     g_admin_delete_button.setLabelText("");
 
-    g_admin_delete_button.setTitle("Eintrag löschen");
+    g_admin_delete_button.setTitle(GuestStr.titleButtonDelete());
 
 } // createAdminDeleteButton
 
@@ -192,11 +192,11 @@ function createAdminSaveButton()
 
     g_admin_save_button.setOnclickFunctionName("onClickOfAdminSaveButton");
 
-    g_admin_save_button.setCaption("Speichern");
+    g_admin_save_button.setCaption(GuestStr.captionAdminButtonSave());
 
     g_admin_save_button.setLabelText("");
 
-    g_admin_save_button.setTitle("Eintrag speichern");
+    g_admin_save_button.setTitle(GuestStr.titleAdminButtonSave());
 
 } // createAdminSaveButton
 
@@ -215,13 +215,13 @@ function createAdminGuestDropdown()
 
     g_guest_drop_down.setOnchangeFunctionName("eventSelectAdminGuestDropDown");
 
-    g_guest_drop_down.setLabelText("Eintrag wählen");
+    g_guest_drop_down.setLabelText(GuestStr.labelDropdownGuest());
 
     g_guest_drop_down.setLabelTextPositionAbove();
 
-    g_guest_drop_down.setTitle("Eintrag zum Editieren wählen");
+    g_guest_drop_down.setTitle(GuestStr.titleDropdownGuest());
 
-    g_guest_drop_down.setAppendString("Neues Bild zufügen");
+    g_guest_drop_down.setAppendString(GuestStr.appendDropdownGuest());
 
 } // createAdminGuestDropdown
 
@@ -232,17 +232,17 @@ function createAdminConcertDropdown()
 
     var concert_array = g_season_xml.getBandNameArray();
 
-    g_concert_drop_down.setAppendString('Kein Konzert');
+    g_concert_drop_down.setAppendString(GuestStr.appendDropdownConcert());
 
     g_concert_drop_down.setNameArray(concert_array);
 
     g_concert_drop_down.setOnchangeFunctionName("eventSelectAdminConcertDropDown");
 
-    g_concert_drop_down.setLabelText("Wenn Eintrag für ein bestimmtes Konzert ist, bitte Konzert wählen. <br>");
+    g_concert_drop_down.setLabelText(GuestStr.labelDropdownConcert());
 
     g_concert_drop_down.setLabelTextPositionAbove();
 
-    g_concert_drop_down.setTitle("Wenn Eintrag für ein bestimmtes Konzert ist, bitte Konzert wählen");
+    g_concert_drop_down.setTitle(GuestStr.titleDropdownConcert());
 
     g_concert_drop_down.setSelectOptionNumber(concert_array.length + 1);
 
@@ -256,11 +256,11 @@ function createCheckBoxNewRecords()
 
     g_new_records_check_box.setOninputFunctionName("eventClickCheckBoxNewRecords");
 
-    g_new_records_check_box.setLabelText("Aufgeladene");
+    g_new_records_check_box.setLabelText(GuestStr.labelCheckBoxNewRecords());
 	
 	g_new_records_check_box.setLabelTextPositionRight();
 
-     g_new_records_check_box.setTitle("Alle existierende oder neue vom Publikum aufgeladene");
+     g_new_records_check_box.setTitle(GuestStr.titleCheckBoxNewRecords());
 
      g_new_records_check_box.setCheck("TRUE");
 
@@ -273,11 +273,11 @@ function createCheckBoxAdminPublish()
 
     g_admin_publish_check_box.setOninputFunctionName("eventClickCheckBoxAdminPublish");
 
-    g_admin_publish_check_box.setLabelText("Publiziere ");
+    g_admin_publish_check_box.setLabelText(GuestStr.labelCheckBoxPublish());
 	
 	g_admin_publish_check_box.setLabelTextPositionLeft();
 
-     g_admin_publish_check_box.setTitle("Wähle ob Eintrag publiziert werden soll");
+     g_admin_publish_check_box.setTitle(GuestStr.titleCheckBoxPublish());
 
      g_admin_publish_check_box.setCheck("TRUE");
 
@@ -322,7 +322,7 @@ function createTextBoxAdminRemark()
 {
     g_admin_remark_text_box = new JazzTextBox("id_admin_remark", 'id_div_admin_remark');
 
-    g_admin_remark_text_box.setLabelText("Bemerkung");
+    g_admin_remark_text_box.setLabelText(GuestStr.labelTextBoxRemark());
 
     g_admin_remark_text_box.setLabelTextPositionAbove();
 
@@ -330,7 +330,7 @@ function createTextBoxAdminRemark()
 
     g_admin_remark_text_box.setReadOnlyFlag(false);
 
-    g_admin_remark_text_box.setTitle("Eine Bemerkung wird nicht publiziert.");
+    g_admin_remark_text_box.setTitle(GuestStr.titleTextBoxRemark());
 
 } // createTextBoxAdminRemark
 
@@ -339,7 +339,7 @@ function createTextBoxAdminStatus()
 {
     g_admin_status_text_box = new JazzTextBox("id_admin_status", 'id_div_admin_status');
 
-    g_admin_status_text_box.setLabelText("Status");
+    g_admin_status_text_box.setLabelText(GuestStr.labelTextBoxStatus());
 
     g_admin_status_text_box.setLabelTextPositionAbove();
 
@@ -347,7 +347,7 @@ function createTextBoxAdminStatus()
 
     g_admin_status_text_box.setReadOnlyFlag(true);
 
-    g_admin_status_text_box.setTitle("Status. Dieser Text kann nicht direkt geändert werden.");
+    g_admin_status_text_box.setTitle(GuestStr.titleTextBoxStatus());
 
 } // createTextBoxAdminStatus
 

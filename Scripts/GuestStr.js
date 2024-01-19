@@ -192,6 +192,63 @@ class GuestStr
 
     } // titleButtonSave
 
+    // Caption for the admin button save
+    static captionAdminButtonSave()
+    {
+        return 'Speichern';
+
+    } // captionAdminButtonSave
+
+    // Title (tooltip) for theadmin button save
+    static titleAdminButtonSave()
+    {
+        return 'Daten auflauden und speichern';
+
+    } // titleAdminButtonSave
+
+
+    // Caption for the button confirm
+    static captionButtonConfirm()
+    {
+        return 'Bestätigung Bild ersetzen';
+
+    } // captionButtonConfirm
+
+    // Title (tooltip) for the button confirm
+    static titleButtonConfirm()
+    {
+        return 'Bestätigung, das Bild ersetzt werden soll';
+
+    } // titleButtonConfirm
+
+    // Caption for the button download
+    static captionButtonDownload()
+    {
+        return 'Bild herunterladen';
+
+    } // captionButtonDownload
+
+    // Title (tooltip) for the button download
+    static titleButtonDownload()
+    {
+        return 'Bild zum Editieren vom Server herunterladen';
+
+    } // titleButtonDownload
+
+    // Caption for the button delete
+    static captionButtonDelete()
+    {
+        return 'Löschen';
+
+    } // captionButtonDelete
+
+    // Title (tooltip) for the button delete
+    static titleButtonDelete()
+    {
+        return 'Guestbuch-Eintrag kann gelöscht werden. Normal wird aber nicht publizieren Flagge verwendet';
+
+    } // titleButtonDelete
+
     // Label for the textbox title
     static labelTextBoxTitle()
     {
@@ -205,6 +262,34 @@ class GuestStr
         return 'Kurzer Bildtext';
 
     } // titleTextBoxTitle
+
+    // Append text for the guest record dropdown
+    static appendDropdownGuest()
+    {
+        return 'Neues Bild zufügen';
+
+    } // appendDropdownGuest
+
+    // Label for the guest record dropdown
+    static labelDropdownGuest()
+    {
+        return 'Eintrag wählen';
+
+    } // labelDropdownGuest
+
+    // Title (tooltip) for the guest record dropdown
+    static titleDropdownGuest()
+    {
+        return 'Eintrag zum Editieren wählen';
+
+    } // titleDropdownGuest
+
+    // Append text for the concert dropdown
+    static appendDropdownConcert()
+    {
+        return 'Kein Konzert';
+
+    } // appendDropdownConcert
 
     // Label for the concert dropdown
     static labelDropdownConcert()
@@ -251,10 +336,66 @@ class GuestStr
     // Title (tooltip) for the textbox remark
     static titleTextBoxRemark()
     {
-        return 'Bemerkung';
+        return 'Eine Bemerkung wird nicht publiziert';
 
     } // titleTextBoxRemark
 
+    // Label for the textbox status
+    static labelTextBoxStatus()
+    {
+        return 'Status';
+
+    } // labelTextBoxStatus
+
+    // Title (tooltip) for the textbox status
+    static titleTextBoxStatus()
+    {
+        return 'Status. Dieser Text kann nicht direkt geändert werden';
+
+    } // titleTextBoxStatus
+
+    // Label for the textbox date
+    static labelTextBoxDate()
+    {
+        return 'Datum';
+
+    } // labelTextBoxDate
+
+    // Title (tooltip) for the textbox date
+    static titleTextBoxDate()
+    {
+        return 'Datum für ein Konzert oder Datum als Bild zugefügt war';
+
+    } // titleTextBoxDate
+
+    // Label for the checkbox publish
+    static labelCheckBoxPublish()
+    {
+        return 'Publizieren ';
+
+    } // labelCheckBoxPublish
+
+    // Title (tooltip) for the checkbox publish
+    static titleCheckBoxPublish()
+    {
+        return 'Wähle ob Eintrag publiziert werden soll. Nicht publizierte werden auf der Homepage nicht gezeigt';
+
+    } // titleCheckBoxPublish
+
+    // Label for the checkbox new records
+    static labelCheckBoxNewRecords()
+    {
+        return 'Aufgeladene ';
+
+    } // labelCheckBoxNewRecords
+
+    // Title (tooltip) for the checkbox new records
+    static titleCheckBoxNewRecords()
+    {
+        return 'Alle existierende (registrierte) oder neue vom Publikum aufgeladene';
+
+    } // titleCheckBoxNewRecords
+	
     // Upload code has been inputted and is valid and the user has changed the email address
     // This warning tells the user that a new code must requested for the new email 
     static emailChangedNewCodeRequired()
