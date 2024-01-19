@@ -297,6 +297,8 @@ function setAdminTextBoxes()
 
     g_admin_filename_text_box.setValue(g_record_active_guest.getFileName());
 
+    g_admin_remark_text_box.setValue(g_record_active_guest.getRemark());
+
     g_admin_status_text_box.setValue(g_record_active_guest.getStatus());
 
     g_admin_band_text_box.setValue(g_record_active_guest.getBand());

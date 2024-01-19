@@ -22,6 +22,9 @@ var g_admin_filename_text_box = null;
 // Admin status
 var g_admin_status_text_box = null;
 
+// Admin remark
+var g_admin_remark_text_box = null;
+
 // Admin band
 var g_admin_band_text_box = null;
 
@@ -99,6 +102,8 @@ function createAdminControls()
     // createTextBoxAdminNumber();
 
     createTextBoxFileName();
+
+    createTextBoxAdminRemark();
 
     createTextBoxAdminStatus();
 
@@ -312,6 +317,23 @@ function createTextBoxFileName()
 
 } // createTextBoxFileName
 
+// Create the admin remark text box
+function createTextBoxAdminRemark()
+{
+    g_admin_remark_text_box = new JazzTextBox("id_admin_remark", 'id_div_admin_remark');
+
+    g_admin_remark_text_box.setLabelText("Bemerkung");
+
+    g_admin_remark_text_box.setLabelTextPositionAbove();
+
+    g_admin_remark_text_box.setSize("65");
+
+    g_admin_remark_text_box.setReadOnlyFlag(false);
+
+    g_admin_remark_text_box.setTitle("Eine Bemerkung wird nicht publiziert.");
+
+} // createTextBoxAdminRemark
+
 // Create the admin status text box
 function createTextBoxAdminStatus()
 {
@@ -423,7 +445,7 @@ function createTextBoxAdminEmail()
 
     g_admin_email_text_box.setLabelTextPositionAbove();
 
-    g_admin_email_text_box.setSize("28");
+    g_admin_email_text_box.setSize("30");
 
     g_admin_email_text_box.setReadOnlyFlag(false);
 

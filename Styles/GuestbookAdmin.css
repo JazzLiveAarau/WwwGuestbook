@@ -19,7 +19,7 @@ Defines all style classe for the application guestbook admin
     width: 500px;
     margin-top: 20px;
     margin-left: 20px;
-    height: 730px;
+    height: 780px;
 }
 
 /* For all <label> elements */
@@ -50,7 +50,7 @@ label
 /* The group <div> for the dropdown guest record and guest record number */
 .cl_div_admin_dropdown_number
 {
-    border: solid 1px black;
+    /* border: solid 1px black; */
     margin-top: 10px;
     margin-left: 10px;
     overflow: hidden;   
@@ -59,7 +59,7 @@ label
 
 .cl_div_admin_dropdown
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     padding: 2px;
     width: 70%;
     float: left;
@@ -79,7 +79,7 @@ button
 
 .cl_div_admin_checkbox_new
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     width: 25%;
     float: left;
 }
@@ -94,7 +94,7 @@ button
 }
 .cl_div_admin_image_row
 {
-    border: solid 1px black;
+    /* border: solid 1px black; */
     margin-top: 10px;
     margin-left: 10px;
     overflow: hidden;   
@@ -103,7 +103,7 @@ button
 
 .cl_div_admin_image_row_left
 {
-    border: solid 1px green;
+    /* border: solid 1px green; */
     padding: 2px;
     padding: 2px;
     float: left;
@@ -118,7 +118,7 @@ button
 
 .cl_div_admin_image_container
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     height: 200px;
     width: 95%;
     clear: both;
@@ -126,7 +126,7 @@ button
 
 .cl_div_admin_image_row_right
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     padding: 2px;
     float: left;
     width: 37%;   
@@ -143,7 +143,7 @@ button
 
 .cl_div_admin_confirm_button
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     text-align: center;
     width: 98%;
     clear: both;   
@@ -168,7 +168,9 @@ button
     width: 95%; 
 }
 
+
 /* Hide the input button and use <label> as button */
+/*QQQ
 input[type=file]
 {
     width: 0;
@@ -178,6 +180,7 @@ input[type=file]
     overflow: hidden;
     opacity: 0;
 }
+QQQ*/
 
 /* The <label> element that is used as a button for the hidden input button  */
 /* QQQQ
@@ -191,23 +194,28 @@ QQQQ*/
 
 .cl_div_admin_remark
 {
-    border: solid 1px yellow;
+   /* border: solid 1px yellow; */
+    margin-top: 5px;
+    margin-left: 8px;
     width: 95%;
     clear: both;       
 }
 
 .cl_div_admin_status
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
+    margin-top: 5px;
+    margin-left: 8px;
     width: 95%;
     clear: both;       
 }
 
 .cl_div_admin_band_date  
 {
-    border: solid 1px blue;
-    width: 95%;
+    /* border: solid 1px blue; */
+    width: 98%;
     padding-left: 10px;
+    margin-top: 5px;
     font-size: 12px;
     overflow: hidden;  
     clear: both;       
@@ -215,91 +223,104 @@ QQQQ*/
 
 .cl_div_admin_dropdown_concert
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     width: 70%;
     float: left;;    
 }
 
 .cl_div_admin_date
 {
-    border: solid 1px yellow;
+   /* border: solid 1px yellow; */
+    margin-right: 25px;
     width: 15%;
     float: right;;       
 }
 
 .cl_div_admin_band
 {
-    border: solid 1px yellow;
+   /* border: solid 1px yellow; */
+    margin-top: 5px;
+    margin-left: 8px;
     width: 95%;
     clear: both;        
 }
 
 .cl_div_admin_musicians
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
+    margin-top: 5px;
+    margin-left: 8px;
     width: 95%;
     clear: both;        
 }
 
 .cl_div_admin_header
 {
-    border: solid 1px yellow;
+   /* border: solid 1px yellow; */
+    margin-top: 5px;
+    margin-left: 8px;
     width: 95%;
     clear: both;        
 }
 
 .cl_div_admin_text
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
+    margin-top: 5px;
+    margin-left: 8px;
     width: 95%;
     clear: both;        
 }
 
 .cl_div_admin_names_email
 {
-    border: solid 1px blue;
+   /* border: solid 1px blue; */
+    margin-top: 5px;
+    margin-left: 8px;
     overflow: hidden;   
     clear: both;   
 }
 
 .cl_div_admin_names
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     width: 48%;
     float: left;     
 }
 
 .cl_div_admin_email
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     width: 48%;
     float: left;     
 }
 
 .cl_div_admin_bottom_row
 {
-    border: solid 1px blue;
+    /* border: solid 1px blue; */
+    margin-top: 10px;
+    margin-left: 8px;
     overflow: hidden;   
     clear: both;   
 }
 
 .cl_div_admin_publish
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     width: 32%;
     float: left;     
 }
 
 .cl_div_admin_delete
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     width: 32%;
     float: left;     
 }
 
 .cl_div_admin_save
 {
-    border: solid 1px yellow;
+    /* border: solid 1px yellow; */
     width: 32%;
     float: left;     
 }
