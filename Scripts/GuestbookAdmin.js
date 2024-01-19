@@ -307,7 +307,7 @@ function setAdminTextBoxes()
 
     g_admin_header_text_box.setValue(g_record_active_guest.getHeader());
 
-    g_admin_text_text_box.setValue(g_record_active_guest.getText());
+    g_admin_text_textarea.setValue(g_record_active_guest.getText());
 
     g_admin_names_text_box.setValue(g_record_active_guest.getNames());
 

@@ -19,7 +19,7 @@ Defines all style classe for the application guestbook admin
     width: 500px;
     margin-top: 20px;
     margin-left: 20px;
-    height: 780px;
+    height: 810px;
 }
 
 /* For all <label> elements */
@@ -167,30 +167,6 @@ button
 {
     width: 95%; 
 }
-
-
-/* Hide the input button and use <label> as button */
-/*QQQ
-input[type=file]
-{
-    width: 0;
-    height: 0;
-    z-index: -1;
-    position: absolute;
-    overflow: hidden;
-    opacity: 0;
-}
-QQQ*/
-
-/* The <label> element that is used as a button for the hidden input button  */
-/* QQQQ
-.cl_div_admin_replace_img_container label
-{
-    cursor: pointer;
-    font-style: italic;
-    font-weight: bold;
-}
-QQQQ*/
 
 .cl_div_admin_remark
 {

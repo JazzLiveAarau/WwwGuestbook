@@ -34,8 +34,8 @@ var g_admin_musicians_text_box = null;
 // Admin header
 var g_admin_header_text_box = null;
 
-// Admin text
-var g_admin_text_text_box = null;
+// Admin textarea for text
+var g_admin_text_textarea = null;
 
 // Admin names
 var g_admin_names_text_box = null;
@@ -113,7 +113,7 @@ function createAdminControls()
 
     createTextBoxAdminHeader();
 
-    createTextBoxAdminText();
+    createTextTextArea();
 
     createTextBoxAdminNames();
 
@@ -402,22 +402,22 @@ function createTextBoxAdminHeader()
 
 } // createTextBoxAdminHeader
 
-// Create the admin text text box
-function createTextBoxAdminText()
+// Creates the admin textarea for the guest text
+function createTextTextArea()
 {
-    g_admin_text_text_box = new JazzTextBox("id_admin_text", 'id_div_admin_text');
+    g_admin_text_textarea = new JazzTextArea("id_admin_text", "id_div_admin_text", "3", "61");
 
-    g_admin_text_text_box.setLabelText("Text");
+    g_admin_text_textarea.setLabelText(GuestStr.labelTextAreaText());
 
-    g_admin_text_text_box.setLabelTextPositionAbove();
+    g_admin_text_textarea.setLabelTextPositionAbove();
 
-    g_admin_text_text_box.setSize("65");
+    g_admin_text_textarea.setValue("");
 
-    g_admin_text_text_box.setReadOnlyFlag(false);
+    g_admin_text_textarea.setReadOnlyFlag(false);
 
-    g_admin_text_text_box.setTitle("Text");
+    g_admin_text_textarea.setTitle(GuestStr.titleTextAreaText());
 
-} // createTextBoxAdminText
+} // createTextTextArea
 
 // Create the admin names text box
 function createTextBoxAdminNames()
