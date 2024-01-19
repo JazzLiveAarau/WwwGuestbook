@@ -1,11 +1,11 @@
-// File: GuestbookLoadXml.js
-// Date: 2024-01-12
+// File: GuestbookCommon..js
+// Date: 2024-01-19
 // Author: Gunnar Lidén
 
 // Inhalt
 // =============
 //
-// Main functions for the application guestbook admin
+// Common functions for the application guestbook admin and upload
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Global Parameters /////////////////////////////////////////
