@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-01-12
+// Date: 2024-01-19
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -155,7 +155,7 @@ function callbackAllXmlObjectsCreatedForAdmin()
         g_record_active_uploaded_number = 0;
     }
 
-    addEventListenerForInputFileElement();
+    //QQQ addEventListenerForInputFileElement();
 
     createAdminControls();
 
@@ -165,6 +165,7 @@ function callbackAllXmlObjectsCreatedForAdmin()
 
 } // callbackAllXmlObjectsCreated
 
+/*QQQQQ
 // Adds an event listener for the inout file element
 function addEventListenerForInputFileElement()
 {
@@ -173,7 +174,7 @@ function addEventListenerForInputFileElement()
     input_file_el.addEventListener("change", userSelectedFiles);
 
 } // addEventListenerForInputFileElement
-
+QQQQ*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Main Functions //////////////////////////////////////////////
@@ -296,7 +297,7 @@ function setAdminTextBoxes()
 
     g_admin_filename_text_box.setValue(g_record_active_guest.getFileName());
 
-    // TODO g_admin_status_text_box.setValue(g_record_active_guest.getStatus());
+    g_admin_status_text_box.setValue(g_record_active_guest.getStatus());
 
     g_admin_band_text_box.setValue(g_record_active_guest.getBand());
 
@@ -452,14 +453,14 @@ function eventUserSelectedRecordDate()
 
 } // eventUserSelectedRecordDate
 
-// User clicked the upload button // TODO Not used at the moment
-function onClickOfAdminUploadButton()
+// User clicked the confirm button 
+function onClickOfAdminConfirmButton()
 {
-    // alert("User clicked the upload button");
+    // alert("User clicked the confirm button");
 
     uploadImageToServer();
 
-} // onClickOfAdminUploadButton
+} // onClickOfAdminConfirmButton
 
 // User clicked the download button
 function onClickOfAdminDownloadButton() // TODO Not used at the moment

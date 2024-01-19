@@ -1,5 +1,5 @@
 // File: GuestbookAdminElements.js
-// Date: 2023-12-19
+// Date: 2024-01-19
 // Author: Gunnar Liden
 
 // File content
@@ -42,6 +42,7 @@ function getIdDivImageContainer()
 
 } // getIdDivImageContainer
 
+/*QQQQ
 // Returns the element input type file
 function getElementInputFile()
 {
@@ -55,3 +56,4 @@ function getIdInputFile()
     return 'id_fileupload';
 
 } // getIdInputFile
+QQQ*/

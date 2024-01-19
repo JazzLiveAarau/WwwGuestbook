@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2023-12-15
+File: GuestbookAdmin.css Date: 2024-01-19
 
 Author: Gunnar Liden
 
@@ -19,7 +19,7 @@ Defines all style classe for the application guestbook admin
     width: 500px;
     margin-top: 20px;
     margin-left: 20px;
-    height: 670px;
+    height: 730px;
 }
 
 /* For all <label> elements */
@@ -77,7 +77,7 @@ button
     cursor: pointer;
 }
 
-.m_div_admin_checkbox_new
+.cl_div_admin_checkbox_new
 {
     border: solid 1px yellow;
     width: 25%;
@@ -129,33 +129,44 @@ button
     border: solid 1px yellow;
     padding: 2px;
     float: left;
-    width: 35%;   
+    width: 37%;   
 }
 
-.cl_div_admin_upload_download
+.cl_div_admin_replace_img_container
 {
     border: solid 1px blue;
     overflow: hidden;   
+    min-height: 220px;
     text-align: center;
     clear: both;    
 }
 
-
-.cl_div_admin_upload
+.cl_div_admin_confirm_button
 {
     border: solid 1px yellow;
-    width: 90%;
+    text-align: center;
+    width: 98%;
     clear: both;   
-    visibility: hidden;
+}
+
+.cl_div_admin_confirm_button button
+{
+    width: 95%;
 }
 
 .cl_div_admin_download
 {
-    border: solid 1px yellow;
-    width: 48%;
+    /* border: solid 1px blue; */
+    width: 90%;
+    margin-left: 8px;
+    text-align: center;
     clear: both;   
 }
 
+.cl_div_admin_download button
+{
+    width: 95%; 
+}
 
 /* Hide the input button and use <label> as button */
 input[type=file]
@@ -169,14 +180,23 @@ input[type=file]
 }
 
 /* The <label> element that is used as a button for the hidden input button  */
-.cl_div_admin_upload_download label
+/* QQQQ
+.cl_div_admin_replace_img_container label
 {
     cursor: pointer;
     font-style: italic;
     font-weight: bold;
 }
+QQQQ*/
 
-.m_div_admin_status
+.cl_div_admin_remark
+{
+    border: solid 1px yellow;
+    width: 95%;
+    clear: both;       
+}
+
+.cl_div_admin_status
 {
     border: solid 1px yellow;
     width: 95%;
@@ -193,91 +213,91 @@ input[type=file]
     clear: both;       
 }
 
-.m_div_admin_dropdown_concert
+.cl_div_admin_dropdown_concert
 {
     border: solid 1px yellow;
     width: 70%;
     float: left;;    
 }
 
-.m_div_admin_date
+.cl_div_admin_date
 {
     border: solid 1px yellow;
     width: 15%;
     float: right;;       
 }
 
-.m_div_admin_band
+.cl_div_admin_band
 {
     border: solid 1px yellow;
     width: 95%;
     clear: both;        
 }
 
-.m_div_admin_musicians
+.cl_div_admin_musicians
 {
     border: solid 1px yellow;
     width: 95%;
     clear: both;        
 }
 
-.m_div_admin_header
+.cl_div_admin_header
 {
     border: solid 1px yellow;
     width: 95%;
     clear: both;        
 }
 
-.m_div_admin_text
+.cl_div_admin_text
 {
     border: solid 1px yellow;
     width: 95%;
     clear: both;        
 }
 
-.m_div_admin_names_email
+.cl_div_admin_names_email
 {
     border: solid 1px blue;
     overflow: hidden;   
     clear: both;   
 }
 
-.m_div_admin_names
+.cl_div_admin_names
 {
     border: solid 1px yellow;
     width: 48%;
     float: left;     
 }
 
-.m_div_admin_email
+.cl_div_admin_email
 {
     border: solid 1px yellow;
     width: 48%;
     float: left;     
 }
 
-.m_div_admin_bottom_row
+.cl_div_admin_bottom_row
 {
     border: solid 1px blue;
     overflow: hidden;   
     clear: both;   
 }
 
-.m_div_admin_publish
+.cl_div_admin_publish
 {
     border: solid 1px yellow;
     width: 32%;
     float: left;     
 }
 
-.m_div_admin_delete
+.cl_div_admin_delete
 {
     border: solid 1px yellow;
     width: 32%;
     float: left;     
 }
 
-.m_div_admin_save
+.cl_div_admin_save
 {
     border: solid 1px yellow;
     width: 32%;

@@ -556,6 +556,7 @@ class JazzUploadImage
 ///////////////////////// Start Event Functions ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+/*QQQQ
 // User selected files with the input element, type file
 async function userSelectedFiles()
 {
@@ -598,6 +599,7 @@ async function userSelectedFiles()
     //TODO uploadImageToServer(compressed_file);
 
 } // userSelectedFiles
+
 
 // Get a compressed image if bigger as the input maximum size in Megabyte
 async function getCompressedImageFile(i_max_size_mb)
@@ -645,7 +647,7 @@ async function getCompressedImageFile(i_max_size_mb)
     return compressed_file;
 
 } // getCompressedImageFile
-
+QQQ*/
 /*QQQQQ
 // Returns true if the input file is of type image
 // Type of image is for instance 'image/jpeg'
@@ -743,6 +745,7 @@ async function uploadImageToServer(i_image_file)
 
 } // uploadFile
 
+/*QQQQQQ
 // Send image to the server
 function sendImageToServer()
 {
@@ -761,6 +764,7 @@ function sendImageToServer()
 
 
 } // sendImageToServer
+QQQQ*/
 
 const compressImage = async (file, { quality = 1, type = file.type }) => {
     // Get as image data

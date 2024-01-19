@@ -1,5 +1,5 @@
 // File: GuestbookAdminControls.js
-// Date: 2023-12-19
+// Date: 2024-01-19
 // Authors: Gunnar Lidén
 
 // Content
@@ -52,8 +52,8 @@ var g_new_records_check_box = null;
 // The admin publish check box
 var g_admin_publish_check_box = null;
 
-// The admin upload button
-var g_admin_upload_button = null;
+// The admin confirm button
+var g_admin_confirm_button = null;
 
 // The admin download button
 var g_admin_download_button = null;
@@ -80,7 +80,7 @@ function createAdminControls()
 {
     createRecordDatePickerControl();
 
-    createAdminUploadButton();
+    createAdminConfirmButton();
 
     createAdminDownloadButton();
 
@@ -100,7 +100,7 @@ function createAdminControls()
 
     createTextBoxFileName();
 
-    //TODO createTextBoxAdminStatus();
+    createTextBoxAdminStatus();
 
     createTextBoxAdminBand();
 
@@ -136,19 +136,19 @@ function createRecordDatePickerControl()
 } // createRecordDatePickerControl
 
 // Creates the admin upload button
-function createAdminUploadButton()
+function createAdminConfirmButton()
 {
-    g_admin_upload_button = new JazzButton('id_admin_upload', 'id_div_admin_upload');
+    g_admin_confirm_button = new JazzButton('id_admin_confirm_button', 'id_div_admin_confirm_button');
 
-    g_admin_upload_button.setOnclickFunctionName("onClickOfAdminUploadButton");
+    g_admin_confirm_button.setOnclickFunctionName("onClickOfAdminConfirmButton");
 
-    g_admin_upload_button.setCaption("Upload");
+    g_admin_confirm_button.setCaption("Bestätigen");
 
-    g_admin_upload_button.setLabelText("");
+    g_admin_confirm_button.setLabelText("");
 
-    g_admin_upload_button.setTitle("Bild zum Server aufladen");
+    g_admin_confirm_button.setTitle("Bild zum Server aufladen");
 
-} // createAdminUploadButton
+} // createAdminConfirmButton
 
 // Creates the admin download button
 function createAdminDownloadButton()
