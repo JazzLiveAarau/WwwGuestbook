@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-01-19
+// Date: 2024-01-20
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -133,14 +133,6 @@ function callbackLoginIfPossible(i_logged_in_name, i_b_user_has_logged_in)
 
 } // callbackLoginIfPossible
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// End Main Functions //////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// Start Main Functions ////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
 // All XML objects have been created
 function callbackAllXmlObjectsCreatedForAdmin()
 {
@@ -155,8 +147,6 @@ function callbackAllXmlObjectsCreatedForAdmin()
         g_record_active_uploaded_number = 0;
     }
 
-    //QQQ addEventListenerForInputFileElement();
-
     createAdminControls();
 
     initAdminControls();
@@ -165,16 +155,6 @@ function callbackAllXmlObjectsCreatedForAdmin()
 
 } // callbackAllXmlObjectsCreated
 
-/*QQQQQ
-// Adds an event listener for the inout file element
-function addEventListenerForInputFileElement()
-{
-    var input_file_el = getElementInputFile();
-
-    input_file_el.addEventListener("change", userSelectedFiles);
-
-} // addEventListenerForInputFileElement
-QQQQ*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Main Functions //////////////////////////////////////////////
@@ -481,7 +461,11 @@ function onClickOfAdminDeleteButton()
 // User clicked the save button
 function onClickOfAdminSaveButton()
 {
-    alert("User clicked the save button");
+    //QQ alert("User clicked the save button");
+
+    debugGuestbookAdmin("User clicked the save button");
+
+    saveAdminActiveRecordToHomepageXml();
 
 } // onClickOfAdminSaveButton
 
@@ -494,6 +478,120 @@ function eventClickCheckBoxAdminPublish()
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Event Functions /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Save Functions ////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Save admin active record to homepage XML, i.e. JazzGuests.xml
+function saveAdminActiveRecordToHomepageXml()
+{
+    debugGuestbookAdmin("Enter saveAdminActiveRecordToHomepageXml");
+    debugGuestbookAdmin("g_record_active_number= " + g_record_active_number.toString());
+    debugGuestbookAdmin("g_record_active_uploaded_number= " + g_record_active_uploaded_number.toString());
+
+    var error_msg = '';
+
+    var b_update_xm_is_active = updatedXmlIsActive();
+
+    if (b_update_xm_is_active)
+    {
+        debugGuestbookAdmin("Guest record status= " + g_active_xml.getGuestStatus(g_record_active_uploaded_number));
+    }
+    else
+    {
+        debugGuestbookAdmin("Guest record status= " + g_active_xml.getGuestStatus(g_record_active_number));
+    }
+
+    if (b_update_xm_is_active && g_active_xml.isGuestStatusPendingRecordInUpdate(g_record_active_uploaded_number))
+    {
+        debugGuestbookAdmin("Administrator has checked the user uploaded record. Get data from JazzGuestsUploaded.xml and store in JazzGuests.xml");
+
+        if (!appendUserUploadedRecordChangeBothStatus())
+        {
+            return;
+        }
+
+    }
+    else if (!b_update_xm_is_active && g_active_xml.isGuestStatusUploadedByGuestToHomepage(g_record_active_number))
+    {
+        debugGuestbookAdmin("User uploaded directly and administrator has checked/changed the record. Update data in JazzGuests.xml and change status in JazzGuestsUploaded.xml");
+
+    }
+    else if (!b_update_xm_is_active && g_active_xml.isGuestStatusUploadedByGuestToHomepage(g_record_active_number))
+    {
+        debugGuestbookAdmin("Adminstrator uploaded to homepage and administrator has changed the record. Update data in JazzGuests.xml");
+
+    }
+    else if (b_update_xm_is_active && g_active_xml.isGuestStatusUploadedByGuestToHomepage(g_record_active_uploaded_number))
+    {
+        error_msg = 'saveAdminActiveRecordToHomepageXml Error: Not a valid case: Upload XML is active and status is uploaded by guest to homepage';
+
+        debugGuestbookAdmin(error_msg);
+
+        alert(error_msg);
+
+        return;
+    }
+    else if (b_update_xm_is_active && g_active_xml.isGuestStatusAddedOrCheckedByAdmin(g_record_active_uploaded_number) )
+    {
+        error_msg = 'saveAdminActiveRecordToHomepageXml Error: Not a valid case: Upload XML is active and status is administror has checked the record';
+
+        debugGuestbookAdmin(error_msg);
+
+        alert(error_msg);
+
+        return;
+    }
+    else if (!b_update_xm_is_active && g_active_xml.isGuestStatusPendingRecordInUpdate(g_record_active_number))
+    {
+        error_msg = 'saveAdminActiveRecordToHomepageXml Error: Not a valid case: Homepage XML is active and status is pending XML record';
+
+        debugGuestbookAdmin(error_msg);
+
+        alert(error_msg);
+
+        return;
+    }
+    else
+    {
+        error_msg = 'saveAdminActiveRecordToHomepageXml Error: Not an implemented case';
+
+        debugGuestbookAdmin(error_msg);
+        
+        alert(error_msg);
+
+        return;
+    }
+
+} // saveAdminActiveRecordToHomepageXml
+
+
+// Returns true if active XML is JazzGuestsUploaded.xml
+function updatedXmlIsActive()
+{
+    var xml_file_name = g_active_xml.getXmlJazzGuestsFileName();
+
+    var index_update = xml_file_name.indexOf('JazzGuestsUpload');
+
+    if (index_update >= 0)
+    {
+        debugGuestbookAdmin("Active XML is JazzGuestsUploaded.xml"); 
+
+        return true;
+    }
+    else
+    {
+        debugGuestbookAdmin("Active XML is JazzGuests.xml"); 
+
+        return false;
+    }
+
+} // updatedXmlIsActive
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Save Functions //////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -532,14 +630,6 @@ function getIdDivElementAdminContent()
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Hide Display Functions //////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// Start Event Functions ///////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// End Event Functions /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////

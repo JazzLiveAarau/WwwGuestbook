@@ -26,9 +26,134 @@ var g_application_xml = null;
 // Flag telling if loading is for Guestbook Upload or Admin
 var g_load_for_guestbook_admin = null;
 
+
+var g_guestbook_homepage_url = 'https://jazzliveaarau.ch/';
+
+var g_guestbook_xml_dir = g_guestbook_homepage_url + 'XML/';
+
+var g_guestbook_upload_xml_dir = g_guestbook_homepage_url + 'JazzGuests/Uploaded/';
+
+var g_guestbook_backups_xml_dir = g_guestbook_homepage_url + 'JazzGuests/Backups/';
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Save Functions ////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Case: Append guestbook record to JazzGuests.xml that have been uploaded by the user to JazzGuestsUploaded.xml
+function appendUserUploadedRecordChangeBothStatus()
+{
+    debugGuestbookCommon('Enter appendUserUploadedRecordChangeBothStatus');
+
+    if (!backupJazzGuestsXml())
+    {
+        return false;
+    }
+
+    if (!backupJazzGuestsUploadedXml())
+    {
+        return false;
+    }
+
+
+    return true;
+
+} // appendUserUploadedRecordChangeBothStatus
+
+// Make a backup of JazzGuests.xml. Returns false for failure
+function backupJazzGuestsXml()
+{
+    var time_stamp = UtilDate.getTimeStamp();
+
+    var file_name = 'JazzGuests'
+
+    var file_ext = '.xml';
+
+    var backup_input_url = g_guestbook_xml_dir + file_name + file_ext;
+
+    var backup_output_url = g_guestbook_backups_xml_dir + file_name + '_' + time_stamp + file_ext;
+
+    debugGuestbookCommon('backup_input_url= ' + backup_input_url);
+    debugGuestbookCommon('backup_output_url= ' + backup_output_url);
+
+    if (backupAnyGuestbookFile(backup_input_url, backup_output_url))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+} // backupJazzGuestsXml
+
+// Make a backup of JazzGuests.xml. Returns false for failure
+function backupJazzGuestsUploadedXml()
+{
+    var time_stamp = UtilDate.getTimeStamp();
+
+    var file_name = 'JazzGuestsUploaded'
+
+    var file_ext = '.xml';
+
+    var backup_input_url = g_guestbook_upload_xml_dir + file_name + file_ext;
+
+    var backup_output_url = g_guestbook_backups_xml_dir + file_name + '_' + time_stamp + file_ext;
+
+    debugGuestbookCommon('backup_input_url= ' + backup_input_url);
+    debugGuestbookCommon('backup_output_url= ' + backup_output_url);
+
+    if (backupAnyGuestbookFile(backup_input_url, backup_output_url))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+} // backupJazzGuestsUploadedXml
+
+// Executes the creation of a backup file for any file
+function backupAnyGuestbookFile(i_backup_input_url, i_backup_output_url)
+{
+    if (!UtilServer.execApplicationOnServer())
+    {
+        debugGuestbookCommon('No backup. Application is not executed on the server.');
+
+        return true;
+    }
+
+    var b_backup = UtilServer.copyFile(i_backup_input_url, i_backup_output_url);
+
+    if (b_backup)
+    {
+        debugGuestbookCommon('Backup file created: ' + i_backup_output_url);
+
+        return true;
+    }
+    else
+    {
+        var error_msg = 'Failed creating backup for file= ' + i_backup_input_url;
+
+        debugGuestbookCommon(error_msg);
+
+        alert(error_msg);
+
+        return false;
+    }
+
+} // backupAnyGuestbookFile
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Save Functions //////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Load XML //////////////////////////////////////////////////
@@ -96,5 +221,20 @@ function callbackApplicationXml()
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Load XML ////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Debug Function ////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Displays the input string in the debugger Console
+function debugGuestbookCommon(i_msg_str)
+{
+    console.log('GuestbookCommon:' + i_msg_str);
+
+} // debugGuestbookCommon
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Debug Function //////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
