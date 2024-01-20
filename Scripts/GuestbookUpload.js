@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-16
+// Date: 2024-01-20
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -684,7 +684,7 @@ function appendSetSaveGuestbookUploadData()
 
     // Not used here g_guests_uploaded_xml.setGuestTelephone(n_records, '');
 
-    g_guests_uploaded_xml.setGuestStatusUploadedByGuest(n_records);
+    g_guests_uploaded_xml.setGuestStatusPendingRecordInUpdate(n_records);
 
     g_guests_uploaded_xml.setGuestPublishBool(n_records, true);
 
