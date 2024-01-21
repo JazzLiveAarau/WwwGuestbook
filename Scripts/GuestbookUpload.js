@@ -697,11 +697,31 @@ function appendSetSaveGuestbookUploadData()
     else
     {
         alert(GuestStr.errorGuestbookRecordIsNotUploaded(g_guestbook_data.getImageNames()));
+
+        return;
+    }
+
+    // TODO setTimeout(recordDirectToHomepage, 3000);
+
+} // appendSetSaveGuestbookUploadData
+
+function recordDirectToHomepage()
+{
+
+    var n_records = g_guests_uploaded_xml.getNumberOfGuestRecords();
+
+    g_guests_uploaded_xml.setGuestStatusUploadedByGuestToHomepage(n_records);
+
+    var b_case_admin = true;
+
+    if (!appendUserUploadedRecordMakeBackups(n_records, b_case_admin))
+    {
+        return;
     }
 
     location.reload();
 
-} // appendSetSaveGuestbookUploadData
+} // recordDirectToHomepage
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

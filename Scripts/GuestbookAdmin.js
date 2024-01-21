@@ -510,7 +510,9 @@ function saveAdminActiveRecordToHomepageXml()
     {
         debugGuestbookAdmin("Administrator has checked the user uploaded record. Get data from JazzGuestsUploaded.xml and store in JazzGuests.xml");
 
-        if (!appendUserUploadedRecordMakeBackups(g_record_active_uploaded_number))
+        var b_case_admin = true;
+
+        if (!appendUserUploadedRecordMakeBackups(g_record_active_uploaded_number, b_case_admin))
         {
             return;
         }

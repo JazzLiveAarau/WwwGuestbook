@@ -46,7 +46,7 @@ var g_guestbook_backups_xml_dir = g_guestbook_homepage_url + 'JazzGuests/Backups
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // Case: Append guestbook record to JazzGuests.xml that have been uploaded by the user to JazzGuestsUploaded.xml
-function appendUserUploadedRecordMakeBackups(i_record_uploaded_number)
+function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_admin)
 {
     debugGuestbookCommon('Enter appendUserUploadedRecordMakeBackups');
 
@@ -64,9 +64,7 @@ function appendUserUploadedRecordMakeBackups(i_record_uploaded_number)
 
     var file_name = copyImageFromUploadToHomepageDir(next_reg_number_int, i_record_uploaded_number);
 
-    var b_case_admin = true;
-
-    appendSetUserUploadedRecord(next_reg_number_int, i_record_uploaded_number, file_name, b_case_admin);
+    appendSetUserUploadedRecord(next_reg_number_int, i_record_uploaded_number, file_name, i_b_case_admin);
 
     if (!saveJazzGuestsXmlOnServer())
     {
