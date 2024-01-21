@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-20
+// Date: 2024-01-21
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -690,43 +690,19 @@ function appendSetSaveGuestbookUploadData()
 
     g_guests_uploaded_xml.setGuestRegNumber(n_records, 'Will be set when moved to JazzGuests.xml');
 
-    saveJazzGuestsUploadedXmlOnServer();
-
-    alert(GuestStr.guestbookRecordIsUploaded(g_guestbook_data.getImageNames()));
+    if (saveJazzGuestsUploadedXmlOnServer())
+    {
+        alert(GuestStr.guestbookRecordIsUploaded(g_guestbook_data.getImageNames()));
+    }
+    else
+    {
+        alert(GuestStr.errorGuestbookRecordIsNotUploaded(g_guestbook_data.getImageNames()));
+    }
 
     location.reload();
 
 } // appendSetSaveGuestbookUploadData
 
-// Saves the XML as a (an updated) file JazzGuestsUploaded.xml on the server.
-// For the case that the application executes locally and the input display element is set
-// the updated XML file will be displayed. 
-function saveJazzGuestsUploadedXmlOnServer()
-{
-    var pretty_print = new PrettyPrintXml(g_guests_uploaded_xml.getXmlObject());
-
-    var xml_content_str = pretty_print.xmlToWinFormattedString();
-
-    // TODO
-    var url_relative = '../'  +  g_guests_uploaded_xml.getXmlJazzGuestsFileName();
-
-    var b_execute_server = UtilServer.execApplicationOnServer();
-	 
-    if (!b_execute_server)
-    {
-        alert("saveJazzGuestUploadXmlOnServer Not saved on the server. Result is only displayed on the console");
-
-        return;
-    }
-
-    var b_save = UtilServer.saveFile(url_relative, xml_content_str);
-
-    if (!b_save)
-    {
-        alert("saveJazzGuestUploadedXmlOnServer Save XML (JazzGuestsUploaded.xml) failed");
-    }
-
-} //saveJazzGuestsUploadedXmlOnServer
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Register Uploaded Data //////////////////////////////////////

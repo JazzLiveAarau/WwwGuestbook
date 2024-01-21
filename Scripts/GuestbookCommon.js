@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-01-19
+// Date: 2024-01-21
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -31,6 +31,8 @@ var g_guestbook_homepage_url = 'https://jazzliveaarau.ch/';
 
 var g_guestbook_xml_dir = g_guestbook_homepage_url + 'XML/';
 
+var g_guestbook_image_dir = g_guestbook_homepage_url + 'JazzGuests/';
+
 var g_guestbook_upload_xml_dir = g_guestbook_homepage_url + 'JazzGuests/Uploaded/';
 
 var g_guestbook_backups_xml_dir = g_guestbook_homepage_url + 'JazzGuests/Backups/';
@@ -44,9 +46,9 @@ var g_guestbook_backups_xml_dir = g_guestbook_homepage_url + 'JazzGuests/Backups
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // Case: Append guestbook record to JazzGuests.xml that have been uploaded by the user to JazzGuestsUploaded.xml
-function appendUserUploadedRecordChangeBothStatus()
+function appendUserUploadedRecordMakeBackups(i_record_uploaded_number)
 {
-    debugGuestbookCommon('Enter appendUserUploadedRecordChangeBothStatus');
+    debugGuestbookCommon('Enter appendUserUploadedRecordMakeBackups');
 
     if (!backupJazzGuestsXml())
     {
@@ -58,10 +60,179 @@ function appendUserUploadedRecordChangeBothStatus()
         return false;
     }
 
+    var next_reg_number_int = g_guests_xml.getNextRegNumberInt();
+
+    var file_name = copyImageFromUploadToHomepageDir(next_reg_number_int, i_record_uploaded_number);
+
+    var b_case_admin = true;
+
+    appendSetUserUploadedRecord(next_reg_number_int, i_record_uploaded_number, file_name, b_case_admin);
+
+    if (!saveJazzGuestsXmlOnServer())
+    {
+        return false;
+    }
+
+    // Change flag status is one alternative
+    g_guests_uploaded_xml.setGuestStatusAddedOrCheckedByAdmin(i_record_uploaded_number);
+
+    // Delete the record is the other alternative
+    g_guests_uploaded_xml.deleteGuestNode(i_record_uploaded_number);
+
+    if (!saveJazzGuestsUploadedXmlOnServer())
+    {
+        return false;
+    }
+
+    if (!moveImageFromUploadedToBackupDir(i_record_uploaded_number))
+    {
+        return false;
+    }
 
     return true;
 
-} // appendUserUploadedRecordChangeBothStatus
+} // appendUserUploadedRecordMakeBackups
+
+// Move the image file from the Upload directory to the Backups directory
+function moveImageFromUploadedToBackupDir(i_record_uploaded_number)
+{
+    var b_execute_server = UtilServer.execApplicationOnServer();
+
+    var uploaded_file_name = g_guests_uploaded_xml.getGuestFileName(i_record_uploaded_number);
+
+    var name_no_path = UtilServer.getFileName(uploaded_file_name);
+
+    var input_move_file = g_guestbook_upload_xml_dir + name_no_path;
+
+    var output_move_file = g_guestbook_backups_xml_dir + name_no_path;
+
+    debugGuestbookCommon('Move image input name =  ' + input_move_file);
+
+    debugGuestbookCommon('Move image output name = ' + output_move_file);
+	 
+    if (!b_execute_server)
+    {
+        debugGuestbookCommon('moveImageFromUploadedToBackupDir Do not move image by testing with Live Server');
+
+        return true;
+    }
+
+    if (!moveAnyGuestbookFile(input_move_file, output_move_file))
+    {
+        return false;
+    }
+
+    return true;
+
+} // moveImageFromUploadedToBackupDir
+
+// Append record to JazzGuests.xml object with data from the  JazzGuestsUploaded.xml object
+function appendSetUserUploadedRecord(i_next_reg_number_int, i_record_uploaded_number, i_file_name, i_b_case_admin)
+{
+    g_guests_xml.appendGuestNode();
+
+    var n_records = g_guests_xml.getNumberOfGuestRecords();
+
+    g_guests_xml.setGuestYear(n_records, g_guests_uploaded_xml.getGuestYear(i_record_uploaded_number));
+
+    g_guests_xml.setGuestMonth(n_records, g_guests_uploaded_xml.getGuestMonth(i_record_uploaded_number));
+
+    g_guests_xml.setGuestDay(n_records, g_guests_uploaded_xml.getGuestDay(i_record_uploaded_number));
+
+    g_guests_xml.setGuestBand(n_records, g_guests_uploaded_xml.getGuestBand(i_record_uploaded_number));
+
+    g_guests_xml.setGuestMusicians(n_records, g_guests_uploaded_xml.getGuestMusicians(i_record_uploaded_number));
+
+    g_guests_xml.setGuestHeader(n_records, g_guests_uploaded_xml.getGuestHeader(i_record_uploaded_number));
+
+    g_guests_xml.setGuestText(n_records, g_guests_uploaded_xml.getGuestText(i_record_uploaded_number));
+
+    g_guests_xml.setGuestNames(n_records, g_guests_uploaded_xml.getGuestNames(i_record_uploaded_number));
+
+    g_guests_xml.setGuestRemark(n_records, g_guests_uploaded_xml.getGuestRemark(i_record_uploaded_number));
+
+    g_guests_xml.setGuestFileName(n_records, i_file_name);
+
+    g_guests_xml.setGuestFileType(n_records, g_guests_uploaded_xml.getGuestFileType(i_record_uploaded_number));
+
+    g_guests_xml.setGuestAvatar(n_records, g_guests_uploaded_xml.getGuestAvatar(i_record_uploaded_number));
+
+    g_guests_xml.setGuestEmail(n_records, g_guests_uploaded_xml.getGuestEmail(i_record_uploaded_number));
+
+    g_guests_xml.setGuestTelephone(n_records, g_guests_uploaded_xml.getGuestTelephone(i_record_uploaded_number));
+
+    if (i_b_case_admin)
+    {
+        g_guests_xml.setGuestStatusAddedOrCheckedByAdmin(n_records);
+    }
+    else
+    {
+        g_guests_xml.setGuestStatusUploadedByGuestToHomepage(n_records);
+    }
+
+    g_guests_xml.setGuestPublishBool(n_records, true);
+
+    g_guests_xml.setGuestRegNumberInt(n_records, i_next_reg_number_int);
+
+    debugGuestbookCommon('Record appended to JazzGuests.xlm object. Record ' + i_next_reg_number_int.toString());
+
+} // appendSetUserUploadedRecord
+
+// Copy the image file from uploaded directory to JazzGuests directory.
+// Return name of the uploaded image
+function copyImageFromUploadToHomepageDir(i_next_reg_number_int, i_record_uploaded_number)
+{
+    var output_image_file_name= getAppendImageName(i_next_reg_number_int, i_record_uploaded_number);
+
+    var uploaded_file_name = g_guests_uploaded_xml.getGuestFileName(i_record_uploaded_number);
+
+    var name_no_path = UtilServer.getFileName(uploaded_file_name);
+
+    var input_image_file_name = g_guestbook_upload_xml_dir + name_no_path;
+
+    var length_homepage = g_guestbook_homepage_url.length;
+
+    var ret_output_file_name= output_image_file_name.substring(length_homepage);
+
+    debugGuestbookCommon('Image input name =    ' + input_image_file_name);
+
+    debugGuestbookCommon('Image output name =   ' + output_image_file_name);
+
+    debugGuestbookCommon('Image returned name = ' + ret_output_file_name);
+
+    if (copyAnyGuestbookFile(input_image_file_name, output_image_file_name))
+    {
+        return ret_output_file_name;
+    }
+    else
+    {
+        return '';
+    }
+
+} // copyImageFromUploadToHomepageDir
+
+// Get the append image name
+function getAppendImageName(i_next_reg_number_int, i_record_uploaded_number)
+{
+    var next_reg_number_str = 'REG' + UtilDate.getFormattedThousandNumber(i_next_reg_number_int);
+
+    var guest_year = g_guests_uploaded_xml.getGuestYear(i_record_uploaded_number);
+
+    var guest_month = g_guests_uploaded_xml.getGuestMonth(i_record_uploaded_number);
+
+    var guest_day = g_guests_uploaded_xml.getGuestDay(i_record_uploaded_number);
+
+    var date_str = 'd' + UtilDate.getYyyyMmDdDateString(guest_year, guest_month, guest_day);
+
+    var uploaded_file_name = g_guests_uploaded_xml.getGuestFileName(i_record_uploaded_number);
+
+    var file_ext = UtilServer.getFileExtension(uploaded_file_name);
+
+    var ret_file_name = g_guestbook_image_dir + date_str + '_' + next_reg_number_str + file_ext;
+
+    return ret_file_name;
+
+} // getAppendImageName
 
 // Make a backup of JazzGuests.xml. Returns false for failure
 function backupJazzGuestsXml()
@@ -79,7 +250,7 @@ function backupJazzGuestsXml()
     debugGuestbookCommon('backup_input_url= ' + backup_input_url);
     debugGuestbookCommon('backup_output_url= ' + backup_output_url);
 
-    if (backupAnyGuestbookFile(backup_input_url, backup_output_url))
+    if (copyAnyGuestbookFile(backup_input_url, backup_output_url))
     {
         return true;
     }
@@ -106,7 +277,7 @@ function backupJazzGuestsUploadedXml()
     debugGuestbookCommon('backup_input_url= ' + backup_input_url);
     debugGuestbookCommon('backup_output_url= ' + backup_output_url);
 
-    if (backupAnyGuestbookFile(backup_input_url, backup_output_url))
+    if (copyAnyGuestbookFile(backup_input_url, backup_output_url))
     {
         return true;
     }
@@ -117,27 +288,27 @@ function backupJazzGuestsUploadedXml()
 
 } // backupJazzGuestsUploadedXml
 
-// Executes the creation of a backup file for any file
-function backupAnyGuestbookFile(i_backup_input_url, i_backup_output_url)
+// Executes the creation of a copied file for any file
+function copyAnyGuestbookFile(i_input_url, i_output_url)
 {
     if (!UtilServer.execApplicationOnServer())
     {
-        debugGuestbookCommon('No backup. Application is not executed on the server.');
+        debugGuestbookCommon('No copied file created. Application is not executed on the server.');
 
         return true;
     }
 
-    var b_backup = UtilServer.copyFile(i_backup_input_url, i_backup_output_url);
+    var b_backup = UtilServer.copyFile(i_input_url, i_output_url);
 
     if (b_backup)
     {
-        debugGuestbookCommon('Backup file created: ' + i_backup_output_url);
+        debugGuestbookCommon('Copy file created: ' + i_output_url);
 
         return true;
     }
     else
     {
-        var error_msg = 'Failed creating backup for file= ' + i_backup_input_url;
+        var error_msg = 'Failed creating copy for file= ' + i_input_url;
 
         debugGuestbookCommon(error_msg);
 
@@ -146,12 +317,124 @@ function backupAnyGuestbookFile(i_backup_input_url, i_backup_output_url)
         return false;
     }
 
-} // backupAnyGuestbookFile
+} // copyAnyGuestbookFile
+
+// Moves any guestbook file
+function moveAnyGuestbookFile(i_input_url, i_output_url)
+{
+    if (!UtilServer.execApplicationOnServer())
+    {
+        debugGuestbookCommon('File was not moved. Application is not executed on the server.');
+
+        return true;
+    }
+
+    var b_move = UtilServer.moveFile(i_input_url, i_output_url);
+
+    if (b_move)
+    {
+        debugGuestbookCommon('Moved file: ' + i_output_url);
+
+        return true;
+    }
+    else
+    {
+        var error_msg = 'Failed moving file= ' + i_input_url;
+
+        debugGuestbookCommon(error_msg);
+
+        alert(error_msg);
+
+        return false;
+    }
+
+} // moveAnyGuestbookFile
+
 
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Save Functions //////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Upload XML ////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Saves the XML as a (an updated) file JazzGuestsUploaded.xml on the server.
+function saveJazzGuestsXmlOnServer()
+{
+    var pretty_print = new PrettyPrintXml(g_guests_xml.getXmlObject());
+
+    var xml_content_str = pretty_print.xmlToWinFormattedString();
+
+    // TODO
+    var url_relative = '../'  +  g_guests_xml.getXmlJazzGuestsFileName();
+
+    var b_execute_server = UtilServer.execApplicationOnServer();
+	 
+    if (!b_execute_server)
+    {
+        debugGuestbookCommon('JazzGuests.xlm object not saved. Applictation is not running on the server');
+
+        return true;
+    }
+
+    var b_save = UtilServer.saveFile(url_relative, xml_content_str);
+
+    if (b_save)
+    {
+        debugGuestbookCommon('JazzGuests.xlm is saved on the server');
+
+        return true;
+    }
+    else
+    {
+        alert("saveJazzGuestsXmlOnServer Save JazzGuests.xml failed");
+
+        return false;
+    }
+
+} //saveJazzGuestsXmlOnServer
+
+// Saves the XML as a (an updated) file JazzGuestsUploaded.xml on the server.
+function saveJazzGuestsUploadedXmlOnServer()
+{
+    var pretty_print = new PrettyPrintXml(g_guests_uploaded_xml.getXmlObject());
+
+    var xml_content_str = pretty_print.xmlToWinFormattedString();
+
+    // TODO
+    var url_relative = '../'  +  g_guests_uploaded_xml.getXmlJazzGuestsFileName();
+
+    var b_execute_server = UtilServer.execApplicationOnServer();
+	 
+    if (!b_execute_server)
+    {
+        debugGuestbookCommon('JazzGuestsUploaded.xlm object not saved. Applictation is not running on the server');
+
+        return true;
+    }
+
+    var b_save = UtilServer.saveFile(url_relative, xml_content_str);
+
+    if (b_save)
+    {
+        debugGuestbookCommon('JazzGuestsUploaded.xlm is saved on the server');
+
+        return true;
+    }
+    else
+    {
+        alert("saveJazzGuestUploadedXmlOnServer Save JazzGuestsUploaded.xml failed");
+
+        return false;
+    }
+
+} //saveJazzGuestsUploadedXmlOnServer
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Upload XML //////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 

@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-01-18
+// Date: 2024-01-21
 // Author: Gunnar Liden
 
 // File content
@@ -418,7 +418,7 @@ class GuestStr
 
     } // titleNotSet
 
-    // There must a title for the image
+    // Thanks to user for uploading an image
     static guestbookRecordIsUploaded(i_names)
     {
         var ret_str = '';
@@ -430,5 +430,24 @@ class GuestStr
         return  ret_str;
 
     } // guestbookRecordIsUploaded
+
+
+    // User upload of an image failed
+    static errorGuestbookRecordIsNotUploaded(i_names)
+    {
+        var ret_str = '';
+
+        ret_str = ret_str + 'Vielen Dank ' + i_names + '!' + '\n';
+
+        ret_str = ret_str + 'Leider ist etwas falsch gegangen. Nichts wurde aufgeladen' + '\n';
+
+        ret_str = ret_str + 'Bitte gerne Bild und Text an guestbook@jazzliveaarau.ch senden.' + '\n';
+
+        ret_str = ret_str + 'Wir werden dann den Beitrag zum Gästebuch aufladen.' + '\n';
+
+        return  ret_str;
+
+    } // errorGuestbookRecordIsNotUploaded
+
 
 } // GuestStr

@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-01-20
+// Date: 2024-01-21
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -467,6 +467,8 @@ function onClickOfAdminSaveButton()
 
     saveAdminActiveRecordToHomepageXml();
 
+    location.reload;
+
 } // onClickOfAdminSaveButton
 
 // User clicked the publish check box
@@ -508,7 +510,7 @@ function saveAdminActiveRecordToHomepageXml()
     {
         debugGuestbookAdmin("Administrator has checked the user uploaded record. Get data from JazzGuestsUploaded.xml and store in JazzGuests.xml");
 
-        if (!appendUserUploadedRecordChangeBothStatus())
+        if (!appendUserUploadedRecordMakeBackups(g_record_active_uploaded_number))
         {
             return;
         }
