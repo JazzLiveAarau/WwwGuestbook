@@ -1,5 +1,5 @@
 // File: GuestbookAdminControls.js
-// Date: 2024-01-20
+// Date: 2024-01-22
 // Authors: Gunnar Lidén
 
 // Content
@@ -343,7 +343,7 @@ function createTextBoxAdminStatus()
 
     g_admin_status_text_box.setLabelTextPositionAbove();
 
-    g_admin_status_text_box.setSize("40");
+    g_admin_status_text_box.setSize("65");
 
     g_admin_status_text_box.setReadOnlyFlag(true);
 

@@ -72,7 +72,9 @@ function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_
     }
 
     // Change flag status is one alternative
-    g_guests_uploaded_xml.setGuestStatusAddedOrCheckedByAdmin(i_record_uploaded_number);
+    // Temporary for test g_guests_uploaded_xml.setGuestStatusAddedOrCheckedByAdmin(i_record_uploaded_number);
+    g_guests_uploaded_xml.setGuestStatusTestAddedOrCheckedByAdmin(i_record_uploaded_number);
+
 
     // Delete the record is the other alternative
     g_guests_uploaded_xml.deleteGuestNode(i_record_uploaded_number);
@@ -162,7 +164,8 @@ function appendSetUserUploadedRecord(i_next_reg_number_int, i_record_uploaded_nu
 
     if (i_b_case_admin)
     {
-        g_guests_xml.setGuestStatusAddedOrCheckedByAdmin(n_records);
+        // Temporary for test g_guests_xml.setGuestStatusAddedOrCheckedByAdmin(n_records);
+        g_guests_xml.setGuestStatusTestAddedOrCheckedByAdmin(n_records);
     }
     else
     {

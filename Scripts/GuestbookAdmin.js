@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-01-21
+// Date: 2024-01-22
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -279,7 +279,13 @@ function setAdminTextBoxes()
 
     g_admin_remark_text_box.setValue(g_record_active_guest.getRemark());
 
-    g_admin_status_text_box.setValue(g_record_active_guest.getStatus());
+    var status_key = g_record_active_guest.getStatus();
+
+    var status_description = g_active_xml.getStatusDescription(status_key);
+    
+    g_admin_status_text_box.setValue(status_description);
+
+    //QQ g_admin_status_text_box.setValue(g_record_active_guest.getStatus());
 
     g_admin_band_text_box.setValue(g_record_active_guest.getBand());
 
@@ -539,6 +545,16 @@ function saveAdminActiveRecordToHomepageXml()
         return;
     }
     else if (b_update_xm_is_active && g_active_xml.isGuestStatusAddedOrCheckedByAdmin(g_record_active_uploaded_number) )
+    {
+        error_msg = 'saveAdminActiveRecordToHomepageXml Error: Not a valid case: Upload XML is active and status is administror has checked the record';
+
+        debugGuestbookAdmin(error_msg);
+
+        alert(error_msg);
+
+        return;
+    }
+    else if (b_update_xm_is_active && g_active_xml.isGuestStatusTestAddedOrCheckedByAdmin(g_record_active_uploaded_number) )
     {
         error_msg = 'saveAdminActiveRecordToHomepageXml Error: Not a valid case: Upload XML is active and status is administror has checked the record';
 
