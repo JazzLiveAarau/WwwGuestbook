@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-21
+// Date: 2024-01-22
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -701,6 +701,8 @@ function appendSetSaveGuestbookUploadData()
         return;
     }
 
+    location.reload();
+
     // TODO setTimeout(recordDirectToHomepage, 3000);
 
 } // appendSetSaveGuestbookUploadData
@@ -719,7 +721,6 @@ function recordDirectToHomepage()
         return;
     }
 
-    location.reload();
 
 } // recordDirectToHomepage
 
