@@ -174,6 +174,8 @@ function initAdminControls()
 
     setActiveGuestRecord();
 
+    UtilServer.initDebugFile('GuestbookAdminSave');
+
 } // initAdminControls
 
 // Sets the admin controls
@@ -720,6 +722,8 @@ function callbackOnClickLoginLogoutButton(i_logged_in_name, i_b_user_has_logged_
 function debugGuestbookAdmin(i_msg_str)
 {
     console.log('GuestbookAdmin:' + i_msg_str);
+
+    UtilServer.appendDebugFile('GuestbookAdmin:' + i_msg_str, 'GuestbookAdminSave');
 
 } // debugGuestbookAdmin
 

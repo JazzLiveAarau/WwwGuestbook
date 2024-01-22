@@ -517,6 +517,8 @@ function debugGuestbookCommon(i_msg_str)
 {
     console.log('GuestbookCommon:' + i_msg_str);
 
+    UtilServer.appendDebugFile('GuestbookCommon:' + i_msg_str, 'GuestbookAdminSave');
+
 } // debugGuestbookCommon
 
 ///////////////////////////////////////////////////////////////////////////////////////////
