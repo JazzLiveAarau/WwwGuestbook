@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-01-21
+// Date: 2024-01-26
 // Author: Gunnar Liden
 
 // File content
@@ -34,7 +34,7 @@ class GuestStr
     // Confirmation that a  request code email was sent
     static emailCodeSent(i_to)
     {
-        return 'Eine E-Mail mit dem Code für das Aufladen ist an ' + i_to + 'gesendet.';
+        return 'Eine E-Mail mit dem Code für das Aufladen ist an ' + i_to + ' gesendet.';
 
     } // emailCodeSent
 
@@ -62,7 +62,7 @@ class GuestStr
     // Title (tooltip) for the the button request code
     static titleButtonRequestCode()
     {
-        return 'Eine E-Mail mit dem Code wird an diese Adresse gesendet';
+        return 'Eine E-Mail mit dem Code wird an diese Adresse gesendet ';
 
     } // titleButtonRequestCode
 
