@@ -652,9 +652,13 @@ function saveGuestbookUploadData()
 // Add and set an XML record for JazzGuestsUploaded.xml
 function appendSetSaveGuestbookUploadData()
 {
+    var b_upload_also_to_homepage = true;
+
     g_guests_uploaded_xml.appendGuestNode();
 
     var n_records = g_guests_uploaded_xml.getNumberOfGuestRecords();
+
+    debugGuestbookUpload('Record appended to JazzGuestsUploaded.xml. Number of records is ' + n_records.toString());
 
     g_guests_uploaded_xml.setGuestYear(n_records, g_guestbook_data.getYear());
 
@@ -684,15 +688,26 @@ function appendSetSaveGuestbookUploadData()
 
     // Not used here g_guests_uploaded_xml.setGuestTelephone(n_records, '');
 
-    g_guests_uploaded_xml.setGuestStatusPendingRecordInUpdate(n_records);
+    if (b_upload_also_to_homepage)
+    {
+        g_guests_uploaded_xml.setGuestStatusUploadedByGuestToHomepage(n_records);
+    }
+    else
+    {
+        g_guests_uploaded_xml.setGuestStatusPendingRecordInUpdate(n_records);
+    }
 
     g_guests_uploaded_xml.setGuestPublishBool(n_records, true);
 
     g_guests_uploaded_xml.setGuestRegNumber(n_records, 'Will be set when moved to JazzGuests.xml');
 
+    debugGuestbookUpload('All members set. Status= ' + g_guests_xml.getGuestStatus(n_records));
+
     if (saveJazzGuestsUploadedXmlOnServer())
     {
         alert(GuestStr.guestbookRecordIsUploaded(g_guestbook_data.getImageNames()));
+
+        debugGuestbookUpload('JazzGuestsUploaded.xml is saved on the server ');
     }
     else
     {
@@ -701,26 +716,25 @@ function appendSetSaveGuestbookUploadData()
         return;
     }
 
-    location.reload();
-
-    // TODO setTimeout(recordDirectToHomepage, 3000);
+    if (b_upload_also_to_homepage)
+    {
+        setTimeout(recordDirectToHomepage, 1000);
+    }
+    else
+    {
+        location.reload();
+    }
 
 } // appendSetSaveGuestbookUploadData
 
 function recordDirectToHomepage()
 {
 
-    var n_records = g_guests_uploaded_xml.getNumberOfGuestRecords();
+    debugGuestbookUpload('Enter recordDirectToHomepage');
 
-    g_guests_uploaded_xml.setGuestStatusUploadedByGuestToHomepage(n_records);
+    appendGuestRecordAlsoToXmlHomepageObject();
 
-    var b_case_admin = true;
-
-    if (!appendUserUploadedRecordMakeBackups(n_records, b_case_admin))
-    {
-        return;
-    }
-
+    location.reload();
 
 } // recordDirectToHomepage
 
@@ -730,370 +744,19 @@ function recordDirectToHomepage()
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// Start Class GuestbookData ///////////////////////////////////////
+///////////////////////// Start Debug Function ////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// Holds the input data from the guest
-class GuestbookData
+// Displays the input string in the debugger Console
+function debugGuestbookUpload(i_msg_str)
 {
-    constructor()
-    {
-        this.m_names = "";
+    console.log('GuestbookUpload:' + i_msg_str);
 
-        this.m_email = "";
+    UtilServer.appendDebugFile('GuestbookUpload:' + i_msg_str, 'GuestbookAdminSave');
 
-        this.m_title = "";
-
-        this.m_text = "";
-
-        this.m_remark = "";
-
-        this.m_band = "";
-
-        this.m_musicians = "";
-
-        this.m_year = "";
-
-        this.m_month = "";
-
-        this.m_day = "";
-
-        this.m_image_file = '';
-
-        this.m_random = null;
-
-        // Generated code
-        this.m_random_one = "";
-        this.m_random_two = "";
-        this.m_random_three = "";
-        this.m_random_four = "";
-        this.m_random_five = "";
-
-        // Input code from user (guest)
-        this.m_input_one = "";
-        this.m_input_two = "";
-        this.m_input_three = "";
-        this.m_input_four = "";
-        this.m_input_five = "";
-
-        this.init();
-
-    } // constructor
-
-    // Initialization
-    init()
-    {
-        this.m_random = new UtilRandom();
-
-        this.setRandomCode();
-
-        this.setCurrentDate();
-
-    } // init
-
-    // Set current data
-    setCurrentDate()
-    {
-        var current_date = new Date();
-
-        this.m_year = current_date.getFullYear().toString();
-
-        this.m_month = (current_date.getMonth() + 1).toString();
-
-        this.m_day = current_date.getDate().toString();
-
-    } // setCurrentDate
-
-    // Sets the image band name
-    setBand(i_band)
-    {
-        this.m_band = i_band;
-
-    } // setBand
-
-    // Returns the image band name
-    getBand()
-    {
-        return this.m_band;
-        
-    } // getBand
-
-    // Sets the image musician names
-    setMusicians(i_musicians)
-    {
-        this.m_musicians = i_musicians;
-
-    } // setMusicians
-
-    // Returns the image musician names
-    getMusicians()
-    {
-        return this.m_musicians;
-        
-    } // getMusicians
-
-    // Sets the image year
-    setYear(i_year)
-    {
-        this.m_year = i_year;
-
-    } // setYear
-
-    // Returns the image year
-    getYear()
-    {
-        return this.m_year;
-
-    } // getYear
-
-    // Sets the image month
-    setMonth(i_month)
-    {
-        this.m_month = i_month;
-
-    } // setMonth
-
-    // Returns the image month
-    getMonth()
-    {
-        return this.m_month;
-
-    } // getMonth
-
-    // Sets the image day
-    setDay(i_day)
-    {
-        this.m_day = i_day;
-
-    } // setYear
-
-    // Returns the image day
-    getDay()
-    {
-        return this.m_day;
-
-    } // getYear
-
-    // Sets the image file name (URL)
-    setImageFile(i_image_file)
-    {
-        this.m_image_file = i_image_file;
-
-    } // setImageFile
-
-    // Returns the image file name (URL)
-    getImageFile()
-    {
-        // TODO 
-        var ret_file_name = this.m_image_file.substring(6);
-        
-        return ret_file_name;
-        
-    } // setImageFile
-
-    // Sets image names
-    setImageNames(i_names)
-    {
-        this.m_names = i_names;
-
-    } // setImageNames
-
-    // Returns image names
-    getImageNames(i_names)
-    {
-        return this.m_names;
-
-    } // getImageNames
-
-    // Sets the image email
-    setImageEmail(i_email)
-    {
-        this.m_email = i_email;
-
-    } // setImageEmail
-
-    // Returns the image email
-    getImageEmail()
-    {
-        return this.m_email;
-
-    } // getImageEmail
-
-    // Sets the image title
-    setImageTitle(i_title)
-    {
-        this.m_title = i_title;
-
-    } // setImageTitle
-
-    // Returns the image title
-    getImageTitle()
-    {
-        return this.m_title;
-        
-    } // getImageTitle
-
-    // Sets the image text
-    setImageText(i_text)
-    {
-        this.m_text = i_text;
-
-    } // setImageText
-
-    // Returns the image text
-    getImageText()
-    {
-        return this.m_text;
-        
-    } // getImageText
-
-    // Sets the image remark
-    setImageRemark(i_remark)
-    {
-        this.m_remark = i_remark;
-
-    } // setImageRemark
-
-    // Returns the image remark
-    getImageRemark(i_remark)
-    {
-        return this.m_remark;
-
-    } // getImageRemark
-
-    // Generate random code
-    setRandomCode()
-    {
-        this.m_random_one = Math.trunc(10.0*this.m_random.getUniform()).toString();
-
-        this.m_random_two = Math.trunc(10.0*this.m_random.getUniform()).toString();
-
-        this.m_random_three = Math.trunc(10.0*this.m_random.getUniform()).toString();
-
-        this.m_random_four = Math.trunc(10.0*this.m_random.getUniform()).toString();
-
-        this.m_random_five = Math.trunc(10.0*this.m_random.getUniform()).toString();
-
-    } // setRandomCode
-
-    // Get the random code
-    getRandomCode()
-    {
-        return this.m_random_one + ' ' + this.m_random_two + ' ' + this.m_random_three + 
-                ' ' + this.m_random_four + ' ' + this.m_random_five + ' ';
-    }
-
-    // Returns true if random code is equal to input code
-    inputCodeEqualToRandomCode()
-    {
-        if (!g_guestbook_data.allInputCodeAreSet())
-        {
-            return false;
-        }
-
-        if (this.inputCodeEqualToSecretCode())
-        {
-            return true;
-        }
-
-        if (this.m_random_one != g_guestbook_data.m_input_one || this.m_random_one.length == 0)
-        {
-            return false;
-        }
-
-        if (this.m_random_two != g_guestbook_data.m_input_two || this.m_random_two.length == 0)
-        {
-            return false;
-        }
-
-        if (this.m_random_three != g_guestbook_data.m_input_three || this.m_random_three.length == 0)
-        {
-            return false;
-        }
-
-        if (this.m_random_four != g_guestbook_data.m_input_four || this.m_random_four.length == 0)
-        {
-            return false;
-        }
-
-        if (this.m_random_five != g_guestbook_data.m_input_five || this.m_random_five.length == 0)
-        {
-            return false;
-        }
-
-        return true;
-
-    } // inputCodeEqualToRandomCode
-
-    // Secret code for the memnbers in the jazzclub
-    inputCodeEqualToSecretCode()
-    {
-        if (g_guestbook_data.m_input_one   == '8' && g_guestbook_data.m_input_two  == '9' && 
-            g_guestbook_data.m_input_three == '6' && g_guestbook_data.m_input_four == '8' && 
-            g_guestbook_data.m_input_five  == '0')
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    } // inputCodeEqualToSecretCode
-
-    // Returns true if input code values have been set
-    allInputCodeAreSet()
-    {
-        if (this.m_input_one.length == 1 && this.m_input_two.length == 1   && this.m_input_three.length == 1 
-            && this.m_input_four.length == 1  && this.m_input_five.length == 1 ) 
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }        
-
-    } // allInputCodeAreSet
-
-    // Init all input codes to not set
-    initAllInputCodes()
-    {
-        this.m_input_one = "";
-
-        this.m_input_two = "";
-
-        this.m_input_three = "";
-
-        this.m_input_four = "";
-
-        this.m_input_five = "";
-
-    } // initAllInputCodes
-
-    // Returns true for a valid code number, i.e. 0, 1, 2, 3, .. or 9
-    static validCodeNumber(i_code_number)
-    {
-        if (i_code_number.length == 0 || i_code_number.length > 1)
-        {
-            return false;
-        }
-
-        if (i_code_number == "0" || i_code_number == "1" || i_code_number == "2" || i_code_number == "3" || 
-            i_code_number == "4" || i_code_number == "5" || i_code_number == "6" || i_code_number == "7" || 
-            i_code_number == "8" || i_code_number == "9" )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    } // validCodeNumber
-
-} // GuestbookData
-
+} // debugGuestbookUpload
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// End Class GuestbookData /////////////////////////////////////////
+///////////////////////// End Debug Function //////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+

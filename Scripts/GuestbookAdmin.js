@@ -503,9 +503,9 @@ function saveAdminActiveRecordToHomepageXml()
 
     var error_msg = '';
 
-    var b_update_xm_is_active = updatedXmlIsActive();
+    var b_update_xml_is_active = updatedXmlIsActive();
 
-    if (b_update_xm_is_active)
+    if (b_update_xml_is_active)
     {
         debugGuestbookAdmin("Guest record status= " + g_active_xml.getGuestStatus(g_record_active_uploaded_number));
     }
@@ -514,7 +514,7 @@ function saveAdminActiveRecordToHomepageXml()
         debugGuestbookAdmin("Guest record status= " + g_active_xml.getGuestStatus(g_record_active_number));
     }
 
-    if (b_update_xm_is_active && g_active_xml.isGuestStatusPendingRecordInUpdate(g_record_active_uploaded_number))
+    if (b_update_xml_is_active && g_active_xml.isGuestStatusPendingRecordInUpdate(g_record_active_uploaded_number))
     {
         debugGuestbookAdmin("Administrator has checked the user uploaded record. Get data from JazzGuestsUploaded.xml and store in JazzGuests.xml");
 
@@ -526,17 +526,17 @@ function saveAdminActiveRecordToHomepageXml()
         }
 
     }
-    else if (!b_update_xm_is_active && g_active_xml.isGuestStatusUploadedByGuestToHomepage(g_record_active_number))
+    else if (!b_update_xml_is_active && g_active_xml.isGuestStatusUploadedByGuestToHomepage(g_record_active_number))
     {
         debugGuestbookAdmin("User uploaded directly and administrator has checked/changed the record. Update data in JazzGuests.xml and change status in JazzGuestsUploaded.xml");
 
     }
-    else if (!b_update_xm_is_active && g_active_xml.isGuestStatusUploadedByGuestToHomepage(g_record_active_number))
+    else if (!b_update_xml_is_active && g_active_xml.isGuestStatusUploadedByGuestToHomepage(g_record_active_number))
     {
         debugGuestbookAdmin("Adminstrator uploaded to homepage and administrator has changed the record. Update data in JazzGuests.xml");
 
     }
-    else if (b_update_xm_is_active && g_active_xml.isGuestStatusUploadedByGuestToHomepage(g_record_active_uploaded_number))
+    else if (b_update_xml_is_active && g_active_xml.isGuestStatusUploadedByGuestToHomepage(g_record_active_uploaded_number))
     {
         error_msg = 'saveAdminActiveRecordToHomepageXml Error: Not a valid case: Upload XML is active and status is uploaded by guest to homepage';
 
@@ -546,7 +546,7 @@ function saveAdminActiveRecordToHomepageXml()
 
         return;
     }
-    else if (b_update_xm_is_active && g_active_xml.isGuestStatusAddedOrCheckedByAdmin(g_record_active_uploaded_number) )
+    else if (b_update_xml_is_active && g_active_xml.isGuestStatusAddedOrCheckedByAdmin(g_record_active_uploaded_number) )
     {
         error_msg = 'saveAdminActiveRecordToHomepageXml Error: Not a valid case: Upload XML is active and status is administror has checked the record';
 
@@ -556,7 +556,7 @@ function saveAdminActiveRecordToHomepageXml()
 
         return;
     }
-    else if (b_update_xm_is_active && g_active_xml.isGuestStatusTestAddedOrCheckedByAdmin(g_record_active_uploaded_number) )
+    else if (b_update_xml_is_active && g_active_xml.isGuestStatusTestAddedOrCheckedByAdmin(g_record_active_uploaded_number) )
     {
         error_msg = 'saveAdminActiveRecordToHomepageXml Error: Not a valid case: Upload XML is active and status is administror has checked the record';
 
@@ -566,7 +566,7 @@ function saveAdminActiveRecordToHomepageXml()
 
         return;
     }
-    else if (!b_update_xm_is_active && g_active_xml.isGuestStatusPendingRecordInUpdate(g_record_active_number))
+    else if (!b_update_xml_is_active && g_active_xml.isGuestStatusPendingRecordInUpdate(g_record_active_number))
     {
         error_msg = 'saveAdminActiveRecordToHomepageXml Error: Not a valid case: Homepage XML is active and status is pending XML record';
 

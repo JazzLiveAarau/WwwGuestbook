@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-01-22
+// Date: 2024-01-26
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -46,6 +46,17 @@ var g_guestbook_backups_xml_dir = g_guestbook_homepage_url + 'JazzGuests/Backups
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // Case: Append guestbook record to JazzGuests.xml that have been uploaded by the user to JazzGuestsUploaded.xml
+//
+// This function may be called by admin (GuestbookAdmin.htm) or the by the guest 
+// (GuestbookUpload.htm). People are used to and probably expect that their contribution
+// comes to the homepage directly. When it works, i.e. most contributions can be accepted
+// without big changes, then this is also a good solution. If not then it is easy to change
+// so that the administror checks the contribution before it is published on the homepage.
+// 
+// In a second step should the adminstrator check and perhaps adjust the record. Therereafter 
+// shall the flag in the JazzGuests.xml be changed to AddedOrCheckedRecordByAdmin and the record
+// in JazzGuestsUploaded.xml be deleted.
+//
 function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_admin)
 {
     debugGuestbookCommon('Enter appendUserUploadedRecordMakeBackups');
@@ -94,6 +105,61 @@ function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_
 
 } // appendUserUploadedRecordMakeBackups
 
+// A user (guest) has selected and uploaded an image. The (time stamped) image is in the
+// directory /www/Guestbook/Uploaded and a guest record has been appended to the
+// JazzGuestsUploaded.xml object. The status of the record is PendingRecordInUploaded.
+//
+// 
+// Backups of XML files and image files are created in directory /www/Guestbook/Backups
+//
+// 1. Make a backup of JazzGuests.xml. Call of backupJazzGuestsXml
+// 2. Make a backup of JazzGuestsUploaded.xml. Call of backupJazzGuestsUploadedXml
+// 3. Get guest registration number. Call of JazzGuest getNextRegNumberInt
+// 4. Copy image from /www/Guestbook/Uploaded to /www/JazzGuests for the homepage. 
+//    Call of copyImageFromUploadToHomepageDir
+// 5. Append the homepage record. Call of appendSetUserUploadedRecord
+// 6. Save JazzGuests.xml on the server. Call of saveJazzGuestsXmlOnServer
+function appendGuestRecordAlsoToXmlHomepageObject()
+{
+    debugGuestbookCommon('Enter appendUserUploadedRecordMakeBackups');
+
+    if (!backupJazzGuestsXml())
+    {
+        return false;
+    }
+
+    if (!backupJazzGuestsUploadedXml())
+    {
+        return false;
+    }
+
+    var n_records = g_guests_uploaded_xml.getNumberOfGuestRecords();
+
+    var record_uploaded_number = n_records;
+
+    var next_reg_number_int = g_guests_xml.getNextRegNumberInt();
+
+    debugGuestbookCommon('next_reg_number_int= ' + next_reg_number_int.toString());
+
+    debugGuestbookCommon('record_uploaded_number= ' + record_uploaded_number.toString());
+
+    var file_name = copyImageFromUploadToHomepageDir(next_reg_number_int, record_uploaded_number);
+
+    var b_case_admin = false;
+
+    appendSetUserUploadedRecord(next_reg_number_int, record_uploaded_number, file_name, b_case_admin);
+
+    if (!saveJazzGuestsXmlOnServer())
+    {
+        return false;
+    }   
+
+    debugGuestbookCommon('Exit appendUserUploadedRecordMakeBackups');
+
+    return true;
+
+} // appendGuestRecordAlsoToXmlHomepageObject
+
 // Move the image file from the Upload directory to the Backups directory
 function moveImageFromUploadedToBackupDir(i_record_uploaded_number)
 {
@@ -134,6 +200,8 @@ function appendSetUserUploadedRecord(i_next_reg_number_int, i_record_uploaded_nu
 
     var n_records = g_guests_xml.getNumberOfGuestRecords();
 
+    debugGuestbookCommon('appendSetUserUploadedRecord Record was added to JazzGuests.xml. Number of records= ' + n_records.toString());
+
     g_guests_xml.setGuestYear(n_records, g_guests_uploaded_xml.getGuestYear(i_record_uploaded_number));
 
     g_guests_xml.setGuestMonth(n_records, g_guests_uploaded_xml.getGuestMonth(i_record_uploaded_number));
@@ -170,7 +238,10 @@ function appendSetUserUploadedRecord(i_next_reg_number_int, i_record_uploaded_nu
     else
     {
         g_guests_xml.setGuestStatusUploadedByGuestToHomepage(n_records);
+
     }
+
+    debugGuestbookCommon('Record status set to: ' + g_guests_xml.getGuestStatus(n_records));
 
     g_guests_xml.setGuestPublishBool(n_records, true);
 
@@ -438,6 +509,379 @@ function saveJazzGuestsUploadedXmlOnServer()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Upload XML //////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Class GuestbookData ///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// The class the data for a guest record. There is one instance of the class for the admin
+// application and one instance for the guest upload version.
+// The class also has functions and holds data that only is used by one application like 
+// for instance the random values for the confirmation email.c
+class GuestbookData
+{
+    constructor()
+    {
+        this.m_names = "";
+
+        this.m_email = "";
+
+        this.m_title = "";
+
+        this.m_text = "";
+
+        this.m_remark = "";
+
+        this.m_band = "";
+
+        this.m_musicians = "";
+
+        this.m_year = "";
+
+        this.m_month = "";
+
+        this.m_day = "";
+
+        this.m_image_file = '';
+
+        this.m_random = null;
+
+        // Generated code
+        this.m_random_one = "";
+        this.m_random_two = "";
+        this.m_random_three = "";
+        this.m_random_four = "";
+        this.m_random_five = "";
+
+        // Input code from user (guest)
+        this.m_input_one = "";
+        this.m_input_two = "";
+        this.m_input_three = "";
+        this.m_input_four = "";
+        this.m_input_five = "";
+
+        this.init();
+
+    } // constructor
+
+    // Initialization
+    init()
+    {
+        this.m_random = new UtilRandom();
+
+        this.setRandomCode();
+
+        this.setCurrentDate();
+
+    } // init
+
+    // Set current data
+    setCurrentDate()
+    {
+        var current_date = new Date();
+
+        this.m_year = current_date.getFullYear().toString();
+
+        this.m_month = (current_date.getMonth() + 1).toString();
+
+        this.m_day = current_date.getDate().toString();
+
+    } // setCurrentDate
+
+    // Sets the image band name
+    setBand(i_band)
+    {
+        this.m_band = i_band;
+
+    } // setBand
+
+    // Returns the image band name
+    getBand()
+    {
+        return this.m_band;
+        
+    } // getBand
+
+    // Sets the image musician names
+    setMusicians(i_musicians)
+    {
+        this.m_musicians = i_musicians;
+
+    } // setMusicians
+
+    // Returns the image musician names
+    getMusicians()
+    {
+        return this.m_musicians;
+        
+    } // getMusicians
+
+    // Sets the image year
+    setYear(i_year)
+    {
+        this.m_year = i_year;
+
+    } // setYear
+
+    // Returns the image year
+    getYear()
+    {
+        return this.m_year;
+
+    } // getYear
+
+    // Sets the image month
+    setMonth(i_month)
+    {
+        this.m_month = i_month;
+
+    } // setMonth
+
+    // Returns the image month
+    getMonth()
+    {
+        return this.m_month;
+
+    } // getMonth
+
+    // Sets the image day
+    setDay(i_day)
+    {
+        this.m_day = i_day;
+
+    } // setYear
+
+    // Returns the image day
+    getDay()
+    {
+        return this.m_day;
+
+    } // getYear
+
+    // Sets the image file name (URL)
+    setImageFile(i_image_file)
+    {
+        this.m_image_file = i_image_file;
+
+    } // setImageFile
+
+    // Returns the image file name (URL)
+    getImageFile()
+    {
+        // TODO 
+        var ret_file_name = this.m_image_file.substring(6);
+        
+        return ret_file_name;
+        
+    } // setImageFile
+
+    // Sets image names
+    setImageNames(i_names)
+    {
+        this.m_names = i_names;
+
+    } // setImageNames
+
+    // Returns image names
+    getImageNames(i_names)
+    {
+        return this.m_names;
+
+    } // getImageNames
+
+    // Sets the image email
+    setImageEmail(i_email)
+    {
+        this.m_email = i_email;
+
+    } // setImageEmail
+
+    // Returns the image email
+    getImageEmail()
+    {
+        return this.m_email;
+
+    } // getImageEmail
+
+    // Sets the image title
+    setImageTitle(i_title)
+    {
+        this.m_title = i_title;
+
+    } // setImageTitle
+
+    // Returns the image title
+    getImageTitle()
+    {
+        return this.m_title;
+        
+    } // getImageTitle
+
+    // Sets the image text
+    setImageText(i_text)
+    {
+        this.m_text = i_text;
+
+    } // setImageText
+
+    // Returns the image text
+    getImageText()
+    {
+        return this.m_text;
+        
+    } // getImageText
+
+    // Sets the image remark
+    setImageRemark(i_remark)
+    {
+        this.m_remark = i_remark;
+
+    } // setImageRemark
+
+    // Returns the image remark
+    getImageRemark(i_remark)
+    {
+        return this.m_remark;
+
+    } // getImageRemark
+
+    // Generate random code
+    setRandomCode()
+    {
+        this.m_random_one = Math.trunc(10.0*this.m_random.getUniform()).toString();
+
+        this.m_random_two = Math.trunc(10.0*this.m_random.getUniform()).toString();
+
+        this.m_random_three = Math.trunc(10.0*this.m_random.getUniform()).toString();
+
+        this.m_random_four = Math.trunc(10.0*this.m_random.getUniform()).toString();
+
+        this.m_random_five = Math.trunc(10.0*this.m_random.getUniform()).toString();
+
+    } // setRandomCode
+
+    // Get the random code
+    getRandomCode()
+    {
+        return this.m_random_one + ' ' + this.m_random_two + ' ' + this.m_random_three + 
+                ' ' + this.m_random_four + ' ' + this.m_random_five + ' ';
+    }
+
+    // Returns true if random code is equal to input code
+    inputCodeEqualToRandomCode()
+    {
+        if (!g_guestbook_data.allInputCodeAreSet())
+        {
+            return false;
+        }
+
+        if (this.inputCodeEqualToSecretCode())
+        {
+            return true;
+        }
+
+        if (this.m_random_one != g_guestbook_data.m_input_one || this.m_random_one.length == 0)
+        {
+            return false;
+        }
+
+        if (this.m_random_two != g_guestbook_data.m_input_two || this.m_random_two.length == 0)
+        {
+            return false;
+        }
+
+        if (this.m_random_three != g_guestbook_data.m_input_three || this.m_random_three.length == 0)
+        {
+            return false;
+        }
+
+        if (this.m_random_four != g_guestbook_data.m_input_four || this.m_random_four.length == 0)
+        {
+            return false;
+        }
+
+        if (this.m_random_five != g_guestbook_data.m_input_five || this.m_random_five.length == 0)
+        {
+            return false;
+        }
+
+        return true;
+
+    } // inputCodeEqualToRandomCode
+
+    // Secret code for the memnbers in the jazzclub
+    inputCodeEqualToSecretCode()
+    {
+        if (g_guestbook_data.m_input_one   == '8' && g_guestbook_data.m_input_two  == '9' && 
+            g_guestbook_data.m_input_three == '6' && g_guestbook_data.m_input_four == '8' && 
+            g_guestbook_data.m_input_five  == '0')
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    } // inputCodeEqualToSecretCode
+
+    // Returns true if input code values have been set
+    allInputCodeAreSet()
+    {
+        if (this.m_input_one.length == 1 && this.m_input_two.length == 1   && this.m_input_three.length == 1 
+            && this.m_input_four.length == 1  && this.m_input_five.length == 1 ) 
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }        
+
+    } // allInputCodeAreSet
+
+    // Init all input codes to not set
+    initAllInputCodes()
+    {
+        this.m_input_one = "";
+
+        this.m_input_two = "";
+
+        this.m_input_three = "";
+
+        this.m_input_four = "";
+
+        this.m_input_five = "";
+
+    } // initAllInputCodes
+
+    // Returns true for a valid code number, i.e. 0, 1, 2, 3, .. or 9
+    static validCodeNumber(i_code_number)
+    {
+        if (i_code_number.length == 0 || i_code_number.length > 1)
+        {
+            return false;
+        }
+
+        if (i_code_number == "0" || i_code_number == "1" || i_code_number == "2" || i_code_number == "3" || 
+            i_code_number == "4" || i_code_number == "5" || i_code_number == "6" || i_code_number == "7" || 
+            i_code_number == "8" || i_code_number == "9" )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    } // validCodeNumber
+
+} // GuestbookData
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Class GuestbookData /////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
