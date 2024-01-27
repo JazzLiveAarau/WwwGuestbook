@@ -224,6 +224,10 @@ function createTextBoxCodeOne()
 
     g_code_one_text_box.setValue("");
 
+    //TODO g_code_one_text_box.setInputTypeToNumber();
+
+    //TODO g_code_one_text_box.setMaxlength("1");
+
     g_code_one_text_box.setOninputFunctionName("onInputCodeOne");
 
     g_code_one_text_box.setReadOnlyFlag(false);
@@ -244,6 +248,10 @@ function createTextBoxCodeTwo()
     g_code_two_text_box.setSize("1");
 
     g_code_two_text_box.setValue("");
+
+    //TODO g_code_two_text_box.setInputTypeToNumber();
+
+    //TODO g_code_two_text_box.setMaxlength("1");
 
     g_code_two_text_box.setOninputFunctionName("onInputCodeTwo");
 
@@ -266,6 +274,10 @@ function createTextBoxCodeThree()
 
     g_code_three_text_box.setValue("");
 
+    //TODO g_code_three_text_box.setInputTypeToNumber();
+
+    //TODO g_code_three_text_box.setMaxlength("1");
+
     g_code_three_text_box.setOninputFunctionName("onInputCodeThree");
 
     g_code_three_text_box.setReadOnlyFlag(false);
@@ -287,6 +299,10 @@ function createTextBoxCodeFour()
 
     g_code_four_text_box.setValue("");
 
+    //TODO g_code_four_text_box.setInputTypeToNumber();
+
+   //TODO g_code_four_text_box.setMaxlength("1");
+
     g_code_four_text_box.setOninputFunctionName("onInputCodeFour");
 
     g_code_four_text_box.setReadOnlyFlag(false);
@@ -307,6 +323,10 @@ function createTextBoxCodeFive()
     g_code_five_text_box.setSize("1");
 
     g_code_five_text_box.setValue("");
+
+    //TODO g_code_five_text_box.setInputTypeToNumber();
+
+   //TODO  g_code_five_text_box.setMaxlength("1");
 
     g_code_five_text_box.setOninputFunctionName("onInputCodeFive");
 
