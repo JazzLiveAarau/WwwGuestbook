@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-01-26
+File: GuestbookAdmin.css Date: 2024-01-27
 
 Author: Gunnar Liden
 
@@ -20,8 +20,8 @@ Defines all style classes for the application guestbook upload image
     width: 350px;
     margin-top: 20px;
     margin-left: 20px;
-    
-    height: 420px;
+
+    min-height: 420px;
 }
 
 /* For all <label> elements */
@@ -270,7 +270,7 @@ button
 
 .cl_div_upload_image_text
 {
-    margin-top: 10px;
+    margin-top: 5px;
     min-height: 30px;
     clear: both;    
 }

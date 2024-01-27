@@ -1,5 +1,5 @@
 // File: DisplayImageText.js
-// Date: 2024-01-26
+// Date: 2024-01-27
 // Author: Gunnar Lidén
 
 // File content
@@ -27,6 +27,9 @@ class DisplayImageText
         // Object container
         this.m_el_div_container = null;
 
+        // Label text
+        this.m_label_text = '';
+
         // The string for the text one element
         this.m_text_one_str = '';
 
@@ -38,6 +41,9 @@ class DisplayImageText
 
         // The string for the text four element
         this.m_text_four_str = '';
+
+         // Styles for the label to text group all element. Separate with semicolon
+        this.m_style_label_all_text = ''; // clear: both
 
         // Styles for the text group all element. Separate with semicolon
         this.m_style_text_group_all = ''; // clear: both; overflow: hidden
@@ -59,6 +65,11 @@ class DisplayImageText
 
         // Styles for text four. Separate with semicolon
         this.m_style_text_four = ''; // clear:both; font-size: 15px; font-style: italic; font-weight: bold; padding: 5px
+
+        // The title attribute specifies extra information about an element.
+        // The information is most often shown as a tooltip text when the mouse 
+        // moves over the element.
+        this.m_title = '';
 
         // Initialization
         this.init();
@@ -87,6 +98,14 @@ class DisplayImageText
         return this.m_el_div_container;
 
     } // getObject
+
+    // Sets the label text for the text box 
+    // There will be no label if the text not is set
+    setLabelText(i_label_text) 
+    {
+      this.m_label_text = i_label_text;
+
+    } // setLabelText    
 
     // Set the text one element
     setTextOne(i_text_one_str)
@@ -160,6 +179,13 @@ class DisplayImageText
         
     } // setTextFour
 
+     // Set styles for label all text. Separate with semicolon
+     setStyleLabelAllTextString(i_style_label_all_text)
+     {
+         this.m_style_label_all_text = i_style_label_all_text;
+ 
+     } // setStyleLabelAllTextString
+
      // Set styles for the text group all element. Separate with semicolon
      setStyleTextGroupAll(i_style_text_group_all)
      {
@@ -208,6 +234,15 @@ class DisplayImageText
          this.m_style_text_four = i_style_text_four;
  
      } // setStylTextFourString 
+
+    // Sets the title of this HTML element. The title can be a tool tip
+    // In a desktop computer the title is displayed when the mouse is
+    // over the HTML element
+    setTitle(i_title) 
+    {
+        this.m_title = i_title; 
+
+    } // setTitle
 
     // Returns the identity of the text group all div
     getIdTextGroupAllDiv()
@@ -315,6 +350,26 @@ class DisplayImageText
         
     } // hideElementTextGroupTwoDiv
 
+    // Get the HTML string defining the label textgroup all div
+    getLabelAllTextDivHtmlString(i_n_tabs)
+    {
+        var label_all_text_div_style_str = '';
+
+        if (this.m_display_div_borders)
+        {
+            label_all_text_div_style_str = label_all_text_div_style_str + '; border: 1px solid yellow';
+        }
+
+        if (this.m_style_label_all_text.length > 0)
+        {
+            label_all_text_div_style_str = label_all_text_div_style_str + '; ' + this.m_style_label_all_text;
+        }
+
+        var label_all_text_inner_html = this.m_label_text;
+
+        return UtilHtml.getDivElementLeafStyleString(this.getIdLabelAllTextDiv(), label_all_text_div_style_str, label_all_text_inner_html, i_n_tabs+1);
+
+    } // getLabelAllTextDivHtmlString
 
     // Get the HTML string defining the text group one div
     getTextGroupOneDivHtmlString(i_n_tabs)
@@ -367,6 +422,20 @@ class DisplayImageText
     } // getTextGroupTwoDivHtmlString
 
 
+    // Returns the identity of the div for the label text
+    getIdLabelAllTextDiv()
+    {
+        return 'id_label_all_text_div_' + this.m_id_my_fctn_str;
+
+    } // getIdLabelAllTextDiv
+
+    // Returns the element for the label text
+    getElementLabelAllTextDiv()
+    {
+        return document.getElementById(this.getIdLabelAllTextDiv());
+        
+    } // getElementLabelAllTextDiv
+
     // Returns the identity of the text one div
     getIdTextOneDiv()
     {
@@ -378,7 +447,8 @@ class DisplayImageText
     getElementTextOneDiv()
     {
         return document.getElementById(this.getIdTextOneDiv());
-    }
+
+    } // getElementTextOneDiv
 
     // Hide element div text one div
     hideElementTextOneDiv()
@@ -575,6 +645,8 @@ class DisplayImageText
         }
 
         var ret_html_str = '';
+
+        ret_html_str = ret_html_str + this.getLabelAllTextDivHtmlString(i_n_tabs+1);
 
         ret_html_str = ret_html_str + this.getTextGroupAllDivHtmlString(i_n_tabs);
 

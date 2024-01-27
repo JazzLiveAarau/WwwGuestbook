@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-26
+// Date: 2024-01-27
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -47,7 +47,7 @@ function callbackAllXmlObjectsCreatedForUpload()
 {
     g_guestbook_data = new GuestbookData();
 
-    createSetTextImageContainer();
+    createTextImageContainer();
 
     createUpdateControls();
 
@@ -403,11 +403,10 @@ function onClickSendCodeButton()
 
 } // onClickReqireCodeButton
 
-// User clicked the back two button
+// User clicked the back part two (upload of image) button, i.e.
+// the user comes bac to the start part with email address and names
 function onClickBackTwoButton()
 {
-    // alert("onClickBackTwoButton"); 
-
     displayElementDivNamesEmailCode();
 
     hideElementDivUploadContainerTwo();
@@ -454,6 +453,8 @@ function onClickForwardThreeButton()
     {
         return;
     }
+
+    setImageTextContainer();
 
     saveGuestbookUploadData();
 
@@ -766,11 +767,18 @@ function recordDirectToHomepage()
 
 
 // Create and set text image container
-function createSetTextImageContainer()
+function createTextImageContainer()
 {
     g_display_image_text = new DisplayImageText('upload', 'id_div_upload_image_text');
 
+    g_display_image_text.setLabelText("Bildtext auf der Homepage");
+
+    g_display_image_text.setTitle("Dieser Text wird unterm Bild auf der Homepage gezeigt");
+
     var font_size = '; font-size: 10px';
+
+    var style_label_all_text = 'clear: both; padding-left: 5px;';
+    g_display_image_text.setStyleLabelAllTextString(style_label_all_text);
 
     var style_text_group_all = 'clear: both; overflow: hidden; background-color: black; color: white';
     g_display_image_text.setStyleTextGroupAll(style_text_group_all);
@@ -795,7 +803,7 @@ function createSetTextImageContainer()
 
     g_display_image_text.display();
 
-} // createSetTextImageContainer
+} // createTextImageContainer
 
 // Sets the image text
 function setImageTextContainer()
@@ -812,6 +820,10 @@ function setImageTextContainer()
 
     var guest_text = g_guestbook_data.getImageText();
 
+    guest_text = UtilString.stringWindowsToHtml(guest_text);
+
+    guest_text = UtilString.stringConvertJazzLiveAarauToHtml(guest_text);
+
     var guest_header = g_guestbook_data.getImageTitle();
 
     g_display_image_text.setTextOne(guest_header);
@@ -821,12 +833,6 @@ function setImageTextContainer()
     g_display_image_text.setTextThree(guest_names);
 
     g_display_image_text.setTextFour(guest_text);
-
-/*
-  
-
-*/
-
 
 } // setImageTextContainer
 
