@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-01-26
+// Date: 2024-01-27
 // Authors: Gunnar Lidén
 
 // Content
@@ -12,6 +12,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Global Parameters /////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+// Object DisplayImageText for the display of image text
+var g_display_image_text = null;
 
 // Upload names
 var g_upload_names_text_box = null;
@@ -75,6 +78,8 @@ var g_upload_remark_text_box = null;
 // Creates all the controls for the web page
 function createUpdateControls()
 {
+    createTextImageContainer();
+
     createTextBoxUpdateNames();
 
     createTextBoxUpdateEmail();
@@ -110,6 +115,46 @@ function createUpdateControls()
     createTextBoxUpdateRemark();
 
 } // createUpdateControls
+
+
+// Create and set text image container
+function createTextImageContainer()
+{
+    g_display_image_text = new DisplayImageText('upload', 'id_div_upload_image_text');
+
+    g_display_image_text.setLabelText(GuestStr.labelUploadedAllTexts());
+
+    g_display_image_text.setTitle(GuestStr.titleUploadedAllTexts());
+
+    var font_size = '; font-size: 10px';
+
+    var style_label_all_text = 'clear: both; padding-left: 5px;';
+    g_display_image_text.setStyleLabelAllTextString(style_label_all_text);
+
+    var style_text_group_all = 'clear: both; overflow: hidden; background-color: black; color: white';
+    g_display_image_text.setStyleTextGroupAll(style_text_group_all);
+
+    var style_text_group_one = 'clear: both; overflow: hidden';
+    g_display_image_text.setStyleTextGroupOne(style_text_group_one);
+
+    var style_text_group_two = 'clear: both; overflow: hidden';
+    g_display_image_text.setStyleTextGroupTwo(style_text_group_two);
+
+    var style_text_one = 'float: left; padding: 5px; font-weight: bold' + font_size;
+    g_display_image_text.setStylTextOneString(style_text_one);
+
+    var style_text_two = 'float: right; padding: 5px; font-weight: bold' + font_size;;
+    g_display_image_text.setStylTextTwoString(style_text_two);
+
+    var style_text_three = 'clear:both; padding: 5px; text-align: center; font-style: italic; font-weight: bold' + font_size;;
+    g_display_image_text.setStylTextThreeString(style_text_three);
+
+    var style_text_four = 'clear:both; padding: 5px; font-style: italic; font-weight: bold' + font_size;;
+    g_display_image_text.setStylTextFourString(style_text_four);
+
+    g_display_image_text.display();
+
+} // createTextImageContainer
 
 // Create the admin names text box
 function createTextBoxUpdateNames()

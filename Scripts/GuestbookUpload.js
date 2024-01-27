@@ -17,9 +17,6 @@ var g_guestbook_data = null;
 // Object UploadImage control
 var g_upload_image_object = null;
 
-// Object DisplayImageText for the display of image text
-var g_display_image_text = null;
-
 // Keys for the local storage of names and email
 var g_local_storage_guestbook_names = "guestbook_names_str";
 var g_local_storage_guestbook_email = "guestbook_email_str";
@@ -46,8 +43,6 @@ function initGuestbookUpload()
 function callbackAllXmlObjectsCreatedForUpload()
 {
     g_guestbook_data = new GuestbookData();
-
-    createTextImageContainer();
 
     createUpdateControls();
 
@@ -432,6 +427,8 @@ function onClickForwardTwoButton()
 
     displayElementDivUploadTexts();
 
+    setImageTextContainer();
+
 } // onClickReqireCodeButton
 
 // User clicked the back part three (texts input) button
@@ -453,8 +450,6 @@ function onClickForwardThreeButton()
     {
         return;
     }
-
-    setImageTextContainer();
 
     saveGuestbookUploadData();
 
@@ -765,47 +760,11 @@ function recordDirectToHomepage()
 ///////////////////////// End Register Uploaded Data //////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Image Text Container //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
 
-// Create and set text image container
-function createTextImageContainer()
-{
-    g_display_image_text = new DisplayImageText('upload', 'id_div_upload_image_text');
-
-    g_display_image_text.setLabelText("Bildtext auf der Homepage");
-
-    g_display_image_text.setTitle("Dieser Text wird unterm Bild auf der Homepage gezeigt");
-
-    var font_size = '; font-size: 10px';
-
-    var style_label_all_text = 'clear: both; padding-left: 5px;';
-    g_display_image_text.setStyleLabelAllTextString(style_label_all_text);
-
-    var style_text_group_all = 'clear: both; overflow: hidden; background-color: black; color: white';
-    g_display_image_text.setStyleTextGroupAll(style_text_group_all);
-
-    var style_text_group_one = 'clear: both; overflow: hidden';
-    g_display_image_text.setStyleTextGroupOne(style_text_group_one);
-
-    var style_text_group_two = 'clear: both; overflow: hidden';
-    g_display_image_text.setStyleTextGroupTwo(style_text_group_two);
-
-    var style_text_one = 'float: left; padding: 5px; font-weight: bold' + font_size;
-    g_display_image_text.setStylTextOneString(style_text_one);
-
-    var style_text_two = 'float: right; padding: 5px; font-weight: bold' + font_size;;
-    g_display_image_text.setStylTextTwoString(style_text_two);
-
-    var style_text_three = 'clear:both; padding: 5px; text-align: center; font-style: italic; font-weight: bold' + font_size;;
-    g_display_image_text.setStylTextThreeString(style_text_three);
-
-    var style_text_four = 'clear:both; padding: 5px; font-style: italic; font-weight: bold' + font_size;;
-    g_display_image_text.setStylTextFourString(style_text_four);
-
-    g_display_image_text.display();
-
-} // createTextImageContainer
-
-// Sets the image text
+// Sets the image text container
 function setImageTextContainer()
 {
     var guest_year = g_guestbook_data.getYear();
@@ -835,6 +794,10 @@ function setImageTextContainer()
     g_display_image_text.setTextFour(guest_text);
 
 } // setImageTextContainer
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Image Text Container ////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Debug Function ////////////////////////////////////////////

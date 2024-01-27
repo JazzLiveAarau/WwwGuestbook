@@ -395,6 +395,20 @@ class GuestStr
         return 'Alle existierende (registrierte) oder neue vom Publikum aufgeladene';
 
     } // titleCheckBoxNewRecords
+
+    // Label all texts for uploaded image
+    static labelUploadedAllTexts()
+    {
+        return 'Text auf der Homepage';
+
+    } // labelUploadedAllTexts
+
+    // Title (tooltip) all texts for uploaded image
+    static titleUploadedAllTexts()
+    {
+        return 'Auf der Homepage gezeigte Texte';
+
+    } // titleUploadedAllTexts
 	
     // Upload code has been inputted and is valid and the user has changed the email address
     // This warning tells the user that a new code must requested for the new email 

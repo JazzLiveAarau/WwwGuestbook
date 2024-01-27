@@ -238,6 +238,7 @@ class DisplayImageText
     // Sets the title of this HTML element. The title can be a tool tip
     // In a desktop computer the title is displayed when the mouse is
     // over the HTML element
+    // TODO Not yet impemented
     setTitle(i_title) 
     {
         this.m_title = i_title; 
