@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-22
+// Date: 2024-01-26
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -16,6 +16,9 @@ var g_guestbook_data = null;
 
 // Object UploadImage control
 var g_upload_image_object = null;
+
+// Object DisplayImageText for the display of image text
+var g_display_image_text = null;
 
 // Keys for the local storage of names and email
 var g_local_storage_guestbook_names = "guestbook_names_str";
@@ -43,6 +46,8 @@ function initGuestbookUpload()
 function callbackAllXmlObjectsCreatedForUpload()
 {
     g_guestbook_data = new GuestbookData();
+
+    createSetTextImageContainer();
 
     createUpdateControls();
 
@@ -78,6 +83,7 @@ function callbackAllXmlObjectsCreatedForUpload()
     g_upload_image_object = new JazzUploadImage(getIdDivUploadFileImage(), input_data);
 
 } // callbackAllXmlObjectsCreatedForUpload
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Main Functions //////////////////////////////////////////////
@@ -527,7 +533,22 @@ function onInputTextBoxUpdateTitle()
         hideElementDivUploadButtonForwardThree();
     }
 
+    g_guestbook_data.setImageTitle(titel_text);
+
+    setImageTextContainer();
+
 } // onInputTextBoxUpdateTitle
+
+function onInputTextTextArea()
+{
+    var image_text = g_text_textarea.getValue();
+
+    g_guestbook_data.setImageText(image_text);
+
+    setImageTextContainer();
+
+} // onInputTextTextArea
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Event Functions /////////////////////////////////////////////
@@ -742,6 +763,72 @@ function recordDirectToHomepage()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Register Uploaded Data //////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Create and set text image container
+function createSetTextImageContainer()
+{
+    g_display_image_text = new DisplayImageText('upload', 'id_div_upload_image_text');
+
+    var font_size = '; font-size: 10px';
+
+    var style_text_group_all = 'clear: both; overflow: hidden; background-color: black; color: white';
+    g_display_image_text.setStyleTextGroupAll(style_text_group_all);
+
+    var style_text_group_one = 'clear: both; overflow: hidden';
+    g_display_image_text.setStyleTextGroupOne(style_text_group_one);
+
+    var style_text_group_two = 'clear: both; overflow: hidden';
+    g_display_image_text.setStyleTextGroupTwo(style_text_group_two);
+
+    var style_text_one = 'float: left; padding: 5px; font-weight: bold' + font_size;
+    g_display_image_text.setStylTextOneString(style_text_one);
+
+    var style_text_two = 'float: right; padding: 5px; font-weight: bold' + font_size;;
+    g_display_image_text.setStylTextTwoString(style_text_two);
+
+    var style_text_three = 'clear:both; padding: 5px; text-align: center; font-style: italic; font-weight: bold' + font_size;;
+    g_display_image_text.setStylTextThreeString(style_text_three);
+
+    var style_text_four = 'clear:both; padding: 5px; font-style: italic; font-weight: bold' + font_size;;
+    g_display_image_text.setStylTextFourString(style_text_four);
+
+    g_display_image_text.display();
+
+} // createSetTextImageContainer
+
+// Sets the image text
+function setImageTextContainer()
+{
+    var guest_year = g_guestbook_data.getYear();
+
+    var guest_month = g_guestbook_data.getMonth();
+
+    var guest_day = g_guestbook_data.getDay();
+
+    var guest_date = UtilDate.getSwissDateString(guest_year, guest_month, guest_day);
+
+    var guest_names = g_guestbook_data.getImageNames();
+
+    var guest_text = g_guestbook_data.getImageText();
+
+    var guest_header = g_guestbook_data.getImageTitle();
+
+    g_display_image_text.setTextOne(guest_header);
+
+    g_display_image_text.setTextTwo(guest_date);
+
+    g_display_image_text.setTextThree(guest_names);
+
+    g_display_image_text.setTextFour(guest_text);
+
+/*
+  
+
+*/
+
+
+} // setImageTextContainer
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Debug Function ////////////////////////////////////////////

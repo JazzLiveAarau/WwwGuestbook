@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-01-14
+// Date: 2024-01-26
 // Authors: Gunnar Lidén
 
 // Content
@@ -436,6 +436,8 @@ function createTextTextArea()
     g_text_textarea.setLabelTextPositionAbove();
 
     g_text_textarea.setValue("");
+
+    g_text_textarea.setOninputFunctionName("onInputTextTextArea")
 
     g_text_textarea.setReadOnlyFlag(false);
 
