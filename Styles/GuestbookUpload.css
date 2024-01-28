@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-01-27
+File: GuestbookAdmin.css Date: 2024-01-28
 
 Author: Gunnar Liden
 
@@ -110,12 +110,27 @@ button
     clear: both;    
 }
 
-.cl_div_upload_code_cell
+.cl_div_upload_code_cell_one
 {
     /* border: solid 1px green; */
     min-width: 30px;
     margin-left: 5px;
     float: left;
+}
+
+.cl_div_upload_code_cell
+{
+    /* border: solid 1px blue; */
+    padding-top: 16px;
+    min-width: 30px;
+    margin-left: 5px;
+    float: left;
+}
+
+.cl_div_upload_code_cell_one input
+{
+    font-weight: bold;
+    text-align: center;
 }
 
 .cl_div_upload_code_cell input
@@ -124,10 +139,10 @@ button
     text-align: center;
 }
 
-
 .cl_div_upload_button_send
 {
     /* border: solid 1px yellow; */
+    margin-top: 5px;
     clear: both;    
 }
 
