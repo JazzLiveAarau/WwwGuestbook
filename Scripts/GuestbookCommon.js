@@ -95,12 +95,6 @@ function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_
         return false;
     }
 
-
-    // TODO if (!moveImageFromUploadedToBackupDir(i_record_uploaded_number))
-    // TODO {
-    // TODO    return false;
-    // TODO}
-
     return true;
 
 } // appendUserUploadedRecordMakeBackups

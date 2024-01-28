@@ -132,15 +132,9 @@ class JazzUploadImage
 
         this.addEventListenerForInputFileElement(this, this.m_input_data);
 
-        UtilServer.initDebugFile(this.m_debug_file_name);
-
-       // Funktioniert nicht here ????
-       //var url_default_image = this.m_input_data.m_default_img;
-       //UtilImage.replaceImageInDivContainer(url_default_image, JazzUploadImage.getElementDivImageContainer());
-
     } // init
 
-    // Swt the full server file name (URL) to the uploaded image
+    // Set the full server file name (URL) to the uploaded image
     setImageFileFullName(i_full_server_file_name)
     {
                 
@@ -150,8 +144,7 @@ class JazzUploadImage
 
     // Swt the full server file name (URL) to the uploaded image
     getImageFileFullName(i_full_server_file_name)
-    {
-                
+    {       
         return this.m_full_server_file_name;
 
     } // getImageFileFullName
@@ -183,6 +176,8 @@ class JazzUploadImage
     async userSelectedFiles(i_input_object, i_input_data)
     {
         JazzUploadImage.debugAppend("userSelectedFiles Enter");
+
+        this.setDefaultImage();
 
         displayElementDivUploadButtonForwardTwo();
         
@@ -248,6 +243,61 @@ class JazzUploadImage
 
     } // userSelectedFiles
 
+    // Set default image and ....
+    async setDefaultImage()
+    {
+
+        if (this.getImageFileFullName().length == 0)
+        {
+            JazzUploadImage.debugAppend("setDefaultImage Do nothing. No image has yet been uploaded");
+
+            return;
+        }
+
+        JazzUploadImage.debugAppend("setDefaultImage An image has already been uploaded");
+
+        var b_execute_server = UtilServer.execApplicationOnServer();
+
+        var uploaded_file_name = this.getImageFileFullName();
+
+        var name_no_path = UtilServer.getFileName(uploaded_file_name);
+
+        var input_move_file = g_guestbook_upload_xml_dir + name_no_path;
+    
+        var output_move_file = g_guestbook_backups_xml_dir + name_no_path;
+
+        JazzUploadImage.debugAppend("setDefaultImage input_move_file= " + input_move_file);
+
+        JazzUploadImage.debugAppend("setDefaultImage output_move_file= " + output_move_file);
+
+        if (!b_execute_server)
+        {
+            JazzUploadImage.debugAppend('setDefaultImage Do not move image by testing with Live Server');
+    
+            return;
+        }
+
+        var b_move = UtilServer.moveFile(i_input_url, i_output_url);
+
+        if (b_move)
+        {
+            JazzUploadImage.debugAppend("setDefaultImage Previous uploaded image has been moved to Backups");
+        }
+        else
+        {
+            JazzUploadImage.debugAppend('setDefaultImage Failure moving previous uploaded image to Backups');
+
+            return;
+        }
+    
+        var url_default_image = this.m_input_data.m_default_img;
+
+        UtilImage.replaceImageInDivContainer(url_default_image, JazzUploadImage.getElementDivImageContainer());
+        
+        JazzUploadImage.debugAppend("setDefaultImage Default image was set");
+
+    } // setDefaultImage
+
     // Upload image to the server
     static async uploadImageToServer(i_image_file, i_full_server_file_name) 
     {
@@ -303,8 +353,6 @@ class JazzUploadImage
     
         console.log("uploadImageToServer response=");
         console.log(response);
-
-        JazzUploadImage.debugAppend("uploadImageToServer response: " + response);
     
         if (response.ok)
         {
@@ -314,7 +362,9 @@ class JazzUploadImage
 
             // setTimeout(JazzUploadImage.displayImageUploadedImage, 500, i_full_server_file_name);
 
-            JazzUploadImage.displayImageUploadedImage(i_full_server_file_name);
+            var abs_url_file = 'https://jazzliveaarau.ch/JazzGuests/Uploaded/' + UtilServer.getFileName(i_full_server_file_name);
+
+            JazzUploadImage.displayImageUploadedImage(abs_url_file);
         }
         else
         {
@@ -329,13 +379,9 @@ class JazzUploadImage
     // Display the uploaded image
     static async displayImageUploadedImage(i_file_name)
     {
+        JazzUploadImage.debugAppend("displayImageUploadedImage i_file_name= " + i_file_name);
 
-        var url_file = 'https://jazzliveaarau.ch/JazzGuests/Uploaded/' + UtilServer.getFileName(i_file_name);
-
-        // JazzUploadImage.debugAppend("displayImageUploadedImage Input file name= " + i_file_name);
-        JazzUploadImage.debugAppend("displayImageUploadedImage URL= " + url_file);
-
-        UtilImage.replaceImageInDivContainer(url_file, JazzUploadImage.getElementDivImageContainer());
+        UtilImage.replaceImageInDivContainer(i_file_name, JazzUploadImage.getElementDivImageContainer());
 
         JazzUploadImage.debugAppend("displayImageUploadedImage UtilImage.replaceImageInDivContainer was called");
 
@@ -617,87 +663,6 @@ class JazzUploadImage
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Event Functions ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-/*QQQQQQQ
-// https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Ajax-JavaScript-file-upload-example
-// https://www.php.net/manual/en/features.file-upload.post-method.php
-// https://developer.mozilla.org/en-US/docs/Web/API/FormData/append
-// https://web.dev/articles/fetch-api-error-handling?hl=de
-
-async function uploadImageToServer(i_image_file) 
-{
-    // This is the statement in GuestbookAdmin.htm defining the input of type file object
-    // <input id="id_fileupload" type="file" name="fileupload" /> 
-
-    // When the user has selected files data about them can be retrieved from a FileList object: An array of File objects
-    // The HTML object <input> of type file has an attribute files that is this array.
-    // Very strange is that it is possible to use the identity string of the <input> object to retrieve the array
-    // For this application there is only one element (file) in the array. Below is the object used to retrieve the FileList
-
-
-    // console.log("uploadImageToServer Selected files FileList= ");
-    // console.log(getElementInputFile().files);
-
-    console.log("uploadImageToServer Is this function used ????????????????????????????????????????????????????????");
-
-    if (null == i_image_file)
-    {
-        alert("uploadImageToServer Input image file is null");
-
-        return;
-    }
-
-    var form_data = new FormData(); 
-    
-    form_data.append("file_input", i_image_file);
-
-    console.log("uploadImageToServer Sent to PHP is FormData where the following data has been appended ");
-
-    console.log(i_image_file);
-
-    if (!UtilServer.execApplicationOnServer())
-    {
-        alert("uploadImageToServer Images cannot be uploaded with PHP functions. Please upload and execute the application on the server");
-
-        return;
-    }
-
-    var response = null;
-
-    try
-    {
-        response = await fetch('Php/UploadImageToServer.php', 
-        {
-        method: "POST", 
-        body: form_data
-        }
-      );    
-    }
-    catch (error) 
-    {
-        console.log(error);
-
-        alert('Failure uploading file: ' + error);
-
-        return;
-    }
-
-    console.log("uploadImageToServer response=");
-    console.log(response);
-
-    if (response.ok)
-    {
-        alert('The file has been uploaded successfully.');
-    }
-    else
-    {
-        alert('Failure uploading file (respons).');
-    }
- 
-
-} // uploadFile
-
-QQQQ*/
 
 const compressImage = async (file, { quality = 1, type = file.type }) => {
     // Get as image data

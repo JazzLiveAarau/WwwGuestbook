@@ -69,7 +69,9 @@ function callbackAllXmlObjectsCreatedForUpload()
 
     var image_max_size_mb = 1.5;
 
-    var default_img = 'Icons/default_upload_image.jpg';
+    //QQQ var default_img = 'Icons/default_upload_image.jpg';
+
+    var default_img = 'https://jazzliveaarau.ch/Guestbook/Icons/default_upload_image.jpg';
 
     var caption_select_img = 'Bild wählen';
 
