@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-28
+// Date: 2024-01-29
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -44,6 +44,8 @@ function callbackAllXmlObjectsCreatedForUpload()
 {
     g_guestbook_data = new GuestbookData();
 
+    setUploadGuestbookTitle();
+
     createUpdateControls();
 
     setGuestbookNamesAndEmailFromLocalStorage();
@@ -60,6 +62,8 @@ function callbackAllXmlObjectsCreatedForUpload()
 
     hideElementDivButtonSendCode();
 
+    hideDivUploadTextsRemark();
+
     var upload_path = '../../JazzGuests/Uploaded/';
 
     var upload_file_name = 'Image_' + UtilDate.getTimeStamp();
@@ -68,8 +72,6 @@ function callbackAllXmlObjectsCreatedForUpload()
     var upload_file_extension = ''; 
 
     var image_max_size_mb = 1.5;
-
-    //QQQ var default_img = 'Icons/default_upload_image.jpg';
 
     var default_img = 'https://jazzliveaarau.ch/Guestbook/Icons/default_upload_image.jpg';
 
@@ -801,6 +803,24 @@ function setImageTextContainer()
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Image Text Container ////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Set Functions /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Sets the title for the upload guest application
+function setUploadGuestbookTitle()
+{
+    var el_div_application_title = getElementDivUploadGuestbookTitle();
+
+    el_div_application_title.innerHTML = GuestStr.titleGuestbookApplication();
+
+} // setUploadGuestbookTitle
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Set Functions ///////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////

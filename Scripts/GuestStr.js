@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-01-26
+// Date: 2024-01-29
 // Author: Gunnar Liden
 
 // File content
@@ -9,6 +9,13 @@
 
 class GuestStr
 {
+    // Title for the upload guestbook application
+    static titleGuestbookApplication()
+    {
+        return 'Beitrag erfassen';
+
+    } // titleGuestbookApplication
+
     // Subject for the request code email
     static emailCodeSubject()
     {

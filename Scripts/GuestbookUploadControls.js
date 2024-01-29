@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-01-27
+// Date: 2024-01-29
 // Authors: Gunnar Lidén
 
 // Content
@@ -504,7 +504,7 @@ function createTextBoxUpdateTitle()
 // Creates the textarea for theguest text
 function createTextTextArea()
 {
-    g_text_textarea = new JazzTextArea("id_upload_texts_text", "id_div_upload_texts_text", "3", "39");
+    g_text_textarea = new JazzTextArea("id_upload_texts_text", "id_div_upload_texts_text", "5", "39");
 
     g_text_textarea.setLabelText(GuestStr.labelTextAreaText());
 

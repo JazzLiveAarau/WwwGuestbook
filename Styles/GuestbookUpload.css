@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-01-28
+File: GuestbookAdmin.css Date: 2024-01-29
 
 Author: Gunnar Liden
 
@@ -50,17 +50,24 @@ button
     text-align: center;
     background-color: black;
     color: rgb(255, 0, 40);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
+    padding-top: 3px;
+    padding-bottom: 3px;
     overflow: hidden;   
     width: 100%;
+}
+
+.cl_div_guestbook_title
+{
+    font-size: 15px;
 }
 
 /* Image <img> Elemente in <div> element logo */
 .cl_upload_logo img
 {
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .cl_div_upload_names_email_code

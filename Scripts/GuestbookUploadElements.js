@@ -1,5 +1,5 @@
 // File: GuestbookUploadElements.js
-// Date: 2024-01-13
+// Date: 2024-01-29
 // Author: Gunnar Liden
 
 // File content
@@ -370,3 +370,39 @@ function getIdDivUploadButtonForwardThree()
     return 'id_div_upload_button_forward_part_three';
 
 } // getIdDivUploadButtonForwardThree
+
+// Returns the div element for the upload application title
+function getElementDivUploadGuestbookTitle()
+{
+    return document.getElementById(getIdDivUploadGuestbookTitle());
+
+} // getElementDivUploadGuestbookTitle
+
+// Returns the div identity for the upload application title
+function getIdDivUploadGuestbookTitle()
+{
+    return 'id_div_guestbook_title';
+
+} // getIdDivUploadGuestbookTitle
+
+// Hides the container element div for the text box remark
+function hideDivUploadTextsRemark()
+{
+    getElementDivUploadTextsRemark().style.display = 'none';
+
+} // hideDivUploadTextsRemark
+
+// Returns the div element for the text box remark
+function getElementDivUploadTextsRemark()
+{
+    return document.getElementById(getIdDivUploadTextsRemark());
+
+} // getElementDivUploadTextsRemark
+
+// Returns the div identity for the text box remark
+function getIdDivUploadTextsRemark()
+{
+    return 'id_upload_texts_remark';
+
+} // getIdDivUploadTextsRemark
+

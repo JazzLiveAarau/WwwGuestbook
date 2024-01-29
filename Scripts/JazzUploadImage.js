@@ -632,6 +632,13 @@ class JazzUploadImage
     // Create a new debug file
     static initDebugFile()
     {
+        var b_execute_server = UtilServer.execApplicationOnServer();
+
+        if (!b_execute_server)
+        {
+            return;
+        }
+
         if (JazzUploadImage.getDebugFilename() == 'NoDebug')
         {
             return;
@@ -644,6 +651,18 @@ class JazzUploadImage
     // Append to debug file
     static debugAppend(i_msg_str)
     {
+        var b_execute_server = UtilServer.execApplicationOnServer();
+
+        if (!b_execute_server)
+        {
+            return;
+        }
+        
+        if (JazzUploadImage.getDebugFilename() == 'NoDebug')
+        {
+            return;
+        }
+        
         if (JazzUploadImage.getDebugFilename() == 'NoDebug')
         {
             return;
