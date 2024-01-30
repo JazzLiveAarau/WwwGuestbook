@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-29
+// Date: 2024-01-30
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -550,6 +550,15 @@ function onInputTextTextArea()
     setImageTextContainer();
 
 } // onInputTextTextArea
+
+// User clicked the information icon
+function clickGuestbookInfo()
+{
+    var file_name = 'https://jazzliveaarau.ch/Guestbook/Info/InfoGuestbookUpload.htm';
+
+    window.open(file_name, '_blank');
+
+} // clickGuestbookInfo
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

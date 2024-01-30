@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-01-29
+File: GuestbookAdmin.css Date: 2024-01-30
 
 Author: Gunnar Liden
 
@@ -58,13 +58,38 @@ button
     width: 100%;
 }
 
+.cl_div_guestbook_title_info
+{
+    /* border: solid 1px yellow; */
+    clear: both;
+}
+
 .cl_div_guestbook_title
 {
+     /* border: solid 1px white; */
+     margin-left: 10%;
     font-size: 15px;
+    width: 78%;
+    float: left;
+}
+
+.cl_div_guestbook_info
+{
+    /* border: solid 1px white; */
+    text-align: right;
+    padding-right: 6px;
+    width: 8%;
+    float: right;
+    cursor: pointer;
+}
+
+.cl_jazz_notes_title
+{
+    clear: both;
 }
 
 /* Image <img> Elemente in <div> element logo */
-.cl_upload_logo img
+.cl_jazz_notes_title img
 {
     margin-left: 10px;
     margin-right: 10px;
