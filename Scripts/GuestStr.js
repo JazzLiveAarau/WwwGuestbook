@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-01-29
+// Date: 2024-01-31
 // Author: Gunnar Liden
 
 // File content
@@ -15,6 +15,20 @@ class GuestStr
         return 'Beitrag erfassen';
 
     } // titleGuestbookApplication
+
+    // Subject for the guestbook email
+    static emailGuestbookSubject()
+    {
+        return 'Neuer Beitrag von ';
+
+    } // emailGuestbookSubject
+
+     // Error for the guestbook email
+     static emailGuestbookError(i_email)
+     {
+         return 'E-Mail wurde nicht an ' + i_email + ' gesendet';
+ 
+     } // emailGuestbookError   
 
     // Subject for the request code email
     static emailCodeSubject()

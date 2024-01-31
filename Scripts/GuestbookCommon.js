@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-01-26
+// Date: 2024-01-31
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -677,7 +677,7 @@ class GuestbookData
     } // setImageNames
 
     // Returns image names
-    getImageNames(i_names)
+    getImageNames()
     {
         return this.m_names;
 

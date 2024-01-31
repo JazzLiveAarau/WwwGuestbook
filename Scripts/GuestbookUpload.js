@@ -137,43 +137,6 @@ function initAllInputCodes()
 
 } // initAllInputCodes
 
-// Sends an email with code
-function sendGuestbookCodeEmail()
-{
-    var random_code = g_guestbook_data.getRandomCode();
-
-    var email_from = GuestStr.emailCodeFrom();
-
-    var email_subject = GuestStr.emailCodeSubject() + random_code;
-
-    var email_message = GuestStr.emailCodeMessage() + random_code;
-
-    var email_to = g_guestbook_data.m_email;
-    
-    // var email_bcc = GuestStr.emailCodeFrom();
-    // Not necessary that we see that somebody has got a code
-    var email_bcc = '';
-
-    if (!UtilServer.execApplicationOnServer())
-    {
-        alert("sendGuestbookCodeEmail PHP cannot execute with Visual Studio Live Server. The code: " + random_code);
-
-        return;
-    }
-    
-    var b_send = UtilEmail.send(email_from, email_subject, email_message, email_to, email_bcc);
-
-    if (b_send)
-    {
-        alert(GuestStr.emailCodeSent(email_to));
-    }
-    else
-    {
-        alert(GuestStr.emailCodeError(email_to));
-    }
-
-} // sendGuestbookCodeEmail
-
 // Set focus on textbox forthe input of the code
 function inputCheckSetCodeFocus(i_code_number)
 {
@@ -748,6 +711,8 @@ function appendSetSaveGuestbookUploadData()
         return;
     }
 
+    var b_send = sendEmailToGuestbook();
+
     if (b_upload_also_to_homepage)
     {
         setTimeout(recordDirectToHomepage, 1000);
@@ -830,6 +795,101 @@ function setUploadGuestbookTitle()
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Set Functions ///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Email Functions ///////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// The function sends an email to the Guestbook account.
+// This email informs the administrator that a new uploaded record should be checked
+// with application GuestbookAdmin.html
+function sendEmailToGuestbook()
+{
+    var email_from = GuestStr.emailCodeFrom();
+
+    var email_to = GuestStr.emailCodeFrom();
+
+    var email_subject = GuestStr.emailGuestbookSubject() + g_guestbook_data.getImageNames();
+
+    var email_bcc = '';
+
+    var textarea_str = g_guestbook_data.getImageText();
+
+    textarea_str = UtilString.stringWindowsToHtml(textarea_str);
+
+    var email_message = '';
+
+    var record_date = UtilDate.getIsoDateString(g_guestbook_data.getYear(), g_guestbook_data.getMonth(), g_guestbook_data.getDay());
+
+    email_message = email_message + 'Datum: ' + record_date + '<br>';
+    email_message = email_message + 'Email: ' + g_guestbook_data.getImageEmail() + '<br>';
+    email_message = email_message + 'Names: ' + g_guestbook_data.getImageNames() + '<br>';
+    email_message = email_message + 'Title: ' + g_guestbook_data.getImageTitle() + '<br>';
+    email_message = email_message + 'Band: ' + g_guestbook_data.getBand() + '<br>';
+    email_message = email_message + 'Musicians: ' + g_guestbook_data.getMusicians() + '<br>';
+    email_message = email_message + 'Remark: ' + g_guestbook_data.getImageRemark() + '<br>';
+    email_message = email_message + 'Text: ' + textarea_str + '<br>';
+
+    if (!UtilServer.execApplicationOnServer())
+    {
+        alert("sendGuestbookCodeEmail PHP cannot execute with Visual Studio Live Server. The code: " + random_code);
+
+        return true;
+    }    
+
+    var b_send = UtilEmail.send(email_from, email_subject, email_message, email_to, email_bcc);
+
+    if (!b_send)
+    {
+        alert(GuestStr.emailGuestbookError(email_to));
+
+        return false;
+    }
+
+    return true;
+
+} // sendEmailToGuestbook
+
+// Sends an email with code
+function sendGuestbookCodeEmail()
+{
+    var random_code = g_guestbook_data.getRandomCode();
+
+    var email_from = GuestStr.emailCodeFrom();
+
+    var email_subject = GuestStr.emailCodeSubject() + random_code;
+
+    var email_message = GuestStr.emailCodeMessage() + random_code;
+
+    var email_to = g_guestbook_data.getImageEmail();
+    
+    // var email_bcc = GuestStr.emailCodeFrom();
+    // Not necessary that we see that somebody has got a code
+    var email_bcc = '';
+
+    if (!UtilServer.execApplicationOnServer())
+    {
+        alert("sendGuestbookCodeEmail PHP cannot execute with Visual Studio Live Server. The code: " + random_code);
+
+        return;
+    }
+    
+    var b_send = UtilEmail.send(email_from, email_subject, email_message, email_to, email_bcc);
+
+    if (b_send)
+    {
+        alert(GuestStr.emailCodeSent(email_to));
+    }
+    else
+    {
+        alert(GuestStr.emailCodeError(email_to));
+    }
+
+} // sendGuestbookCodeEmail
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Email Functions /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
