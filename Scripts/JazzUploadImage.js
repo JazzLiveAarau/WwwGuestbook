@@ -1,5 +1,5 @@
 // File: JazzUploadImage.js
-// Date: 2024-01-29
+// Date: 2024-01-31
 // Author: Gunnar Lidén
 
 // Content
@@ -277,7 +277,7 @@ class JazzUploadImage
             return;
         }
 
-        var b_move = UtilServer.moveFile(i_input_url, i_output_url);
+        var b_move = UtilServer.moveFile(input_move_file, output_move_file);
 
         if (b_move)
         {
