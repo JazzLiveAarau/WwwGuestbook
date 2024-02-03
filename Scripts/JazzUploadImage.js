@@ -1,5 +1,5 @@
 // File: JazzUploadImage.js
-// Date: 2024-01-31
+// Date: 2024-02-01
 // Author: Gunnar Lidén
 
 // Content
@@ -178,6 +178,8 @@ class JazzUploadImage
         JazzUploadImage.debugAppend("userSelectedFiles Enter");
 
         this.setDefaultImage();
+
+        JazzUploadImage.debugAppend("userSelectedFiles After setDefaultImage");
 
         displayElementDivUploadButtonForwardTwo();
         
@@ -360,11 +362,11 @@ class JazzUploadImage
 
             JazzUploadImage.debugAppend("uploadImageToServer The file has been uploaded successfully");
 
-            // setTimeout(JazzUploadImage.displayImageUploadedImage, 500, i_full_server_file_name);
+            // setTimeout(JazzUploadImage.displayUploadedImage, 500, i_full_server_file_name);
 
             var abs_url_file = 'https://jazzliveaarau.ch/JazzGuests/Uploaded/' + UtilServer.getFileName(i_full_server_file_name);
 
-            JazzUploadImage.displayImageUploadedImage(abs_url_file);
+            JazzUploadImage.displayUploadedImage(abs_url_file);
         }
         else
         {
@@ -377,15 +379,15 @@ class JazzUploadImage
     } // uploadFile
 
     // Display the uploaded image
-    static async displayImageUploadedImage(i_file_name)
+    static async displayUploadedImage(i_file_name)
     {
-        JazzUploadImage.debugAppend("displayImageUploadedImage i_file_name= " + i_file_name);
+        JazzUploadImage.debugAppend("displayUploadedImage i_file_name= " + i_file_name);
 
         UtilImage.replaceImageInDivContainer(i_file_name, JazzUploadImage.getElementDivImageContainer());
 
-        JazzUploadImage.debugAppend("displayImageUploadedImage UtilImage.replaceImageInDivContainer was called");
+        JazzUploadImage.debugAppend("displayUploadedImage UtilImage.replaceImageInDivContainer was called");
 
-    } // displayImageUploadedImage
+    } // displayUploadedImage
     
 
     // Get a compressed image if bigger as the input maximum size in Megabyte
