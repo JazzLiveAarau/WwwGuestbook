@@ -74,6 +74,66 @@ class JazzUploadImageInput
 
     } // setFileExtensionFromAnotherFile
 
+    // Set the extension from a File object type
+    setFileExtensionFromObjectFileType(i_file_object)
+    {
+        var file_type_str = i_file_object.type;
+
+        var index_image = file_type_str.indexOf('image');
+
+        if (index_image < 0)
+        {
+            alert("JazzUploadImageInput.setFileExtensionFromObjectFileType Not an image");
+
+            return;
+        }
+        var index_jpg = file_type_str.indexOf('jpg');
+
+        var index_jpeg = file_type_str.indexOf('jpeg');
+
+        var index_png = file_type_str.indexOf('png');
+
+        var index_gif = file_type_str.indexOf('gif');
+
+        var index_bmp = file_type_str.indexOf('bmp');
+
+        var extension_str = '';
+
+        if (index_jpg >= 0)
+        {
+            extension_str = '.jpg';
+        }
+        else if (index_jpeg >= 0)
+        {
+            extension_str = '.jpg';
+        }
+        else if (index_png >= 0)
+        {
+            extension_str = '.png';
+        }
+        else if (index_gif >= 0)
+        {
+            extension_str = '.gif';
+        }
+        else if (index_bmp >= 0)
+        {
+            extension_str = '.bmp';
+        }
+        else
+        {
+            extension_str = '.jpg';
+
+            var warning_message = "JazzUploadImageInput.setFileExtensionFromObjectFileType Warning Image type not jpg, jpeg, png, gif or bmp. Type= " + file_type_str;
+
+            alert(warning_message);
+
+            console.log(warning_message);
+        }
+
+        this.m_upload_file_extension = extension_str;
+
+    } // setFileExtensionFromObjectFileType
+
     // Returns the server file name (URL) for the file that shall be uploaded
     getImageFileFullName()
     {
@@ -216,7 +276,7 @@ class JazzUploadImage
 
             var file_name = image_file.name;
 
-            i_input_data.setFileExtensionFromAnotherFile(file_name);
+            i_input_data.setFileExtensionFromAnotherFile(file_name); // Really needed?
 
             full_server_file_name = i_input_data.getImageFileFullName();
 
@@ -232,7 +292,7 @@ class JazzUploadImage
 
             console.log("JazzUploadImage.userSelectedFiles The image was compressed");
 
-            i_input_data.setFileExtensionFromAnotherFile(compressed_file.name);
+            i_input_data.setFileExtensionFromObjectFileType(compressed_file);
 
             full_server_file_name = i_input_data.getImageFileFullName();
 
@@ -524,82 +584,6 @@ class JazzUploadImage
 
     } // getFileTypeImage
 
-    // Returns the input file with the extension corresponding to the image file type
-    static changeFileExtensionFromFileTypeImage(i_file)
-    {
-        if (!JazzUploadImage.fileIsOfTypeImage(i_file))
-        {
-            alert("JazzUploadImage.changeFileExtensionFromFileTypeImage Not an image");
-
-            return '';
-        }
-
-        var file_type_str = i_file.type;
-
-        var index_jpg = file_type_str.indexOf('jpg');
-
-        var index_jpeg = file_type_str.indexOf('jpeg');
-
-        var index_png = file_type_str.indexOf('png');
-
-        var index_gif = file_type_str.indexOf('gif');
-
-        var index_bmp = file_type_str.indexOf('bmp');
-
-        var ret_type_ext = '';
-
-        if (index_jpg >= 0)
-        {
-            ret_type_ext = '.jpg';
-        }
-        else if (index_jpeg >= 0)
-        {
-            ret_type_ext = '.jpg';
-        }
-        else if (index_png >= 0)
-        {
-            ret_type_ext = '.png';
-        }
-        else if (index_gif >= 0)
-        {
-            ret_type_ext = '.gif';
-        }
-        else if (index_bmp >= 0)
-        {
-            ret_type_ext = '.bmp';
-        }
-        else
-        {
-            ret_type_ext = '.jpg';
-
-            var warning_message = "JazzUploadImage.changeFileExtensionFromFileTypeImage Warning Image type not jpg, jpeg, png, gif or bmp. Type= " + file_type_str;
-
-            alert(warning_message);
-
-            console.log(warning_message);
-        }
-
-        var input_file_name = i_file.name;
-
-        var index_last_point = input_file_name.lastIndexOf('.');
-
-        if (index_last_point < 0)
-        {
-            alert("UtilServer.changeFileExtensionFromFileTypeImage No extension i.e. point in file name " + i_file_name);
-
-            return i_file;
-        }
-
-        var output_file_name = input_file_name.substring(0, index_last_point - 1) + ret_type_ext;
-
-        var ret_file = i_file;
-
-        ret_file.name = output_file_name;
-
-        return ret_file;
-
-    } // changeFileExtensionFromFileTypeImage
-
     // Get the HTML string defining the content of i_id_div_container
     getHtml()
     {
@@ -852,8 +836,6 @@ const compressImage = async (file, { quality = 1, type = file.type }) => {
     const ret_file = new File([blob], file.name, {
         type: blob.type,
     });
-
-    //QQQQQ- Is not allowed ret_file = JazzUploadImage.changeFileExtensionFromFileTypeImage(ret_file);
 
     console.log("compressImage ret_file= ");
     console.log(ret_file);
