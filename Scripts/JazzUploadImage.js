@@ -421,9 +421,17 @@ class JazzUploadImage
 
         JazzUploadImage.debugAppend("getCompressedImageFile Scaling factor= " + scale_factor.toString());
 
+        // The ouput type could be equal to the input type, but files get very big and the preferred type is jpeg
+        // Please refer to function getInputHtml() for the allowed (accept=) input types 
+        //var file_type_str = JazzUploadImage.getFileTypeImage(i_image_file);
+        //console.log("JazzUploadImage.getCompressedImageFile Image type= " + file_type_str);
+        //JazzUploadImage.debugAppend("getCompressedImageFile Image type= " + file_type_str);
+
+        var file_type_str = 'image/jpeg';
+
         const compressed_file = await compressImage(i_image_file, {
             quality: scale_factor,
-            type: 'image/jpeg',
+            type: file_type_str,
         });
 
         if (null == compressed_file)
@@ -455,6 +463,142 @@ class JazzUploadImage
         }
 
     } // fileIsOfTypeImage
+
+    // Returns the Image file type of the input File
+    // Uncertain how the returned string 
+    static getFileTypeImage(i_file)
+    {
+        if (!JazzUploadImage.fileIsOfTypeImage(i_file))
+        {
+            alert("JazzUploadImage.getFileTypeImage Not an image");
+
+            return '';
+        }
+
+        var file_type_str = i_file.type;
+
+        var index_jpg = file_type_str.indexOf('jpg');
+
+        var index_jpeg = file_type_str.indexOf('jpeg');
+
+        var index_png = file_type_str.indexOf('png');
+
+        var index_gif = file_type_str.indexOf('gif');
+
+        var index_bmp = file_type_str.indexOf('bmp');
+
+        var ret_type_str = '';
+
+        if (index_jpg >= 0)
+        {
+            ret_type_str = 'image/jpg';
+        }
+        else if (index_jpeg >= 0)
+        {
+            ret_type_str = 'image/jpeg';
+        }
+        else if (index_png >= 0)
+        {
+            ret_type_str = 'image/png';
+        }
+        else if (index_gif >= 0)
+        {
+            ret_type_str = 'image/gif';
+        }
+        else if (index_bmp >= 0)
+        {
+            ret_type_str = 'image/bmp';
+        }
+        else
+        {
+            ret_type_str = file_type_str;
+
+            var warning_message = "JazzUploadImage.getFileTypeImage Warning Image type not jpg, jpeg, png, gif or bmp. Type= " + file_type_str;
+
+            alert(warning_message);
+
+            console.log(warning_message);
+        }
+
+        return ret_type_str;
+
+    } // getFileTypeImage
+
+    // Returns the input file with the extension corresponding to the image file type
+    static changeFileExtensionFromFileTypeImage(i_file)
+    {
+        if (!JazzUploadImage.fileIsOfTypeImage(i_file))
+        {
+            alert("JazzUploadImage.changeFileExtensionFromFileTypeImage Not an image");
+
+            return '';
+        }
+
+        var file_type_str = i_file.type;
+
+        var index_jpg = file_type_str.indexOf('jpg');
+
+        var index_jpeg = file_type_str.indexOf('jpeg');
+
+        var index_png = file_type_str.indexOf('png');
+
+        var index_gif = file_type_str.indexOf('gif');
+
+        var index_bmp = file_type_str.indexOf('bmp');
+
+        var ret_type_ext = '';
+
+        if (index_jpg >= 0)
+        {
+            ret_type_ext = '.jpg';
+        }
+        else if (index_jpeg >= 0)
+        {
+            ret_type_ext = '.jpg';
+        }
+        else if (index_png >= 0)
+        {
+            ret_type_ext = '.png';
+        }
+        else if (index_gif >= 0)
+        {
+            ret_type_ext = '.gif';
+        }
+        else if (index_bmp >= 0)
+        {
+            ret_type_ext = '.bmp';
+        }
+        else
+        {
+            ret_type_ext = '.jpg';
+
+            var warning_message = "JazzUploadImage.changeFileExtensionFromFileTypeImage Warning Image type not jpg, jpeg, png, gif or bmp. Type= " + file_type_str;
+
+            alert(warning_message);
+
+            console.log(warning_message);
+        }
+
+        var input_file_name = i_file.name;
+
+        var index_last_point = input_file_name.lastIndexOf('.');
+
+        if (index_last_point < 0)
+        {
+            alert("UtilServer.changeFileExtensionFromFileTypeImage No extension i.e. point in file name " + i_file_name);
+
+            return i_file;
+        }
+
+        var output_file_name = input_file_name.substring(0, index_last_point - 1) + ret_type_ext;
+
+        var ret_file = i_file;
+
+        ret_file.name = output_file_name;
+
+        return ret_file;
+
+    } // changeFileExtensionFromFileTypeImage
 
     // Get the HTML string defining the content of i_id_div_container
     getHtml()
@@ -547,7 +691,7 @@ class JazzUploadImage
 
         var id_input_str = JazzUploadImage.getIdFileInput();
 
-        ret_input_html = ret_input_html + '<input id="' + id_input_str + '" type="file" accept="image/png, image/jpeg, image/jpg"';
+        ret_input_html = ret_input_html + '<input id="' + id_input_str + '" type="file" accept="image/png, image/jpeg, image/jpg, image/gif, image/bmp"';
 
         ret_input_html = ret_input_html + input_style_str + '/>';
 
@@ -709,17 +853,12 @@ const compressImage = async (file, { quality = 1, type = file.type }) => {
         type: blob.type,
     });
 
+    //QQQQQ- Is not allowed ret_file = JazzUploadImage.changeFileExtensionFromFileTypeImage(ret_file);
+
     console.log("compressImage ret_file= ");
     console.log(ret_file);
 
     return ret_file;
-
-    /* Original
-    // Turn Blob into File
-    return new File([blob], file.name, {
-        type: blob.type,
-    });
-    Original */
 };
 
 /*

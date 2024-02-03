@@ -8,6 +8,7 @@
 // Class UtilImage
 // Functions for scaling and positioning of an image in an image container div
 //
+// TODO Move this file to WwwUtils. Don't forget to take it away from WwwHomepage
 class UtilImage
 {
     // Replace an image in a <div> container. 
@@ -49,14 +50,14 @@ class UtilImage
         // Loading of the image takes time
         el_new_image.src = i_image_file_name;
 
-       //QQQQ setTimeout(UtilImage.replaceImageInDivContainerAfterLoad, 500, el_new_image, el_image_in_div, i_el_div_container);
-
     } // replaceImageInDivContainer
 
+    // Error image no found
     static imageNotFound()
     {
         alert("UtilImage.imageNotFound");
-    }
+
+    } // imageNotFound
 
     // Replace an image in a <div> container after load of the new picture 
     // https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_img_complete2
