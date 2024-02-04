@@ -1,5 +1,5 @@
 // File: GuestbookUploadElements.js
-// Date: 2024-01-29
+// Date: 2024-02-04
 // Author: Gunnar Liden
 
 // File content
@@ -188,6 +188,34 @@ function getIdDivImageUploadIcon()
     return 'id_div_upload_icon';
 
 } // getIdDivImageUploadIcon
+
+// Hides the container element div for the upload start instructions
+function hideElementDivUploadStartInstructions()
+{
+    getElementDivUploadStartInstructions().style.display = 'none';
+
+} // hideElementDivUploadStartInstructions
+
+// Displays the container element div for the upload start instructions
+function displayElementDivUploadStartInstructions()
+{
+    getElementDivUploadStartInstructions().style.display = 'block';
+
+} // displayElementDivUploadStartInstructions
+
+// Returns the container element div for the upload start instructions
+function getElementDivUploadStartInstructions()
+{
+    return document.getElementById(getIdDivUploadStartInstructions());
+
+} // getElementDivUploadStartInstructions
+
+// Returns the identity of the container div for the upload start instructions
+function getIdDivUploadStartInstructions()
+{
+    return 'id_div_start_instructions';
+
+} // getIdDivUploadStartInstructions
 
 // Returns the container element <div> continer for the JazzUploadImage object
 function getElementDivUploadFileImage()

@@ -508,5 +508,20 @@ class GuestStr
 
     } // placeholderTitleImageUpload
 
+    // Start upload instruction text
+    static startUploadInstructionText()
+    {
+        var ret_str = '';
+
+        ret_str = ret_str + 'Mach zuerst gerne eine Zeichnung für unser Gästebuch und scanne sie mit der Kamera.' + '<br>' + '<br>';
+
+        ret_str = ret_str + 'Ein Selfie oder ein Konzert-Foto ist auch willkommen.' + '<br>' + '<br>';
+
+        ret_str = ret_str + 'Danach mit dieser App das Foto aufladen.';
+
+        return  ret_str;
+
+    } // startUploadInstructionText
+
 
 } // GuestStr

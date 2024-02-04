@@ -178,9 +178,19 @@ button
     clear: both;    
 }
 
+.cl_div_start_instructions
+{
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center; 
+    padding: 5px;
+    clear: both;    
+}
+
+/* Alternative start instructions with a picture  */
 .cl_div_upload_icon
 {
-    clear: both;    
+    clear: both;   
 }
 
 .cl_div_upload_icon img

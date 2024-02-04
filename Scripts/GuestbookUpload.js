@@ -52,6 +52,11 @@ function callbackAllXmlObjectsCreatedForUpload()
 
     hideElementDivUploadContainerTwo();
 
+    setUploadTestInstructions();
+
+    // Alternative to instructions with text
+    hideElementDivImageUploadIcon();
+
     hideElementDivUploadTexts();
 
     hideElementDivUploadButtonForwardTwo();
@@ -109,7 +114,7 @@ function onClickRequestCodeButton()
         return;
     }
 
-    hideElementDivImageUploadIcon();
+    hideElementDivUploadStartInstructions();
 
     sendGuestbookCodeEmail();
 
@@ -792,6 +797,14 @@ function setUploadGuestbookTitle()
 
 } // setUploadGuestbookTitle
 
+// Sets the title for the upload guest application
+function setUploadTestInstructions()
+{
+    var el_div_test_instructions = getElementDivUploadStartInstructions();
+
+    el_div_test_instructions.innerHTML = GuestStr.startUploadInstructionText();
+
+} // setUploadTestInstructions
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Set Functions ///////////////////////////////////////////////
