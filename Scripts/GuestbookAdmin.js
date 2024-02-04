@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-01-22
+// Date: 2024-02-03
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -174,7 +174,7 @@ function initAdminControls()
 
     setActiveGuestRecord();
 
-    UtilServer.initDebugFile('GuestbookAdminSave');
+    UtilServer.initDebugFile('GuestbookAdminSave'); 
 
 } // initAdminControls
 
