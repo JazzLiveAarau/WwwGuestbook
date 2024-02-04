@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-01-31
+// Date: 2024-02-04
 // Author: Gunnar Liden
 
 // File content
@@ -483,6 +483,30 @@ class GuestStr
         return  ret_str;
 
     } // errorGuestbookRecordIsNotUploaded
+
+    // Placeholder text for the upload textarea
+    static placeholderTextareaUpload()
+    {
+        var ret_str = '';
+
+        ret_str = ret_str + 'Schreib gerne etwas über ein Konzert oder über JAZZ live AARAU.' + '\n';
+
+        ret_str = ret_str + 'Wenn es über ein bestimmtes Konzert ist, bitte Konzert oben wählen.' + '\n';
+
+        return  ret_str;
+
+    } // placeholderTextareaUpload
+
+    // Placeholder text for the upload textarea
+    static placeholderTitleImageUpload()
+    {
+        var ret_str = '';
+
+        ret_str = ret_str + 'Bitte Bildtext/Titel hier eingeben (notwendig) ...';
+
+        return  ret_str;
+
+    } // placeholderTitleImageUpload
 
 
 } // GuestStr

@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-01-29
+// Date: 2024-02-04
 // Authors: Gunnar Lidén
 
 // Content
@@ -493,6 +493,8 @@ function createTextBoxUpdateTitle()
 
     g_upload_title_text_box.setValue("");
 
+    g_upload_title_text_box.setPlaceholderText(GuestStr.placeholderTitleImageUpload());
+
     g_upload_title_text_box.setOninputFunctionName("onInputTextBoxUpdateTitle")
 
     g_upload_title_text_box.setReadOnlyFlag(false);
@@ -509,6 +511,8 @@ function createTextTextArea()
     g_text_textarea.setLabelText(GuestStr.labelTextAreaText());
 
     g_text_textarea.setLabelTextPositionAbove();
+
+    g_text_textarea.setPlaceholderText(GuestStr.placeholderTextareaUpload());
 
     g_text_textarea.setValue("");
 
