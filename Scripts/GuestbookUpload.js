@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-01-30
+// Date: 2024-02-06
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -268,6 +268,15 @@ function inputCodeIsEqualToRandomCode()
 
 } // inputCodeIsEqualToRandomCode
 
+// User input of names character
+function onInputTextUpdateNames()
+{
+    var guestbook_names = g_upload_names_text_box.getValue();
+
+    g_guestbook_data.setImageNames(guestbook_names);
+
+} // onInputTextUpdateNames
+
 // User input of email character
 function onInputTextUpdateEmail()
 {
@@ -349,14 +358,20 @@ function onInputCodeFive()
 
 } // onInputCodeFive
 
-// User clicked the send code button, i.e. the code input is valid
-// and the user can in part two upload an image
-function onClickSendCodeButton()
+// User clicked the forward part one button, i.e. the code input is valid
+// and the user can in part two upload an image if the code is correct
+// The names are checked when the user requires the code, but has to be
+// checked here again for the case that the user returned to part one
+// and changed the names
+function onClickForwardOneButton()
 {
-    // alert("onClickSendCodeButton");
-
     if (g_guestbook_data.inputCodeEqualToRandomCode())
     {
+        if (!getGuestbookNames())
+        {
+            return;
+        }
+
         hideElementDivNamesEmailCode();
 
         displayElementDivUploadContainerTwo();
@@ -370,7 +385,7 @@ function onClickSendCodeButton()
         alert(GuestStr.inputCodeError());
     }
 
-} // onClickReqireCodeButton
+} // onClickForwardOneButton
 
 // User clicked the back part two (upload of image) button, i.e.
 // the user comes bac to the start part with email address and names
@@ -542,12 +557,14 @@ function getGuestbookNames()
 {
     var guestbook_names = g_upload_names_text_box.getValue();
 
+    /* QQQQ
     if (UtilString.stringContainsIllegalCharacter(guestbook_names))
     {
         alert("Name enthält nicht erlaubte Zeichen");
 
         return false;
     }    
+    QQQ*/
 
     if (!UtilString.twoOrMoreWordsInString(guestbook_names))
     {
@@ -660,6 +677,8 @@ function appendSetSaveGuestbookUploadData()
 
     debugGuestbookUpload('Record appended to JazzGuestsUploaded.xml. Number of records is ' + n_records.toString());
 
+    var escaped_data = '';
+
     g_guests_uploaded_xml.setGuestYear(n_records, g_guestbook_data.getYear());
 
     g_guests_uploaded_xml.setGuestMonth(n_records, g_guestbook_data.getMonth());
@@ -670,13 +689,21 @@ function appendSetSaveGuestbookUploadData()
 
     g_guests_uploaded_xml.setGuestMusicians(n_records, g_guestbook_data.getMusicians());
 
-    g_guests_uploaded_xml.setGuestHeader(n_records, g_guestbook_data.getImageTitle());
+    escaped_data = UtilXml.escapeString( g_guestbook_data.getImageTitle());
 
-    g_guests_uploaded_xml.setGuestText(n_records, g_guestbook_data.getImageText());
+    g_guests_uploaded_xml.setGuestHeader(n_records, escaped_data);
+
+    escaped_data = UtilXml.escapeString( g_guestbook_data.getImageText());
+
+    g_guests_uploaded_xml.setGuestText(n_records, escaped_data);
+
+    escaped_data = UtilXml.escapeString( g_guestbook_data.getImageNames());
   
-    g_guests_uploaded_xml.setGuestNames(n_records, g_guestbook_data.getImageNames());
+    g_guests_uploaded_xml.setGuestNames(n_records, escaped_data);
 
-    g_guests_uploaded_xml.setGuestRemark(n_records, g_guestbook_data.getImageRemark());
+    escaped_data = UtilXml.escapeString( g_guestbook_data.getImageRemark());
+
+    g_guests_uploaded_xml.setGuestRemark(n_records, escaped_data);
 
     g_guests_uploaded_xml.setGuestFileName(n_records, g_guestbook_data.getImageFile());
 

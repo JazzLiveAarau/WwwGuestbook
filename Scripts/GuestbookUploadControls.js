@@ -169,6 +169,8 @@ function createTextBoxUpdateNames()
 
     g_upload_names_text_box.setValue("");
 
+    g_upload_names_text_box.setOninputFunctionName("onInputTextUpdateNames");
+
     g_upload_names_text_box.setReadOnlyFlag(false);
 
     g_upload_names_text_box.setTitle(GuestStr.titleTextBoxNames());
@@ -351,7 +353,7 @@ function createSendCodeButton()
 {
     g_send_code_button = new JazzButton('id_upload_button_send', 'id_div_upload_button_send');
 
-    g_send_code_button.setOnclickFunctionName("onClickSendCodeButton");
+    g_send_code_button.setOnclickFunctionName("onClickForwardOneButton");
 
     g_send_code_button.setCaption(GuestStr.captionButtonSendCode());
 
