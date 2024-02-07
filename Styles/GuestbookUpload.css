@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-01-30
+File: GuestbookAdmin.css Date: 2024-02-07
 
 Author: Gunnar Liden
 
@@ -180,10 +180,10 @@ button
 
 .cl_div_start_instructions
 {
-    font-size: 25px;
+    font-size: 15px;
     font-weight: bold;
     text-align: center; 
-    padding: 5px;
+    padding: 10px;
     clear: both;    
 }
 

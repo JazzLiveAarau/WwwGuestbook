@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-01-19
+File: GuestbookAdmin.css Date: 2024-02-07
 
 Author: Gunnar Liden
 
@@ -37,8 +37,42 @@ label
     color: rgb(255, 0, 40);
     font-size: 20px;
     font-weight: bold;
+    padding-top: 5px;
     width: 100%;
 }
+
+.cl_div_guestbook_admin_title_info
+{
+    /* border: solid 1px yellow; */
+    background-color: black;
+    padding-bottom: 3px;
+    overflow: hidden;   
+    clear: both;
+}
+
+.cl_div_guestbook_admin_title
+{
+     /* border: solid 1px white; */
+     text-align: center;
+     margin-left: 10%;
+     color: rgb(255, 0, 40);
+     font-weight: bold;
+    font-size: 20px;
+    width: 78%;
+    float: left;
+}
+
+.cl_div_guestbook_admin_info
+{
+    /* border: solid 1px white; */
+    text-align: right;
+    padding-right: 10px;
+    width: 9%;
+    float: right;
+    cursor: pointer;
+}
+
+
 
 /* Image <img> Elemente in <div> element logo */
 .cl_admin_logo img

@@ -476,6 +476,15 @@ function getAdminCheckBox(i_output_record_active_guest)
 ///////////////////////// Start Event Functions ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+// Administrator clicked die info icon
+function clickGuestbookAdminInfo()
+{
+    var file_name = 'https://jazzliveaarau.ch/Tasks/Documents/A0169.pdf';
+
+    window.open(file_name, '_blank');
+
+} // clickGuestbookAdminInfo
+
 // User selected a guest record
 function eventSelectAdminGuestDropDown()
 {
