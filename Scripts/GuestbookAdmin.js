@@ -367,6 +367,35 @@ function setAdminGuestDate()
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Utility Functions /////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Returns true if user has changed JazzGuest data
+function userHasChangedJazzGuestData()
+{
+    var admin_jazz_guest_rec = getAdminJazzGuestData();
+
+    var b_equal = JazzGuest.recordsAreEqual(admin_jazz_guest_rec, g_record_active_guest);
+
+    if (b_equal)
+    {
+        debugGuestbookAdmin("userHasChangedJazzGuestData Records are equal");
+    }
+    else
+    {
+        debugGuestbookAdmin("userHasChangedJazzGuestData Records are NOT equal");
+    }
+
+    return b_equal;
+
+} // userHasChangedJazzGuestData
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Utility Functions ///////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Get Functions /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -436,7 +465,7 @@ function getAdminTextBoxes(i_output_record_active_guest)
 
     ret_jazz_guest.setFileName(g_admin_filename_text_box.getValue());
 
-    ret_jazz_guest.getRemark(g_admin_remark_text_box.getValue());
+    ret_jazz_guest.setRemark(g_admin_remark_text_box.getValue());
 
     ret_jazz_guest.setBand(g_admin_band_text_box.getValue());
 
@@ -488,6 +517,8 @@ function clickGuestbookAdminInfo()
 // User selected a guest record
 function eventSelectAdminGuestDropDown()
 {
+    var b_data_is_changed = userHasChangedJazzGuestData();
+
     var selected_option_number = g_guest_drop_down.getSelectOptionNumber();
 
     var b_append = g_guest_drop_down.selectedOptionNumberIsAppendItem(selected_option_number);
@@ -545,6 +576,39 @@ function eventSelectAdminConcertDropDown()
 // User clicked the check box for new records only
 function eventClickCheckBoxNewRecords()
 {
+    var b_data_is_changed = userHasChangedJazzGuestData();
+
+    if (!b_data_is_changed)
+    {
+        var b_confirm = null;
+
+        if (g_new_records_check_box.getCheck() == 'TRUE')
+        {
+            b_confirm = confirm(GuestAdminStr.leaveToJazzGuestXmlUploadedWithoutSaving());
+
+            if (!b_confirm)
+            {
+                g_new_records_check_box.setCheck('FALSE');
+
+                return;
+            }
+        }
+        else // g_new_records_check_box.getCheck() == 'FALSE'
+        {
+            b_confirm = confirm(GuestAdminStr.leaveToJazzGuestXmlWithoutSaving());
+
+            if (!b_confirm)
+            {
+                g_new_records_check_box.setCheck('TRUE');
+
+                return;
+            }
+        }
+
+
+
+    } // !b_data_is_changed
+
     initAdminControls();
 
     setAdminControls();
@@ -584,8 +648,6 @@ function onClickOfAdminDeleteButton()
 // User clicked the save button
 function onClickOfAdminSaveButton()
 {
-    //QQ alert("User clicked the save button");
-
     debugGuestbookAdmin("User clicked the save button");
 
     var admin_jazz_guest_rec = getAdminJazzGuestData();
@@ -599,13 +661,33 @@ function onClickOfAdminSaveButton()
 // User clicked the publish check box
 function eventClickCheckBoxAdminPublish()
 {
-    alert("User clicked the publish check box");
+    debugGuestbookAdmin("User clicked the publish check box");
 
 } // eventClickCheckBoxAdminPublish
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Event Functions /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+class GuestAdminStr
+{
+    // Leave from uploaded (JazzGuestsUploaded.xml) to (JazzGuest.xml) without saving
+    static leaveToJazzGuestXmlWithoutSaving()
+    {
+        return 'Daten sind geändert. Willst du wirklich zu JazzGuests.xml wechseln ohne zu speichern?';
+
+    } // leaveToJazzGuestXmlWithoutSaving
+
+    // Leave from checked (JazzGuest.xml) to (JazzGuestsUploaded.xml) without saving
+    static leaveToJazzGuestXmlUploadedWithoutSaving()
+    {
+        return 'Daten sind geändert. Willst du wirklich zu JazzGuestsUploaded.xml wechseln ohne zu speichern?';
+
+    } // leaveToJazzGuestXmlUploadedWithoutSaving
+
+} // GuestAdminStr
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Save Functions ////////////////////////////////////////////
