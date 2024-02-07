@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-02-03
+// Date: 2024-02-07
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -367,6 +367,112 @@ function setAdminGuestDate()
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Get Functions /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Returns a JazzGuest record with all data set with the Admin controls
+function getAdminJazzGuestData()
+{
+    var output_record_active_guest = new JazzGuest();
+
+    output_record_active_guest = getAdminTextBoxes(output_record_active_guest);
+
+    output_record_active_guest = getAdminCheckBox(output_record_active_guest);
+
+    output_record_active_guest = getAdminDate(output_record_active_guest);
+
+    output_record_active_guest = getAdminDataFromActive(output_record_active_guest);
+
+    return output_record_active_guest;
+
+} // getAdminJazzGuestData
+
+// Get data from activ record for the variables that not are set by Admin
+function getAdminDataFromActive(i_output_record_active_guest)
+{
+    var ret_jazz_guest = i_output_record_active_guest;
+
+    ret_jazz_guest.setRegNumber(g_record_active_guest.getRegNumber());
+    // ret_jazz_guest.setRegNumber(g_admin_number_text_box.getValue());
+
+    ret_jazz_guest.setStatus(g_record_active_guest.getStatus());
+
+    // TODO Perhaps ret_jazz_guest.setFileName(g_record_active_guest.getFileName());
+
+    ret_jazz_guest.setFileType(g_record_active_guest.getFileType());
+
+    ret_jazz_guest.setAvatar(g_record_active_guest.getAvatar());
+
+    ret_jazz_guest.setTelephone(g_record_active_guest.getTelephone());
+
+    return ret_jazz_guest;
+
+} // getAdminDataFromActive
+
+function getAdminDate(i_output_record_active_guest)
+{
+    var ret_jazz_guest = i_output_record_active_guest;
+
+    var iso_date_str = g_record_date_text_box.getValue();
+
+    var date_array = UtilDate.getDateArrayFromIsoDateString(iso_date_str);
+
+    // TODO Could be a member attribute or function in JazzDatePicker 
+
+    ret_jazz_guest.setYear(date_array[0]);
+
+    ret_jazz_guest.setMonth(date_array[1]);
+
+    ret_jazz_guest.setDay(date_array[2]);
+
+    return ret_jazz_guest;
+
+} // getAdminDate
+
+// Set admin text boxes
+function getAdminTextBoxes(i_output_record_active_guest)
+{
+    var ret_jazz_guest = i_output_record_active_guest;
+
+    ret_jazz_guest.setFileName(g_admin_filename_text_box.getValue());
+
+    ret_jazz_guest.getRemark(g_admin_remark_text_box.getValue());
+
+    ret_jazz_guest.setBand(g_admin_band_text_box.getValue());
+
+    ret_jazz_guest.setMusicians(g_admin_musicians_text_box.getValue());
+
+    ret_jazz_guest.setHeader(g_admin_header_text_box.getValue());
+
+    ret_jazz_guest.setText(g_admin_text_textarea.getValue());
+
+    ret_jazz_guest.setNames(g_admin_names_text_box.getValue());
+
+    ret_jazz_guest.setEmail( g_admin_email_text_box.getValue());
+
+    return ret_jazz_guest;
+
+} // getAdminTextBoxes
+
+// get admin check box
+function getAdminCheckBox(i_output_record_active_guest)
+{
+    var ret_jazz_guest = i_output_record_active_guest;
+
+    ret_jazz_guest.setPublish(g_admin_publish_check_box.getCheck());
+
+    return ret_jazz_guest;
+
+} // getAdminCheckBox
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Get Functions ///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Event Functions ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -472,6 +578,8 @@ function onClickOfAdminSaveButton()
     //QQ alert("User clicked the save button");
 
     debugGuestbookAdmin("User clicked the save button");
+
+    var admin_jazz_guest_rec = getAdminJazzGuestData();
 
     saveAdminActiveRecordToHomepageXml();
 
