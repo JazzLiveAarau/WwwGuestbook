@@ -82,8 +82,8 @@ var g_contact_from_text_box = null;
 // Textbox contact email
 var g_contact_email_text_box = null;
 
-// The contact last record check box
-var g_contact_last_rec_check_box = null;
+// Textbox last uploaded record
+var g_last_record_text_box = null;
 
 // Textarea for the contact message
 var g_contact_msg_textarea = null;
@@ -148,7 +148,7 @@ function createUpdateControls()
 
     createTextBoxContactEmail();
 
-    createCheckBoxContactLastRecord();
+    createTextBoxLastRecord();
 
     createContactMessageTextArea();
 
@@ -676,22 +676,24 @@ function createTextBoxContactEmail()
 
 } // createTextBoxContactEmail
 
-// Creates the contact last record check box
-function createCheckBoxContactLastRecord()
+// Create the last uploaded record text box
+function createTextBoxLastRecord()
 {
-    g_contact_last_rec_check_box = new JazzCheckBox('id_contact_checkbox_last_rec', 'id_div_contact_checkbox_last_rec');
+    g_last_record_text_box = new JazzTextBox("id_contact_textbox_last_rec", 'id_div_contact_textbox_last_rec');
 
-    g_contact_last_rec_check_box.setOninputFunctionName("eventClickCheckBoxContactLastRecord");
+    g_last_record_text_box.setLabelText("Letzer aufgeladenen Beitrag");
 
-    g_contact_last_rec_check_box.setLabelText("Mitteilung für TODO last record");
-	
-	g_contact_last_rec_check_box.setLabelTextPositionRight();
+    g_last_record_text_box.setLabelTextPositionAbove();
 
-     g_contact_last_rec_check_box.setTitle("Title for the last record");
+    g_last_record_text_box.setSize("39");
 
-     g_contact_last_rec_check_box.setCheck("TRUE");
+    g_last_record_text_box.setValue("");
 
-} // createCheckBoxContactLastRecord
+    g_last_record_text_box.setReadOnlyFlag(true);
+
+    g_last_record_text_box.setTitle("Title last uploaded record");
+
+} // createTextBoxLastRecord
 
 // Creates the textarea for the contact message
 function createContactMessageTextArea()

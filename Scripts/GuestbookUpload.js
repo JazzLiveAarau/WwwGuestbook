@@ -585,14 +585,6 @@ function onInputContactMessageTextArea()
 
 } // onInputContactMessageTextArea
 
-// User clicked the contact last record check box
-function eventClickCheckBoxContactLastRecord()
-{
- 
-    alert("User clicked the publish check box");
-
-} // eventClickCheckBoxContactLastRecord
-
 // User selected a contact case
 function eventSelectContactCaseDropdown()
 {
@@ -637,11 +629,11 @@ function setContactControls()
 
     if (g_guestbook_data_last_record != null)
     {
-        g_contact_last_rec_check_box.setLabelText(g_guestbook_data_last_record.getImageTitle());
+        g_last_record_text_box.setValue(g_guestbook_data_last_record.getImageTitle());
     }
     else
     {
-        g_contact_last_rec_check_box.setLabelText("Kein letzter Beitrag");
+        g_last_record_text_box.setValue("Kein letzter Beitrag");
     }
 
 
