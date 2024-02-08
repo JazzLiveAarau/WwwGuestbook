@@ -648,6 +648,8 @@ function onClickOfAdminDeleteButton()
 // User clicked the save button
 function onClickOfAdminSaveButton()
 {
+    //QQ alert("User clicked the save button");
+
     debugGuestbookAdmin("User clicked the save button");
 
     var admin_jazz_guest_rec = getAdminJazzGuestData();
@@ -662,6 +664,7 @@ function onClickOfAdminSaveButton()
 function eventClickCheckBoxAdminPublish()
 {
     debugGuestbookAdmin("User clicked the publish check box");
+    //QQ alert("User clicked the publish check box");
 
 } // eventClickCheckBoxAdminPublish
 

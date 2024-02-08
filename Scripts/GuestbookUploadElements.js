@@ -1,5 +1,5 @@
 // File: GuestbookUploadElements.js
-// Date: 2024-02-04
+// Date: 2024-02-08
 // Author: Gunnar Liden
 
 // File content
@@ -430,7 +430,7 @@ function getElementDivUploadTextsRemark()
 // Returns the div identity for the text box remark
 function getIdDivUploadTextsRemark()
 {
-    return 'id_upload_texts_remark';
+    return 'id_div_upload_texts_remark';
 
 } // getIdDivUploadTextsRemark
 
