@@ -434,3 +434,58 @@ function getIdDivUploadTextsRemark()
 
 } // getIdDivUploadTextsRemark
 
+// Hides the container element div for contact
+function hideElementDivContactContainer()
+{
+    getElementDivContactContainer().style.display = 'none';
+
+} // hideElementDivContactContainer
+
+// Displays the container element div for contact
+function displayElementDivContactContainer()
+{
+    getElementDivContactContainer().style.display = 'block';
+
+} // displayElementDivContactContainer
+
+// Returns the container element div for contact
+function getElementDivContactContainer()
+{
+    return document.getElementById(getIdDivContactContainer());
+
+} // getElementDivContactContainer
+
+// Returns the identity of the container div for contact
+function getIdDivContactContainer()
+{
+    return 'id_div_container_contact';
+
+} // getIdDivContactContainer
+
+// Hides the container element div for contact
+function hideElementDivContactButton()
+{
+    getElementDivContactButton().style.display = 'none';
+
+} // hideElementDivContactButton
+
+// Displays the container element div for contact
+function displayElementDivContactButton()
+{
+    getElementDivContactButton().style.display = 'block';
+
+} // displayElementDivContactButton
+
+// Returns the container element div for contact
+function getElementDivContactButton()
+{
+    return document.getElementById(getIdDivContactButton());
+
+} // getElementDivContactButton
+
+// Returns the identity of the contact button
+function getIdDivContactButton()
+{
+    return 'id_div_button_contact';
+
+} // getIdDivContactButton

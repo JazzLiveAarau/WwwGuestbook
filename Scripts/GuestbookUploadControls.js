@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-02-04
+// Date: 2024-02-08
 // Authors: Gunnar Lidén
 
 // Content
@@ -67,6 +67,30 @@ var g_text_textarea = null;
 // Textbox upload remark
 var g_upload_remark_text_box = null;
 
+// The contact button
+var g_contact_button = null;
+
+// The contact cancel button
+var g_contact_cancel_button = null;
+
+// The contact send button
+var g_contact_send_button = null;
+
+// Textbox contact from
+var g_contact_from_text_box = null;
+
+// Textbox contact email
+var g_contact_email_text_box = null;
+
+// The contact last record check box
+var g_contact_last_rec_check_box = null;
+
+// Textarea for the contact message
+var g_contact_msg_textarea = null;
+
+// The contact case dropdown control
+var g_contact_case_drop_down = null;
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -113,6 +137,22 @@ function createUpdateControls()
     createTextTextArea();
     
     createTextBoxUpdateRemark();
+
+    createContactButton();
+
+    createContactCancelButton();
+
+    createContactSendButton();
+
+    createTextBoxContactFrom();
+
+    createTextBoxContactEmail();
+
+    createCheckBoxContactLastRecord();
+
+    createContactMessageTextArea();
+
+    createContactCaseDropdown();
 
 } // createUpdateControls
 
@@ -505,7 +545,7 @@ function createTextBoxUpdateTitle()
 
 } // createTextBoxUpdateTitle
 
-// Creates the textarea for theguest text
+// Creates the textarea for the guest text
 function createTextTextArea()
 {
     g_text_textarea = new JazzTextArea("id_upload_texts_text", "id_div_upload_texts_text", "5", "39");
@@ -544,6 +584,160 @@ function createTextBoxUpdateRemark()
     g_upload_remark_text_box.setTitle(GuestStr.titleTextBoxRemark());
 
 } // createTextBoxUpdateRemark
+
+// Create button contact
+function createContactButton()
+{
+    g_contact_button = new JazzButton('id_button_contact', 'id_div_button_contact');
+
+    g_contact_button.setOnclickFunctionName("onClickContactButton");
+
+    g_contact_button.setCaption("oder Mitteilung an Administrator senden");
+
+    g_contact_button.setLabelText("");
+
+    g_contact_button.setTitle("Title Mitteilung an Administrator senden");
+
+} // createContactButton
+
+// Create button contact cancel
+function createContactCancelButton()
+{
+    g_contact_cancel_button = new JazzButton('id_contact_button_cancel', 'id_div_contact_button_cancel');
+
+    g_contact_cancel_button.setOnclickFunctionName("onClickContactCancelButton");
+
+    g_contact_cancel_button.setCaption("Abbrechen");
+
+    g_contact_cancel_button.setLabelText("");
+
+    g_contact_cancel_button.setTitle("Keine Mitteilung senden");
+
+} // createContactCancelButton
+
+// Create button contact send
+function createContactSendButton()
+{
+    g_contact_send_button = new JazzButton('id_contact_button_send', 'id_div_contact_button_send');
+
+    g_contact_send_button.setOnclickFunctionName("onClickContactSendButton");
+
+    g_contact_send_button.setCaption("Senden");
+
+    g_contact_send_button.setLabelText("");
+
+    g_contact_send_button.setTitle("Mitteilung an Administrator senden");
+
+} // createContactSendButton
+
+// Create the contact from text box
+function createTextBoxContactFrom()
+{
+    g_contact_from_text_box = new JazzTextBox("id_contact_textbox_from", 'id_div_contact_textbox_from');
+
+    g_contact_from_text_box.setLabelText("Absender Name");
+
+    g_contact_from_text_box.setLabelTextPositionAbove();
+
+    g_contact_from_text_box.setSize("39");
+
+    g_contact_from_text_box.setValue("");
+
+    //g_contact_from_text_box.setPlaceholderText("");
+
+    //g_contact_from_text_box.setOninputFunctionName("")
+
+    g_contact_from_text_box.setReadOnlyFlag(false);
+
+    g_contact_from_text_box.setTitle("Title Absender Name");
+
+} // createTextBoxContactFrom
+
+// Create the contact email text box
+function createTextBoxContactEmail()
+{
+    g_contact_email_text_box = new JazzTextBox("id_contact_textbox_mail", 'id_div_contact_textbox_mail');
+
+    g_contact_email_text_box.setLabelText("Absender E-Mail");
+
+    g_contact_email_text_box.setLabelTextPositionAbove();
+
+    g_contact_email_text_box.setSize("39");
+
+    g_contact_email_text_box.setValue("");
+
+    //g_contact_email_text_box.setPlaceholderText("");
+
+    //g_contact_email_text_box.setOninputFunctionName("")
+
+    g_contact_email_text_box.setReadOnlyFlag(true);
+
+    g_contact_email_text_box.setTitle("Title Absender E-Mail");
+
+} // createTextBoxContactEmail
+
+// Creates the contact last record check box
+function createCheckBoxContactLastRecord()
+{
+    g_contact_last_rec_check_box = new JazzCheckBox('id_contact_checkbox_last_rec', 'id_div_contact_checkbox_last_rec');
+
+    g_contact_last_rec_check_box.setOninputFunctionName("eventClickCheckBoxContactLastRecord");
+
+    g_contact_last_rec_check_box.setLabelText("Mitteilung für TODO last record");
+	
+	g_contact_last_rec_check_box.setLabelTextPositionRight();
+
+     g_contact_last_rec_check_box.setTitle("Title for the last record");
+
+     g_contact_last_rec_check_box.setCheck("TRUE");
+
+} // createCheckBoxContactLastRecord
+
+// Creates the textarea for the contact message
+function createContactMessageTextArea()
+{
+    g_contact_msg_textarea = new JazzTextArea("id_contact_textarea_message", "id_div_contact_textarea_message", "5", "39");
+
+    g_contact_msg_textarea.setLabelText("Mitteilung");
+
+    g_contact_msg_textarea.setLabelTextPositionAbove();
+
+    g_contact_msg_textarea.setPlaceholderText("Placeholder text for the message to the administrator");
+
+    g_contact_msg_textarea.setValue("");
+
+    g_contact_msg_textarea.setOninputFunctionName("onInputContactMessageTextArea")
+
+    g_contact_msg_textarea.setReadOnlyFlag(false);
+
+    g_contact_msg_textarea.setTitle("Title for the message to the administrator");
+
+} // createContactMessageTextArea
+
+// Creates the contact case dropdown control
+function createContactCaseDropdown()
+{
+    g_contact_case_drop_down = new JazzDropdown('id_contact_dropdown_case', 'id_div_contact_dropdown_case');
+
+    var contact_case_array = [];
+	
+	contact_case_array[0] = 'Letzter Beitrag löschen';
+
+    g_contact_case_drop_down.setAppendString("Other case");
+
+    g_contact_case_drop_down.setNameArray(contact_case_array);
+
+    g_contact_case_drop_down.setOnchangeFunctionName("eventSelectContactCaseDropdown");
+
+    g_contact_case_drop_down.setLabelText("Select contact case");
+
+    g_contact_case_drop_down.setLabelTextPositionAbove();
+
+    g_contact_case_drop_down.setTitle("Title for the contact case dropdown");
+
+    g_contact_case_drop_down.setSelectOptionNumber(contact_case_array.length);
+
+} // createContactCaseDropdown
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Create Controls /////////////////////////////////////////////

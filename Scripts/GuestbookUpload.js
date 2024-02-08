@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-02-06
+// Date: 2024-02-08
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -66,6 +66,10 @@ function callbackAllXmlObjectsCreatedForUpload()
     hideElementDivInputCode();
 
     hideElementDivButtonSendCode();
+
+    hideElementDivContactButton();
+
+    hideElementDivContactContainer();
 
     hideDivUploadTextsRemark();
 
@@ -257,6 +261,7 @@ function inputCodeIsEqualToRandomCode()
     {
         displayElementDivButtonSendCode();
         setBackgroundColorValidElementDivInputCode();
+        displayElementDivContactButton();
     }
     else if (g_guestbook_data.allInputCodeAreSet() && !g_guestbook_data.inputCodeEqualToRandomCode())
     {
@@ -264,6 +269,8 @@ function inputCodeIsEqualToRandomCode()
         setBackgroundColorInvalidElementDivInputCode();
 
         hideElementDivButtonSendCode();
+
+        hideElementDivContactButton();
     }
 
 } // inputCodeIsEqualToRandomCode
@@ -543,6 +550,68 @@ function clickGuestbookInfo()
 
 } // clickGuestbookInfo
 
+// User clicked the contact button
+function onClickContactButton()
+{
+    hideElementDivNamesEmailCode();
+
+    displayElementDivContactContainer();
+
+} // onClickContactButton
+
+// User clicked the contact cancel button
+function onClickContactCancelButton()
+{
+    hideElementDivContactContainer();
+
+    displayElementDivNamesEmailCode();
+
+} // onClickContactCancelButton
+
+// User clicked the contact send button
+function onClickContactSendButton()
+{
+    alert("Senden ist noch nicht implementiert");
+
+} // onClickContactSendButton
+
+// User input of character for the contact message
+function onInputContactMessageTextArea()
+{
+    console.log("onInputContactMessageTextArea");
+
+} // onInputContactMessageTextArea
+
+// User clicked the contact last record check box
+function eventClickCheckBoxContactLastRecord()
+{
+ 
+    alert("User clicked the publish check box");
+
+} // eventClickCheckBoxContactLastRecord
+
+// User selected a contact case
+function eventSelectContactCaseDropdown()
+{
+    var selected_contact_case_number = g_contact_case_drop_down.getSelectOptionNumber();
+
+    var b_append = g_contact_case_drop_down.selectedOptionNumberIsAppendItem(selected_contact_case_number);
+
+    if (b_append)
+    {
+        alert("eventSelectContactCaseDropdown User selected append item");
+    }
+    else
+    {
+        var band_name_array = g_season_xml.getBandNameArray();
+
+        var index_case = parseInt(selected_contact_case_number) - 1;
+
+		alert("eventSelectContactCaseDropdown User selected index " + index_case.toString());
+        
+    }
+
+} // eventSelectContactCaseDropdown
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Event Functions /////////////////////////////////////////////

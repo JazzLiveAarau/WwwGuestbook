@@ -1,5 +1,5 @@
 /* 
-File: GuestbookAdmin.css Date: 2024-02-07
+File: GuestbookAdmin.css Date: 2024-02-08
 
 Author: Gunnar Liden
 
@@ -81,6 +81,80 @@ button
     width: 8%;
     float: right;
     cursor: pointer;
+}
+
+.cl_div_button_contact
+{
+    /* border: solid 1px yellow; */
+    margin-top: 70px;
+    clear: both;
+}
+
+.cl_div_container_contact
+{
+    /* border: solid 1px yellow; */
+    padding-left: 25px;
+    overflow: hidden;
+    clear: both;
+}
+
+.cl_div_contact_textbox_from
+{
+    /* border: solid 1px green; */
+    margin-top: 5px;
+    clear: both;    
+}
+
+.cl_div_contact_textbox_mail
+{
+    /* border: solid 1px green; */
+    margin-top: 5px;
+    clear: both;    
+}
+
+.cl_div_contact_dropdown_case
+{
+    /* border: solid 1px green; */
+    margin-top: 10px;
+    clear: both;    
+}
+
+.cl_div_contact_checkbox_last_rec
+{
+    /* border: solid 1px green; */
+    margin-top: 10px;
+    overflow: hidden;
+    clear: both;    
+}
+
+.cl_div_contact_textarea_message
+{
+    /* border: solid 1px green; */
+    margin-top: 10px;
+    clear: both;    
+}
+
+.cl_div_contact_buttons_cancel_send
+{
+    /* border: solid 1px green; */
+    margin-top: 15px;
+    padding-right: 15px;
+    overflow: hidden;
+    clear: both;       
+}
+
+.cl_div_contact_button_cancel
+{
+    /* border: solid 1px green; */
+    width: 40%;
+    float: left;     
+}
+
+.cl_div_contact_button_send
+{
+    /* border: solid 1px green; */
+    width: 40%;
+    float: right;     
 }
 
 .cl_jazz_notes_title
