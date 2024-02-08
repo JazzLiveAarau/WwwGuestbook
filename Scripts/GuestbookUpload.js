@@ -588,23 +588,7 @@ function onInputContactMessageTextArea()
 // User selected a contact case
 function eventSelectContactCaseDropdown()
 {
-    var selected_contact_case_number = g_contact_case_drop_down.getSelectOptionNumber();
-
-    var b_append = g_contact_case_drop_down.selectedOptionNumberIsAppendItem(selected_contact_case_number);
-
-    if (b_append)
-    {
-        alert("eventSelectContactCaseDropdown User selected append item");
-    }
-    else
-    {
-        var band_name_array = g_season_xml.getBandNameArray();
-
-        var index_case = parseInt(selected_contact_case_number) - 1;
-
-		alert("eventSelectContactCaseDropdown User selected index " + index_case.toString());
-        
-    }
+    setContactControls();
 
 } // eventSelectContactCaseDropdown
 
@@ -629,11 +613,74 @@ function setContactControls()
 
     if (g_guestbook_data_last_record != null)
     {
-        g_last_record_text_box.setValue(g_guestbook_data_last_record.getImageTitle());
+        var iso_date_str = UtilDate.getIsoDateString(g_guestbook_data_last_record.getYear(), 
+        g_guestbook_data_last_record.getMonth(), g_guestbook_data_last_record.getDay());
+
+        var last_record_txt = g_guestbook_data_last_record.getImageTitle() + ' Datum: ' + iso_date_str;
+
+        g_last_record_text_box.setValue(last_record_txt);
+
+        var selected_contact_case_number = g_contact_case_drop_down.getSelectOptionNumber();
+
+        var index_case = parseInt(selected_contact_case_number) - 1;
+
+        var b_append = g_contact_case_drop_down.selectedOptionNumberIsAppendItem(selected_contact_case_number);
+    
+        if (b_append)
+        {
+            g_contact_msg_textarea.setPlaceholderText("Mitteilung hier schreiben ...");
+        }
+        else if (index_case == 0)
+        {
+            console.log('Letzter Beitrag löschen');
+
+            g_contact_msg_textarea.setPlaceholderText("Eine Mitteilung ist nicht notwendig. Mit Senden sollte den Beitrag automatisch gelöscht werden.");
+
+        }
+        else if (index_case == 1)
+        {
+            console.log('Anderer Beitrag löschen');
+
+            var delete_text = '';
+            delete_text = delete_text + 'Bitte folgender Beitrag löschen' + '\n';
+            delete_text = delete_text + 'Titel: ' + '\n';
+            delete_text = delete_text + 'Datum: ' + '\n';
+            delete_text = delete_text + 'Namen: ' + '\n';
+            delete_text = delete_text + ' ' + '\n';
+            delete_text = delete_text + 'Bitte lass uns wissen warum. ' + '\n';
+            delete_text = delete_text + 'Grund: ' + '\n';
+
+            g_contact_msg_textarea.setValue(delete_text);
+
+        }
+        else if (index_case == 2)
+        {
+            console.log('Fehler melden');
+
+            g_contact_msg_textarea.setPlaceholderText("Fehlerbeschreibung ...");
+
+        }
+        else if (index_case == 3)
+        {
+            console.log('Vorschlag machen');
+
+            g_contact_msg_textarea.setPlaceholderText("Vorschlagbeschreibung ...");
+        }
+        else
+        {
+    
+            alert("setContactControls Not an implemented case index= " + index_case.toString());
+            
+        }
+
     }
     else
     {
         g_last_record_text_box.setValue("Kein letzter Beitrag");
+
+        g_contact_msg_textarea.setPlaceholderText("Mitteilung hier schreiben ...");
+
+        g_contact_case_drop_down.setSelectOptionNumber(2);
     }
 
 

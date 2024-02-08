@@ -725,6 +725,12 @@ function createContactCaseDropdown()
 	
 	contact_case_array[0] = 'Letzter Beitrag löschen';
 
+    contact_case_array[1] = 'Anderer Beitrag löschen';
+
+    contact_case_array[2] = 'Fehler melden';
+
+    contact_case_array[3] = 'Vorschlag machen';
+
     g_contact_case_drop_down.setAppendString("Other case");
 
     g_contact_case_drop_down.setNameArray(contact_case_array);
@@ -737,7 +743,7 @@ function createContactCaseDropdown()
 
     g_contact_case_drop_down.setTitle("Title for the contact case dropdown");
 
-    g_contact_case_drop_down.setSelectOptionNumber(contact_case_array.length);
+    g_contact_case_drop_down.setSelectOptionNumber(1);
 
 } // createContactCaseDropdown
 
