@@ -14,12 +14,11 @@
 // Instance of GuestbookData that holds all the user input data
 var g_guestbook_data = null;
 
+// Instance of GuestbookData that holds data from the last uploaded record
+var g_guestbook_data_last_record = null;
+
 // Object UploadImage control
 var g_upload_image_object = null;
-
-// Keys for the local storage of names and email
-var g_local_storage_guestbook_names = "guestbook_names_str";
-var g_local_storage_guestbook_email = "guestbook_email_str";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -36,6 +35,8 @@ function initGuestbookUpload()
     g_load_for_guestbook_admin = false;
 
     loadAllXmlObjectsForAdminAndUpload();
+
+    g_guestbook_data_last_record = GuestStorage.getGuestbookData();
 
 } // initGuestbookUpload
 
@@ -634,15 +635,13 @@ function setContactControls()
 
     g_contact_email_text_box.setValue(email_txt);
 
-
-    var last_names_txt = localStorage.getItem(g_local_storage_guestbook_names);
-    var last_email_txt = localStorage.getItem(g_local_storage_guestbook_email);
-
-    if (last_email_txt == null || last_names_txt == null)
+    if (g_guestbook_data_last_record != null)
     {
-        // alert("setContactControls TODO ");
-
-        return;
+        g_contact_last_rec_check_box.setLabelText(g_guestbook_data_last_record.getImageTitle());
+    }
+    else
+    {
+        g_contact_last_rec_check_box.setLabelText("Kein letzter Beitrag");
     }
 
 
@@ -654,6 +653,388 @@ function setContactControls()
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Local Storage /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+class GuestStorage
+{
+    //////////////////////////////////////////////////
+    /////////// Local Storage Utility Functions //////
+    //////////////////////////////////////////////////
+
+    // Returns an instance of GuestbookData with local storage data
+    static getGuestbookData()
+    {
+        if (!GuestStorage.allDataIsSet())
+        {
+            return null;
+        }
+
+        var guestbook_data = new GuestbookData;
+
+        guestbook_data.m_names = GuestStorage.getNames();
+
+        guestbook_data.m_email = GuestStorage.getEmail();
+
+        guestbook_data.m_title = GuestStorage.getTitle();
+
+        guestbook_data.m_text = GuestStorage.getText();
+
+        guestbook_data.m_remark = GuestStorage.getRemark();
+
+        guestbook_data.m_band = GuestStorage.getBand();
+
+        guestbook_data.m_musicians = GuestStorage.getMusicians();
+
+        guestbook_data.m_year = GuestStorage.getYear();
+
+        guestbook_data.m_month = GuestStorage.getMonth();
+
+        guestbook_data.m_day = GuestStorage.getDay();
+
+        guestbook_data.m_image_file = GuestStorage.getImageFile();
+
+        return guestbook_data;
+
+    } // getGuestbookData
+
+    // Set local storage data with the input instance of GuestbookData
+    static setGuestbookData(i_guestbook_data)
+    {
+        if (i_guestbook_data == null)
+        {
+            alert("GuestStorage.setGuestbookData Input GuestbookData is null");
+
+            return;
+        }
+
+        GuestStorage.setNames(i_guestbook_data.m_names);
+
+        GuestStorage.setEmail(i_guestbook_data.m_email);
+
+        GuestStorage.setTitle(i_guestbook_data.m_title);
+
+        GuestStorage.setText(i_guestbook_data.m_text);
+
+        GuestStorage.setRemark(i_guestbook_data.m_remark);
+
+        GuestStorage.setBand(i_guestbook_data.m_band);
+
+        GuestStorage.setMusicians(i_guestbook_data.m_musicians);
+
+        GuestStorage.setYear(i_guestbook_data.m_year);
+
+        GuestStorage.setMonth(i_guestbook_data.m_month);
+
+        GuestStorage.setDay(i_guestbook_data.m_day);
+
+        GuestStorage.setImageFile(i_guestbook_data.m_image_file);
+
+    } // setGuestbookData
+
+    // Returns true if all storage data is set
+    static allDataIsSet()
+    {
+        var ret_b_all = true;
+
+        if (GuestStorage.getNames() == null)
+        {
+            console.log("GuestStorage.getNames() is null");
+
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getEmail() == null)
+        {
+            console.log("GuestStorage.getEmail() is null");
+            
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getTitle() == null)
+        {
+            console.log("GuestStorage.getTitle() is null");
+            
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getText() == null)
+        {
+            console.log("GuestStorage.getText() is null");
+            
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getRemark() == null)
+        {
+            console.log("GuestStorage.getRemark() is null");
+            
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getBand() == null)
+        {
+            console.log("GuestStorage.getBand() is null");
+            
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getMusicians() == null)
+        {
+            console.log("GuestStorage.getMusicians() is null");
+            
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getYear() == null)
+        {
+            console.log("GuestStorage.getYear() is null");
+            
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getMonth() == null)
+        {
+            console.log("GuestStorage.getMonth() is null");
+            
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getDay() == null)
+        {
+            console.log("GuestStorage.getDay() is null");
+            
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getImageFile() == null)
+        {
+            console.log("GuestStorage.getImageFile() is null");
+            
+            ret_b_all = false;
+        }
+
+        return ret_b_all;
+
+    } // allDataIsSet
+
+    //////////////////////////////////////////////////
+    /////////// Local Storage Get Functions //////////
+    //////////////////////////////////////////////////
+
+    static getNames()
+    {
+        return localStorage.getItem(GuestStorage.getKeyNames());
+
+    } // getNames
+
+    static getEmail()
+    {
+        return localStorage.getItem(GuestStorage.getKeyEmail());
+
+    } // getEmail
+
+    static getTitle(i_title)
+    {
+        return localStorage.getItem(GuestStorage.getKeyTitle());
+
+    } // getTitle
+
+    static getText()
+    {
+        return localStorage.getItem(GuestStorage.getKeyText());
+
+    } // getText
+
+    static getRemark()
+    {
+        return localStorage.getItem(GuestStorage.getKeyRemark());
+
+    } // getRemark
+
+    static getBand()
+    {
+        return localStorage.getItem(GuestStorage.getKeyBand());
+
+    } // getBand
+
+    static getMusicians()
+    {
+        return localStorage.getItem(GuestStorage.getKeyMusicians());
+
+    } // getMusicians
+
+    static getYear()
+    {
+        return localStorage.getItem(GuestStorage.getKeyYear());
+
+    } // getYear
+
+    static getMonth()
+    {
+        return localStorage.getItem(GuestStorage.getKeyMonth());
+
+    } // getMonth
+
+    static getDay()
+    {
+        return localStorage.getItem(GuestStorage.getKeyDay());
+
+    } // getDay
+
+    static getImageFile()
+    {
+        return localStorage.getItem(GuestStorage.getKeyImageFile());
+
+    } // getImageFile
+
+    //////////////////////////////////////////////////
+    /////////// Local Storage Set Functions //////////
+    //////////////////////////////////////////////////
+
+    static setNames(i_names)
+    {
+        localStorage.setItem(GuestStorage.getKeyNames(), i_names);
+
+    } // setNames
+
+    static setEmail(i_email)
+    {
+        localStorage.setItem(GuestStorage.getKeyEmail(), i_email);
+
+    } // setEmail
+
+    static setTitle(i_title)
+    {
+        localStorage.setItem(GuestStorage.getKeyTitle(), i_title);
+
+    } // setTitle
+
+    static setText(i_text)
+    {
+        localStorage.setItem(GuestStorage.getKeyText(), i_text);
+
+    } // setText
+
+    static setRemark(i_remark)
+    {
+        localStorage.setItem(GuestStorage.getKeyRemark(), i_remark);
+
+    } // setRemark
+
+    static setBand(i_band)
+    {
+        localStorage.setItem(GuestStorage.getKeyBand(), i_band);
+
+    } // setBand
+
+    static setMusicians(i_musicians)
+    {
+        localStorage.setItem(GuestStorage.getKeyMusicians(), i_musicians);
+
+    } // setMusicians
+
+    static setYear(i_year)
+    {
+        localStorage.setItem(GuestStorage.getKeyYear(), i_year);
+
+    } // setYear
+
+    static setMonth(i_month)
+    {
+        localStorage.setItem(GuestStorage.getKeyMonth(), i_month);
+
+    } // setMonth
+
+    static setDay(i_day)
+    {
+        localStorage.setItem(GuestStorage.getKeyDay(), i_day);
+
+    } // setDay
+
+    static setImageFile(i_image_file)
+    {
+        localStorage.setItem(GuestStorage.getKeyImageFile(), i_image_file);
+
+    } // setImageFile
+
+    //////////////////////////////////////////////////
+    /////////// Local Storage Keys ///////////////////
+    //////////////////////////////////////////////////
+
+    static getKeyNames()
+    {
+        return "guestbook_names_str";
+
+    } // getKeyNames
+
+    static getKeyEmail()
+    {
+        return "guestbook_email_str";
+        
+    } // getKeyEmail
+
+    static getKeyTitle()
+    {
+        return "guestbook_title_str";
+        
+    } // getKeyTitle
+
+    static getKeyText()
+    {
+        return "guestbook_text_str";
+        
+    } // getKeyText
+
+    static getKeyRemark()
+    {
+        return "guestbook_remark_str";
+        
+    } // getKeyRemark
+
+    static getKeyBand()
+    {
+        return "guestbook_band_str";
+        
+    } // getKeyBand
+
+    static getKeyMusicians()
+    {
+        return "guestbook_musicians_str";
+        
+    } // getKeyMusicians
+
+    static getKeyYear()
+    {
+        return "guestbook_year_str";
+        
+    } // getKeyYear
+
+    static getKeyMonth()
+    {
+        return "guestbook_month_str";
+        
+    } // getKeyMonth
+
+    static getKeyDay()
+    {
+        return "guestbook_day_str";
+        
+    } // getKeyDay
+
+    static getKeyImageFile()
+    {
+        return "guestbook_image_file_str";
+        
+    } // getKeyImageFile
+
+} // GuestStorage
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Local Storage /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Get User Input ////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -661,15 +1042,6 @@ function setContactControls()
 function getGuestbookNames()
 {
     var guestbook_names = g_upload_names_text_box.getValue();
-
-    /* QQQQ
-    if (UtilString.stringContainsIllegalCharacter(guestbook_names))
-    {
-        alert("Name enthält nicht erlaubte Zeichen");
-
-        return false;
-    }    
-    QQQ*/
 
     if (!UtilString.twoOrMoreWordsInString(guestbook_names))
     {
@@ -680,7 +1052,7 @@ function getGuestbookNames()
 
     g_guestbook_data.m_names = guestbook_names;
 
-    localStorage.setItem(g_local_storage_guestbook_names, guestbook_names);
+    GuestStorage.setNames(guestbook_names);
 
     return true;
 
@@ -700,7 +1072,7 @@ function getGuestbookEmail()
 
     g_guestbook_data.m_email = guestbook_email;
 
-    localStorage.setItem(g_local_storage_guestbook_email, guestbook_email);
+    GuestStorage.setEmail(guestbook_email);
 
     return true;
 
@@ -709,9 +1081,8 @@ function getGuestbookEmail()
 // Get names and email from local storage and set controls
 function setGuestbookNamesAndEmailFromLocalStorage()
 {
-   // Set it also as local storage to be used the next time the user makes a reservation
-   var name_txt = localStorage.getItem(g_local_storage_guestbook_names);
-   var email_txt = localStorage.getItem(g_local_storage_guestbook_email);
+   var name_txt = GuestStorage.getNames();
+   var email_txt = GuestStorage.getEmail();
 
    if (name_txt == null || email_txt == null)
    {
@@ -768,6 +1139,7 @@ function saveGuestbookUploadData()
 
     appendSetSaveGuestbookUploadData();
 
+    GuestStorage.setGuestbookData(g_guestbook_data);
 
 } // saveGuestbookUploadData
 
