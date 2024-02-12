@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-01-31
+// Date: 2024-02-12
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -180,12 +180,53 @@ function moveImageFromUploadedToBackupDir(i_record_uploaded_number)
 
     if (!moveAnyGuestbookFile(input_move_file, output_move_file))
     {
+        debugGuestbookCommon('moveImageFromUploadedToBackupDir Failure. File ' + name_no_path + ' was NOT moved'); 
+
         return false;
     }
+
+    debugGuestbookCommon('moveImageFromUploadedToBackupDir File ' + name_no_path + ' was moved');
 
     return true;
 
 } // moveImageFromUploadedToBackupDir
+
+// Move the image file from the Homepage directory to the Backups directory
+function moveImageFromJazzGuestDirToBackupDir(i_record_uploaded_number)
+{
+    var b_execute_server = UtilServer.execApplicationOnServer();
+
+    var admin_file_name = g_guests_xml.getGuestFileName(i_record_uploaded_number);
+
+    var name_no_path = UtilServer.getFileName(admin_file_name);
+
+    var input_move_file = g_guestbook_image_dir + name_no_path;
+
+    var output_move_file = g_guestbook_backups_xml_dir + name_no_path;
+
+    debugGuestbookCommon('Move image input name =  ' + input_move_file);
+
+    debugGuestbookCommon('Move image output name = ' + output_move_file);
+	 
+    if (!b_execute_server)
+    {
+        debugGuestbookCommon('moveImageFromJazzGuestDirToBackupDir Do not move image by testing with Live Server');
+
+        return true;
+    }
+
+    if (!moveAnyGuestbookFile(input_move_file, output_move_file))
+    {
+        debugGuestbookCommon('moveImageFromJazzGuestDirToBackupDir Failure. File ' + name_no_path + ' was NOT moved'); 
+
+        return false;
+    }
+
+    debugGuestbookCommon('moveImageFromJazzGuestDirToBackupDir File ' + name_no_path + ' was moved');
+
+    return true;
+
+} // moveImageFromJazzGuestDirToBackupDir
 
 // Append record to JazzGuests.xml object with data from the  JazzGuestsUploaded.xml object
 function appendSetUserUploadedRecord(i_next_reg_number_int, i_record_uploaded_number, i_file_name, i_b_case_admin)
@@ -643,14 +684,14 @@ class GuestbookData
     {
         this.m_day = i_day;
 
-    } // setYear
+    } // setDay
 
     // Returns the image day
     getDay()
     {
         return this.m_day;
 
-    } // getYear
+    } // getDay
 
     // Sets the image file name (URL)
     setImageFile(i_image_file)
@@ -667,7 +708,7 @@ class GuestbookData
         
         return ret_file_name;
         
-    } // setImageFile
+    } // getImageFile
 
     // Sets image names
     setImageNames(i_names)

@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-02-08
+// Date: 2024-02-12
 // Authors: Gunnar Lidén
 
 // Content
@@ -721,19 +721,7 @@ function createContactCaseDropdown()
 {
     g_contact_case_drop_down = new JazzDropdown('id_contact_dropdown_case', 'id_div_contact_dropdown_case');
 
-    var contact_case_array = [];
-	
-	contact_case_array[0] = 'Letzter Beitrag löschen';
-
-    contact_case_array[1] = 'Anderer Beitrag löschen';
-
-    contact_case_array[2] = 'Fehler melden';
-
-    contact_case_array[3] = 'Vorschlag machen';
-
-    g_contact_case_drop_down.setAppendString("Other case");
-
-    g_contact_case_drop_down.setNameArray(contact_case_array);
+    g_contact_case_drop_down.setNameArray(GuestStr.getContactDropdownArray());
 
     g_contact_case_drop_down.setOnchangeFunctionName("eventSelectContactCaseDropdown");
 

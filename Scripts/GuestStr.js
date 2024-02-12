@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-02-04
+// Date: 2024-02-12
 // Author: Gunnar Liden
 
 // File content
@@ -522,6 +522,46 @@ class GuestStr
         return  ret_str;
 
     } // startUploadInstructionText
+
+    // Returns the contact dropdown alternatives
+    static getContactDropdownArray()
+    {
+        var contact_case_array = [];
+	
+        contact_case_array[0] = 'Letzter Beitrag löschen';
+    
+        contact_case_array[1] = 'Beitrag löschen/ändern';
+    
+        contact_case_array[2] = 'Fehler melden';
+    
+        contact_case_array[3] = 'Vorschlag der App';
+
+        contact_case_array[4] = 'Anderes';
+
+        return contact_case_array;
+
+    } // getContactDropdownArray
+
+    // Successful automatic deletion of guestbook record
+    static successAutomaticRemovalOfRecord()
+    {
+        return 'Gästebuch Beitrag ist gelöscht';
+
+    } // successAutomaticRemovalOfRecord
+
+    // Automatic deletion of guestbook record failed
+    static failureAutomaticRemovalOfRecord()
+    {
+        return 'Gästebuch Beitrag wurde nicht gelöscht. Bitte Administrator melden.';
+
+    } // successAutomaticRemovalOfRecord
+
+    // Subject for the guestbook email record deleted by user
+    static emailGuestbookRecordDeletedSubject()
+    {
+        return 'Beitrag wurde gelöscht von ';
+
+    } // emailGuestbookRecordDeletedSubject
 
 
 } // GuestStr
