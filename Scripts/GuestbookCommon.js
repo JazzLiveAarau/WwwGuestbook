@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-02-12
+// Date: 2024-02-13
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -39,6 +39,145 @@ var g_guestbook_backups_xml_dir = g_guestbook_homepage_url + 'JazzGuests/Backups
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start GuestbookServer Class /////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+function getPrettyPrintContent(i_xml_object)
+{
+    var pretty_print = new PrettyPrintXml(i_xml_object.getXmlObject());
+
+    var xml_content_str = pretty_print.xmlToWinFormattedString();
+
+    return xml_content_str;
+
+} // getPrettyPrintContent
+
+// Returns the absolute URL to the JazzGuests.xml file
+function getAbsoluteFilenameJazzGuests()
+{
+    return  g_guestbook_homepage_url + g_guestbook_xml_dir + "JazzGuests.xml";
+
+} // getAbsoluteFilenameJazzGuests
+
+// Returns the absolute URL to the JazzGuestsUploaded.xml file
+function getAbsoluteFilenameJazzGuestsUploaded()
+{
+    return  g_guestbook_homepage_url + g_guestbook_upload_xml_dir + "JazzGuestsUploaded.xml";
+
+} // getAbsoluteFilenameJazzGuestsUploaded
+
+
+class GuestbookServer
+{
+    // Returns the absulute URL for the JAZZ live AARAU homepage
+    static getHomepageUrl()
+    {
+        return 'https://jazzliveaarau.ch/';
+
+    } // getHomepageUrl
+
+    // Returns the absolute URL for the directory where the file JazzGuests.xml is saved
+    static getXmlDirUrl()
+    {
+        return GuestbookServer.getHomepageUrl() + 'XML/';
+        
+    } // getXmlDirUrl
+
+    // Returns the absolute URL for the directory where the images are saved
+    static getJazzGuestsDirUrl()
+    {
+        return GuestbookServer.getHomepageUrl() + 'JazzGuests/';
+        
+    } // getJazzGuestsDirUrl
+
+    // Returns the absolute URL for the directory where the file JazzGuestsUploaded.xml is saved
+    static getUploadedXmlDirUrl()
+    {
+        return GuestbookServer.getHomepageUrl() + 'JazzGuests/Uploaded/';
+        
+    } // getUploadedXmlDirUrl
+
+    // Returns the name JazzGuests.xml
+    static getJazzGuestsXmlFilename()
+    {
+        return 'JazzGuests.xml';
+        
+    } // getJazzGuestsXmlFilename
+
+    // Returns the name JazzGuestsUploaded.xml
+    static getJazzGuestsUploadedXmlFilename()
+    {
+        return 'JazzGuestsUploaded.xml';
+        
+    } // getJazzGuestsUploadedXmlFilename
+
+    // Returns the absolute URL for the guestbook backup directory 
+    static getBackupDirUrl()
+    {
+        return GuestbookServer.getHomepageUrl() + 'JazzGuests/Backups/';
+        
+    } // getBackupDirUrl
+
+   // Saves JazzGuests.xml or JazzGuestsUploaded.xml
+    // After succesful save the function i_callback_done will be called
+    static async saveXmlFile(i_guests_xml, i_callback_done)
+    {
+        var pretty_print = new PrettyPrintXml(i_guests_xml.getXmlObject());
+
+        var xml_content_str = pretty_print.xmlToWinFormattedString();
+    
+        var url_relative = i_guests_xml.getXmlJazzGuestsFileName();
+
+        var url_absolute = GuestbookServer.getXmlAbsolutePath(url_relative);
+    
+        var b_execute_server = UtilServer.execApplicationOnServer();
+         
+        if (!b_execute_server)
+        {
+            debugGuestbookCommon('GuestbookServer.saveXmlFile JazzGuests.xml or JazzGuestsUploaded.xml file not saved. Application is not running on the server');
+    
+            i_callback_done();
+        }
+    
+        await UtilServer.saveFileCallback(url_relative, xml_content_str, i_callback_done);
+    
+    } // saveXmlFile
+
+    // Returns the absolute path to JazzGuests.xml or JazzGuestsUploaded.xml
+    // It should work with the relative paths from object (class) JazzGuestsXml,
+    // but it is hopefully safer with an absolute paths
+    static getXmlAbsolutePath(i_relative_path)
+    {
+        var index_uploaded = i_relative_path.indexOf(GuestbookServer.getJazzGuestsUploadedXmlFilename());
+
+        var index_xml = i_relative_path.indexOf(GuestbookServer.getJazzGuestsXmlFilename());
+
+        if (index_uploaded >= 0)
+        {
+            return GuestbookServer.getUploadedXmlDirUrl() + GuestbookServer.getJazzGuestsUploadedXmlFilename();
+        }
+        else if (index_xml >= 0)
+        {
+            return GuestbookServer.getXmlDirUrl() + GuestbookServer.getJazzGuestsXmlFilename();
+        }
+        else
+        {
+            alert("GuestbookServer.getXmlAbsolutePath Programming error")
+
+            return 'ERROR';
+        }
+
+    } // getXmlAbsolutePath
+
+} // GuestbookServer
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End GuestbookServer Class ///////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +254,7 @@ function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_
 // 6. Save JazzGuests.xml on the server. Call of saveJazzGuestsXmlOnServer
 function appendGuestRecordAlsoToXmlHomepageObject()
 {
-    debugGuestbookCommon('Enter appendUserUploadedRecordMakeBackups');
+    debugGuestbookCommon('appendGuestRecordAlsoToXmlHomepageObject Enter');
 
     if (!backupJazzGuestsXml())
     {
@@ -458,9 +597,6 @@ function moveAnyGuestbookFile(i_input_url, i_output_url)
 
 } // moveAnyGuestbookFile
 
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Save Functions //////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -519,7 +655,7 @@ function saveJazzGuestsUploadedXmlOnServer()
 	 
     if (!b_execute_server)
     {
-        debugGuestbookCommon('JazzGuestsUploaded.xlm object not saved. Applictation is not running on the server');
+        debugGuestbookCommon('JazzGuestsUploaded.xlm object not saved. Application is not running on the server');
 
         return true;
     }
@@ -994,9 +1130,9 @@ function callbackApplicationXml()
 // Displays the input string in the debugger Console
 function debugGuestbookCommon(i_msg_str)
 {
-    console.log('GuestbookCommon:' + i_msg_str);
+    console.log('GuestbookCommon: ' + i_msg_str);
 
-    UtilServer.appendDebugFile('GuestbookCommon:' + i_msg_str, 'GuestbookAdminSave');
+    UtilServer.appendDebugFile('GuestbookCommon : ' + i_msg_str, 'GuestbookAdminSave');
 
 } // debugGuestbookCommon
 

@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-02-12
+// Date: 2024-02-17
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -448,7 +448,9 @@ function onClickForwardThreeButton()
         return;
     }
 
-    saveGuestbookUploadData();
+    debugGuestbookUpload('onClickForwardThreeButton User clicked save record');
+
+    saveNewGuestbookUploadedRecord();
 
 } // onClickReqireCodeButton
 
@@ -1503,22 +1505,67 @@ function getCheckGuestbookDataPartThree()
 ///////////////////////// Start Register Uploaded Data ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// Save (append) the data in the upload XML file JazzGuestLoaded.xml object (g_guests_uploaded_xml)
-function saveGuestbookUploadData()
+// Save (append) the data in the upload XML file JazzGuestsLoaded.xml object (g_guests_uploaded_xml)
+// 1. Set flag (b_upload_also_to_homepage) that determines if record also shall be appended to
+//    the JazzGuests.xml object 
+// 2. Append and set node for the JazzGuestLoaded.xml object. Call of appendSetGuestbookUploadData
+function saveNewGuestbookUploadedRecord()
 {
-    console.log("Enter saveGuestbookUploadData GuestbookData= ");
-    console.log(g_guestbook_data);
+    debugGuestbookUpload('saveNewGuestbookUploadedRecord Enter');
 
-    appendSetSaveGuestbookUploadData();
+    var b_upload_also_to_homepage = true;
+
+    appendSetGuestbookUploadData(b_upload_also_to_homepage);
+
+    if (saveJazzGuestsUploadedXmlOnServer())
+    {
+        alert(GuestStr.guestbookRecordIsUploaded(g_guestbook_data.getImageNames()));
+
+        debugGuestbookUpload('JazzGuestsUploaded.xml is saved on the server ');
+    }
+    else
+    {
+        alert(GuestStr.errorGuestbookRecordIsNotUploaded(g_guestbook_data.getImageNames()));
+
+        return;
+    }
+
+    var b_send = sendEmailToGuestbook();
+
+    if (b_upload_also_to_homepage)
+    {
+        setTimeout(recordDirectToHomepage, 1000);
+    }
+    else
+    {
+        location.reload();
+    }
 
     GuestStorage.setGuestbookData(g_guestbook_data);
 
-} // saveGuestbookUploadData
+} // saveNewGuestbookUploadedRecord
 
+/*QQQQ
 // Add and set an XML record for JazzGuestsUploaded.xml
+// 1. Append node to the JazzGuestsUploaded.xml XML object 
+// 2. Set data for the appended node
 function appendSetSaveGuestbookUploadData()
 {
-    var b_upload_also_to_homepage = true;
+    debugGuestbookUpload('appendSetSaveGuestbookUploadData Enter');
+
+
+
+} // appendSetSaveGuestbookUploadData
+QQQ*/
+
+// Add and set an XML record for JazzGuestsUploaded.xml
+// 1. Append node to the JazzGuestsUploaded.xml XML object 
+// 2. Set data for the appended node
+function appendSetGuestbookUploadData(i_b_upload_also_to_homepage)
+{
+    debugGuestbookUpload('appendSetGuestbookUploadData Enter');
+
+    b_upload_also_to_homepage = true;
 
     g_guests_uploaded_xml.appendGuestNode();
 
@@ -1564,7 +1611,7 @@ function appendSetSaveGuestbookUploadData()
 
     // Not used here g_guests_uploaded_xml.setGuestTelephone(n_records, '');
 
-    if (b_upload_also_to_homepage)
+    if (i_b_upload_also_to_homepage)
     {
         g_guests_uploaded_xml.setGuestStatusUploadedByGuestToHomepage(n_records);
     }
@@ -1578,30 +1625,6 @@ function appendSetSaveGuestbookUploadData()
     g_guests_uploaded_xml.setGuestRegNumber(n_records, 'Will be set when moved to JazzGuests.xml');
 
     debugGuestbookUpload('All members set. Status= ' + g_guests_xml.getGuestStatus(n_records));
-
-    if (saveJazzGuestsUploadedXmlOnServer())
-    {
-        alert(GuestStr.guestbookRecordIsUploaded(g_guestbook_data.getImageNames()));
-
-        debugGuestbookUpload('JazzGuestsUploaded.xml is saved on the server ');
-    }
-    else
-    {
-        alert(GuestStr.errorGuestbookRecordIsNotUploaded(g_guestbook_data.getImageNames()));
-
-        return;
-    }
-
-    var b_send = sendEmailToGuestbook();
-
-    if (b_upload_also_to_homepage)
-    {
-        setTimeout(recordDirectToHomepage, 1000);
-    }
-    else
-    {
-        location.reload();
-    }
 
 } // appendSetSaveGuestbookUploadData
 
@@ -1840,9 +1863,9 @@ function sendEmailUserDeletedRecordToGuestbook(i_data_last_record)
 // Displays the input string in the debugger Console
 function debugGuestbookUpload(i_msg_str)
 {
-    console.log('GuestbookUpload:' + i_msg_str);
+    console.log('GuestbookUpload: ' + i_msg_str);
 
-    UtilServer.appendDebugFile('GuestbookUpload:' + i_msg_str, 'GuestbookAdminSave');
+    UtilServer.appendDebugFile('GuestbookUpload: ' + i_msg_str, 'GuestbookAdminSave');
 
 } // debugGuestbookUpload
 
