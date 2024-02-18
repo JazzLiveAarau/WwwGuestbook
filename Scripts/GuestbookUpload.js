@@ -95,7 +95,6 @@ function callbackAllXmlObjectsCreatedForUpload()
 
 } // callbackAllXmlObjectsCreatedForUpload
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Main Functions //////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -1527,11 +1526,7 @@ function saveNewGuestbookUploadedRecord()
 
     appendSetGuestbookUploadData(b_upload_also_to_homepage);
 
-    if (saveJazzGuestsUploadedXmlOnServer())
-    {
-        alert(GuestStr.guestbookRecordIsUploaded(g_guestbook_data.getImageNames()));
-    }
-    else
+    if (!saveJazzGuestsUploadedXmlOnServer())
     {
         alert(GuestStr.errorGuestbookRecordIsNotUploaded(g_guestbook_data.getImageNames()));
 
@@ -1547,7 +1542,14 @@ function saveNewGuestbookUploadedRecord()
 
     if (b_upload_also_to_homepage)
     {
-        saveNewRecordAlsoToJazzGuestsXml();
+        if(saveNewRecordAlsoToJazzGuestsXml())
+        {
+            alert(GuestStr.guestbookRecordIsUploaded(g_guestbook_data.getImageNames()));
+        }
+        else
+        {
+            alert(GuestStr.errorGuestbookRecordIsNotUploaded(g_guestbook_data.getImageNames()));
+        }
     }
 
     location.reload();
@@ -1620,22 +1622,12 @@ function appendSetGuestbookUploadData(i_b_upload_also_to_homepage)
 
     g_guests_uploaded_xml.setGuestRegNumber(n_records, 'Will be set when moved to JazzGuests.xml');
 
-    debugGuestbookUpload('All members set. Status= ' + g_guests_xml.getGuestStatus(n_records));
+    debugGuestbookUpload('appendSetGuestbookUploadData All members set. Status= ' + g_guests_xml.getGuestStatus(n_records));
 
-} // appendSetSaveGuestbookUploadData
+    debugGuestbookUpload('appendSetGuestbookUploadData Exit');
 
-/*QQQQQ
-function recordDirectToHomepage()
-{
+} // appendSetGuestbookUploadData
 
-    debugGuestbookUpload('Enter recordDirectToHomepage');
-
-    saveNewRecordAlsoToJazzGuestsXml();
-
-    location.reload();
-
-} // recordDirectToHomepage
-QQQQ*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Register Uploaded Data //////////////////////////////////////

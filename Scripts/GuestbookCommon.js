@@ -272,9 +272,9 @@ function saveNewRecordAlsoToJazzGuestsXml()
 
     var next_reg_number_int = g_guests_xml.getNextRegNumberInt();
 
-    debugGuestbookCommon('next_reg_number_int= ' + next_reg_number_int.toString());
+    debugGuestbookCommon('saveNewRecordAlsoToJazzGuestsXml next_reg_number_int= ' + next_reg_number_int.toString());
 
-    debugGuestbookCommon('record_uploaded_number= ' + record_uploaded_number.toString());
+    debugGuestbookCommon('saveNewRecordAlsoToJazzGuestsXml record_uploaded_number= ' + record_uploaded_number.toString());
 
     var file_name = copyImageFromUploadToGuestbookDir(next_reg_number_int, record_uploaded_number);
 
@@ -287,7 +287,7 @@ function saveNewRecordAlsoToJazzGuestsXml()
         debugGuestbookCommon('saveNewRecordAlsoToJazzGuestsXml Failed saving JazzGuests.xml');
 
         return false;
-    }   
+    } 
 
     debugGuestbookCommon('saveNewRecordAlsoToJazzGuestsXml Exit');
 
@@ -308,9 +308,9 @@ function moveImageFromUploadedToBackupDir(i_record_uploaded_number)
 
     var output_move_file = g_guestbook_backups_xml_dir + name_no_path;
 
-    debugGuestbookCommon('Move image input name =  ' + input_move_file);
+    debugGuestbookCommon('moveImageFromUploadedToBackupDir Move image input name =  ' + input_move_file);
 
-    debugGuestbookCommon('Move image output name = ' + output_move_file);
+    debugGuestbookCommon('moveImageFromUploadedToBackupDir Move image output name = ' + output_move_file);
 	 
     if (!b_execute_server)
     {
@@ -417,13 +417,15 @@ function appendSetSaveGuestbookData(i_next_reg_number_int, i_record_uploaded_num
 
     }
 
-    debugGuestbookCommon('Record status set to: ' + g_guests_xml.getGuestStatus(n_records));
+    debugGuestbookCommon('appendSetSaveGuestbookData Record status set to: ' + g_guests_xml.getGuestStatus(n_records));
 
     g_guests_xml.setGuestPublishBool(n_records, true);
 
     g_guests_xml.setGuestRegNumberInt(n_records, i_next_reg_number_int);
 
-    debugGuestbookCommon('Record appended to JazzGuests.xlm object. Record ' + i_next_reg_number_int.toString());
+    debugGuestbookCommon('appendSetSaveGuestbookData Record appended to JazzGuests.xlm object. Record ' + i_next_reg_number_int.toString());
+
+    debugGuestbookCommon('appendSetSaveGuestbookData Exit');
 
 } // appendSetSaveGuestbookData
 
@@ -443,11 +445,11 @@ function copyImageFromUploadToGuestbookDir(i_next_reg_number_int, i_record_uploa
 
     var ret_output_file_name= output_image_file_name.substring(length_homepage);
 
-    debugGuestbookCommon('Image input name =    ' + input_image_file_name);
+    debugGuestbookCommon('copyImageFromUploadToGuestbookDir Image input name =    ' + input_image_file_name);
 
-    debugGuestbookCommon('Image output name =   ' + output_image_file_name);
+    debugGuestbookCommon('copyImageFromUploadToGuestbookDir Image output name =   ' + output_image_file_name);
 
-    debugGuestbookCommon('Image returned name = ' + ret_output_file_name);
+    debugGuestbookCommon('copyImageFromUploadToGuestbookDir Image returned name = ' + ret_output_file_name);
 
     if (copyAnyGuestbookFile(input_image_file_name, output_image_file_name))
     {
@@ -496,8 +498,8 @@ function backupJazzGuestsXml()
 
     var backup_output_url = g_guestbook_backups_xml_dir + file_name + '_' + time_stamp + file_ext;
 
-    debugGuestbookCommon('backup_input_url= ' + backup_input_url);
-    debugGuestbookCommon('backup_output_url= ' + backup_output_url);
+    debugGuestbookCommon('backupJazzGuestsXml backup_input_url= ' + backup_input_url);
+    debugGuestbookCommon('backupJazzGuestsXml backup_output_url= ' + backup_output_url);
 
     if (copyAnyGuestbookFile(backup_input_url, backup_output_url))
     {
@@ -523,8 +525,8 @@ function backupJazzGuestsUploadedXml()
 
     var backup_output_url = g_guestbook_backups_xml_dir + file_name + '_' + time_stamp + file_ext;
 
-    debugGuestbookCommon('backup_input_url= ' + backup_input_url);
-    debugGuestbookCommon('backup_output_url= ' + backup_output_url);
+    debugGuestbookCommon('backupJazzGuestsUploadedXml backup_input_url= ' + backup_input_url);
+    debugGuestbookCommon('backupJazzGuestsUploadedXml backup_output_url= ' + backup_output_url);
 
     if (copyAnyGuestbookFile(backup_input_url, backup_output_url))
     {
@@ -542,7 +544,7 @@ function copyAnyGuestbookFile(i_input_url, i_output_url)
 {
     if (!UtilServer.execApplicationOnServer())
     {
-        debugGuestbookCommon('No copied file created. Application is not executed on the server.');
+        debugGuestbookCommon('copyAnyGuestbookFile No copied file created. Application is not executed on the server.');
 
         return true;
     }
@@ -551,13 +553,13 @@ function copyAnyGuestbookFile(i_input_url, i_output_url)
 
     if (b_backup)
     {
-        debugGuestbookCommon('Copy file created: ' + i_output_url);
+        debugGuestbookCommon('copyAnyGuestbookFile Copy file created: ' + i_output_url);
 
         return true;
     }
     else
     {
-        var error_msg = 'Failed creating copy for file= ' + i_input_url;
+        var error_msg = 'copyAnyGuestbookFile Failed creating copy for file= ' + i_input_url;
 
         debugGuestbookCommon(error_msg);
 
@@ -582,13 +584,13 @@ function moveAnyGuestbookFile(i_input_url, i_output_url)
 
     if (b_move)
     {
-        debugGuestbookCommon('Moved file: ' + i_output_url);
+        debugGuestbookCommon('moveAnyGuestbookFile Moved file: ' + i_output_url);
 
         return true;
     }
     else
     {
-        var error_msg = 'Failed moving file= ' + i_input_url;
+        var error_msg = 'moveAnyGuestbookFile Failed moving file= ' + i_input_url;
 
         debugGuestbookCommon(error_msg);
 
@@ -638,7 +640,7 @@ function saveJazzGuestsXmlOnServer()
     {
         alert("saveJazzGuestsXmlOnServer Save JazzGuests.xml failed");
 
-        debugGuestbookCommon('saveJazzGuestsUploadedXmlOnServer Failure saving JazzGuests.xlm on the server');
+        debugGuestbookCommon('saveJazzGuestsXmlOnServer Failure saving JazzGuests.xlm on the server');
 
         return false;
     }
