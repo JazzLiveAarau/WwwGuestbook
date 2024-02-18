@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-02-17
+// Date: 2024-02-18
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -121,7 +121,7 @@ function onClickRequestCodeButton()
 
     hideElementDivUploadStartInstructions();
 
-    sendGuestbookCodeEmail();
+    sendGuestbookCodeEmailToUser();
 
     displayElementDivInputCode();
 
@@ -1505,10 +1505,20 @@ function getCheckGuestbookDataPartThree()
 ///////////////////////// Start Register Uploaded Data ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// Save (append) the data in the upload XML file JazzGuestsLoaded.xml object (g_guests_uploaded_xml)
-// 1. Set flag (b_upload_also_to_homepage) that determines if record also shall be appended to
-//    the JazzGuests.xml object 
-// 2. Append and set node for the JazzGuestLoaded.xml object. Call of appendSetGuestbookUploadData
+// Save (append) a new record to the upload XML file JazzGuestsLoaded.xml.
+// The XML object corresponding to the file is g_guests_uploaded_xml.
+// 1. Set flag (b_upload_also_to_homepage) that determines if record also shall be 
+//    saved to the JazzGuests.xml object 
+// 2. Append and set node data for the JazzGuestLoaded.xml object. 
+//    Call of appendSetGuestbookUploadData
+// 3. Save JazzGuestsLoaded.xml on the server. 
+//    Call of saveJazzGuestsUploadedXmlOnServer
+// 4. Send new record notification email to the administrator
+//    Call of sendNewRecordNotificationEmailToAdmin.
+// 5. Set local storage data with the user input data (GuestbookData)
+//    Call of GuestStorage.setGuestbookData(g_guestbook_data);
+// 6. Save the new record also in the file JazzGuests.xml 
+//    Call of saveNewRecordAlsoToJazzGuestsXml
 function saveNewGuestbookUploadedRecord()
 {
     debugGuestbookUpload('saveNewGuestbookUploadedRecord Enter');
@@ -1520,8 +1530,6 @@ function saveNewGuestbookUploadedRecord()
     if (saveJazzGuestsUploadedXmlOnServer())
     {
         alert(GuestStr.guestbookRecordIsUploaded(g_guestbook_data.getImageNames()));
-
-        debugGuestbookUpload('JazzGuestsUploaded.xml is saved on the server ');
     }
     else
     {
@@ -1530,33 +1538,21 @@ function saveNewGuestbookUploadedRecord()
         return;
     }
 
-    var b_send = sendEmailToGuestbook();
-
-    if (b_upload_also_to_homepage)
+    if (!sendNewRecordNotificationEmailToAdmin())
     {
-        setTimeout(recordDirectToHomepage, 1000);
-    }
-    else
-    {
-        location.reload();
+        return;
     }
 
     GuestStorage.setGuestbookData(g_guestbook_data);
 
+    if (b_upload_also_to_homepage)
+    {
+        saveNewRecordAlsoToJazzGuestsXml();
+    }
+
+    location.reload();
+
 } // saveNewGuestbookUploadedRecord
-
-/*QQQQ
-// Add and set an XML record for JazzGuestsUploaded.xml
-// 1. Append node to the JazzGuestsUploaded.xml XML object 
-// 2. Set data for the appended node
-function appendSetSaveGuestbookUploadData()
-{
-    debugGuestbookUpload('appendSetSaveGuestbookUploadData Enter');
-
-
-
-} // appendSetSaveGuestbookUploadData
-QQQ*/
 
 // Add and set an XML record for JazzGuestsUploaded.xml
 // 1. Append node to the JazzGuestsUploaded.xml XML object 
@@ -1628,17 +1624,18 @@ function appendSetGuestbookUploadData(i_b_upload_also_to_homepage)
 
 } // appendSetSaveGuestbookUploadData
 
+/*QQQQQ
 function recordDirectToHomepage()
 {
 
     debugGuestbookUpload('Enter recordDirectToHomepage');
 
-    appendGuestRecordAlsoToXmlHomepageObject();
+    saveNewRecordAlsoToJazzGuestsXml();
 
     location.reload();
 
 } // recordDirectToHomepage
-
+QQQQ*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Register Uploaded Data //////////////////////////////////////
@@ -1716,7 +1713,7 @@ function setUploadTestInstructions()
 // The function sends an email to the Guestbook account after upload of a new record.
 // This email informs the administrator that a new uploaded record should be checked
 // with application GuestbookAdmin.html
-function sendEmailToGuestbook()
+function sendNewRecordNotificationEmailToAdmin()
 {
     var email_from = GuestStr.emailCodeFrom();
 
@@ -1745,7 +1742,7 @@ function sendEmailToGuestbook()
 
     if (!UtilServer.execApplicationOnServer())
     {
-        alert("sendEmailToGuestbook PHP cannot execute with Visual Studio Live Server.");
+        alert("sendNewRecordNotificationEmailToAdmin PHP cannot execute with Visual Studio Live Server.");
 
         return true;
     }    
@@ -1756,15 +1753,19 @@ function sendEmailToGuestbook()
     {
         alert(GuestStr.emailGuestbookError(email_to));
 
+        debugGuestbookUpload('sendNewRecordNotificationEmailToAdmin Error: Email has NOT been sent to the administrator');
+
         return false;
     }
 
+    debugGuestbookUpload('sendNewRecordNotificationEmailToAdmin Email has been sent to the administrator');
+
     return true;
 
-} // sendEmailToGuestbook
+} // sendNewRecordNotificationEmailToAdmin
 
-// Sends an email with code
-function sendGuestbookCodeEmail()
+// Sends an email with code to the user
+function sendGuestbookCodeEmailToUser()
 {
     var random_code = g_guestbook_data.getRandomCode();
 
@@ -1782,7 +1783,7 @@ function sendGuestbookCodeEmail()
 
     if (!UtilServer.execApplicationOnServer())
     {
-        alert("sendGuestbookCodeEmail PHP cannot execute with Visual Studio Live Server. The code: " + random_code);
+        alert("sendGuestbookCodeEmailToUser PHP cannot execute with Visual Studio Live Server. The code: " + random_code);
 
         return;
     }
@@ -1798,7 +1799,7 @@ function sendGuestbookCodeEmail()
         alert(GuestStr.emailCodeError(email_to));
     }
 
-} // sendGuestbookCodeEmail
+} // sendGuestbookCodeEmailToUser
 
 
 // The function sends an email to the Guestbook account after user deletion of a record.

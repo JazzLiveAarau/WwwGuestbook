@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-02-13
+// Date: 2024-02-18
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -212,9 +212,9 @@ function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_
 
     var next_reg_number_int = g_guests_xml.getNextRegNumberInt();
 
-    var file_name = copyImageFromUploadToHomepageDir(next_reg_number_int, i_record_uploaded_number);
+    var file_name = copyImageFromUploadToGuestbookDir(next_reg_number_int, i_record_uploaded_number);
 
-    appendSetUserUploadedRecord(next_reg_number_int, i_record_uploaded_number, file_name, i_b_case_admin);
+    appendSetSaveGuestbookData(next_reg_number_int, i_record_uploaded_number, file_name, i_b_case_admin);F
 
     if (!saveJazzGuestsXmlOnServer())
     {
@@ -249,18 +249,18 @@ function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_
 // 2. Make a backup of JazzGuestsUploaded.xml. Call of backupJazzGuestsUploadedXml
 // 3. Get guest registration number. Call of JazzGuest getNextRegNumberInt
 // 4. Copy image from /www/Guestbook/Uploaded to /www/JazzGuests for the homepage. 
-//    Call of copyImageFromUploadToHomepageDir
-// 5. Append the homepage record. Call of appendSetUserUploadedRecord
+//    Call of copyImageFromUploadToGuestbookDir
+// 5. Append the homepage record. Call of appendSetSaveGuestbookData
 // 6. Save JazzGuests.xml on the server. Call of saveJazzGuestsXmlOnServer
-function appendGuestRecordAlsoToXmlHomepageObject()
+function saveNewRecordAlsoToJazzGuestsXml()
 {
-    debugGuestbookCommon('appendGuestRecordAlsoToXmlHomepageObject Enter');
+    debugGuestbookCommon('saveNewRecordAlsoToJazzGuestsXml Enter');
 
     if (!backupJazzGuestsXml())
     {
         return false;
     }
-
+ 
     if (!backupJazzGuestsUploadedXml())
     {
         return false;
@@ -276,22 +276,24 @@ function appendGuestRecordAlsoToXmlHomepageObject()
 
     debugGuestbookCommon('record_uploaded_number= ' + record_uploaded_number.toString());
 
-    var file_name = copyImageFromUploadToHomepageDir(next_reg_number_int, record_uploaded_number);
+    var file_name = copyImageFromUploadToGuestbookDir(next_reg_number_int, record_uploaded_number);
 
     var b_case_admin = false;
 
-    appendSetUserUploadedRecord(next_reg_number_int, record_uploaded_number, file_name, b_case_admin);
+    appendSetSaveGuestbookData(next_reg_number_int, record_uploaded_number, file_name, b_case_admin);
 
     if (!saveJazzGuestsXmlOnServer())
     {
+        debugGuestbookCommon('saveNewRecordAlsoToJazzGuestsXml Failed saving JazzGuests.xml');
+
         return false;
     }   
 
-    debugGuestbookCommon('Exit appendUserUploadedRecordMakeBackups');
+    debugGuestbookCommon('saveNewRecordAlsoToJazzGuestsXml Exit');
 
     return true;
 
-} // appendGuestRecordAlsoToXmlHomepageObject
+} // saveNewRecordAlsoToJazzGuestsXml
 
 // Move the image file from the Upload directory to the Backups directory
 function moveImageFromUploadedToBackupDir(i_record_uploaded_number)
@@ -368,13 +370,13 @@ function moveImageFromJazzGuestDirToBackupDir(i_record_uploaded_number)
 } // moveImageFromJazzGuestDirToBackupDir
 
 // Append record to JazzGuests.xml object with data from the  JazzGuestsUploaded.xml object
-function appendSetUserUploadedRecord(i_next_reg_number_int, i_record_uploaded_number, i_file_name, i_b_case_admin)
+function appendSetSaveGuestbookData(i_next_reg_number_int, i_record_uploaded_number, i_file_name, i_b_case_admin)
 {
     g_guests_xml.appendGuestNode();
 
     var n_records = g_guests_xml.getNumberOfGuestRecords();
 
-    debugGuestbookCommon('appendSetUserUploadedRecord Record was added to JazzGuests.xml. Number of records= ' + n_records.toString());
+    debugGuestbookCommon('appendSetSaveGuestbookData Record was added to JazzGuests.xml. Number of records= ' + n_records.toString());
 
     g_guests_xml.setGuestYear(n_records, g_guests_uploaded_xml.getGuestYear(i_record_uploaded_number));
 
@@ -423,11 +425,11 @@ function appendSetUserUploadedRecord(i_next_reg_number_int, i_record_uploaded_nu
 
     debugGuestbookCommon('Record appended to JazzGuests.xlm object. Record ' + i_next_reg_number_int.toString());
 
-} // appendSetUserUploadedRecord
+} // appendSetSaveGuestbookData
 
 // Copy the image file from uploaded directory to JazzGuests directory.
 // Return name of the uploaded image
-function copyImageFromUploadToHomepageDir(i_next_reg_number_int, i_record_uploaded_number)
+function copyImageFromUploadToGuestbookDir(i_next_reg_number_int, i_record_uploaded_number)
 {
     var output_image_file_name= getAppendImageName(i_next_reg_number_int, i_record_uploaded_number);
 
@@ -456,7 +458,7 @@ function copyImageFromUploadToHomepageDir(i_next_reg_number_int, i_record_upload
         return '';
     }
 
-} // copyImageFromUploadToHomepageDir
+} // copyImageFromUploadToGuestbookDir
 
 // Get the append image name
 function getAppendImageName(i_next_reg_number_int, i_record_uploaded_number)
@@ -628,13 +630,15 @@ function saveJazzGuestsXmlOnServer()
 
     if (b_save)
     {
-        debugGuestbookCommon('JazzGuests.xlm is saved on the server');
+        debugGuestbookCommon('saveJazzGuestsXmlOnServer JazzGuests.xlm is saved on the server');
 
         return true;
     }
     else
     {
         alert("saveJazzGuestsXmlOnServer Save JazzGuests.xml failed");
+
+        debugGuestbookCommon('saveJazzGuestsUploadedXmlOnServer Failure saving JazzGuests.xlm on the server');
 
         return false;
     }
@@ -664,13 +668,15 @@ function saveJazzGuestsUploadedXmlOnServer()
 
     if (b_save)
     {
-        debugGuestbookCommon('JazzGuestsUploaded.xlm is saved on the server');
+        debugGuestbookCommon('saveJazzGuestsUploadedXmlOnServer JazzGuestsUploaded.xlm is saved on the server');
 
         return true;
     }
     else
     {
         alert("saveJazzGuestUploadedXmlOnServer Save JazzGuestsUploaded.xml failed");
+
+        debugGuestbookCommon('saveJazzGuestsUploadedXmlOnServer Failure saving JazzGuestsUploaded.xlm on the server');
 
         return false;
     }
