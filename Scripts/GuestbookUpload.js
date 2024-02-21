@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-02-18
+// Date: 2024-02-21
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -608,804 +608,6 @@ function eventSelectContactCaseDropdown()
 ///////////////////////// End Event Functions /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// Start Execute Contact Request ///////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-// Execute the contact request
-function executeContactRequest()
-{
-    var selected_contact_case_number = g_contact_case_drop_down.getSelectOptionNumber();
-
-    var index_case = parseInt(selected_contact_case_number) - 1;
-
-    var b_execute = null;
-
-    if (index_case == 0 && g_guestbook_data_last_record != null)
-    {
-        b_execute = executeContactRequestAutomaticDelete();
-
-        if (b_execute)
-        {
-            alert(GuestStr.successAutomaticRemovalOfRecord());
-        }
-        else
-        {
-            alert(GuestStr.failureAutomaticRemovalOfRecord());
-        }
-    }
-    else if (index_case == 0)
-    {
-        alert("Kein letzter beitrag ist vorhanden");
-
-        return;
-    }
-    else if (index_case == 1)
-    {
-        b_execute = executeContactRequestManualDelete();
-    }
-    else if (index_case == 2)
-    {
-        b_execute = executeContactRequestBugReport();
-    }
-    else if (index_case == 3)
-    {
-        b_execute = executeContactRequestUserProposal();
-    }
-    else if (index_case == 4)
-    {
-        b_execute = executeContactRequestOtherCase();
-    }
-    else
-    {
-        alert("executeContactRequest Not an implemented case= " + index_case.toString());
-
-        b_execute = false;
-    }
-
-    return b_execute;
-
-} // executeContactRequest
-
-// Execute the contact request automatic delete
-function executeContactRequestAutomaticDelete()
-{
-    if (g_guestbook_data_last_record == null)
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete g_guestbook_data_last_record is null');
-
-        return false;
-    }
-
-    var xml_str = 'uploaded';
-
-    var uploaded_record_number = getDeletRecordNumber(xml_str);
-
-    if (uploaded_record_number <= 0)
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete An uploaded record is not found');
-
-        alert("executeContactRequestAutomaticDelete An uploaded record is not found");
-
-        return false;
-    }
-
-    xml_str = 'admin';
-    
-    var admin_record_number = getDeletRecordNumber(xml_str);
-
-    if (admin_record_number <= 0)
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete An admin record is not found');
-
-        alert("executeContactRequestAutomaticDelete An admin record is not found");
-
-        return false;
-    }
-
-    if (UtilServer.execApplicationOnServer())
-    {
-        if (!backupJazzGuestsXml())
-        {
-            debugGuestbookUpload('executeContactRequestAutomaticDelete Backup of JazzGuests.xml failed');
-    
-            return false;
-        }
-    
-        if (!backupJazzGuestsUploadedXml())
-        {
-            debugGuestbookUpload('executeContactRequestAutomaticDelete Backup of JazzGuestsUploaded.xml failed');
-    
-            return false;
-        } 
-        
-        debugGuestbookUpload('executeContactRequestAutomaticDelete JazzGuests.xml and JazzGuestsUploaded.xml backups are created');
-    }
-    else
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Not running on the server. No XML backups are created');  
-    }
-
-    debugGuestbookUpload('executeContactRequestAutomaticDelete Move uploaded image file to backup directory'); 
-
-    if (!moveImageFromUploadedToBackupDir(uploaded_record_number))
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Failure moving uploaded image file to backup directory'); 
-    }
-
-    if (!moveImageFromJazzGuestDirToBackupDir(admin_record_number))
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Failure moving admin image file to backup directory'); 
-    }
-
-    g_guests_uploaded_xml.deleteGuestNode(uploaded_record_number);
-
-    g_guests_xml.deleteGuestNode(admin_record_number);
-
-    debugGuestbookUpload('executeContactRequestAutomaticDelete Records deleted in JazzGuests.xml and JazzGuestsUploaded.xml'); 
-
-    debugGuestbookUpload('executeContactRequestAutomaticDelete Save JazzGuests.xml on the server'); 
-
-    if (!saveJazzGuestsXmlOnServer())
-    { 
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Failure saving JazzGuests.xml on the server'); 
-
-        return false;
-    }   
-
-    debugGuestbookUpload('executeContactRequestAutomaticDelete Save JazzGuestsUploaded.xml on the server'); 
- 
-    if (!saveJazzGuestsUploadedXmlOnServer())
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Failure saving JazzGuestsUploaded.xml on the server'); 
-
-        return false;
-    }
-
-    if (!sendEmailUserDeletedRecordToGuestbook(g_guestbook_data_last_record))
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Failure sending email'); 
-
-        return false;
-    }
-
-    GuestStorage.initGuestbookData();
-
-    debugGuestbookUpload('executeContactRequestAutomaticDelete Local storage record data have been used and was initialized'); 
-
-    return true;
-
-} // executeContactRequestAutomaticDelete
-
-// Execute the contact request manual delete
-function executeContactRequestManualDelete()
-{
-    var ret_b = true;
-
-    alert("executeContactRequestManualDelete This case is not implemented");
-
-    return ret_b;
-
-} // executeContactRequestManualDelete
-
-// Execute the contact request bug report
-function executeContactRequestBugReport()
-{
-    var ret_b = true;
-
-    alert("executeContactRequestBugReport This case is not implemented");
-
-    return ret_b;
-
-} // executeContactRequestBugReport
-
-// Execute the contact request user proposal
-function executeContactRequestUserProposal()
-{
-    var ret_b = true;
-
-    alert("executeContactRequestUserProposal This case is not implemented");
-
-    return ret_b;
-
-} // executeContactRequestUserProposal
-
-// Execute the contact request other case
-function executeContactRequestOtherCase()
-{
-    var ret_b = true;
-
-    alert("executeContactRequestOtherCase This case is not implemented");
-
-    return ret_b;
-
-} // executeContactRequestOtherCase
-
-// Returns the record number to delete
-// i_xml_str Eq. uploadwd JazzGuestsUploaded.xml  Eq. admin JazzGuests.xml
-function getDeletRecordNumber(i_xml_str)
-{
-    var current_xml = null;
-
-    if (i_xml_str == 'uploaded')
-    {
-        current_xml = g_guests_uploaded_xml;
-    }
-    else if (i_xml_str == 'admin')
-    {
-        current_xml = g_guests_xml;
-    }
-    else
-    {
-        alert("getDeletRecordNumber Error i_xml_str= " + i_xml_str);
-
-        return -9;
-    }
-
-    var n_records = current_xml.getNumberOfGuestRecords();
-
-    var search_title = g_guestbook_data_last_record.getImageTitle();
-
-    var search_year = g_guestbook_data_last_record.getYear();
-
-    var search_month = g_guestbook_data_last_record.getMonth();
-
-    var search_day = g_guestbook_data_last_record.getDay();
-
-    var search_file = g_guestbook_data_last_record.getImageFile();
-
-
-    for (var rec_number=1; rec_number <= n_records; rec_number++)
-    {
-        var guest_title = current_xml.getGuestHeader(rec_number);
-
-        var guest_year = current_xml.getGuestYear(rec_number);
-
-        var guest_month = current_xml.getGuestMonth(rec_number);
-
-        var guest_day = current_xml.getGuestDay(rec_number);
-
-        var guest_file = current_xml.getGuestFileName(rec_number);
-
-        if (guest_title == search_title &&
-
-            guest_year == search_year && 
-
-            guest_month == search_month && 
-
-            guest_day == search_day )
-            {
-                if (i_xml_str == 'uploaded' && guest_file == search_file)
-                {
-                    debugGuestbookUpload('getDeletRecordNumber uploaded rec_number= ' + rec_number.toString());
-
-                    return rec_number;
-                }
-                else if (i_xml_str == 'admin')
-                {
-                    debugGuestbookUpload('getDeletRecordNumber admin rec_number= ' + rec_number.toString());
-
-                    return rec_number;
-                }
-
-            } // properties equal
-
-    } // rec_number
-
-    return -1;
-
-} // getDeletRecordNumber
-
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// End Execute Contact Request /////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// Start Set Contact Controls //////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-// Set the contact controls
-function setContactControls()
-{
-    var names_txt = g_guestbook_data.getImageNames();
-
-    var email_txt = g_guestbook_data.getImageEmail();
-
-    g_contact_from_text_box.setValue(names_txt);
-
-    g_contact_email_text_box.setValue(email_txt);
-
-    if (g_guestbook_data_last_record != null)
-    {
-        var iso_date_str = UtilDate.getIsoDateString(g_guestbook_data_last_record.getYear(), 
-        g_guestbook_data_last_record.getMonth(), g_guestbook_data_last_record.getDay());
-
-        var last_record_txt = g_guestbook_data_last_record.getImageTitle() + ' Datum: ' + iso_date_str;
-
-        g_last_record_text_box.setValue(last_record_txt);
-
-        var selected_contact_case_number = g_contact_case_drop_down.getSelectOptionNumber();
-
-        var index_case = parseInt(selected_contact_case_number) - 1;
-
-        if (index_case == 0)
-        {
-            debugGuestbookUpload('setContactControls Letzter Beitrag löschen');
-
-            g_contact_msg_textarea.setPlaceholderText("Eine Mitteilung ist nicht notwendig. Mit Senden sollte den Beitrag automatisch gelöscht werden.");
-
-        }
-        else if (index_case == 1)
-        {
-            debugGuestbookUpload('setContactControls Anderer Beitrag löschen');
-
-            var delete_text = '';
-            delete_text = delete_text + 'Bitte folgender Beitrag löschen' + '\n';
-            delete_text = delete_text + 'Titel: ' + '\n';
-            delete_text = delete_text + 'Datum: ' + '\n';
-            delete_text = delete_text + 'Namen: ' + '\n';
-            delete_text = delete_text + ' ' + '\n';
-            delete_text = delete_text + 'Bitte lass uns wissen warum. ' + '\n';
-            delete_text = delete_text + 'Grund: ' + '\n';
-
-            g_contact_msg_textarea.setValue(delete_text);
-
-        }
-        else if (index_case == 2)
-        {
-            debugGuestbookUpload('setContactControls Fehler melden');
-
-            g_contact_msg_textarea.setPlaceholderText("Fehlerbeschreibung ...");
-
-        }
-        else if (index_case == 3)
-        {
-            debugGuestbookUpload('setContactControls Vorschlag machen');
-
-            g_contact_msg_textarea.setPlaceholderText("Vorschlagbeschreibung ...");
-        }
-        else if (index_case == 4)
-        {
-            debugGuestbookUpload('setContactControls Anderes');
-
-            g_contact_msg_textarea.setPlaceholderText("Mitteilung hier schreiben ...");
-        }
-        else
-        {
-    
-            alert("setContactControls Not an implemented case index= " + index_case.toString());
-            
-        }
-
-    }
-    else
-    {
-        g_last_record_text_box.setValue("Kein letzter Beitrag");
-
-        g_contact_msg_textarea.setPlaceholderText("Mitteilung hier schreiben ...");
-
-        g_contact_case_drop_down.setSelectOptionNumber(2);
-    }
-
-
-} // setContactControls
-
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// End Set Contact Controls ////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// Start Local Storage /////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-class GuestStorage
-{
-    //////////////////////////////////////////////////
-    /////////// Local Storage Utility Functions //////
-    //////////////////////////////////////////////////
-
-    // Returns an instance of GuestbookData with local storage data
-    static getGuestbookData()
-    {
-        if (!GuestStorage.allDataIsSet())
-        {
-            return null;
-        }
-
-        var guestbook_data = new GuestbookData;
-
-        guestbook_data.m_names = GuestStorage.getNames();
-
-        guestbook_data.m_email = GuestStorage.getEmail();
-
-        guestbook_data.m_title = GuestStorage.getTitle();
-
-        guestbook_data.m_text = GuestStorage.getText();
-
-        guestbook_data.m_remark = GuestStorage.getRemark();
-
-        guestbook_data.m_band = GuestStorage.getBand();
-
-        guestbook_data.m_musicians = GuestStorage.getMusicians();
-
-        guestbook_data.m_year = GuestStorage.getYear();
-
-        guestbook_data.m_month = GuestStorage.getMonth();
-
-        guestbook_data.m_day = GuestStorage.getDay();
-
-        guestbook_data.m_image_file = GuestStorage.getImageFile();
-
-        return guestbook_data;
-
-    } // getGuestbookData
-
-    // Set local storage data with the input instance of GuestbookData
-    static setGuestbookData(i_guestbook_data)
-    {
-        if (i_guestbook_data == null)
-        {
-            alert("GuestStorage.setGuestbookData Input GuestbookData is null");
-
-            return;
-        }
-
-        GuestStorage.setNames(i_guestbook_data.m_names);
-
-        GuestStorage.setEmail(i_guestbook_data.m_email);
-
-        GuestStorage.setTitle(i_guestbook_data.m_title);
-
-        GuestStorage.setText(i_guestbook_data.m_text);
-
-        GuestStorage.setRemark(i_guestbook_data.m_remark);
-
-        GuestStorage.setBand(i_guestbook_data.m_band);
-
-        GuestStorage.setMusicians(i_guestbook_data.m_musicians);
-
-        GuestStorage.setYear(i_guestbook_data.m_year);
-
-        GuestStorage.setMonth(i_guestbook_data.m_month);
-
-        GuestStorage.setDay(i_guestbook_data.m_day);
-
-        GuestStorage.setImageFile(i_guestbook_data.m_image_file);
-
-    } // setGuestbookData
-
-    // Initialize local storage data 
-    // This function is supposed to be called after user deletion of an uploaded record
-    // Please not that names and email NOT shall be initialized
-    static initGuestbookData()
-    {
-        // Do NOT init GuestStorage.setNames('');
-
-        // Do NOT init GuestStorage.setEmail('');
-
-        GuestStorage.setTitle('');
-
-        GuestStorage.setText('');
-
-        GuestStorage.setRemark('');
-
-        GuestStorage.setBand('');
-
-        GuestStorage.setMusicians('');
-
-        GuestStorage.setYear('');
-
-        GuestStorage.setMonth('');
-
-        GuestStorage.setDay('');
-
-        GuestStorage.setImageFile('');
-
-    } // initGuestbookData
-
-    // Returns true if all storage data is set
-    static allDataIsSet()
-    {
-        var ret_b_all = true;
-
-        if (GuestStorage.getNames() == null)
-        {
-            console.log("GuestStorage.getNames() is null");
-
-            ret_b_all = false;
-        }
-
-        if (GuestStorage.getEmail() == null)
-        {
-            console.log("GuestStorage.getEmail() is null");
-            
-            ret_b_all = false;
-        }
-
-        if (GuestStorage.getTitle() == null)
-        {
-            console.log("GuestStorage.getTitle() is null");
-            
-            ret_b_all = false;
-        }
-
-        if (GuestStorage.getText() == null)
-        {
-            console.log("GuestStorage.getText() is null");
-            
-            ret_b_all = false;
-        }
-
-        if (GuestStorage.getRemark() == null)
-        {
-            console.log("GuestStorage.getRemark() is null");
-            
-            ret_b_all = false;
-        }
-
-        if (GuestStorage.getBand() == null)
-        {
-            console.log("GuestStorage.getBand() is null");
-            
-            ret_b_all = false;
-        }
-
-        if (GuestStorage.getMusicians() == null)
-        {
-            console.log("GuestStorage.getMusicians() is null");
-            
-            ret_b_all = false;
-        }
-
-        if (GuestStorage.getYear() == null)
-        {
-            console.log("GuestStorage.getYear() is null");
-            
-            ret_b_all = false;
-        }
-
-        if (GuestStorage.getMonth() == null)
-        {
-            console.log("GuestStorage.getMonth() is null");
-            
-            ret_b_all = false;
-        }
-
-        if (GuestStorage.getDay() == null)
-        {
-            console.log("GuestStorage.getDay() is null");
-            
-            ret_b_all = false;
-        }
-
-        if (GuestStorage.getImageFile() == null)
-        {
-            console.log("GuestStorage.getImageFile() is null");
-            
-            ret_b_all = false;
-        }
-
-        return ret_b_all;
-
-    } // allDataIsSet
-
-    //////////////////////////////////////////////////
-    /////////// Local Storage Get Functions //////////
-    //////////////////////////////////////////////////
-
-    static getNames()
-    {
-        return localStorage.getItem(GuestStorage.getKeyNames());
-
-    } // getNames
-
-    static getEmail()
-    {
-        return localStorage.getItem(GuestStorage.getKeyEmail());
-
-    } // getEmail
-
-    static getTitle(i_title)
-    {
-        return localStorage.getItem(GuestStorage.getKeyTitle());
-
-    } // getTitle
-
-    static getText()
-    {
-        return localStorage.getItem(GuestStorage.getKeyText());
-
-    } // getText
-
-    static getRemark()
-    {
-        return localStorage.getItem(GuestStorage.getKeyRemark());
-
-    } // getRemark
-
-    static getBand()
-    {
-        return localStorage.getItem(GuestStorage.getKeyBand());
-
-    } // getBand
-
-    static getMusicians()
-    {
-        return localStorage.getItem(GuestStorage.getKeyMusicians());
-
-    } // getMusicians
-
-    static getYear()
-    {
-        return localStorage.getItem(GuestStorage.getKeyYear());
-
-    } // getYear
-
-    static getMonth()
-    {
-        return localStorage.getItem(GuestStorage.getKeyMonth());
-
-    } // getMonth
-
-    static getDay()
-    {
-        return localStorage.getItem(GuestStorage.getKeyDay());
-
-    } // getDay
-
-    static getImageFile()
-    {
-        return localStorage.getItem(GuestStorage.getKeyImageFile());
-
-    } // getImageFile
-
-    //////////////////////////////////////////////////
-    /////////// Local Storage Set Functions //////////
-    //////////////////////////////////////////////////
-
-    static setNames(i_names)
-    {
-        localStorage.setItem(GuestStorage.getKeyNames(), i_names);
-
-    } // setNames
-
-    static setEmail(i_email)
-    {
-        localStorage.setItem(GuestStorage.getKeyEmail(), i_email);
-
-    } // setEmail
-
-    static setTitle(i_title)
-    {
-        localStorage.setItem(GuestStorage.getKeyTitle(), i_title);
-
-    } // setTitle
-
-    static setText(i_text)
-    {
-        localStorage.setItem(GuestStorage.getKeyText(), i_text);
-
-    } // setText
-
-    static setRemark(i_remark)
-    {
-        localStorage.setItem(GuestStorage.getKeyRemark(), i_remark);
-
-    } // setRemark
-
-    static setBand(i_band)
-    {
-        localStorage.setItem(GuestStorage.getKeyBand(), i_band);
-
-    } // setBand
-
-    static setMusicians(i_musicians)
-    {
-        localStorage.setItem(GuestStorage.getKeyMusicians(), i_musicians);
-
-    } // setMusicians
-
-    static setYear(i_year)
-    {
-        localStorage.setItem(GuestStorage.getKeyYear(), i_year);
-
-    } // setYear
-
-    static setMonth(i_month)
-    {
-        localStorage.setItem(GuestStorage.getKeyMonth(), i_month);
-
-    } // setMonth
-
-    static setDay(i_day)
-    {
-        localStorage.setItem(GuestStorage.getKeyDay(), i_day);
-
-    } // setDay
-
-    static setImageFile(i_image_file)
-    {
-        localStorage.setItem(GuestStorage.getKeyImageFile(), i_image_file);
-
-    } // setImageFile
-
-    //////////////////////////////////////////////////
-    /////////// Local Storage Keys ///////////////////
-    //////////////////////////////////////////////////
-
-    static getKeyNames()
-    {
-        return "guestbook_names_str";
-
-    } // getKeyNames
-
-    static getKeyEmail()
-    {
-        return "guestbook_email_str";
-        
-    } // getKeyEmail
-
-    static getKeyTitle()
-    {
-        return "guestbook_title_str";
-        
-    } // getKeyTitle
-
-    static getKeyText()
-    {
-        return "guestbook_text_str";
-        
-    } // getKeyText
-
-    static getKeyRemark()
-    {
-        return "guestbook_remark_str";
-        
-    } // getKeyRemark
-
-    static getKeyBand()
-    {
-        return "guestbook_band_str";
-        
-    } // getKeyBand
-
-    static getKeyMusicians()
-    {
-        return "guestbook_musicians_str";
-        
-    } // getKeyMusicians
-
-    static getKeyYear()
-    {
-        return "guestbook_year_str";
-        
-    } // getKeyYear
-
-    static getKeyMonth()
-    {
-        return "guestbook_month_str";
-        
-    } // getKeyMonth
-
-    static getKeyDay()
-    {
-        return "guestbook_day_str";
-        
-    } // getKeyDay
-
-    static getKeyImageFile()
-    {
-        return "guestbook_image_file_str";
-        
-    } // getKeyImageFile
-
-} // GuestStorage
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// Start Local Storage /////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Get User Input ////////////////////////////////////////////
@@ -1498,6 +700,131 @@ function getCheckGuestbookDataPartThree()
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Get User Input //////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Execution Classes /////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+// The class AppendBothXml appends a new record to both XML files JazzGuestsUploaded.xml
+// and JazzGuests.xml. Input data is the global variable g_guestbook_data and the
+// name of the function that shall be called when all steps are executed
+class AppendBothXml
+{
+    // Start function that backups the file JazzGuestsUploaded.xml and calls the next
+    // function appendXmlUserInputData
+    static start(i_append_both_callback)
+    {
+        g_append_both_callback = i_append_both_callback;
+
+        UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
+                                    GuestbookServer.absoluteUrlJazzGuestsUploadedBackup(), 
+                                    AppendBothXml.appendXmlUserInputData);
+
+    } // start
+
+    // Appends a new record, sets it with g_guestbook_data and saves JazzGuestsUploaded.xml.
+    // The next function to be called is sendNotificationEmail
+    static appendXmlUserInputData()
+    {
+        debugGuestbookUpload('AppendBothXml.appendUploaded Enter');
+
+        b_upload_also_to_homepage = true;
+    
+        g_guests_uploaded_xml.appendGuestNode();
+    
+        var n_records = g_guests_uploaded_xml.getNumberOfGuestRecords();
+    
+        debugGuestbookUpload('Record appended to JazzGuestsUploaded.xml. Number of records is ' + n_records.toString());
+    
+        var escaped_data = '';
+    
+        g_guests_uploaded_xml.setGuestYear(n_records, g_guestbook_data.getYear());
+    
+        g_guests_uploaded_xml.setGuestMonth(n_records, g_guestbook_data.getMonth());
+    
+        g_guests_uploaded_xml.setGuestDay(n_records, g_guestbook_data.getDay());
+    
+        g_guests_uploaded_xml.setGuestBand(n_records, g_guestbook_data.getBand());
+    
+        g_guests_uploaded_xml.setGuestMusicians(n_records, g_guestbook_data.getMusicians());
+    
+        escaped_data = UtilXml.escapeString( g_guestbook_data.getImageTitle());
+    
+        g_guests_uploaded_xml.setGuestHeader(n_records, escaped_data);
+    
+        escaped_data = UtilXml.escapeString( g_guestbook_data.getImageText());
+    
+        g_guests_uploaded_xml.setGuestText(n_records, escaped_data);
+    
+        escaped_data = UtilXml.escapeString( g_guestbook_data.getImageNames());
+      
+        g_guests_uploaded_xml.setGuestNames(n_records, escaped_data);
+    
+        escaped_data = UtilXml.escapeString( g_guestbook_data.getImageRemark());
+    
+        g_guests_uploaded_xml.setGuestRemark(n_records, escaped_data);
+    
+        g_guests_uploaded_xml.setGuestFileName(n_records, g_guestbook_data.getImageFile());
+    
+        g_guests_uploaded_xml.setGuestFileType(n_records, 'IMG');
+    
+        // Not used here g_guests_uploaded_xml.JazzGuestAvatar(n_records, '');
+    
+        g_guests_uploaded_xml.setGuestEmail(n_records, g_guestbook_data.getImageEmail());
+    
+        // Not used here g_guests_uploaded_xml.setGuestTelephone(n_records, '');
+    
+        if (b_upload_also_to_homepage)
+        {
+            g_guests_uploaded_xml.setGuestStatusUploadedByGuestToHomepage(n_records);
+        }
+        else
+        {
+            g_guests_uploaded_xml.setGuestStatusPendingRecordInUpdate(n_records);
+        }
+    
+        g_guests_uploaded_xml.setGuestPublishBool(n_records, true);
+    
+        g_guests_uploaded_xml.setGuestRegNumber(n_records, 'Will be set when moved to JazzGuests.xml');
+    
+        debugGuestbookUpload('AppendBothXml.appendUploaded All members set. Status= ' + g_guests_xml.getGuestStatus(n_records));
+
+        UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
+                                    GuestbookServer.getPrettyPrintContent(g_guests_uploaded_xml), 
+                                    AppendBothXml.backupJazzGuests);
+    
+    } // appendXmlUserInputData
+
+    // Make a backup of JazzGuests.xml and call 
+    static backupJazzGuests()
+    {
+        UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
+                                    GuestbookServer.absoluteUrlJazzGuestsBackup(), 
+                                    AppendBothXml.appendXml);
+    }
+
+    // Appends the new record and saves JazzGuests.xml.
+    // The next function to be called is sendNotificationEmail
+    static appendXml()
+    {
+
+    } // appendXml
+
+
+    static sendNotificationEmail()
+    {
+
+    } // sendNotificationEmail
+
+} // AppendBothXml
+
+// End callback function after appending new record to both XML files
+var g_append_both_callback = null;
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Execution Classes ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
