@@ -716,7 +716,7 @@ class AppendBothXml
     // function appendXmlUserInputData
     static start(i_append_both_callback)
     {
-        g_append_both_callback = i_append_both_callback;
+        g_guestbook_data.setAppendBothXmlCallback(i_append_both_callback);
 
         UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
                                     GuestbookServer.absoluteUrlJazzGuestsUploadedBackup(), 
@@ -735,6 +735,8 @@ class AppendBothXml
         g_guests_uploaded_xml.appendGuestNode();
     
         var n_records = g_guests_uploaded_xml.getNumberOfGuestRecords();
+
+        g_guestbook_data.setUploadedXmlNewRecordNumber(n_records);
     
         debugGuestbookUpload('Record appended to JazzGuestsUploaded.xml. Number of records is ' + n_records.toString());
     
@@ -802,26 +804,145 @@ class AppendBothXml
     {
         UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
                                     GuestbookServer.absoluteUrlJazzGuestsBackup(), 
-                                    AppendBothXml.appendXml);
+                                    AppendBothXml.constructImageFileNameAndCopy);
     }
 
-    // Appends the new record and saves JazzGuests.xml.
-    // The next function to be called is sendNotificationEmail
-    static appendXml()
+    // Construct the name of the image file for the registered record of JazzGuests.xml
+    static constructImageFileNameAndCopy()
     {
+        var record_uploaded_number = g_guestbook_data.getUploadedXmlNewRecordNumber();
 
-    } // appendXml
+        var next_reg_number_int = g_guests_xml.getNextRegNumberInt();
 
+        g_guestbook_data.setXmlNewRegisterNumber(next_reg_number_int);
 
+        var next_reg_number_str = 'REG' + UtilDate.getFormattedThousandNumber(i_next_reg_number_int);
+
+        var guest_year = g_guests_uploaded_xml.getGuestYear(record_uploaded_number);
+
+        var guest_month = g_guests_uploaded_xml.getGuestMonth(record_uploaded_number);
+
+        var guest_day = g_guests_uploaded_xml.getGuestDay(record_uploaded_number);
+
+        var date_str = 'd' + UtilDate.getYyyyMmDdDateString(guest_year, guest_month, guest_day);
+
+        var uploaded_file_name = g_guests_uploaded_xml.getGuestFileName(record_uploaded_number);
+
+        var file_ext = UtilServer.getFileExtension(uploaded_file_name);
+
+        var image_file_name = g_guestbook_image_dir + date_str + '_' + next_reg_number_str + file_ext;
+
+        var uploaded_file_name = g_guests_uploaded_xml.getGuestFileName(record_uploaded_number);
+
+        var name_no_path = UtilServer.getFileName(uploaded_file_name);
+    
+        var input_image_file_name = GuestbookCommon.getUploadedXmlDirUrl() + name_no_path;
+    
+        var length_homepage = GuestbookCommon.getHomepageUrl().length;
+    
+        var ret_output_file_name= output_image_file_name.substring(length_homepage);
+    
+        debugGuestbookUpload('AppendBothXml.constructImageFileNameAndCopy Image input name =    ' + input_image_file_name);
+    
+        debugGuestbookUpload('AppendBothXml.constructImageFileNameAndCopy Image output name =   ' + output_image_file_name);
+    
+        debugGuestbookUpload('AppendBothXml.constructImageFileNameAndCopy Image returned name = ' + ret_output_file_name);
+    
+        g_guestbook_data.setXmlNewRegisterImageFileName(ret_output_file_name);
+
+        UtilServer.copyFileCallback(input_image_file_name, output_image_file_name, appendXmlUploadedData);
+
+    } // constructImageFileNameAndCopy
+
+    // Appends the new record and saves JazzGuests.xml. 
+    // Input data is from JazzGuestsUploaded.xml
+    // The next function to be called is sendNotificationEmail
+    static appendXmlUploadedData()
+    {
+        g_guests_xml.appendGuestNode();
+
+        var n_records = g_guests_xml.getNumberOfGuestRecords();
+
+        debugGuestbookUpload('AppendBothXml.appendXmlUploadedData Record was added to JazzGuests.xml. Number of records= ' + n_records.toString());
+
+        var b_case_admin = true;
+
+        var record_uploaded_number = g_guestbook_data.getXmlNewRegisterNumber();
+
+        g_guests_xml.setGuestYear(n_records, g_guests_uploaded_xml.getGuestYear(record_uploaded_number));
+
+        g_guests_xml.setGuestMonth(n_records, g_guests_uploaded_xml.getGuestMonth(record_uploaded_number));
+
+        g_guests_xml.setGuestDay(n_records, g_guests_uploaded_xml.getGuestDay(record_uploaded_number));
+
+        g_guests_xml.setGuestBand(n_records, g_guests_uploaded_xml.getGuestBand(record_uploaded_number));
+
+        g_guests_xml.setGuestMusicians(n_records, g_guests_uploaded_xml.getGuestMusicians(record_uploaded_number));
+
+        g_guests_xml.setGuestHeader(n_records, g_guests_uploaded_xml.getGuestHeader(record_uploaded_number));
+
+        g_guests_xml.setGuestText(n_records, g_guests_uploaded_xml.getGuestText(record_uploaded_number));
+
+        g_guests_xml.setGuestNames(n_records, g_guests_uploaded_xml.getGuestNames(record_uploaded_number));
+
+        g_guests_xml.setGuestRemark(n_records, g_guests_uploaded_xml.getGuestRemark(record_uploaded_number));
+
+        g_guests_xml.setGuestFileName(n_records, g_guestbook_data.getXmlNewRegisterImageFileName());
+
+        g_guests_xml.setGuestFileType(n_records, g_guests_uploaded_xml.getGuestFileType(record_uploaded_number));
+
+        g_guests_xml.setGuestAvatar(n_records, g_guests_uploaded_xml.getGuestAvatar(record_uploaded_number));
+
+        g_guests_xml.setGuestEmail(n_records, g_guests_uploaded_xml.getGuestEmail(record_uploaded_number));
+
+        g_guests_xml.setGuestTelephone(n_records, g_guests_uploaded_xml.getGuestTelephone(record_uploaded_number));
+
+        if (b_case_admin)
+        {
+            // Temporary for test g_guests_xml.setGuestStatusAddedOrCheckedByAdmin(n_records);
+            g_guests_xml.setGuestStatusTestAddedOrCheckedByAdmin(n_records);
+        }
+        else
+        {
+            g_guests_xml.setGuestStatusUploadedByGuestToHomepage(n_records);
+
+        }
+
+        debugGuestbookUpload('AppendBothXml.appendSetSaveGuestbookData Record status set to: ' + g_guests_xml.getGuestStatus(n_records));
+
+        g_guests_xml.setGuestPublishBool(n_records, true);
+
+        g_guests_xml.setGuestRegNumberInt(n_records, g_guestbook_data.getXmlNewRegisterNumber());
+
+        debugGuestbookUpload('AppendBothXml.appendXmlUploadedData Record appended to JazzGuests.xlm object. Record ' 
+                            + g_guestbook_data.getXmlNewRegisterNumber().toString());
+
+        UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
+        GuestbookServer.getPrettyPrintContent(g_guests_xml), 
+        AppendBothXml.finish);
+
+    } // appendXmlUploadedData
+
+    // Finish the process 
+    static finish()
+    {
+        GuestStorage.setGuestbookData(g_guestbook_data);
+
+        AppendBothXml.sendNotificationEmail();
+
+        g_guestbook_data.getAppendBothXmlCallback();
+
+    } // finish
+
+    // Send notication email to the administrator
     static sendNotificationEmail()
     {
+        var b_email = sendNewRecordNotificationEmailToAdmin();
 
     } // sendNotificationEmail
 
 } // AppendBothXml
 
-// End callback function after appending new record to both XML files
-var g_append_both_callback = null;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Execution Classes ///////////////////////////////////////////

@@ -60,6 +60,18 @@ class GuestbookData
         this.m_input_four = "";
         this.m_input_five = "";
 
+        // Callback function after execution of AppendBothXml
+        this.m_append_both_callback = null;
+
+        // The record number of JazzGuestsUploaded.xml for the appended new record
+        this.m_uploaded_xml_new_record_number = -12345;
+
+        // The record number of JazzGuests.xml for the appended new record
+        this.m_xml_new_register_number = -12345;
+
+        // The name of the JazzGuests.xml new image file
+        this.m_xml_new_register_image_file_name = '';
+
         this.init();
 
     } // constructor
@@ -74,6 +86,62 @@ class GuestbookData
         this.setCurrentDate();
 
     } // init
+
+     // Set callback function after execution of AppendBothXml
+    setAppendBothXmlCallback(i_append_both_callback)
+    {
+        this.m_append_both_callback = i_append_both_callback;
+
+    } // setAppendBothXmlCallback
+
+    // Get callback function after execution of AppendBothXml
+    getAppendBothXmlCallback()
+    {
+        return this.m_append_both_callback;
+ 
+    } // getAppendBothXmlCallback      
+    
+    // Set he record number of JazzGuestsUploaded.xml for the appended new record
+    setUploadedXmlNewRecordNumber(i_uploaded_xml_new_record_number)
+    {
+        this.m_uploaded_xml_new_record_number = i_uploaded_xml_new_record_number;
+
+    } // setUploadedXmlNewRecordNumber
+        
+    // Get he record number of JazzGuestsUploaded.xml for the appended new record
+    getUploadedXmlNewRecordNumber()
+    {
+        return this.m_uploaded_xml_new_record_number;
+
+    } // getUploadedXmlNewRecordNumber
+
+    // Set he register number of JazzGuests.xml for the appended new record
+    setXmlNewRegisterNumber(i_xml_new_record_number)
+    {
+        this.m_xml_new_register_number = i_xml_new_record_number;
+
+    } // setXmlNewRegisterNumber
+        
+    // Get the register number of JazzGuests.xml for the appended new record
+    getXmlNewRegisterNumber()
+    {
+        return this.m_xml_new_register_number;
+
+    } // getXmlNewRegisterNumber
+
+    // Set the name of the JazzGuests.xml new image file
+    setXmlNewRegisterImageFileName(i_xml_new_register_image_file_name)
+    {
+        this.m_xml_new_register_image_file_name = i_xml_new_register_image_file_name;
+
+    } // setXmlNewRegisterImageFileName
+
+    // Get the name of the JazzGuests.xml new image file
+    getXmlNewRegisterImageFileName()
+    {
+        return this.m_xml_new_register_image_file_name;
+
+    } // getXmlNewRegisterImageFileName
 
     // Set current data
     setCurrentDate()
