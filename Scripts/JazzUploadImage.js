@@ -501,6 +501,8 @@ class JazzUploadImage
             return null;
         }
 
+        JazzUploadImage.debugAppend("getCompressedImageFile Exit");
+
         return compressed_file;
 
     } // getCompressedImageFile
@@ -817,12 +819,16 @@ const compressImage = async (file, { quality = 1, type = file.type }) => {
     // Get as image data
     const imageBitmap = await createImageBitmap(file);
 
+    debugGuestbookUpload('compressImage Image bitmap created'); // Temporary
+
     // Draw to canvas
     const canvas = document.createElement('canvas');
     canvas.width = imageBitmap.width;
     canvas.height = imageBitmap.height;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(imageBitmap, 0, 0);
+
+    debugGuestbookUpload('compressImage Image is drawn'); // Temporary
 
     // Turn into Blob
     const blob = await new Promise((resolve) =>
@@ -832,15 +838,21 @@ const compressImage = async (file, { quality = 1, type = file.type }) => {
     console.log("compressImage blob= ");
     console.log(blob);
 
+    debugGuestbookUpload('compressImage Blob created'); // Temporary
+
     // Turn Blob into File
-    const ret_file = new File([blob], file.name, {
+    return new File([blob], file.name, {
         type: blob.type,
+    //d20240222 const ret_file = new File([blob], file.name, {
+     //d20240222    type: blob.type,
     });
 
-    console.log("compressImage ret_file= ");
-    console.log(ret_file);
+    //d20240222 debugGuestbookUpload('compressImage Image file created'); // Temporary
 
-    return ret_file;
+     //d20240222 console.log("compressImage ret_file= ");
+     //d20240222 console.log(ret_file);
+
+     //d20240222 return ret_file;
 };
 
 /*
