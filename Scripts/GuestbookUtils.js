@@ -455,32 +455,6 @@ class GuestbookData
 ///////////////////////// Start GuestbookServer Class /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-/*QQQQQ
-function getPrettyPrintContent(i_xml_object)
-{
-    var pretty_print = new PrettyPrintXml(i_xml_object.getXmlObject());
-
-    var xml_content_str = pretty_print.xmlToWinFormattedString();
-
-    return xml_content_str;
-
-} // getPrettyPrintContent
-
-// Returns the absolute URL to the JazzGuests.xml file
-function getAbsoluteFilenameJazzGuests()
-{
-    return  g_guestbook_homepage_url + g_guestbook_xml_dir + "JazzGuests.xml";
-
-} // getAbsoluteFilenameJazzGuests
-
-// Returns the absolute URL to the JazzGuestsUploaded.xml file
-function getAbsoluteFilenameJazzGuestsUploaded()
-{
-    return  g_guestbook_homepage_url + g_guestbook_upload_xml_dir + "JazzGuestsUploaded.xml";
-
-} // getAbsoluteFilenameJazzGuestsUploaded
-QQQ*/
-
 // Class with server file names and paths 
 class GuestbookServer
 {

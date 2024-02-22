@@ -1006,6 +1006,7 @@ function getCheckGuestbookDataPartThree()
 ///////////////////////// Start Register Uploaded Data ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+/*QQQQQQ
 // Save (append) a new record to the upload XML file JazzGuestsLoaded.xml.
 // The XML object corresponding to the file is g_guests_uploaded_xml.
 // 1. Set flag (b_upload_also_to_homepage) that determines if record also shall be 
@@ -1129,7 +1130,7 @@ function appendSetGuestbookUploadData(i_b_upload_also_to_homepage)
     debugGuestbookUpload('appendSetGuestbookUploadData Exit');
 
 } // appendSetGuestbookUploadData
-
+QQQ*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Register Uploaded Data //////////////////////////////////////
@@ -1204,6 +1205,7 @@ function setUploadTestInstructions()
 ///////////////////////// Start Email Functions ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+/*QQQQQQ
 // The function sends an email to the Guestbook account after upload of a new record.
 // This email informs the administrator that a new uploaded record should be checked
 // with application GuestbookAdmin.html
@@ -1257,6 +1259,8 @@ function sendNewRecordNotificationEmailToAdmin()
     return true;
 
 } // sendNewRecordNotificationEmailToAdmin
+
+QQQ*/
 
 // Sends an email with code to the user
 function sendGuestbookCodeEmailToUser()

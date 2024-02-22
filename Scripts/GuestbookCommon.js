@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-02-18
+// Date: 2024-02-22
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -100,6 +100,7 @@ function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_
 
 } // appendUserUploadedRecordMakeBackups
 
+/*QQQQ
 // A user (guest) has selected and uploaded an image. The (time stamped) image is in the
 // directory /www/Guestbook/Uploaded and a guest record has been appended to the
 // JazzGuestsUploaded.xml object. The status of the record is PendingRecordInUploaded.
@@ -156,6 +157,7 @@ function saveNewRecordAlsoToJazzGuestsXml()
     return true;
 
 } // saveNewRecordAlsoToJazzGuestsXml
+QQQ*/
 
 // Move the image file from the Upload directory to the Backups directory
 function moveImageFromUploadedToBackupDir(i_record_uploaded_number)
@@ -231,6 +233,7 @@ function moveImageFromJazzGuestDirToBackupDir(i_record_uploaded_number)
 
 } // moveImageFromJazzGuestDirToBackupDir
 
+/*QQQQQQ
 // Append record to JazzGuests.xml object with data from the  JazzGuestsUploaded.xml object
 function appendSetSaveGuestbookData(i_next_reg_number_int, i_record_uploaded_number, i_file_name, i_b_case_admin)
 {
@@ -346,6 +349,7 @@ function getAppendImageName(i_next_reg_number_int, i_record_uploaded_number)
     return ret_file_name;
 
 } // getAppendImageName
+QQQQ*/
 
 // Make a backup of JazzGuests.xml. Returns false for failure
 function backupJazzGuestsXml()
