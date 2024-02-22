@@ -1,5 +1,5 @@
 // File: GuestbookUtils.js
-// Date: 2024-02-21
+// Date: 2024-02-22
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -536,7 +536,7 @@ class GuestbookServer
     // Returns the absolute URL to JazzGuestsUploaded.xml
     static absoluteUrlJazzGuestsUploaded()
     {
-        return getUploadedXmlDirUrl() + getJazzGuestsUploadedXmlFilename();
+        return GuestbookServer.getUploadedXmlDirUrl() + GuestbookServer.getJazzGuestsUploadedXmlFilename();
 
     } // absoluteUrlJazzGuestsUploaded
 
@@ -545,14 +545,14 @@ class GuestbookServer
     {
         var time_stamp = UtilDate.getTimeStamp();
         
-        return getBackupDirUrl() + getJazzGuestsUploadedXmlFilename() + '_' + time_stamp;
+        return GuestbookServer.getBackupDirUrl() + GuestbookServer.getJazzGuestsUploadedXmlFilename() + '_' + time_stamp;
 
     } // absoluteUrlJazzGuestsUploadedBackup
 
     // Returns the absolute URL to JazzGuests.xml
     static absoluteUrlJazzGuests()
     {
-        return getXmlDirUrl() + getJazzGuestXmlFilename();
+        return GuestbookServer.getXmlDirUrl() + GuestbookServer.getJazzGuestsXmlFilename();
 
     } // absoluteUrlJazzGuests
 
@@ -561,11 +561,11 @@ class GuestbookServer
     {
         var time_stamp = UtilDate.getTimeStamp();
         
-        return getBackupDirUrl() + getJazzGuestsFilename() + '_' + time_stamp;
+        return GuestbookServer.getBackupDirUrl() + GuestbookServer.getJazzGuestsXmlFilename() + '_' + time_stamp;
 
     } // absoluteUrlJazzGuestsBackup
 
-    getPrettyPrintContent(i_xml_object)
+    static getPrettyPrintContent(i_xml_object)
     {
         var pretty_print = new PrettyPrintXml(i_xml_object.getXmlObject());
 
@@ -575,10 +575,10 @@ class GuestbookServer
 
     } // getPrettyPrintContent
 
-
+/*QQQQ
    // Saves JazzGuests.xml or JazzGuestsUploaded.xml
     // After succesful save the function i_callback_done will be called
-    static async saveXmlFile(i_guests_xml, i_callback_done)
+    static async saveXmlFile(i_guests_xml, i_callback_done)            
     {
         var pretty_print = new PrettyPrintXml(i_guests_xml.getXmlObject());
 
@@ -626,6 +626,7 @@ class GuestbookServer
         }
 
     } // getXmlAbsolutePath
+QQQ*/
 
 } // GuestbookServer
 

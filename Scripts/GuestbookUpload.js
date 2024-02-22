@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-02-21
+// Date: 2024-02-22
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -624,9 +624,9 @@ function onClickForwardThreeButton()
 
     debugGuestbookUpload('onClickForwardThreeButton User clicked save record');
 
-    saveNewGuestbookUploadedRecord(); // Old execution function
+    // saveNewGuestbookUploadedRecord(); // Old execution function
 
-    // AppendBothXml.start(callbackAppenBothXml); // New function
+    AppendBothXml.start(callbackAppenBothXml); // New function
 
 } // onClickForwardThreeButton
 
@@ -668,7 +668,7 @@ class AppendBothXml
     {
         debugGuestbookUpload('AppendBothXml.appendUploaded Enter');
 
-        b_upload_also_to_homepage = true;
+        var b_upload_also_to_homepage = true;
     
         g_guests_uploaded_xml.appendGuestNode();
     
@@ -754,7 +754,7 @@ class AppendBothXml
 
         g_guestbook_data.setXmlNewRegisterNumber(next_reg_number_int);
 
-        var next_reg_number_str = 'REG' + UtilDate.getFormattedThousandNumber(i_next_reg_number_int);
+        var next_reg_number_str = 'REG' + UtilDate.getFormattedThousandNumber(next_reg_number_int);
 
         var guest_year = g_guests_uploaded_xml.getGuestYear(record_uploaded_number);
 
@@ -768,27 +768,27 @@ class AppendBothXml
 
         var file_ext = UtilServer.getFileExtension(uploaded_file_name);
 
-        var image_file_name = g_guestbook_image_dir + date_str + '_' + next_reg_number_str + file_ext;
+        var output_image_file_name = GuestbookServer.getJazzGuestsDirUrl() + date_str + '_' + next_reg_number_str + file_ext;
 
         var uploaded_file_name = g_guests_uploaded_xml.getGuestFileName(record_uploaded_number);
 
         var name_no_path = UtilServer.getFileName(uploaded_file_name);
     
-        var input_image_file_name = GuestbookCommon.getUploadedXmlDirUrl() + name_no_path;
+        var input_image_file_name = GuestbookServer.getUploadedXmlDirUrl() + name_no_path;
     
-        var length_homepage = GuestbookCommon.getHomepageUrl().length;
+        var length_homepage = GuestbookServer.getHomepageUrl().length;
     
-        var ret_output_file_name= output_image_file_name.substring(length_homepage);
+        var rel_output_file_name= output_image_file_name.substring(length_homepage);
     
         debugGuestbookUpload('AppendBothXml.constructImageFileNameAndCopy Image input name =    ' + input_image_file_name);
     
         debugGuestbookUpload('AppendBothXml.constructImageFileNameAndCopy Image output name =   ' + output_image_file_name);
     
-        debugGuestbookUpload('AppendBothXml.constructImageFileNameAndCopy Image returned name = ' + ret_output_file_name);
+        debugGuestbookUpload('AppendBothXml.constructImageFileNameAndCopy Image relative name = ' + rel_output_file_name);
     
-        g_guestbook_data.setXmlNewRegisterImageFileName(ret_output_file_name);
+        g_guestbook_data.setXmlNewRegisterImageFileName(rel_output_file_name);
 
-        UtilServer.copyFileCallback(input_image_file_name, output_image_file_name, appendXmlUploadedData);
+        UtilServer.copyFileCallback(input_image_file_name, output_image_file_name, AppendBothXml.appendXmlUploadedData);
 
     } // constructImageFileNameAndCopy
 
@@ -805,7 +805,7 @@ class AppendBothXml
 
         var b_case_admin = true;
 
-        var record_uploaded_number = g_guestbook_data.getXmlNewRegisterNumber();
+        var record_uploaded_number = g_guestbook_data.getUploadedXmlNewRecordNumber();
 
         g_guests_xml.setGuestYear(n_records, g_guests_uploaded_xml.getGuestYear(record_uploaded_number));
 
