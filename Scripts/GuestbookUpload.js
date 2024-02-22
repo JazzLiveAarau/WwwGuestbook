@@ -857,25 +857,48 @@ class AppendBothXml
 
         UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
         GuestbookServer.getPrettyPrintContent(g_guests_xml), 
-        AppendBothXml.finish);
+        AppendBothXml.sendNotificationEmail);
 
     } // appendXmlUploadedData
-
-    // Finish the process 
-    static finish()
-    {
-        GuestStorage.setGuestbookData(g_guestbook_data);
-
-        AppendBothXml.sendNotificationEmail();
-
-        g_guestbook_data.getAppendBothXmlCallback();
-
-    } // finish
 
     // Send notication email to the administrator
     static sendNotificationEmail()
     {
-        var b_email = sendNewRecordNotificationEmailToAdmin();
+        GuestStorage.setGuestbookData(g_guestbook_data);
+
+        var email_from = GuestStr.emailCodeFrom();
+
+        var email_to = GuestStr.emailCodeFrom();
+    
+        var email_subject = GuestStr.emailGuestbookSubject() + g_guestbook_data.getImageNames();
+    
+        var email_bcc = '';
+    
+        var textarea_str = g_guestbook_data.getImageText();
+    
+        textarea_str = UtilString.stringWindowsToHtml(textarea_str);
+    
+        var email_message = '';
+    
+        var record_date = UtilDate.getIsoDateString(g_guestbook_data.getYear(), g_guestbook_data.getMonth(), g_guestbook_data.getDay());
+    
+        email_message = email_message + 'Datum: ' + record_date + '<br>';
+        email_message = email_message + 'Email: ' + g_guestbook_data.getImageEmail() + '<br>';
+        email_message = email_message + 'Names: ' + g_guestbook_data.getImageNames() + '<br>';
+        email_message = email_message + 'Title: ' + g_guestbook_data.getImageTitle() + '<br>';
+        email_message = email_message + 'Band: ' + g_guestbook_data.getBand() + '<br>';
+        email_message = email_message + 'Musicians: ' + g_guestbook_data.getMusicians() + '<br>';
+        email_message = email_message + 'Remark: ' + g_guestbook_data.getImageRemark() + '<br>';
+        email_message = email_message + 'Text: ' + textarea_str + '<br>';
+    
+        if (!UtilServer.execApplicationOnServer())
+        {
+            alert("sendNotificationEmail PHP cannot execute with Visual Studio Live Server.");
+
+            return;
+        }    
+    
+         UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, g_guestbook_data.getAppendBothXmlCallback());
 
     } // sendNotificationEmail
 
