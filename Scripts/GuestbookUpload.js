@@ -100,33 +100,8 @@ function callbackAllXmlObjectsCreatedForUpload()
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// Start Event Functions ///////////////////////////////////////////
+///////////////////////// Start Event Code ////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-// User clicked the request code button
-function onClickRequestCodeButton()
-{
-    initAllInputCodes();
-
-    if (!getGuestbookNames())
-    {
-        return;
-    }
-
-    if (!getGuestbookEmail())
-    {
-        return;
-    }
-
-    hideElementDivUploadStartInstructions();
-
-    sendGuestbookCodeEmailToUser();
-
-    displayElementDivInputCode();
-
-    g_code_one_text_box.setFocus();
-
-} // onClickReqireCodeButton
 
 function initAllInputCodes()
 {
@@ -275,41 +250,6 @@ function inputCodeIsEqualToRandomCode()
 
 } // inputCodeIsEqualToRandomCode
 
-// User input of names character
-function onInputTextUpdateNames()
-{
-    var guestbook_names = g_upload_names_text_box.getValue();
-
-    g_guestbook_data.setImageNames(guestbook_names);
-
-} // onInputTextUpdateNames
-
-// User input of email character
-function onInputTextUpdateEmail()
-{
-    var guestbook_email = g_upload_email_text_box.getValue();
-
-    if (!g_guestbook_data.inputCodeEqualToRandomCode())
-    {
-        g_guestbook_data.m_email = guestbook_email;
-
-    }
-    else
-    {
-        if (g_guestbook_data.m_email != guestbook_email)
-        {
-            hideElementDivButtonSendCode();
-
-            hideElementDivInputCode();
-    
-            initAllInputCodes();
-    
-            alert(GuestStr.emailChangedNewCodeRequired());
-        }
-    }
-
-} // onInputTextUdateEmail
-
 // Input of code figure one
 function onInputCodeOne()
 {
@@ -365,93 +305,48 @@ function onInputCodeFive()
 
 } // onInputCodeFive
 
-// User clicked the forward part one button, i.e. the code input is valid
-// and the user can in part two upload an image if the code is correct
-// The names are checked when the user requires the code, but has to be
-// checked here again for the case that the user returned to part one
-// and changed the names
-function onClickForwardOneButton()
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Event Code //////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start GUI Event Functions ///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// User input of names character
+function onInputTextUpdateNames()
 {
-    if (g_guestbook_data.inputCodeEqualToRandomCode())
+    var guestbook_names = g_upload_names_text_box.getValue();
+
+    g_guestbook_data.setImageNames(guestbook_names);
+
+} // onInputTextUpdateNames
+
+// User input of email character
+function onInputTextUpdateEmail()
+{
+    var guestbook_email = g_upload_email_text_box.getValue();
+
+    if (!g_guestbook_data.inputCodeEqualToRandomCode())
     {
-        if (!getGuestbookNames())
-        {
-            return;
-        }
+        g_guestbook_data.m_email = guestbook_email;
 
-        hideElementDivNamesEmailCode();
-
-        displayElementDivUploadContainerTwo();
-
-        // var default_img_file_name = 'Icons/default_upload_image.png';
-
-        // Moved to init g_upload_image_object = new JazzUploadImage('guest_upload',  getIdDivUploadFileImage(), default_img_file_name);
     }
     else
     {
-        alert(GuestStr.inputCodeError());
+        if (g_guestbook_data.m_email != guestbook_email)
+        {
+            hideElementDivButtonSendCode();
+
+            hideElementDivInputCode();
+    
+            initAllInputCodes();
+    
+            alert(GuestStr.emailChangedNewCodeRequired());
+        }
     }
 
-} // onClickForwardOneButton
-
-// User clicked the back part two (upload of image) button, i.e.
-// the user comes bac to the start part with email address and names
-function onClickBackTwoButton()
-{
-    displayElementDivNamesEmailCode();
-
-    hideElementDivUploadContainerTwo();
-
-} // onClickReqireCodeButton
-
-// User clicked the forward part two (upload of image) button, i.e. the user 
-// can in part three input the image title and other texts
-function onClickForwardTwoButton()
-{
-    var image_file_url = g_upload_image_object.getImageFileFullName();
-
-    if (image_file_url.length == 0)
-    {
-        alert(GuestStr.imageNotUploaded());
-
-        return;
-    }
-
-    g_guestbook_data.setImageFile(image_file_url);
-
-    hideElementDivUploadContainerTwo();
-
-    displayElementDivUploadTexts();
-
-    setImageTextContainer();
-
-} // onClickReqireCodeButton
-
-// User clicked the back part three (texts input) button
-function onClickBackThreeButton()
-{
-    // alert("onClickBackThreeButton");
-
-    hideElementDivUploadTexts();
-
-    displayElementDivUploadContainerTwo();
-
-} // onClickReqireCodeButton
-
-// User clicked the forward three part three (texts input) button. i.e.
-// the user wants to save the data (finish the input of data)
-function onClickForwardThreeButton()
-{
-    if(!getCheckGuestbookDataPartThree())
-    {
-        return;
-    }
-
-    debugGuestbookUpload('onClickForwardThreeButton User clicked save record');
-
-    saveNewGuestbookUploadedRecord();
-
-} // onClickReqireCodeButton
+} // onInputTextUdateEmail
 
 // User selected a concert
 function eventSelectUploadConcertDropDown()
@@ -552,6 +447,14 @@ function clickGuestbookInfo()
 
 } // clickGuestbookInfo
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End GUI Event Functions /////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Event Contact Functions ///////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
 // User clicked the contact button
 function onClickContactButton()
 {
@@ -605,107 +508,142 @@ function eventSelectContactCaseDropdown()
 } // eventSelectContactCaseDropdown
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// End Event Functions /////////////////////////////////////////////
+///////////////////////// End Event Contact Functions /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// Start Get User Input ////////////////////////////////////////////
+///////////////////////// Start Process Event Functions ///////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// Get and check the guestbook names
-function getGuestbookNames()
+// User clicked the request code button
+function onClickRequestCodeButton()
 {
-    var guestbook_names = g_upload_names_text_box.getValue();
+    initAllInputCodes();
 
-    if (!UtilString.twoOrMoreWordsInString(guestbook_names))
+    if (!getGuestbookNames())
     {
-        alert("Bitte Vorname und Nachname eingeben");
-
-        return false;
+        return;
     }
 
-    g_guestbook_data.m_names = guestbook_names;
-
-    GuestStorage.setNames(guestbook_names);
-
-    return true;
-
-} // getGuestbookNames
-
-// Get and check the guestbook names
-function getGuestbookEmail()
-{
-    var guestbook_email = g_upload_email_text_box.getValue();
-
-    if (!UtilString.validEmailAddress(guestbook_email))
+    if (!getGuestbookEmail())
     {
-        alert("E-Mail Adresse nicht gültig");
-
-        return false;
+        return;
     }
 
-    g_guestbook_data.m_email = guestbook_email;
+    hideElementDivUploadStartInstructions();
 
-    GuestStorage.setEmail(guestbook_email);
+    sendGuestbookCodeEmailToUser();
 
-    return true;
+    displayElementDivInputCode();
 
-} // getGuestbookEmail
+    g_code_one_text_box.setFocus();
 
-// Get names and email from local storage and set controls
-function setGuestbookNamesAndEmailFromLocalStorage()
+} // onClickReqireCodeButton
+
+// User clicked the forward part one button, i.e. the code input is valid
+// and the user can in part two upload an image if the code is correct
+// The names are checked when the user requires the code, but has to be
+// checked here again for the case that the user returned to part one
+// and changed the names
+function onClickForwardOneButton()
 {
-   var name_txt = GuestStorage.getNames();
-   var email_txt = GuestStorage.getEmail();
-
-   if (name_txt == null || email_txt == null)
-   {
-       return;
-   }
-
-   g_upload_names_text_box.setValue(name_txt);
-
-   g_upload_email_text_box.setValue(email_txt); 
-
-} // setGuestbookNamesAndEmailFromLocalStorage
-
-// Get the texts from the part three user input. Returns false if data not is OK
-function getCheckGuestbookDataPartThree()
-{
-    var image_title = g_upload_title_text_box.getValue();
-
-    image_title = image_title.trim();
-
-    if (image_title.length == 0)
+    if (g_guestbook_data.inputCodeEqualToRandomCode())
     {
-        alert(GuestStr.titleNotSet());
+        if (!getGuestbookNames())
+        {
+            return;
+        }
 
-        return false;
+        hideElementDivNamesEmailCode();
+
+        displayElementDivUploadContainerTwo();
+
+        // var default_img_file_name = 'Icons/default_upload_image.png';
+
+        // Moved to init g_upload_image_object = new JazzUploadImage('guest_upload',  getIdDivUploadFileImage(), default_img_file_name);
+    }
+    else
+    {
+        alert(GuestStr.inputCodeError());
     }
 
-    g_guestbook_data.setImageTitle(image_title);
+} // onClickForwardOneButton
 
-    var image_text = g_text_textarea.getValue();
+// User clicked the back part two (upload of image) button, i.e.
+// the user comes bac to the start part with email address and names
+function onClickBackTwoButton()
+{
+    displayElementDivNamesEmailCode();
 
-    g_guestbook_data.setImageText(image_text);
+    hideElementDivUploadContainerTwo();
 
-    var image_renark = g_upload_remark_text_box.getValue();
+} // onClickReqireCodeButton
 
-    g_guestbook_data.setImageRemark(image_renark);
+// User clicked the forward part two (upload of image) button, i.e. the user 
+// can in part three input the image title and other texts
+function onClickForwardTwoButton()
+{
+    var image_file_url = g_upload_image_object.getImageFileFullName();
 
-    return true;
+    if (image_file_url.length == 0)
+    {
+        alert(GuestStr.imageNotUploaded());
 
-} // getGuestbookDataPartThree
+        return;
+    }
+
+    g_guestbook_data.setImageFile(image_file_url);
+
+    hideElementDivUploadContainerTwo();
+
+    displayElementDivUploadTexts();
+
+    setImageTextContainer();
+
+} // onClickReqireCodeButton
+
+// User clicked the back part three (texts input) button
+function onClickBackThreeButton()
+{
+    // alert("onClickBackThreeButton");
+
+    hideElementDivUploadTexts();
+
+    displayElementDivUploadContainerTwo();
+
+} // onClickReqireCodeButton
+
+// User clicked the forward three part three (texts input) button. i.e.
+// the user wants to save the data (finish the input of data)
+function onClickForwardThreeButton()
+{
+    if(!getCheckGuestbookDataPartThree())
+    {
+        return;
+    }
+
+    debugGuestbookUpload('onClickForwardThreeButton User clicked save record');
+
+    saveNewGuestbookUploadedRecord(); // Old execution function
+
+    // AppendBothXml.start(callbackAppenBothXml); // New function
+
+} // onClickForwardThreeButton
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// End Get User Input //////////////////////////////////////////////
+///////////////////////// End Process Event Functions /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// Start Execution Classes /////////////////////////////////////////
+///////////////////////// Start Execution Functions ///////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+// Callback function after adding new record with class AppendBothXml functions
+function callbackAppenBothXml()
+{
+    location.reload();
+
+} // callbackAppenBothXml
 
 // The class AppendBothXml appends a new record to both XML files JazzGuestsUploaded.xml
 // and JazzGuests.xml. Input data is the global variable g_guestbook_data and the
@@ -945,7 +883,100 @@ class AppendBothXml
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////// End Execution Classes ///////////////////////////////////////////
+///////////////////////// End Execution Functions /////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Get User Input ////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Get and check the guestbook names
+function getGuestbookNames()
+{
+    var guestbook_names = g_upload_names_text_box.getValue();
+
+    if (!UtilString.twoOrMoreWordsInString(guestbook_names))
+    {
+        alert("Bitte Vorname und Nachname eingeben");
+
+        return false;
+    }
+
+    g_guestbook_data.m_names = guestbook_names;
+
+    GuestStorage.setNames(guestbook_names);
+
+    return true;
+
+} // getGuestbookNames
+
+// Get and check the guestbook names
+function getGuestbookEmail()
+{
+    var guestbook_email = g_upload_email_text_box.getValue();
+
+    if (!UtilString.validEmailAddress(guestbook_email))
+    {
+        alert("E-Mail Adresse nicht gültig");
+
+        return false;
+    }
+
+    g_guestbook_data.m_email = guestbook_email;
+
+    GuestStorage.setEmail(guestbook_email);
+
+    return true;
+
+} // getGuestbookEmail
+
+// Get names and email from local storage and set controls
+function setGuestbookNamesAndEmailFromLocalStorage()
+{
+   var name_txt = GuestStorage.getNames();
+   var email_txt = GuestStorage.getEmail();
+
+   if (name_txt == null || email_txt == null)
+   {
+       return;
+   }
+
+   g_upload_names_text_box.setValue(name_txt);
+
+   g_upload_email_text_box.setValue(email_txt); 
+
+} // setGuestbookNamesAndEmailFromLocalStorage
+
+// Get the texts from the part three user input. Returns false if data not is OK
+function getCheckGuestbookDataPartThree()
+{
+    var image_title = g_upload_title_text_box.getValue();
+
+    image_title = image_title.trim();
+
+    if (image_title.length == 0)
+    {
+        alert(GuestStr.titleNotSet());
+
+        return false;
+    }
+
+    g_guestbook_data.setImageTitle(image_title);
+
+    var image_text = g_text_textarea.getValue();
+
+    g_guestbook_data.setImageText(image_text);
+
+    var image_renark = g_upload_remark_text_box.getValue();
+
+    g_guestbook_data.setImageRemark(image_renark);
+
+    return true;
+
+} // getGuestbookDataPartThree
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Get User Input //////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
