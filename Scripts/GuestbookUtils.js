@@ -549,59 +549,6 @@ class GuestbookServer
 
     } // getPrettyPrintContent
 
-/*QQQQ
-   // Saves JazzGuests.xml or JazzGuestsUploaded.xml
-    // After succesful save the function i_callback_done will be called
-    static async saveXmlFile(i_guests_xml, i_callback_done)            
-    {
-        var pretty_print = new PrettyPrintXml(i_guests_xml.getXmlObject());
-
-        var xml_content_str = pretty_print.xmlToWinFormattedString();
-    
-        var url_relative = i_guests_xml.getXmlJazzGuestsFileName();
-
-        var url_absolute = GuestbookServer.getXmlAbsolutePath(url_relative);
-    
-        var b_execute_server = UtilServer.execApplicationOnServer();
-         
-        if (!b_execute_server)
-        {
-            debugGuestbookCommon('GuestbookServer.saveXmlFile JazzGuests.xml or JazzGuestsUploaded.xml file not saved. Application is not running on the server');
-    
-            i_callback_done();
-        }
-    
-        await UtilServer.saveFileCallback(url_relative, xml_content_str, i_callback_done);
-    
-    } // saveXmlFile
-
-    // Returns the absolute path to JazzGuests.xml or JazzGuestsUploaded.xml
-    // It should work with the relative paths from object (class) JazzGuestsXml,
-    // but it is hopefully safer with an absolute paths
-    static getXmlAbsolutePath(i_relative_path)
-    {
-        var index_uploaded = i_relative_path.indexOf(GuestbookServer.getJazzGuestsUploadedXmlFilename());
-
-        var index_xml = i_relative_path.indexOf(GuestbookServer.getJazzGuestsXmlFilename());
-
-        if (index_uploaded >= 0)
-        {
-            return GuestbookServer.getUploadedXmlDirUrl() + GuestbookServer.getJazzGuestsUploadedXmlFilename();
-        }
-        else if (index_xml >= 0)
-        {
-            return GuestbookServer.getXmlDirUrl() + GuestbookServer.getJazzGuestsXmlFilename();
-        }
-        else
-        {
-            alert("GuestbookServer.getXmlAbsolutePath Programming error")
-
-            return 'ERROR';
-        }
-
-    } // getXmlAbsolutePath
-QQQ*/
-
 } // GuestbookServer
 
 
