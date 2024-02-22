@@ -1099,59 +1099,6 @@ function sendGuestbookCodeEmailToUser()
 
 } // sendGuestbookCodeEmailToUser
 
-/*QQQQQQ
-// The function sends an email to the Guestbook account after user deletion of a record.
-// This email informs the administrator that a user has deleted the last uploaded record
-// with application GuestbookAdmin.html
-function sendEmailUserDeletedRecordToGuestbook(i_data_last_record)
-{
-    var email_from = GuestStr.emailCodeFrom();
-
-    var email_to = GuestStr.emailCodeFrom();
-
-    var email_subject = GuestStr.emailGuestbookRecordDeletedSubject() + i_data_last_record.getImageNames();
-
-    var email_bcc = '';
-
-    var textarea_str = i_data_last_record.getImageText();
-
-    textarea_str = UtilString.stringWindowsToHtml(textarea_str);
-
-    var email_message = '';
-
-    var record_date = UtilDate.getIsoDateString(i_data_last_record.getYear(), i_data_last_record.getMonth(), i_data_last_record.getDay());
-
-    email_message = email_message + 'Datum: ' + record_date + '<br>';
-    email_message = email_message + 'Email: ' + i_data_last_record.getImageEmail() + '<br>';
-    email_message = email_message + 'Names: ' + i_data_last_record.getImageNames() + '<br>';
-    email_message = email_message + 'Title: ' + i_data_last_record.getImageTitle() + '<br>';
-    email_message = email_message + 'Band: ' + i_data_last_record.getBand() + '<br>';
-    email_message = email_message + 'Musicians: ' + i_data_last_record.getMusicians() + '<br>';
-    email_message = email_message + 'Remark: ' + i_data_last_record.getImageRemark() + '<br>';
-    email_message = email_message + 'File: ' + i_data_last_record.getImageFile() + '<br>';
-    email_message = email_message + 'Text: ' + textarea_str + '<br>';
-
-    if (!UtilServer.execApplicationOnServer())
-    {
-        alert("sendEmailUserDeletedRecordToGuestbook PHP cannot execute with Visual Studio Live Server.");
-
-        return true;
-    }    
-
-    var b_send = UtilEmail.send(email_from, email_subject, email_message, email_to, email_bcc);
-
-    if (!b_send)
-    {
-        alert(GuestStr.emailGuestbookError(email_to));
-
-        return false;
-    }
-
-    return true;
-
-} // sendEmailUserDeletedRecordToGuestbook
-QQQQQ*/
-
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Email Functions /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////

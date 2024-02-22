@@ -14,24 +14,19 @@
 // Execute the contact request
 function executeContactRequest()
 {
+    var b_execute = true; // TODO Remove
+
     var selected_contact_case_number = g_contact_case_drop_down.getSelectOptionNumber();
 
     var index_case = parseInt(selected_contact_case_number) - 1;
 
-    var b_execute = null;
-
     if (index_case == 0 && g_guestbook_data_last_record != null)
     {
         DeleteLastUploadedRecord.start();
-
-        b_execute = true; // TODO Shall not return to the 
-
     }
     else if (index_case == 0)
     {
         alert("Kein letzter beitrag ist vorhanden");
-
-        return;
     }
     else if (index_case == 1)
     {
@@ -55,8 +50,6 @@ function executeContactRequest()
 
         b_execute = false;
     }
-
-    //QQQ return b_execute;
 
 } // executeContactRequest
 
@@ -318,118 +311,6 @@ class DeleteLastUploadedRecord
 
 } // DeleteLastUploadedRecord
 
-/*QQQ
-// Execute the contact request automatic delete
-function executeContactRequestAutomaticDelete()
-{
-    if (g_guestbook_data_last_record == null)
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete g_guestbook_data_last_record is null');
-
-        return false;
-    }
-
-    var xml_str = 'uploaded';
-
-    var uploaded_record_number = getDeletRecordNumber(xml_str);
-
-    if (uploaded_record_number <= 0)
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete An uploaded record is not found');
-
-        alert("executeContactRequestAutomaticDelete An uploaded record is not found");
-
-        return false;
-    }
-
-    xml_str = 'admin';
-    
-    var admin_record_number = getDeletRecordNumber(xml_str);
-
-    if (admin_record_number <= 0)
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete An admin record is not found');
-
-        alert("executeContactRequestAutomaticDelete An admin record is not found");
-
-        return false;
-    }
-
-    if (UtilServer.execApplicationOnServer())
-    {
-        if (!backupJazzGuestsXml())
-        {
-            debugGuestbookUpload('executeContactRequestAutomaticDelete Backup of JazzGuests.xml failed');
-    
-            return false;
-        }
-    
-        if (!backupJazzGuestsUploadedXml())
-        {
-            debugGuestbookUpload('executeContactRequestAutomaticDelete Backup of JazzGuestsUploaded.xml failed');
-    
-            return false;
-        } 
-        
-        debugGuestbookUpload('executeContactRequestAutomaticDelete JazzGuests.xml and JazzGuestsUploaded.xml backups are created');
-    }
-    else
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Not running on the server. No XML backups are created');  
-    }
-
-    debugGuestbookUpload('executeContactRequestAutomaticDelete Move uploaded image file to backup directory'); 
-
-    if (!moveImageFromUploadedToBackupDir(uploaded_record_number))
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Failure moving uploaded image file to backup directory'); 
-    }
-
-    if (!moveImageFromJazzGuestDirToBackupDir(admin_record_number))
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Failure moving admin image file to backup directory'); 
-    }
-
-    g_guests_uploaded_xml.deleteGuestNode(uploaded_record_number);
-
-    g_guests_xml.deleteGuestNode(admin_record_number);
-
-    debugGuestbookUpload('executeContactRequestAutomaticDelete Records deleted in JazzGuests.xml and JazzGuestsUploaded.xml'); 
-
-    debugGuestbookUpload('executeContactRequestAutomaticDelete Save JazzGuests.xml on the server'); 
-
-    if (!saveJazzGuestsXmlOnServer())
-    { 
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Failure saving JazzGuests.xml on the server'); 
-
-        return false;
-    }   
-
-    debugGuestbookUpload('executeContactRequestAutomaticDelete Save JazzGuestsUploaded.xml on the server'); 
- 
-    if (!saveJazzGuestsUploadedXmlOnServer())
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Failure saving JazzGuestsUploaded.xml on the server'); 
-
-        return false;
-    }
-
-    if (!sendEmailUserDeletedRecordToGuestbook(g_guestbook_data_last_record))
-    {
-        debugGuestbookUpload('executeContactRequestAutomaticDelete Failure sending email'); 
-
-        return false;
-    }
-
-    GuestStorage.initGuestbookData();
-
-    debugGuestbookUpload('executeContactRequestAutomaticDelete Local storage record data have been used and was initialized'); 
-
-    return true;
-
-} // executeContactRequestAutomaticDelete
-QQQ*/
-
 // Execute the contact request manual delete
 function executeContactRequestManualDelete()
 {
@@ -473,83 +354,6 @@ function executeContactRequestOtherCase()
     return ret_b;
 
 } // executeContactRequestOtherCase
-
-/*QQQQ
-// Returns the record number to delete
-// i_xml_str Eq. uploadwd JazzGuestsUploaded.xml  Eq. admin JazzGuests.xml
-function getDeletRecordNumber(i_xml_str)
-{
-    var current_xml = null;
-
-    if (i_xml_str == 'uploaded')
-    {
-        current_xml = g_guests_uploaded_xml;
-    }
-    else if (i_xml_str == 'admin')
-    {
-        current_xml = g_guests_xml;
-    }
-    else
-    {
-        alert("getDeletRecordNumber Error i_xml_str= " + i_xml_str);
-
-        return -9;
-    }
-
-    var n_records = current_xml.getNumberOfGuestRecords();
-
-    var search_title = g_guestbook_data_last_record.getImageTitle();
-
-    var search_year = g_guestbook_data_last_record.getYear();
-
-    var search_month = g_guestbook_data_last_record.getMonth();
-
-    var search_day = g_guestbook_data_last_record.getDay();
-
-    var search_file = g_guestbook_data_last_record.getImageFile();
-
-
-    for (var rec_number=1; rec_number <= n_records; rec_number++)
-    {
-        var guest_title = current_xml.getGuestHeader(rec_number);
-
-        var guest_year = current_xml.getGuestYear(rec_number);
-
-        var guest_month = current_xml.getGuestMonth(rec_number);
-
-        var guest_day = current_xml.getGuestDay(rec_number);
-
-        var guest_file = current_xml.getGuestFileName(rec_number);
-
-        if (guest_title == search_title &&
-
-            guest_year == search_year && 
-
-            guest_month == search_month && 
-
-            guest_day == search_day )
-            {
-                if (i_xml_str == 'uploaded' && guest_file == search_file)
-                {
-                    debugGuestbookUpload('getDeletRecordNumber uploaded rec_number= ' + rec_number.toString());
-
-                    return rec_number;
-                }
-                else if (i_xml_str == 'admin')
-                {
-                    debugGuestbookUpload('getDeletRecordNumber admin rec_number= ' + rec_number.toString());
-
-                    return rec_number;
-                }
-
-            } // properties equal
-
-    } // rec_number
-
-    return -1;
-
-} // getDeletRecordNumber
-QQQQ*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Execute Contact Request /////////////////////////////////////
