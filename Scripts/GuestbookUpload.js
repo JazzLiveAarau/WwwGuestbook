@@ -480,6 +480,9 @@ function onClickContactSendButton()
 {
     debugGuestbookUpload('onClickContactSendButton User clicked the contact execution button');
 
+    executeContactRequest();
+
+    /*QQQQQ
     var b_exec = executeContactRequest();
 
     if (!b_exec)
@@ -490,6 +493,8 @@ function onClickContactSendButton()
     debugGuestbookUpload('onClickContactSendButton Reload application');
 
     location.reload;
+
+    QQQQ*/
 
 } // onClickContactSendButton
 
