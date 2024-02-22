@@ -482,20 +482,6 @@ function onClickContactSendButton()
 
     executeContactRequest();
 
-    /*QQQQQ
-    var b_exec = executeContactRequest();
-
-    if (!b_exec)
-    {
-        debugGuestbookUpload('onClickContactSendButton Execution failed');
-    }
-
-    debugGuestbookUpload('onClickContactSendButton Reload application');
-
-    location.reload;
-
-    QQQQ*/
-
 } // onClickContactSendButton
 
 // User input of character for the contact message
@@ -1113,7 +1099,7 @@ function sendGuestbookCodeEmailToUser()
 
 } // sendGuestbookCodeEmailToUser
 
-
+/*QQQQQQ
 // The function sends an email to the Guestbook account after user deletion of a record.
 // This email informs the administrator that a user has deleted the last uploaded record
 // with application GuestbookAdmin.html
@@ -1164,6 +1150,7 @@ function sendEmailUserDeletedRecordToGuestbook(i_data_last_record)
     return true;
 
 } // sendEmailUserDeletedRecordToGuestbook
+QQQQQ*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Email Functions /////////////////////////////////////////////

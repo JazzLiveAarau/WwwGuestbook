@@ -318,6 +318,7 @@ class DeleteLastUploadedRecord
 
 } // DeleteLastUploadedRecord
 
+/*QQQ
 // Execute the contact request automatic delete
 function executeContactRequestAutomaticDelete()
 {
@@ -427,6 +428,7 @@ function executeContactRequestAutomaticDelete()
     return true;
 
 } // executeContactRequestAutomaticDelete
+QQQ*/
 
 // Execute the contact request manual delete
 function executeContactRequestManualDelete()
@@ -472,6 +474,7 @@ function executeContactRequestOtherCase()
 
 } // executeContactRequestOtherCase
 
+/*QQQQ
 // Returns the record number to delete
 // i_xml_str Eq. uploadwd JazzGuestsUploaded.xml  Eq. admin JazzGuests.xml
 function getDeletRecordNumber(i_xml_str)
@@ -546,7 +549,7 @@ function getDeletRecordNumber(i_xml_str)
     return -1;
 
 } // getDeletRecordNumber
-
+QQQQ*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Execute Contact Request /////////////////////////////////////
