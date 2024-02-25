@@ -90,6 +90,11 @@ button
     clear: both;
 }
 
+.cl_div_button_contact button
+{
+    background-color: white;
+}
+
 .cl_div_container_contact
 {
     /* border: solid 1px yellow; */

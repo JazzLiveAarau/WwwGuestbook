@@ -20,35 +20,41 @@ function executeContactRequest()
 
     var index_case = parseInt(selected_contact_case_number) - 1;
 
-    if (index_case == 0 && g_guestbook_data_last_record != null)
+    if (index_case == 0)
     {
-        DeleteLastUploadedRecord.start();
-    }
-    else if (index_case == 0)
-    {
-        alert("Kein letzter beitrag ist vorhanden");
+        ; // Do nothing. Case is not selected
     }
     else if (index_case == 1)
     {
-        b_execute = executeContactRequestManualDelete();
+        executeContactRequestChangeRecord();
     }
     else if (index_case == 2)
     {
-        b_execute = executeContactRequestBugReport();
+        executeContactRequestManualDelete();
+    }
+    else if (index_case == 3 && g_guestbook_data_last_record != null)
+    {
+        DeleteLastUploadedRecord.start();
     }
     else if (index_case == 3)
     {
-        b_execute = executeContactRequestUserProposal();
+        alert("Kein letzter beitrag ist vorhanden");
     }
     else if (index_case == 4)
     {
-        b_execute = executeContactRequestOtherCase();
+        executeContactRequestBugReport();
+    }
+    else if (index_case == 5)
+    {
+        executeContactRequestUserProposal();
+    }
+    else if (index_case == 6)
+    {
+        executeContactRequestOtherCase();
     }
     else
     {
         alert("executeContactRequest Not an implemented case= " + index_case.toString());
-
-        b_execute = false;
     }
 
 } // executeContactRequest
@@ -311,47 +317,39 @@ class DeleteLastUploadedRecord
 
 } // DeleteLastUploadedRecord
 
+// Execute the contact request change of record
+function executeContactRequestChangeRecord()
+{
+    alert("executeContactRequestChangeRecord This case is not implemented");
+
+} // executeContactRequestChangeRecord
+
 // Execute the contact request manual delete
 function executeContactRequestManualDelete()
 {
-    var ret_b = true;
-
     alert("executeContactRequestManualDelete This case is not implemented");
-
-    return ret_b;
 
 } // executeContactRequestManualDelete
 
 // Execute the contact request bug report
 function executeContactRequestBugReport()
 {
-    var ret_b = true;
-
     alert("executeContactRequestBugReport This case is not implemented");
-
-    return ret_b;
 
 } // executeContactRequestBugReport
 
 // Execute the contact request user proposal
 function executeContactRequestUserProposal()
 {
-    var ret_b = true;
 
     alert("executeContactRequestUserProposal This case is not implemented");
-
-    return ret_b;
 
 } // executeContactRequestUserProposal
 
 // Execute the contact request other case
 function executeContactRequestOtherCase()
 {
-    var ret_b = true;
-
     alert("executeContactRequestOtherCase This case is not implemented");
-
-    return ret_b;
 
 } // executeContactRequestOtherCase
 
@@ -363,8 +361,8 @@ function executeContactRequestOtherCase()
 ///////////////////////// Start Set Contact Controls //////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// Set the contact controls
-function setContactControls()
+// Set the contact dropdown texts. Hide and display also elements
+function setContactDropdownTexts()
 {
     var names_txt = g_guestbook_data.getImageNames();
 
@@ -383,71 +381,128 @@ function setContactControls()
 
         g_last_record_text_box.setValue(last_record_txt);
 
-        var selected_contact_case_number = g_contact_case_drop_down.getSelectOptionNumber();
-
-        var index_case = parseInt(selected_contact_case_number) - 1;
-
-        if (index_case == 0)
-        {
-            debugGuestbookUpload('setContactControls Letzter Beitrag löschen');
-
-            g_contact_msg_textarea.setPlaceholderText("Eine Mitteilung ist nicht notwendig. Mit Senden sollte den Beitrag automatisch gelöscht werden.");
-
-        }
-        else if (index_case == 1)
-        {
-            debugGuestbookUpload('setContactControls Anderer Beitrag löschen');
-
-            var delete_text = '';
-            delete_text = delete_text + 'Bitte folgender Beitrag löschen' + '\n';
-            delete_text = delete_text + 'Titel: ' + '\n';
-            delete_text = delete_text + 'Datum: ' + '\n';
-            delete_text = delete_text + 'Namen: ' + '\n';
-            delete_text = delete_text + ' ' + '\n';
-            delete_text = delete_text + 'Bitte lass uns wissen warum. ' + '\n';
-            delete_text = delete_text + 'Grund: ' + '\n';
-
-            g_contact_msg_textarea.setValue(delete_text);
-
-        }
-        else if (index_case == 2)
-        {
-            debugGuestbookUpload('setContactControls Fehler melden');
-
-            g_contact_msg_textarea.setPlaceholderText("Fehlerbeschreibung ...");
-
-        }
-        else if (index_case == 3)
-        {
-            debugGuestbookUpload('setContactControls Vorschlag machen');
-
-            g_contact_msg_textarea.setPlaceholderText("Vorschlagbeschreibung ...");
-        }
-        else if (index_case == 4)
-        {
-            debugGuestbookUpload('setContactControls Anderes');
-
-            g_contact_msg_textarea.setPlaceholderText("Mitteilung hier schreiben ...");
-        }
-        else
-        {
-    
-            alert("setContactControls Not an implemented case index= " + index_case.toString());
-            
-        }
+        displayElementDivContactTextBoxLastRecord();
 
     }
     else
     {
-        g_last_record_text_box.setValue("Kein letzter Beitrag");
-
-        g_contact_msg_textarea.setPlaceholderText("Mitteilung hier schreiben ...");
-
-        g_contact_case_drop_down.setSelectOptionNumber(2);
+        hideElementDivContactTextBoxLastRecord();
     }
 
+    var selected_contact_case_number = g_contact_case_drop_down.getSelectOptionNumber();
 
-} // setContactControls
+    var index_case = parseInt(selected_contact_case_number) - 1;
+
+    if (index_case == 0)
+    {
+        hideElementDivContactMessageTextArea();
+
+        hideElementDivContactSendButton();
+
+        debugGuestbookUpload('setContactDropdownTexts Case not selected');
+
+    }
+    else if (index_case == 1)
+    {
+        displayElementDivContactMessageTextArea();
+
+        displayElementDivContactSendButton();
+
+        debugGuestbookUpload('setContactDropdownTexts Beitrag ändern');
+
+        g_contact_msg_textarea.setPlaceholderText(GuestStr.placeholderTextAreaContactTextCaseChangeRecord());
+
+        g_contact_msg_textarea.setValue(GuestStr.textTextAreaContactTextCaseChangeRecord());
+
+    }
+    else if (index_case == 2)
+    {
+        displayElementDivContactMessageTextArea();
+
+        displayElementDivContactSendButton();
+
+        debugGuestbookUpload('setContactDropdownTexts Beitrag löschen');
+
+        g_contact_msg_textarea.setPlaceholderText(GuestStr.placeholderTextAreaContactTextCaseDeleteRecord());
+
+        g_contact_msg_textarea.setValue(GuestStr.textTextAreaContactTextCaseDeleteRecord());
+
+    }
+    else if (index_case == 3)
+    {
+        displayElementDivContactMessageTextArea();
+
+        displayElementDivContactSendButton();
+
+        debugGuestbookUpload('setContactDropdownTexts Letzter Beitrag löschen');
+
+        if (g_guestbook_data_last_record != null)
+        {
+
+            g_contact_msg_textarea.setValue(GuestStr.titleTextAreaContactTextCaseAutoDelete());
+
+
+            g_contact_msg_textarea.setPlaceholderText(GuestStr.placeholderTextAreaContactTextCaseAutoDelete());
+        }
+        else
+        {
+            g_contact_msg_textarea.setPlaceholderText("");
+
+            g_contact_msg_textarea.setValue(GuestStr.errorAutomaticDeleteNotAvailable());
+
+            hideElementDivContactSendButton();
+
+        }
+
+    }
+    else if (index_case == 4)
+    {
+        displayElementDivContactMessageTextArea();
+
+        displayElementDivContactSendButton();
+
+        debugGuestbookUpload('setContactDropdownTexts Fehler melden');
+
+        g_contact_msg_textarea.setValue(GuestStr.textTextAreaContactTextCaseReportBug());
+
+        g_contact_msg_textarea.setPlaceholderText(GuestStr.placeholderTextAreaContactTextCaseReportBug());
+
+    }
+    else if (index_case == 5)
+    {
+        displayElementDivContactMessageTextArea();
+
+        displayElementDivContactSendButton();
+        
+        debugGuestbookUpload('setContactDropdownTexts Vorschlag machen');
+
+        g_contact_msg_textarea.setValue(GuestStr.textTextAreaContactTextMakeProposal());
+
+        g_contact_msg_textarea.setPlaceholderText(GuestStr.placeholderTextAreaContactTextMakeProposal());
+    }
+    else if (index_case == 6)
+    {
+        displayElementDivContactMessageTextArea();
+
+        displayElementDivContactSendButton();
+        
+        debugGuestbookUpload('setContactDropdownTexts Anderes');
+
+        g_contact_msg_textarea.setValue(GuestStr.textTextAreaContactTextOtherMessage());
+
+        g_contact_msg_textarea.setPlaceholderText(GuestStr.placeholderTextAreaContactTextOtherMessage());
+    }
+    else
+    {
+        g_contact_msg_textarea.setPlaceholderText("setContactDropdownTexts Not an implemented case index= " + index_case.toString());
+
+        g_contact_msg_textarea.setValue("setContactDropdownTexts Not an implemented case index= " + index_case.toString());
+
+        alert("setContactDropdownTexts Not an implemented case index= " + index_case.toString());
+        
+    }
+
+} // setContactDropdownTexts
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

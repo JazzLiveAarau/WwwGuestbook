@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-02-12
+// Date: 2024-02-25
 // Author: Gunnar Liden
 
 // File content
@@ -527,16 +527,20 @@ class GuestStr
     static getContactDropdownArray()
     {
         var contact_case_array = [];
-	
-        contact_case_array[0] = 'Letzter Beitrag löschen';
-    
-        contact_case_array[1] = 'Beitrag löschen/ändern';
-    
-        contact_case_array[2] = 'Fehler melden';
-    
-        contact_case_array[3] = 'Vorschlag der App';
 
-        contact_case_array[4] = 'Anderes';
+        contact_case_array[0] = 'Grund noch nicht gewählt';
+	
+        contact_case_array[1] = 'Beitrag ändern';
+    
+        contact_case_array[2] = 'Beitrag löschen';
+
+        contact_case_array[3] = 'Letzter Beitrag löschen';
+    
+        contact_case_array[4] = 'Fehler melden';
+    
+        contact_case_array[5] = 'Vorschlag der App';
+
+        contact_case_array[6] = 'Anderes';
 
         return contact_case_array;
 
@@ -562,6 +566,263 @@ class GuestStr
         return 'Beitrag wurde gelöscht von ';
 
     } // emailGuestbookRecordDeletedSubject
+
+    // Caption for the button contact administrator
+    static captionButtonContactAdministrator()
+    {
+        return 'oder <br>Administrator kontaktieren';
+
+    } // captionButtonContactAdministrator
+
+    // Title (tooltip) for the the button contact administrator
+    static titleButtonContactAdministrator()
+    {
+        return 'Gästebuch Administrator kontaktieren um Beitrag zu löschen oder modifizieren, Fehler zu melden oder etwas vorschlagen';
+
+    } // titleButtonContactAdministrator
+
+    // Caption for the button cancel contact administrator
+    static captionButtonContactAdministratorCancel()
+    {
+        return 'Abbrechen';
+
+    } // captionButtonContactAdministratorCancel
+
+    // Title (tooltip) for the the button cancel contact administrator
+    static titleButtonContactAdministratorCancel()
+    {
+        return 'Keine Mitteilung an den Gästebuch Administrator senden';
+
+    } // titleButtonContactAdministratorCancel
+
+    // Caption for the button send message to the contact administrator
+    static captionButtonContactAdministratorSend()
+    {
+        return 'Senden';
+
+    } // captionButtonContactAdministratorSend
+
+    // Title (tooltip) for the the button send message to the contact administrator
+    static titleButtonContactAdministratorSend()
+    {
+        return 'Mitteilung an den Administrator senden';
+
+    } // titleButtonContactAdministratorSend
+
+    // Label for the textbox contact name
+    static labelTextBoxContactName()
+    {
+        return 'Absender Name';
+
+    } // labelTextBoxContactName
+
+    // Title (tooltip) for the textbox contact name
+    static titleTextBoxContactName()
+    {
+        return 'Absender Name eingeben';
+
+    } // titleTextBoxContactName
+
+    // Label for the textbox contact email
+    static labelTextBoxContactEmail()
+    {
+        return 'Absender E-Mail';
+
+    } // labelTextBoxContactEmail
+
+    // Title (tooltip) for the textbox contact email
+    static titleTextBoxContactEmail()
+    {
+        return 'Absender E-Mail eingeben';
+
+    } // titleTextBoxContactEmail
+
+    // Label for the textbox last uploaded record
+    static labelTextBoxLastRecord()
+    {
+        return 'Letzer aufgeladenen Beitrag';
+
+    } // labelTextBoxLastRecord
+
+    // Title (tooltip) for the textbox last uploaded record
+    static titleTextBoxLastRecord()
+    {
+        return 'Zeigt den letzen aufgeladenen Beitrag';
+
+    } // titleTextBoxLastRecord
+
+    // Label for the textarea contact text
+    static labelTextAreaContactText()
+    {
+        return 'Mitteilung';
+
+    } // labelTextAreaContactText
+
+     // Title (tooltip) for the textarea contact text
+     static titleTextAreaContactText()
+     {
+         return 'Freier Text an den Administrator';
+ 
+     } // titleTextAreaContactText
+	 
+    // Placeholder text for the textarea contact text
+    static placeholderTextAreaContactText()
+    {
+        var ret_str = '';
+
+        ret_str = ret_str + 'Bitte Titel und Datum des Beitrags immer eingeben.' + '\n';
+
+        return  ret_str;
+
+    } // placeholderTextAreaContactText
+
+    // Label for the contact case dropdown
+    static labelDropdownContactCase()
+    {
+        return 'Kontakt-Grund wählen';
+
+    } // labelDropdownContactCase
+
+    // Title (tooltip) for the contact case dropdown
+    static titleDropdownContactCase()
+    {
+        return 'Kontakt-Grund bitte wählen';
+
+    } // titleDropdownContactCase
+
+
+     // Title (tooltip) for the textarea contact text case automatic delete
+     static titleTextAreaContactTextCaseAutoDelete()
+     {
+         return '';
+ 
+     } // titleTextAreaContactTextCaseAutoDelete
+	 
+    // Placeholder text for the textarea contact text case automatic delete
+    static placeholderTextAreaContactTextCaseAutoDelete()
+    {
+        var ret_str = '';
+
+        ret_str = ret_str + 'Eine Mitteilung ist nicht notwendig. ' + '\n';
+
+        ret_str = ret_str + 'Mit Senden sollte den Beitrag automatisch gelöscht werden.' + '\n';
+
+        return  ret_str;
+
+    } // placeholderTextAreaContactTextCaseAutoDelete
+
+     // Title (tooltip) for the textarea contact text case change record request
+     static textTextAreaContactTextCaseChangeRecord()
+     {
+        var delete_text = '';
+        delete_text = delete_text + 'Bitte folgender Beitrag ändern' + '\n';
+        delete_text = delete_text + 'Titel: ' + '\n';
+        delete_text = delete_text + 'Datum: ' + '\n';
+        delete_text = delete_text + 'Namen: ' + '\n';
+        delete_text = delete_text + ' ' + '\n';
+        delete_text = delete_text + 'Mach bitte folgende Änderung(en): ' + '\n';
+        delete_text = delete_text + ' ' + '\n';
+			
+         return delete_text;
+ 
+     } // textTextAreaContactTextCaseChangeRecord
+	 
+    // Placeholder text for the textarea contact text case change record request
+    static placeholderTextAreaContactTextCaseChangeRecord()
+    {
+        var ret_str = '';
+
+        return  ret_str;
+
+    } // placeholderTextAreaContactTextCaseChangeRecord
+
+     // Title (tooltip) for the textarea contact text case delete record request
+     static textTextAreaContactTextCaseDeleteRecord()
+     {
+        var delete_text = '';
+        delete_text = delete_text + 'Bitte folgender Beitrag löschen' + '\n';
+        delete_text = delete_text + 'Titel: ' + '\n';
+        delete_text = delete_text + 'Datum: ' + '\n';
+        delete_text = delete_text + 'Namen: ' + '\n';
+        delete_text = delete_text + ' ' + '\n';
+        delete_text = delete_text + 'Bitte lass uns wissen warum. ' + '\n';
+        delete_text = delete_text + 'Grund: ' + '\n';
+			
+         return delete_text;
+ 
+     } // textTextAreaContactTextCaseDeleteRecord
+	 
+    // Placeholder text for the textarea contact text case delete record request
+    static placeholderTextAreaContactTextCaseDeleteRecord()
+    {
+        var ret_str = '';
+
+        return  ret_str;
+
+    } // placeholderTextAreaContactTextCaseDeleteRecord
+
+    // Automatic delete is not possible. Data from last record is not available
+    static errorAutomaticDeleteNotAvailable()
+    {
+        var ret_str = 'Daten vom letzten Beitrag ist nicht gespeichert. Bitte eine andere Alternative wählen.';
+
+        return  ret_str;
+
+    } // errorAutomaticDeleteNotAvailable
+
+     // Text for the textarea contact text case report bug
+     static textTextAreaContactTextCaseReportBug()
+     {
+        var delete_text = '';
+			
+         return delete_text;
+ 
+     } // textTextAreaContactTextCaseReportBug
+	 
+    // Placeholder text for the textarea contact text case report bug
+    static placeholderTextAreaContactTextCaseReportBug()
+    {
+        var ret_str = 'Bitte Fehler beschreiben';
+
+        return  ret_str;
+
+    } // placeholderTextAreaContactTextCaseReportBug
+
+     // Text for the textarea contact text case make a proposal
+     static textTextAreaContactTextMakeProposal()
+     {
+        var delete_text = '';
+			
+         return delete_text;
+ 
+     } // textTextAreaContactTextMakeProposal
+	 
+    // Placeholder text for the textarea contact text case make a proposal
+    static placeholderTextAreaContactTextMakeProposal()
+    {
+        var ret_str = 'Bitte Vorschlag beschreiben';
+
+        return  ret_str;
+
+    } // placeholderTextAreaContactTextMakeProposal
+
+     // Text for the textarea contact text case other message
+     static textTextAreaContactTextOtherMessage()
+     {
+        var delete_text = '';
+			
+         return delete_text;
+ 
+     } // textTextAreaContactTextOtherMessage
+	 
+    // Placeholder text for the textarea contact text case other message
+    static placeholderTextAreaContactTextOtherMessage()
+    {
+        var ret_str = 'Bitte Mitteilung schreiben';
+
+        return  ret_str;
+
+    } // placeholderTextAreaContactTextOtherMessage
 
 
 } // GuestStr

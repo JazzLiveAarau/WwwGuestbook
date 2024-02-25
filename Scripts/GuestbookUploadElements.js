@@ -1,5 +1,5 @@
 // File: GuestbookUploadElements.js
-// Date: 2024-02-08
+// Date: 2024-02-25
 // Author: Gunnar Liden
 
 // File content
@@ -489,3 +489,87 @@ function getIdDivContactButton()
     return 'id_div_button_contact';
 
 } // getIdDivContactButton
+
+// Hides the container element div for the contact last record textbook
+function hideElementDivContactTextBoxLastRecord()
+{
+    getElementDivContactTextBoxLastRecord().style.display = 'none';
+
+} // hideElementDivContactTextBoxLastRecord
+
+// Displays the container element div for the contact last record textbook
+function displayElementDivContactTextBoxLastRecord()
+{
+    getElementDivContactTextBoxLastRecord().style.display = 'block';
+
+} // displayElementDivContactTextBoxLastRecord
+
+// Returns the container element div for the contact last record textbook
+function getElementDivContactTextBoxLastRecord()
+{
+    return document.getElementById(getIdDivContactTextBoxLastRecord());
+
+} // getElementDivContactTextBoxLastRecord
+
+// Returns the identity of the container div for the contact last record textbook
+function getIdDivContactTextBoxLastRecord()
+{
+    return 'id_div_contact_textbox_last_rec';
+
+} // getIdDivContactTextBoxLastRecord
+
+// Hides the container element div for the contact text area
+function hideElementDivContactMessageTextArea()
+{
+    getElementDivContactMessageTextArea().style.display = 'none';
+
+} // hideElementDivContactMessageTextArea
+
+// Displays the container element div for the contact text area
+function displayElementDivContactMessageTextArea()
+{
+    getElementDivContactMessageTextArea().style.display = 'block';
+
+} // displayElementDivContactMessageTextArea
+
+// Returns the container element div for the contact text area
+function getElementDivContactMessageTextArea()
+{
+    return document.getElementById(getIdDivContactMessageTextArea());
+
+} // getElementDivContactMessageTextArea
+
+// Returns the identity of the container div for the contact text area
+function getIdDivContactMessageTextArea()
+{
+    return 'id_div_contact_textarea_message';
+
+} // getIdDivContactMessageTextArea
+
+// Hides the container element div for the contact send button
+function hideElementDivContactSendButton()
+{
+    getElementDivContactSendButton().style.display = 'none';
+
+} // hideElementDivContactSendButton
+
+// Displays the container element div for the contact send button
+function displayElementDivContactSendButton()
+{
+    getElementDivContactSendButton().style.display = 'block';
+
+} // displayElementDivContactSendButton
+
+// Returns the container element div for the contact send button
+function getElementDivContactSendButton()
+{
+    return document.getElementById(getIdDivContactSendButton());
+
+} // getElementDivContactSendButton
+
+// Returns the identity of the container div for the contact send button
+function getIdDivContactSendButton()
+{
+    return 'id_div_contact_button_send';
+
+} // getIdDivContactSendButton

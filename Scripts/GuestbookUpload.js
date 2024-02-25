@@ -458,7 +458,7 @@ function clickGuestbookInfo()
 // User clicked the contact button
 function onClickContactButton()
 {
-    setContactControls();
+    setContactDropdownTexts();
     
     hideElementDivNamesEmailCode();
 
@@ -494,7 +494,7 @@ function onInputContactMessageTextArea()
 // User selected a contact case
 function eventSelectContactCaseDropdown()
 {
-    setContactControls();
+    setContactDropdownTexts();
 
 } // eventSelectContactCaseDropdown
 

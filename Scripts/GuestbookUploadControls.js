@@ -592,11 +592,11 @@ function createContactButton()
 
     g_contact_button.setOnclickFunctionName("onClickContactButton");
 
-    g_contact_button.setCaption("oder Mitteilung an Administrator senden");
+    g_contact_button.setCaption(GuestStr.captionButtonContactAdministrator());
 
     g_contact_button.setLabelText("");
 
-    g_contact_button.setTitle("Title Mitteilung an Administrator senden");
+    g_contact_button.setTitle(GuestStr.titleButtonContactAdministrator());
 
 } // createContactButton
 
@@ -607,11 +607,11 @@ function createContactCancelButton()
 
     g_contact_cancel_button.setOnclickFunctionName("onClickContactCancelButton");
 
-    g_contact_cancel_button.setCaption("Abbrechen");
+    g_contact_cancel_button.setCaption(GuestStr.captionButtonContactAdministratorCancel());
 
     g_contact_cancel_button.setLabelText("");
 
-    g_contact_cancel_button.setTitle("Keine Mitteilung senden");
+    g_contact_cancel_button.setTitle(GuestStr.titleButtonContactAdministratorCancel());
 
 } // createContactCancelButton
 
@@ -622,11 +622,11 @@ function createContactSendButton()
 
     g_contact_send_button.setOnclickFunctionName("onClickContactSendButton");
 
-    g_contact_send_button.setCaption("Senden");
+    g_contact_send_button.setCaption(GuestStr.captionButtonContactAdministratorSend());
 
     g_contact_send_button.setLabelText("");
 
-    g_contact_send_button.setTitle("Mitteilung an Administrator senden");
+    g_contact_send_button.setTitle(GuestStr.titleButtonContactAdministratorSend());
 
 } // createContactSendButton
 
@@ -635,7 +635,7 @@ function createTextBoxContactFrom()
 {
     g_contact_from_text_box = new JazzTextBox("id_contact_textbox_from", 'id_div_contact_textbox_from');
 
-    g_contact_from_text_box.setLabelText("Absender Name");
+    g_contact_from_text_box.setLabelText(GuestStr.labelTextBoxContactName());
 
     g_contact_from_text_box.setLabelTextPositionAbove();
 
@@ -649,7 +649,7 @@ function createTextBoxContactFrom()
 
     g_contact_from_text_box.setReadOnlyFlag(false);
 
-    g_contact_from_text_box.setTitle("Title Absender Name");
+    g_contact_from_text_box.setTitle(GuestStr.titleTextBoxContactName());
 
 } // createTextBoxContactFrom
 
@@ -658,7 +658,7 @@ function createTextBoxContactEmail()
 {
     g_contact_email_text_box = new JazzTextBox("id_contact_textbox_mail", 'id_div_contact_textbox_mail');
 
-    g_contact_email_text_box.setLabelText("Absender E-Mail");
+    g_contact_email_text_box.setLabelText(GuestStr.labelTextBoxContactEmail());
 
     g_contact_email_text_box.setLabelTextPositionAbove();
 
@@ -672,7 +672,7 @@ function createTextBoxContactEmail()
 
     g_contact_email_text_box.setReadOnlyFlag(true);
 
-    g_contact_email_text_box.setTitle("Title Absender E-Mail");
+    g_contact_email_text_box.setTitle(GuestStr.titleTextBoxContactEmail());
 
 } // createTextBoxContactEmail
 
@@ -681,7 +681,7 @@ function createTextBoxLastRecord()
 {
     g_last_record_text_box = new JazzTextBox("id_contact_textbox_last_rec", 'id_div_contact_textbox_last_rec');
 
-    g_last_record_text_box.setLabelText("Letzer aufgeladenen Beitrag");
+    g_last_record_text_box.setLabelText(GuestStr.labelTextBoxLastRecord());
 
     g_last_record_text_box.setLabelTextPositionAbove();
 
@@ -691,7 +691,7 @@ function createTextBoxLastRecord()
 
     g_last_record_text_box.setReadOnlyFlag(true);
 
-    g_last_record_text_box.setTitle("Title last uploaded record");
+    g_last_record_text_box.setTitle(GuestStr.titleTextBoxLastRecord());
 
 } // createTextBoxLastRecord
 
@@ -700,11 +700,11 @@ function createContactMessageTextArea()
 {
     g_contact_msg_textarea = new JazzTextArea("id_contact_textarea_message", "id_div_contact_textarea_message", "5", "39");
 
-    g_contact_msg_textarea.setLabelText("Mitteilung");
+    g_contact_msg_textarea.setLabelText(GuestStr.labelTextAreaContactText());
 
     g_contact_msg_textarea.setLabelTextPositionAbove();
 
-    g_contact_msg_textarea.setPlaceholderText("Placeholder text for the message to the administrator");
+    g_contact_msg_textarea.setPlaceholderText(GuestStr.placeholderTextAreaContactText());
 
     g_contact_msg_textarea.setValue("");
 
@@ -712,7 +712,7 @@ function createContactMessageTextArea()
 
     g_contact_msg_textarea.setReadOnlyFlag(false);
 
-    g_contact_msg_textarea.setTitle("Title for the message to the administrator");
+    g_contact_msg_textarea.setTitle(GuestStr.titleTextAreaContactText());
 
 } // createContactMessageTextArea
 
@@ -725,11 +725,11 @@ function createContactCaseDropdown()
 
     g_contact_case_drop_down.setOnchangeFunctionName("eventSelectContactCaseDropdown");
 
-    g_contact_case_drop_down.setLabelText("Select contact case");
+    g_contact_case_drop_down.setLabelText(GuestStr.labelDropdownContactCase());
 
     g_contact_case_drop_down.setLabelTextPositionAbove();
 
-    g_contact_case_drop_down.setTitle("Title for the contact case dropdown");
+    g_contact_case_drop_down.setTitle(GuestStr.titleDropdownContactCase());
 
     g_contact_case_drop_down.setSelectOptionNumber(1);
 
