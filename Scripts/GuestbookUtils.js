@@ -1,5 +1,5 @@
 // File: GuestbookUtils.js
-// Date: 2024-02-22
+// Date: 2024-02-25
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -673,23 +673,23 @@ class GuestStorage
     {
         var ret_b_all = true;
 
-        if (GuestStorage.getNames() == null)
+        if (GuestStorage.getNames() == null || GuestStorage.getNames().length == 0)
         {
-            console.log("GuestStorage.getNames() is null");
+            console.log("GuestStorage.getNames() is null or string is empty");
 
             ret_b_all = false;
         }
 
-        if (GuestStorage.getEmail() == null)
+        if (GuestStorage.getEmail() == null || GuestStorage.getEmail().length == 0)
         {
-            console.log("GuestStorage.getEmail() is null");
+            console.log("GuestStorage.getEmail() is null or string is empty");
             
             ret_b_all = false;
         }
 
-        if (GuestStorage.getTitle() == null)
+        if (GuestStorage.getTitle() == null || GuestStorage.getTitle().length == 0)
         {
-            console.log("GuestStorage.getTitle() is null");
+            console.log("GuestStorage.getTitle() is null or string is empty");
             
             ret_b_all = false;
         }
@@ -722,30 +722,30 @@ class GuestStorage
             ret_b_all = false;
         }
 
-        if (GuestStorage.getYear() == null)
+        if (GuestStorage.getYear() == null || GuestStorage.getYear().length == 0)
         {
-            console.log("GuestStorage.getYear() is null");
+            console.log("GuestStorage.getYear() is null or string is empty");
             
             ret_b_all = false;
         }
 
-        if (GuestStorage.getMonth() == null)
+        if (GuestStorage.getMonth() == null || GuestStorage.getMonth().length == 0)
         {
-            console.log("GuestStorage.getMonth() is null");
+            console.log("GuestStorage.getMonth() is null or string is empty");
             
             ret_b_all = false;
         }
 
-        if (GuestStorage.getDay() == null)
+        if (GuestStorage.getDay() == null || GuestStorage.getDay().length == 0)
         {
-            console.log("GuestStorage.getDay() is null");
+            console.log("GuestStorage.getDay() is null or string is empty");
             
             ret_b_all = false;
         }
 
-        if (GuestStorage.getImageFile() == null)
+        if (GuestStorage.getImageFile() == null || GuestStorage.getImageFile().length == 0)
         {
-            console.log("GuestStorage.getImageFile() is null");
+            console.log("GuestStorage.getImageFile() is null or string is empty");
             
             ret_b_all = false;
         }

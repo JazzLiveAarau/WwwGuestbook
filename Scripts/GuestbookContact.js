@@ -231,6 +231,8 @@ class DeleteLastUploadedRecord
     {
         GuestStorage.initGuestbookData();
 
+        g_guestbook_data_last_record = null;
+
         alert(GuestStr.successAutomaticRemovalOfRecord());
 
         location.reload();
