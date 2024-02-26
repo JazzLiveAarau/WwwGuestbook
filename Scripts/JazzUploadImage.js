@@ -201,8 +201,7 @@ class JazzUploadImage
 
     // Set the full server file name (URL) to the uploaded image
     setImageFileFullName(i_full_server_file_name)
-    {
-                
+    {      
         this.m_full_server_file_name = i_full_server_file_name;
 
     } // setImageFileFullName
