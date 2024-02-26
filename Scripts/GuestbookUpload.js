@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-02-22
+// Date: 2024-02-26
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -615,9 +615,7 @@ function onClickForwardThreeButton()
 
     debugGuestbookUpload('onClickForwardThreeButton User clicked save record');
 
-    // saveNewGuestbookUploadedRecord(); // Old execution function
-
-    AppendBothXml.start(callbackAppenBothXml); // New function
+    AppendBothXml.start(callbackAppendBothXml);
 
 } // onClickForwardThreeButton
 
@@ -630,11 +628,11 @@ function onClickForwardThreeButton()
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // Callback function after adding new record with class AppendBothXml functions
-function callbackAppenBothXml()
+function callbackAppendBothXml()
 {
     location.reload();
 
-} // callbackAppenBothXml
+} // callbackAppendBothXml
 
 // The class AppendBothXml appends a new record to both XML files JazzGuestsUploaded.xml
 // and JazzGuests.xml. Input data is the global variable g_guestbook_data and the
@@ -852,9 +850,11 @@ class AppendBothXml
 
     } // appendXmlUploadedData
 
-    // Send notication email to the administrator
+    // Notify the user and send notication email to the administrator
     static sendNotificationEmail()
     {
+        alert(GuestStr.guestbookRecordIsUploaded(g_guestbook_data.getImageNames()));
+
         GuestStorage.setGuestbookData(g_guestbook_data);
 
         var email_from = GuestStr.emailCodeFrom();
