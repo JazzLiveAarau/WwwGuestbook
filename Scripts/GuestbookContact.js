@@ -26,11 +26,11 @@ function executeContactRequest()
     }
     else if (index_case == 1)
     {
-        executeContactRequestChangeRecord();
+        ChangeRecord.start();
     }
     else if (index_case == 2)
     {
-        executeContactRequestManualDelete();
+        DeleteRecord.start();
     }
     else if (index_case == 3 && g_guestbook_data_last_record != null)
     {
@@ -42,15 +42,15 @@ function executeContactRequest()
     }
     else if (index_case == 4)
     {
-        executeContactRequestBugReport();
+        ReportBug.start();
     }
     else if (index_case == 5)
     {
-        executeContactRequestUserProposal();
+        UserProposal.start();
     }
     else if (index_case == 6)
     {
-        executeContactRequestOtherCase();
+        OtherCase.start();
     }
     else
     {
@@ -58,6 +58,236 @@ function executeContactRequest()
     }
 
 } // executeContactRequest
+
+class ChangeRecord
+{
+    // Start function. Calls sendNoticationEmail
+    static start()
+    {
+        ChangeRecord.sendNoticationEmail();
+
+    } // start
+
+    // Sends a notification email to the administrator
+    // Callback function is finish
+    static sendNoticationEmail()
+    {
+        var email_message = getContentNotificationEmail(GuestStr.emailSubjectRequestRecordChange());
+        
+        var name_request = g_contact_from_text_box.getValue();
+
+        var email_from = GuestStr.emailCodeFrom();
+
+        var email_to = GuestStr.emailCodeFrom();
+    
+        var email_subject = GuestStr.emailSubjectRequestRecordChange() + name_request;
+    
+        var email_bcc = '';
+    
+        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, ChangeRecord.finish);
+
+    } // sendNoticationEmail
+
+    // Finish function. Notifies the user that an email has been sent to the administrator
+    static finish()
+    {
+        alert(GuestStr.emailWasSentToTheAdministrator(""));
+
+        location.reload();
+
+    } // finish
+
+} // ChangeRecord
+
+class DeleteRecord
+{
+    // Start function. Calls sendNoticationEmail
+    static start()
+    {
+        DeleteRecord.sendNoticationEmail();
+
+    } // start
+
+    // Sends a notification email to the administrator
+    // Callback function is finish
+    static sendNoticationEmail()
+    {
+        var email_message = getContentNotificationEmail(GuestStr.emailSubjectRequestRecordDelete());
+        
+        var name_request = g_contact_from_text_box.getValue();
+
+        var email_from = GuestStr.emailCodeFrom();
+
+        var email_to = GuestStr.emailCodeFrom();
+    
+        var email_subject = GuestStr.emailSubjectRequestRecordDelete() + name_request;
+    
+        var email_bcc = '';
+    
+        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, DeleteRecord.finish);
+
+    } // sendNoticationEmail
+
+    // Finish function. Notifies the user that an email has been sent to the administrator
+    static finish()
+    {
+        alert(GuestStr.emailWasSentToTheAdministrator(""));
+
+        location.reload();
+
+    } // finish
+
+} // DeleteRecord
+
+class ReportBug
+{
+    // Start function. Calls sendNoticationEmail
+    static start()
+    {
+        ReportBug.sendNoticationEmail();
+
+    } // start
+
+    // Sends a notification email to the administrator
+    // Callback function is finish
+    static sendNoticationEmail()
+    {
+        var email_message = getContentNotificationEmail(GuestStr.emailSubjectReportBug());
+        
+        var name_request = g_contact_from_text_box.getValue();
+
+        var email_from = GuestStr.emailCodeFrom();
+
+        var email_to = GuestStr.emailCodeFrom();
+    
+        var email_subject = GuestStr.emailSubjectReportBug() + name_request;
+    
+        var email_bcc = '';
+    
+        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, ReportBug.finish);
+
+    } // sendNoticationEmail
+
+    // Finish function. Notifies the user that an email has been sent to the administrator
+    static finish()
+    {
+        alert(GuestStr.emailWasSentToTheAdministrator(""));
+
+        location.reload();
+
+    } // finish
+
+} // ReportBug
+
+class UserProposal
+{
+    // Start function. Calls sendNoticationEmail
+    static start()
+    {
+        UserProposal.sendNoticationEmail();
+
+    } // start
+
+    // Sends a notification email to the administrator
+    // Callback function is finish
+    static sendNoticationEmail()
+    {
+        var email_message = getContentNotificationEmail(GuestStr.emailSubjectUserProposal());
+        
+        var name_request = g_contact_from_text_box.getValue();
+
+        var email_from = GuestStr.emailCodeFrom();
+
+        var email_to = GuestStr.emailCodeFrom();
+    
+        var email_subject = GuestStr.emailSubjectUserProposal() + name_request;
+    
+        var email_bcc = '';
+    
+        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, UserProposal.finish);
+
+    } // sendNoticationEmail
+
+    // Finish function. Notifies the user that an email has been sent to the administrator
+    static finish()
+    {
+        alert(GuestStr.emailWasSentToTheAdministrator(""));
+
+        location.reload();
+
+    } // finish
+
+} // UserProposal
+
+class OtherCase
+{
+    // Start function. Calls sendNoticationEmail
+    static start()
+    {
+        OtherCase.sendNoticationEmail();
+
+    } // start
+
+    // Sends a notification email to the administrator
+    // Callback function is finish
+    static sendNoticationEmail()
+    {
+        var email_message = getContentNotificationEmail(GuestStr.emailSubjectOtherCase());
+        
+        var name_request = g_contact_from_text_box.getValue();
+
+        var email_from = GuestStr.emailCodeFrom();
+
+        var email_to = GuestStr.emailCodeFrom();
+    
+        var email_subject = GuestStr.emailSubjectOtherCase() + name_request;
+    
+        var email_bcc = '';
+    
+        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, OtherCase.finish);
+
+    } // sendNoticationEmail
+
+    // Finish function. Notifies the user that an email has been sent to the administrator
+    static finish()
+    {
+        alert(GuestStr.emailWasSentToTheAdministrator(""));
+
+        location.reload();
+
+    } // finish
+
+} // OtherCase
+
+function getContentNotificationEmail(i_subject)
+{
+    var name_request = g_contact_from_text_box.getValue();
+
+    var email_request = g_contact_email_text_box.getValue();
+
+    var textarea_str = g_contact_msg_textarea.getValue();
+
+    textarea_str = UtilString.stringWindowsToHtml(textarea_str);
+
+    var email_from = GuestStr.emailCodeFrom();
+
+    var email_to = GuestStr.emailCodeFrom();
+
+    var email_subject = i_subject + name_request;
+
+    var email_bcc = '';
+
+    var email_message = '';
+
+    email_message = email_message + 'Betreff: ' + i_subject + '<br>';
+    email_message = email_message + 'Name: ' + name_request + '<br>';
+    email_message = email_message + 'Email: ' + email_request + '<br>';
+    
+    email_message = email_message + 'Text: ' + '<br>' + textarea_str + '<br>';
+
+    return email_message;
+
+} // getContentNotificationEmail
 
 // Functions that automatically delete the last uploaded record
 class DeleteLastUploadedRecord
@@ -319,41 +549,6 @@ class DeleteLastUploadedRecord
 
 } // DeleteLastUploadedRecord
 
-// Execute the contact request change of record
-function executeContactRequestChangeRecord()
-{
-    alert("executeContactRequestChangeRecord This case is not implemented");
-
-} // executeContactRequestChangeRecord
-
-// Execute the contact request manual delete
-function executeContactRequestManualDelete()
-{
-    alert("executeContactRequestManualDelete This case is not implemented");
-
-} // executeContactRequestManualDelete
-
-// Execute the contact request bug report
-function executeContactRequestBugReport()
-{
-    alert("executeContactRequestBugReport This case is not implemented");
-
-} // executeContactRequestBugReport
-
-// Execute the contact request user proposal
-function executeContactRequestUserProposal()
-{
-
-    alert("executeContactRequestUserProposal This case is not implemented");
-
-} // executeContactRequestUserProposal
-
-// Execute the contact request other case
-function executeContactRequestOtherCase()
-{
-    alert("executeContactRequestOtherCase This case is not implemented");
-
-} // executeContactRequestOtherCase
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Execute Contact Request /////////////////////////////////////

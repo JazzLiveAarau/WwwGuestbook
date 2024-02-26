@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-02-25
+// Date: 2024-02-26
 // Author: Gunnar Liden
 
 // File content
@@ -567,6 +567,53 @@ class GuestStr
 
     } // emailGuestbookRecordDeletedSubject
 
+    // Email subject: Request for a record change
+    static emailSubjectRequestRecordChange()
+    {
+        return 'Beitrag ändern angefordert von ';
+
+    } // emailSubjectRequestRecordChange
+
+    // Email subject: Request for a record to be deleted
+    static emailSubjectRequestRecordDelete()
+    {
+        return 'Beitrag löschen angefordert von ';
+
+    } // emailSubjectRequestRecordDelete
+
+    // Email subject: Report a bug
+    static emailSubjectReportBug()
+    {
+        return 'Fehlermeldung von ';
+
+    } // emailSubjectReportBug
+
+    // Email subject: make a proposal
+    static emailSubjectUserProposal()
+    {
+        return 'Verbesserungsvorschlag von ';
+
+    } // emailSubjectUserProposal
+
+    // Email subject: Other case
+    static emailSubjectOtherCase()
+    {
+        return 'Mitteilung von ';
+
+    } // emailSubjectOtherCase
+
+    // Notification to the user: Email was sent to the administrator
+    // Input string is not yet used
+    static emailWasSentToTheAdministrator(i_str)
+    {
+        var message_str = 'Danke, dass Sie uns kontaktieren. ' + 
+                          'Ein E-Mail wurde an den Administrator (guestbook@jazzliveaarau.ch) gesendet.' + '\n' +
+                          'Innerhalb ein paar Tagen sollten Sie eine Antwort bekommen.'
+
+        return message_str;
+
+    } // emailWasSentToTheAdministrator
+	
     // Caption for the button contact administrator
     static captionButtonContactAdministrator()
     {
