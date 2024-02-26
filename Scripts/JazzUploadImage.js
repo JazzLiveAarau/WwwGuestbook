@@ -1,5 +1,5 @@
 // File: JazzUploadImage.js
-// Date: 2024-02-01
+// Date: 2024-02-26
 // Author: Gunnar Lidén
 
 // Content
@@ -18,10 +18,12 @@
 // i_image_max_size_mb:     Maximum image size in MByte. If bigger the image will be compressed
 // i_default_img:           URL for the default (start) image in the image container <div>
 // i_caption_select_img:    Caption for the select image button
+// i_img_loaded_callback:   Callback function when image has been loaded
 class JazzUploadImageInput
 {
     // Creates the instance of the class
-    constructor(i_upload_file_name, i_upload_file_extension, i_upload_path, i_image_max_size_mb, i_default_img, i_caption_select_img)
+    constructor(i_upload_file_name, i_upload_file_extension, i_upload_path, i_image_max_size_mb, 
+                i_default_img, i_caption_select_img, i_img_loaded_callback)
     {
         // Name of the upload file without extension, e.g. Image_2024mmddhhmmss
         this.m_upload_file_name = i_upload_file_name;
@@ -40,6 +42,9 @@ class JazzUploadImageInput
 
         // Caption for the select image button (actually a label)
         this.m_caption_select_img = i_caption_select_img;
+
+        // Callback function when image has been loaded
+        this.m_img_loaded_callback = i_img_loaded_callback;
     }
 
     // Sets the name of the upload file without extension, e.g. Image_yyymmddhhmmss
@@ -237,11 +242,16 @@ class JazzUploadImage
     {
         JazzUploadImage.debugAppend("userSelectedFiles Enter");
 
+        if (i_input_object.files.length == 0)
+        {
+            JazzUploadImage.debugAppend("userSelectedFiles User did not select any file");
+
+            return;
+        }
+
         this.setDefaultImage();
 
         JazzUploadImage.debugAppend("userSelectedFiles After setDefaultImage");
-
-        displayElementDivUploadButtonForwardTwo();
         
         var max_size_mb = i_input_data.m_image_max_size_mb;
 
@@ -282,7 +292,7 @@ class JazzUploadImage
 
             JazzUploadImage.debugAppend("userSelectedFiles The original image is not compressed");
 
-            JazzUploadImage.uploadImageToServer(image_file, full_server_file_name);
+            JazzUploadImage.uploadImageToServer(image_file, full_server_file_name, this.m_input_data.m_img_loaded_callback);
         }
         else
         {
@@ -298,7 +308,7 @@ class JazzUploadImage
 
             JazzUploadImage.debugAppend("userSelectedFiles The input image was compressed");
 
-            JazzUploadImage.uploadImageToServer(compressed_file, full_server_file_name);
+            JazzUploadImage.uploadImageToServer(compressed_file, full_server_file_name, this.m_input_data.m_img_loaded_callback);
         }
 
         this.setImageFileFullName(full_server_file_name);
@@ -361,7 +371,7 @@ class JazzUploadImage
     } // setDefaultImage
 
     // Upload image to the server
-    static async uploadImageToServer(i_image_file, i_full_server_file_name) 
+    static async uploadImageToServer(i_image_file, i_full_server_file_name, i_img_loaded_callback) 
     {
         if (null == i_image_file)
         {
@@ -426,7 +436,7 @@ class JazzUploadImage
 
             var abs_url_file = 'https://jazzliveaarau.ch/JazzGuests/Uploaded/' + UtilServer.getFileName(i_full_server_file_name);
 
-            JazzUploadImage.displayUploadedImage(abs_url_file);
+            JazzUploadImage.displayUploadedImage(abs_url_file, i_img_loaded_callback);
         }
         else
         {
@@ -438,14 +448,16 @@ class JazzUploadImage
     
     } // uploadFile
 
-    // Display the uploaded image
-    static async displayUploadedImage(i_file_name)
+    // Display the uploaded image. 
+    static async displayUploadedImage(i_file_name, i_img_loaded_callback)
     {
         JazzUploadImage.debugAppend("displayUploadedImage i_file_name= " + i_file_name);
 
         UtilImage.replaceImageInDivContainer(i_file_name, JazzUploadImage.getElementDivImageContainer());
 
         JazzUploadImage.debugAppend("displayUploadedImage UtilImage.replaceImageInDivContainer was called");
+
+        i_img_loaded_callback();
 
     } // displayUploadedImage
     

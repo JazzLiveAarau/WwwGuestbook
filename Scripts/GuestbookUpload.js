@@ -87,7 +87,8 @@ function callbackAllXmlObjectsCreatedForUpload()
 
     var caption_select_img = 'Bild wählen';
 
-    var input_data = new JazzUploadImageInput(upload_file_name, upload_file_extension, upload_path, image_max_size_mb, default_img, caption_select_img);
+    var input_data = new JazzUploadImageInput(upload_file_name, upload_file_extension, upload_path, 
+            image_max_size_mb, default_img, caption_select_img, displayElementDivUploadButtonForwardTwo);
 
     g_upload_image_object = new JazzUploadImage(getIdDivUploadFileImage(), input_data);
 
