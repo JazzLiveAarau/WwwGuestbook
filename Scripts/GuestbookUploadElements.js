@@ -1,5 +1,5 @@
 // File: GuestbookUploadElements.js
-// Date: 2024-02-25
+// Date: 2024-02-28
 // Author: Gunnar Liden
 
 // File content
@@ -314,6 +314,20 @@ function getIdDivUploadButtonBackTwo()
     return 'id_div_upload_button_back_part_two';
 
 } // getIdDivUploadButtonBackTwo
+
+// Display or hide the container element div for the button forward container part two
+function displayOrHideElementDivUploadButtonForwardTwo(i_b_hide)
+{
+    if (i_b_hide)
+    {
+        hideElementDivUploadButtonForwardTwo();
+    }
+    else
+    {
+        displayElementDivUploadButtonForwardTwo();
+    }
+    
+} // displayOrHideElementDivUploadButtonForwardTwo
 
 // Hides the container element div for the button forward container part two
 function hideElementDivUploadButtonForwardTwo()

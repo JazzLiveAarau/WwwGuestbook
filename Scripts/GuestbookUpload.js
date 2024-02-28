@@ -74,7 +74,7 @@ function callbackAllXmlObjectsCreatedForUpload()
 
     hideDivUploadTextsRemark();
 
-    var upload_path = '../../JazzGuests/Uploaded/';
+    var upload_path = 'https://jazzliveaarau.ch/JazzGuests/Uploaded/';
 
     var upload_file_name = 'Image_' + UtilDate.getTimeStamp();
 
@@ -88,7 +88,7 @@ function callbackAllXmlObjectsCreatedForUpload()
     var caption_select_img = 'Bild wählen';
 
     var input_data = new JazzUploadImageInput(upload_file_name, upload_file_extension, upload_path, 
-            image_max_size_mb, default_img, caption_select_img, displayElementDivUploadButtonForwardTwo);
+            image_max_size_mb, default_img, caption_select_img, displayOrHideElementDivUploadButtonForwardTwo);
 
     g_upload_image_object = new JazzUploadImage(getIdDivUploadFileImage(), input_data);
 
