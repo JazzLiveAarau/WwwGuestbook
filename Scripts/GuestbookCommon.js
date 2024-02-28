@@ -26,18 +26,6 @@ var g_application_xml = null;
 // Flag telling if loading is for Guestbook Upload or Admin
 var g_load_for_guestbook_admin = null;
 
-/*QQQQQQ
-var g_guestbook_homepage_url = 'https://jazzliveaarau.ch/';
-
-var g_guestbook_xml_dir = g_guestbook_homepage_url + 'XML/';
-
-var g_guestbook_image_dir = g_guestbook_homepage_url + 'JazzGuests/';
-
-var g_guestbook_upload_xml_dir = g_guestbook_homepage_url + 'JazzGuests/Uploaded/';
-
-var g_guestbook_backups_xml_dir = g_guestbook_homepage_url + 'JazzGuests/Backups/';
-QQQQ*/
-
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
