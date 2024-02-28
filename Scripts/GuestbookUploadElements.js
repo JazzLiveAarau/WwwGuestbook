@@ -385,28 +385,28 @@ function getIdDivUploadButtonBackThree()
 
 } // getIdDivUploadButtonBackThree
 
-// Hides the container element div for the button forward container part two
+// Hides the container element div for the button forward container part three
 function hideElementDivUploadButtonForwardThree()
 {
     getElementDivUploadButtonForwardThree().style.display = 'none';
 
 } // hideElementDivUploadButtonForwardThree
 
-// Displays the container element div for the button forward container part two
+// Displays the container element div for the button forward container part three
 function displayElementDivUploadButtonForwardThree()
 {
     getElementDivUploadButtonForwardThree().style.display = 'block';
 
 } // displayElementDivUploadButtonForwardThree
 
-// Returns the container element div for the button forward container part two
+// Returns the container element div for the button forward container part three
 function getElementDivUploadButtonForwardThree()
 {
     return document.getElementById(getIdDivUploadButtonForwardThree());
 
 } // getElementDivUploadButtonForwardThree
 
-// Returns the identity of the container div for the button forward container part two
+// Returns the identity of the container div for the button forward container part three
 function getIdDivUploadButtonForwardThree()
 {
     return 'id_div_upload_button_forward_part_three';

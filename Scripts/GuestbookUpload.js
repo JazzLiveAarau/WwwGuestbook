@@ -607,12 +607,15 @@ function onClickBackThreeButton()
 
 // User clicked the forward three part three (texts input) button. i.e.
 // the user wants to save the data (finish the input of data)
+// Button is hidden in order to avoid double-click
 function onClickForwardThreeButton()
 {
     if(!getCheckGuestbookDataPartThree())
     {
         return;
     }
+
+    hideElementDivUploadButtonForwardThree();
 
     debugGuestbookUpload('onClickForwardThreeButton User clicked save record');
 
