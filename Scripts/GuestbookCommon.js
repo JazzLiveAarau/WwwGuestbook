@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-02-28
+// Date: 2024-02-29
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -122,11 +122,31 @@ function callbackGuestbookUploadedXml()
 } // callbackGuestbookUploadedXml
 
 // Load of XML object corresponding to JazzSeasonProgram_yyyy_yyyy.xml
+// The "new" season shall not start as it is defined by SeasonXml.getCurrentSeasonStartYear()
+// For this application the user should be able to add guestbook records referring to a
+// concert of the "previous" season until october.
 function callbackSeasonXml()
 {
-    var n_level_xml = 1;
+    var current_date = new Date();
 
-    var season_start_year = SeasonXml.getCurrentSeasonStartYear();
+    var current_year = current_date.getFullYear();
+
+    var current_month = current_date.getMonth() + 1;
+
+    var month_change_season = 10; // October
+
+    var season_start_year = -12345;
+
+    if (current_month < month_change_season)
+    {
+        season_start_year = current_year - 1;
+    }
+    else
+    {
+        season_start_year = current_year;
+    }
+
+    var n_level_xml = 1;
 
     g_season_xml = new SeasonXml(callbackApplicationXml, n_level_xml, season_start_year);
 
