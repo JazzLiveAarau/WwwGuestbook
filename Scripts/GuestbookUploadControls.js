@@ -468,7 +468,10 @@ function createUploadConcertDropdown()
 {
     g_upload_concert_drop_down = new JazzDropdown('id_upload_texts_concert', 'id_div_upload_texts_concert');
 
-    var concert_array = g_season_xml.getBandNameArray();
+    // The day of the concert the concert will be in the array
+    var n_days = 0; 
+
+    var concert_array = g_season_xml.bandNamePassedDateArray(n_days);
 
     var max_n_chars = 40;
     concert_array = limitStringLengthOfArray(concert_array, max_n_chars);
