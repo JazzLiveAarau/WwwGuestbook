@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-02-07
+// Date: 2024-03-24
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -87,11 +87,17 @@ function setUserHasLoggedIn(i_b_has_logged_in)
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // Initialisation for Guestbook Admin
+// 1. Load objects JazzGuests.xml and JazzGuestsUploaded.xml. 
+//    Call of loadAllXmlObjectsForAdminAndUpload
+// 2. Create the UtilLock object. The functions of this call is used to lock and unlock
+//    the files JazzGuests.xml and JazzGuestsUploaded.xml.
 function initGuestbookAdmin()
 {
     g_load_for_guestbook_admin = true;
 
     loadAllXmlObjectsForAdminAndUpload();
+
+    initJazzGuestsLockUnlock();
 
 } // initGuestbookAdmin
 

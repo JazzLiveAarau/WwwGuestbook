@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-02-29
+// Date: 2024-03-24
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -26,8 +26,29 @@ var g_application_xml = null;
 // Flag telling if loading is for Guestbook Upload or Admin
 var g_load_for_guestbook_admin = null;
 
+// Instance of the class UtilLock. Please note that it is not allowed to change this 
+// global variable name. 
+var g_util_lock_object = null;
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start InitLock Functions ////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Initialzation of the lock/unlock functionality
+function initJazzGuestsLockUnlock()
+{
+    var lock_dir = 'https://jazzliveaarau.ch/JazzGuests/LockUnlock/';
+
+    g_util_lock_object = new UtilLock(lock_dir);
+
+} // initJazzGuestsLockUnlock
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End InitLock Functions //////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -97,6 +118,33 @@ function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_
 ///////////////////////// Start Load XML //////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+// Function reload the XML object JazzGuests.xml.
+// Prior to adding, deleting or changing XML records the object must be reloaded while
+// other users may have made changes to the JazzGuests.xml file. (Prior to the 
+// reload must also the XML files be locked. Please refer to class UtilLock).
+function reloadJazzGuestXmlObject(i_callback_reload_xml_object)
+{
+    var n_level_xml = 1;
+
+    var update_xml = false;
+
+    g_guests_xml = new JazzGuestsXml(i_callback_reload_xml_object, n_level_xml, update_xml);
+
+} // reloadJazzGuestXmlObjects
+
+// Function reload the XML object JazzGuestsUploaded.xml.
+// Prior to adding, deleting or changing XML records the object must be reloaded while
+// other users may have made changes to the JazzGuestsUploaded.xml file. (Prior to the 
+// reloa must also the XML files be locked. Please refer to class UtilLock).
+function reloadJazzGuestUploadedXmlObject(i_callback_reload_xml_uploaded_object)
+{
+    var n_level_xml = 1;
+
+    var update_xml = true;
+
+    g_guests_uploaded_xml = new JazzGuestsXml(i_callback_reload_xml_uploaded_object, n_level_xml, update_xml);
+
+} // reloadJazzGuestXmlObjects
 
 // Loads all XML objects for Guestbook Admin and Upload
 // Start XML is the object corresponding to JazzGuests.xml

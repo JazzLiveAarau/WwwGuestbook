@@ -1,5 +1,5 @@
 // File: GuestbookContact.js
-// Date: 2024-02-22
+// Date: 2024-03-24
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -330,11 +330,41 @@ class DeleteLastUploadedRecord
             return;
         }
 
-        UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
-        GuestbookServer.absoluteUrlJazzGuestsUploadedBackup(), 
-        DeleteLastUploadedRecord.backupJazzGuestsXml);
+        var user_email = g_guestbook_data_last_record.getImageEmail();
+
+        g_util_lock_object.setUserEmail(user_email);
+
+        g_util_lock_object.setLockedCallbackFunctionName(DeleteLastUploadedRecord.reloadJazzGuestsObject);
+
+        g_util_lock_object.lock();
+
+       //QQ UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
+       //QQ GuestbookServer.absoluteUrlJazzGuestsUploadedBackup(), 
+       //QQ  DeleteLastUploadedRecord.backupJazzGuestsXml);
 
     } // start
+
+    // Reloads the JazzGuests.xml object
+    static reloadJazzGuestsObject()
+    {
+        reloadJazzGuestXmlObject(DeleteLastUploadedRecord.reloadJazzGuestsUploadedObject);
+
+    } // reloadJazzGuestsObject
+
+    // Reloads the JazzGuestsUploaded.xml object
+    static reloadJazzGuestsUploadedObject()
+    {
+        reloadJazzGuestUploadedXmlObject(DeleteLastUploadedRecord.backupJazzGuestsUploaded);
+
+    } // reloadJazzGuestsUploadedObject
+
+    // Make a backup of JazzGuestsUploaded.xml
+    static backupJazzGuestsUploaded()
+    {
+        UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
+                                    GuestbookServer.absoluteUrlJazzGuestsUploadedBackup(), 
+                                    DeleteLastUploadedRecord.backupJazzGuestsXml);
+    } // backupJazzGuestsUploaded
 
     // Backup JazzGuests.xml. Call back function is moveImageFromUploadedToBackupDir
     static backupJazzGuestsXml()
@@ -416,9 +446,20 @@ class DeleteLastUploadedRecord
 
         UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
         GuestbookServer.getPrettyPrintContent(g_guests_xml), 
-        DeleteLastUploadedRecord.sendNoticationEmail);
+        DeleteLastUploadedRecord.unlockFiles);
 
     } // deleteRecordSaveJazzGuestsdXml
+
+    // Unlock the files JazzGuests.xml and JazzGuestsUploaded.xml
+    // (Actually making it possible for other users and Guestbook functions to add, delete and
+    //  change Guestbook data on the server)
+    static unlockFiles()
+    {
+        g_util_lock_object.setUnlockedCallbackFunctionName(DeleteLastUploadedRecord.sendNoticationEmail);
+
+        g_util_lock_object.unlock();
+
+    } // unlockFiles
 
     // Sends a notification email to the administrator
     // Callback function is finish

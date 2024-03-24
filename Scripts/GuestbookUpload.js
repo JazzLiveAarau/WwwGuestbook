@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-02-26
+// Date: 2024-03-24
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -30,6 +30,12 @@ var g_upload_image_object = null;
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // Initialization for Guestbook Upload
+// 1. Load objects JazzGuests.xml and JazzGuestsUploaded.xml. 
+//    Call of loadAllXmlObjectsForAdminAndUpload
+// 2. Get guestbook data from local storage from the last record
+//    Call of GuestStorage.getGuestbookData
+// 3. Create the UtilLock object. The functions of this call is used to lock and unlock
+//    the files JazzGuests.xml and JazzGuestsUploaded.xml.
 function initGuestbookUpload()
 {
     g_load_for_guestbook_admin = false;
@@ -37,6 +43,8 @@ function initGuestbookUpload()
     loadAllXmlObjectsForAdminAndUpload();
 
     g_guestbook_data_last_record = GuestStorage.getGuestbookData();
+
+    initJazzGuestsLockUnlock();
 
 } // initGuestbookUpload
 
@@ -649,11 +657,38 @@ class AppendBothXml
     {
         g_guestbook_data.setAppendBothXmlCallback(i_append_both_callback);
 
+        var user_email = g_guestbook_data.getImageEmail();
+
+        g_util_lock_object.setUserEmail(user_email);
+
+        g_util_lock_object.setLockedCallbackFunctionName(AppendBothXml.reloadJazzGuestsObject);
+
+        g_util_lock_object.lock();
+
+    } // start
+
+    // Reloads the JazzGuests.xml object
+    static reloadJazzGuestsObject()
+    {
+        reloadJazzGuestXmlObject(AppendBothXml.reloadJazzGuestsUploadedObject);
+
+    } // reloadJazzGuestsObject
+
+    // Reloads the JazzGuestsUploaded.xml object
+    static reloadJazzGuestsUploadedObject()
+    {
+        reloadJazzGuestUploadedXmlObject(AppendBothXml.backupJazzGuestsUploaded);
+
+    } // reloadJazzGuestsUploadedObject
+
+    // Make a backup of JazzGuestsUploaded.xml
+    static backupJazzGuestsUploaded()
+    {
         UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
                                     GuestbookServer.absoluteUrlJazzGuestsUploadedBackup(), 
                                     AppendBothXml.appendXmlUserInputData);
 
-    } // start
+    } // backupJazzGuestsUploaded
 
     // Appends a new record, sets it with g_guestbook_data and saves JazzGuestsUploaded.xml.
     // The next function to be called is sendNotificationEmail
@@ -850,9 +885,20 @@ class AppendBothXml
 
         UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
         GuestbookServer.getPrettyPrintContent(g_guests_xml), 
-        AppendBothXml.sendNotificationEmail);
+        AppendBothXml.unlockFiles);
 
     } // appendXmlUploadedData
+
+    // Unlock the files JazzGuests.xml and JazzGuestsUploaded.xml
+    // (Actually making it possible for other users and Guestbook functions to add, delete and
+    //  change Guestbook data on the server)
+    static unlockFiles()
+    {
+        g_util_lock_object.setUnlockedCallbackFunctionName(AppendBothXml.sendNotificationEmail);
+
+        g_util_lock_object.unlock();
+
+    } // unlockFiles
 
     // Notify the user and send notication email to the administrator
     static sendNotificationEmail()
