@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-03-24
+// Date: 2024-04-18
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -273,7 +273,17 @@ function setActiveGuestRecord()
 // Set the guest image
 function setAdminGuestImage()
 {
-    var file_name = 'https://jazzliveaarau.ch/' + g_record_active_guest.getFileName();
+    // var file_name = 'https://jazzliveaarau.ch/' + g_record_active_guest.getFileName();
+
+    var file_name = g_record_active_guest.getFileName();
+
+    var index_htpps = file_name.indexOf('https');
+
+    if (index_htpps < 0)
+    {
+        file_name = 'https://jazzliveaarau.ch/' + file_name;
+    }
+
     UtilImage.replaceImageInDivContainer(file_name, getElementDivImageContainer());
 
 } // setAdminGuestImage

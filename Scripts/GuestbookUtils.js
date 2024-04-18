@@ -1,5 +1,5 @@
 // File: GuestbookUtils.js
-// Date: 2024-02-25
+// Date: 2024-04-18
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -237,9 +237,9 @@ class GuestbookData
     getImageFile()
     {
         // TODO 
-        var ret_file_name = this.m_image_file.substring(6);
+        //QQQQ ?????? var ret_file_name = this.m_image_file.substring(6);
         
-        return ret_file_name;
+        return this.m_image_file;
         
     } // getImageFile
 

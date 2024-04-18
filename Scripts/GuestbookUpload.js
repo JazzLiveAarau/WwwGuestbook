@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-03-24
+// Date: 2024-04-18
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -17,7 +17,7 @@ var g_guestbook_data = null;
 // Instance of GuestbookData that holds data from the last uploaded record
 var g_guestbook_data_last_record = null;
 
-// Object UploadImage control
+// Object JazzUploadImage control defined in WwwControls
 var g_upload_image_object = null;
 
 
