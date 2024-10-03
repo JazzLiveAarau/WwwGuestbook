@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-02-12
+// Date: 2024-10-03
 // Authors: Gunnar Lidén
 
 // Content
@@ -463,15 +463,28 @@ function createForwardThreeButton()
 
 } // createForwardThreeButton
 
-// Creates the upload concert dropdown control
+// Creates the upload concert dropdown control.
+// The control lets the user select a concert for the image that shall be uploaded.
+// This means that the concert must have been played, i.e. the date is passed
+// Before a new season has started, i.e. from april to the first concert in october,
+// there will be no concerts to select. For this case the control will not be created.
 function createUploadConcertDropdown()
 {
-    g_upload_concert_drop_down = new JazzDropdown('id_upload_texts_concert', 'id_div_upload_texts_concert');
-
     // The day of the concert the concert will be in the array
     var n_days = 0; 
 
     var concert_array = g_season_xml.bandNamePassedDateArray(n_days);
+
+    if (concert_array.length == 0)
+    {
+        // The first concert of the season has not yet taken place
+        // This control will not be created and the div will be hidden
+        hideElementDivUploadTextsConcert()
+        
+        return;
+    }
+
+    g_upload_concert_drop_down = new JazzDropdown('id_upload_texts_concert', getIdDivUploadTextsConcert());
 
     var max_n_chars = 40;
     concert_array = limitStringLengthOfArray(concert_array, max_n_chars);
@@ -495,9 +508,16 @@ function createUploadConcertDropdown()
 // Limit the string length in an array
 function limitStringLengthOfArray(i_array, i_max_n_chars)
 {
-    if (i_max_n_chars < 10 || i_max_n_chars > 100 || null == i_array || i_array.length == 0)
+    if (null == i_array || i_array.length == 0)
     {
-        alert("limitStringLengthOfArray Invalid input: Array not defined or i_max_n_chars= " + i_max_n_chars.toString());
+        alert("limitStringLengthOfArray Invalid input: Array not defined or has no elements");
+
+        return i_array;
+    }
+
+    if (i_max_n_chars < 10 || i_max_n_chars > 100)
+    {
+        alert("limitStringLengthOfArray Invalid input: Number of chars must be 10 - 100. i_max_n_chars= " + i_max_n_chars.toString());
 
         return i_array;
     }
