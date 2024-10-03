@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-04-18
+// Date: 2024-10-03
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -1121,7 +1121,9 @@ function sendGuestbookCodeEmailToUser()
 
     var email_subject = GuestStr.emailCodeSubject() + random_code;
 
-    var email_message = GuestStr.emailCodeMessage() + random_code;
+    var image_names = '<b>' + g_guestbook_data.getImageNames() +  '</b>';
+
+    var email_message = GuestStr.emailCodeMessage(image_names) + random_code;
 
     var email_to = g_guestbook_data.getImageEmail();
     

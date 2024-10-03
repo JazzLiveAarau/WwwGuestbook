@@ -615,3 +615,26 @@ function getIdDivUploadTextsConcert()
     return 'id_div_upload_texts_concert';
 
 } // getIdDivUploadTextsConcert
+
+// Returns the container element div for the guestbook main page
+function getElementDivGuestbookPage()
+{
+    var elements_array = document.getElementsByClassName(getClassDivGuestbookPage());
+
+    if (elements_array.length != 1)
+    {
+        alert("getElementDivGuestbookPage Programming error get array with a given class name");
+
+        return null;
+    }
+    
+    return elements_array[0];
+
+} // getElementDivGuestbookPage
+
+// Returns the class for the container div for the guestbook main page
+function getClassDivGuestbookPage()
+{
+    return 'cl_upload_page';
+
+} // getClassDivGuestbookPage

@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-02-26
+// Date: 2024-10-03
 // Author: Gunnar Liden
 
 // File content
@@ -38,9 +38,9 @@ class GuestStr
     } // EmailCodeSubject
 
     // Text for the request code email
-    static emailCodeMessage()
+    static emailCodeMessage(i_names)
     {
-        return 'Vielen Dank, dass Sie ein Bild zum JAZZ <i>live</i> AARAU Gästebuch aufladen möchten. <br> ' +
+        return 'Vielen Dank ' + i_names + ', dass Sie ein Bild zum JAZZ <i>live</i> AARAU Gästebuch aufladen möchten. <br> ' +
                            'Dazu brauchen Sie diesen Code: <br>';
         
     } // EmailCodeSubject

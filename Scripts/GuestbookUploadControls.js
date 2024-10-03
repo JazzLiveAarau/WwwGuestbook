@@ -154,8 +154,73 @@ function createUpdateControls()
 
     createContactCaseDropdown();
 
+    modifyGuiForMobile();
+
 } // createUpdateControls
 
+// Modify GUI for a smartphone
+function modifyGuiForMobile()
+{
+    if (!UtilDevice.isMobile())
+    {
+        return;
+    }
+
+    var el_guestbook_page = getElementDivGuestbookPage();
+
+    if (null == el_guestbook_page)
+    {
+        alert("modifyGuiForMobile Programming error Element guestbook page is null");
+
+        return;
+    }
+
+    el_guestbook_page.style.border = 'none';
+
+    el_guestbook_page.style.marginLeft = '0px';
+
+    setTextBoxUpdateNamesSizeMobile();
+
+    setTextBoxUpdateEmailSizeMobile();
+
+    setTextBoxUpdateTitleMobile();
+
+    setTextBoxUpdateRemarkMobile();
+
+    setTextBoxContactFromSizeMobile();
+
+    setTextBoxContactEmailSizeMobile();
+
+    setTextBoxLastRecordSizeMobile();
+
+} // modifyGuiForMobile
+
+// Returns the textbox maximum number of chars (width) as strin for mobiles
+function getTextBoxMaxCharsMobile()
+{
+    var ret_number_chars_str = '36';
+
+    if (!UtilDevice.isMobile())
+    {
+        alert("getTextBoxMaxCharsMobile Not mobile. Returned value 39px")
+
+        return ret_number_chars_str;
+    }
+
+    var screen_width = UtilDevice.screenWidth();
+
+    var screen_height = UtilDevice.screenHeight();
+
+    // alert("getTextBoxMaxCharsMobile width= " + screen_width.toString() + " height= " + screen_height.toString());
+
+    if (screen_width >= 355 && screen_width < 365)
+    {
+        ret_number_chars_str = '34';
+    }
+    
+    return ret_number_chars_str;
+
+} // getTextBoxMaxCharsMobile
 
 // Create and set text image container
 function createTextImageContainer()
@@ -196,7 +261,7 @@ function createTextImageContainer()
 
 } // createTextImageContainer
 
-// Create the admin names text box
+// Create the update names text box
 function createTextBoxUpdateNames()
 {
     g_upload_names_text_box = new JazzTextBox("id_upload_names", 'id_div_upload_names');
@@ -216,6 +281,13 @@ function createTextBoxUpdateNames()
     g_upload_names_text_box.setTitle(GuestStr.titleTextBoxNames());
 
 } // createTextBoxUpdateNames
+
+// Sets the size for the update names text box
+function setTextBoxUpdateNamesSizeMobile()
+{
+    g_upload_names_text_box.setSize(getTextBoxMaxCharsMobile());
+
+} // setTextBoxUpdateNamesSizeMobile
 
 // Create the admin email text box
 function createTextBoxUpdateEmail()
@@ -237,6 +309,13 @@ function createTextBoxUpdateEmail()
     g_upload_email_text_box.setTitle(GuestStr.titleTextBoxEmail());
 
 } // createTextBoxUpdateEmail
+
+// Sets the size for the update email text box
+function setTextBoxUpdateEmailSizeMobile()
+{
+    g_upload_email_text_box.setSize(getTextBoxMaxCharsMobile());
+
+} // setTextBoxUpdateEmailSizeMobile
 
 // Creates the request code button
 function createRequestCodeButton()
@@ -480,7 +559,7 @@ function createUploadConcertDropdown()
         // The first concert of the season has not yet taken place
         // This control will not be created and the div will be hidden
         hideElementDivUploadTextsConcert()
-        
+
         return;
     }
 
@@ -568,6 +647,13 @@ function createTextBoxUpdateTitle()
 
 } // createTextBoxUpdateTitle
 
+// Sets the size for the upload title text box
+function setTextBoxUpdateTitleMobile()
+{
+    g_upload_title_text_box.setSize(getTextBoxMaxCharsMobile());
+
+} // setTextBoxUpdateTitleMobile
+
 // Creates the textarea for the guest text
 function createTextTextArea()
 {
@@ -607,6 +693,13 @@ function createTextBoxUpdateRemark()
     g_upload_remark_text_box.setTitle(GuestStr.titleTextBoxRemark());
 
 } // createTextBoxUpdateRemark
+
+// Sets the size for the upload remark text box
+function setTextBoxUpdateRemarkMobile()
+{
+    g_upload_remark_text_box.setSize(getTextBoxMaxCharsMobile());
+
+} // setTextBoxUpdateRemarkMobile
 
 // Create button contact
 function createContactButton()
@@ -676,6 +769,13 @@ function createTextBoxContactFrom()
 
 } // createTextBoxContactFrom
 
+// Sets the size for the contact from text box
+function setTextBoxContactFromSizeMobile()
+{
+    g_contact_from_text_box.setSize(getTextBoxMaxCharsMobile());
+
+} // setTextBoxContactFromSizeMobile
+
 // Create the contact email text box
 function createTextBoxContactEmail()
 {
@@ -699,6 +799,13 @@ function createTextBoxContactEmail()
 
 } // createTextBoxContactEmail
 
+// Sets the size for the contact email text box
+function setTextBoxContactEmailSizeMobile()
+{
+    g_contact_email_text_box.setSize(getTextBoxMaxCharsMobile());
+
+} // setTextBoxContactEmailSizeMobile
+
 // Create the last uploaded record text box
 function createTextBoxLastRecord()
 {
@@ -717,6 +824,13 @@ function createTextBoxLastRecord()
     g_last_record_text_box.setTitle(GuestStr.titleTextBoxLastRecord());
 
 } // createTextBoxLastRecord
+
+// Sets the size for the last uploaded record text box
+function setTextBoxLastRecordSizeMobile()
+{
+    g_last_record_text_box.setSize(getTextBoxMaxCharsMobile());
+
+} // setTextBoxLastRecordSizeMobile
 
 // Creates the textarea for the contact message
 function createContactMessageTextArea()
