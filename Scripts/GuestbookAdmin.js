@@ -1,5 +1,5 @@
 // File: GuestbookAdmin.js
-// Date: 2024-04-18
+// Date: 2024-04-19
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -648,8 +648,9 @@ function onClickOfAdminConfirmButton()
 } // onClickOfAdminConfirmButton
 
 // User clicked the download button
-function onClickOfAdminDownloadButton() // TODO Not used at the moment
+function onClickOfAdminDownloadButton() 
 {
+    // TODO Get file name
     alert("User clicked the download button");
 
 } // onClickOfAdminDownloadButton
