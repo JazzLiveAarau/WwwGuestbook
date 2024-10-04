@@ -69,6 +69,8 @@ function callbackAllXmlObjectsCreatedForUpload()
 
     setGuestbookNamesAndEmailFromLocalStorage();
 
+    setGuestbookNamesAndEmailForTestVersionMobile();
+
     hideElementDivUploadContainerTwo();
 
     setUploadTestInstructions();
@@ -1021,6 +1023,27 @@ function setGuestbookNamesAndEmailFromLocalStorage()
 
 } // setGuestbookNamesAndEmailFromLocalStorage
 
+function setGuestbookNamesAndEmailForTestVersionMobile()
+{
+    if (!g_upload_test_version_mobile_telephone)
+    {
+        // Not the test version mobile telephone
+        return;
+    }
+
+    // Suppose that new tester (user) will upload image
+    var name_txt = '';
+
+    // This is the default email address. The user can see the email in the JAZZ live AARAU
+    // test telephone. The user could also change the email address to his own
+    var email_text = "guestjazzliveaarau@gmail.com";
+
+    g_upload_names_text_box.setValue(name_txt);
+
+    g_upload_email_text_box.setValue(email_text); 
+
+} // setGuestbookNamesAndEmailForTestVersionMobile
+
 // Get the texts from the part three user input. Returns false if data not is OK
 function getCheckGuestbookDataPartThree()
 {
@@ -1147,12 +1170,20 @@ function sendGuestbookCodeEmailToUser()
 
         return;
     }
-    
+
     var b_send = UtilEmail.send(email_from, email_subject, email_message, email_to, email_bcc);
 
     if (b_send)
     {
-        alert(GuestStr.emailCodeSent(email_to));
+        if (!g_upload_test_version_mobile_telephone)
+        {
+            alert(GuestStr.emailCodeSent(email_to));
+        }
+        else
+        {
+            // For the mobile test version. The user (tester) need not to open the email app
+            alert(GuestStr.emailCodeSent(email_to) + " Der Code (nur im Test-Telefon gezeigt) ist " + random_code);
+        }
     }
     else
     {
