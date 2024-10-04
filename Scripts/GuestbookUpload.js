@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-10-03
+// Date: 2024-10-04
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -20,6 +20,9 @@ var g_guestbook_data_last_record = null;
 // Object JazzUploadImage control defined in WwwControls
 var g_upload_image_object = null;
 
+// Flag telling if guestbook app is a test version for the JAZZ live AARAU mobile telephon
+// Querystring shall be ?TestVersion&MobileTelephone for this case
+var g_upload_test_version_mobile_telephone = false;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
@@ -45,6 +48,13 @@ function initGuestbookUpload()
     g_guestbook_data_last_record = GuestStorage.getGuestbookData();
 
     initJazzGuestsLockUnlock();
+
+    if (UtilQuery.isParamCurrentUrl('TestVersion') && UtilQuery.isParamCurrentUrl('MobileTelephone'))
+    {
+        g_upload_test_version_mobile_telephone = true;
+
+        //QQ alert("initGuestbookUpload Test version for mobile telephone");
+    }
 
 } // initGuestbookUpload
 
