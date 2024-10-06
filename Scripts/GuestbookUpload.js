@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-10-04
+// Date: 2024-10-06
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -877,8 +877,8 @@ class AppendBothXml
 
         if (b_case_admin)
         {
-            // Temporary for test g_guests_xml.setGuestStatusAddedOrCheckedByAdmin(n_records);
-            g_guests_xml.setGuestStatusTestAddedOrCheckedByAdmin(n_records);
+            g_guests_xml.setGuestStatusAddedOrCheckedByAdmin(n_records);
+            // 20241006 g_guests_xml.setGuestStatusTestAddedOrCheckedByAdmin(n_records);
         }
         else
         {
