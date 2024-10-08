@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-10-06
+// Date: 2024-10-07
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -842,6 +842,8 @@ class AppendBothXml
         var n_records = g_guests_xml.getNumberOfGuestRecords();
 
         debugGuestbookUpload('AppendBothXml.appendXmlUploadedData Record was added to JazzGuests.xml. Number of records= ' + n_records.toString());
+
+        // TODO var b_case_admin = false;
 
         var b_case_admin = true;
 

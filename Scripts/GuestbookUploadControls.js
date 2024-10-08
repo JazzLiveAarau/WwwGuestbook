@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-10-03
+// Date: 2024-10-08
 // Authors: Gunnar Lidén
 
 // Content
@@ -165,7 +165,6 @@ function modifyGuiForMobile()
     {
         return;
     }
-
     var el_guestbook_page = getElementDivGuestbookPage();
 
     if (null == el_guestbook_page)
@@ -174,6 +173,16 @@ function modifyGuiForMobile()
 
         return;
     }
+
+    /* Do not work
+    var html_el = document.documentElement;
+
+    UtilDevice.openFullScreen(el_guestbook_page);
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation/lock
+    screen.orientation.lock('portrait');
+
+     */
 
     el_guestbook_page.style.border = 'none';
 

@@ -85,4 +85,152 @@ class UtilDevice
           
     } // isLandscape
 
+    /////////////////////////////////////////////////////////////////////////
+    //////// Start Fullscreen Functions /////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+
+    // Open fullscreen for an element
+    // Input: Element that shall be displayed in fullscreen
+    // Get the documentElement (<html>) to display the page in fullscreen
+    // var elem = document.documentElement;
+    static openFullScreen(i_element)
+    {
+        // https://www.w3schools.com/howto/howto_js_fullscreen.asp
+        // 
+        if (i_element == null)
+        {
+            alert("openFullScreenForElement Input element is null");
+    
+            return;
+        }
+    
+        if (i_element.requestFullscreen) 
+        {
+            i_element.requestFullscreen();
+        } 
+        else if (i_element.webkitRequestFullscreen) 
+        { // Safari 
+        i_element.webkitRequestFullscreen();
+        } 
+        else if (elem.msRequestFullscreen) 
+        { // IE11 
+            i_element.msRequestFullscreen();
+        }
+    
+    } // openFullScreenForElement
+
+    static closeFullscreen() 
+    {
+        if (document.exitFullscreen) 
+        {
+          document.exitFullscreen();
+        } 
+        else if (document.webkitExitFullscreen) 
+        { // Safari 
+          document.webkitExitFullscreen();
+        } 
+        else if (document.msExitFullscreen) 
+        { // IE11 
+          document.msExitFullscreen();
+        }
+        
+    } // closeFullscreen
+
+    /*
+    static isFullScreenEnabled()
+    {
+        // https://pretagteam.com/question/how-to-detect-if-user-has-enabled-full-screen-in-browser
+        
+        //console.log("isFullScreenEnabled Width diff = "  + (screen.width - window.innerWidth).toString() + 
+        //" Height diff = "  + (screen.height - window.innerHeight).toString());
+        
+        if (screen.width == window.innerWidth && screen.height == window.innerHeight)
+        {
+            return true;
+        }
+        else if (browserWindowHasDesktopWidth() && screen.height == window.innerHeight)
+        {
+            // For the case debug (F12) mode where screen.width != window.innerWidth for full screen
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    
+    } // isFullScreenEnabled
+    */
+
+    /////////////////////////////////////////////////////////////////////////
+    //////// End Fullscreen Functions ///////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+
+
+/*
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Fullscreen Functions /////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+// Returns true if full screen has been enabled in the browser
+function isFullScreenEnabled()
+{
+// https://pretagteam.com/question/how-to-detect-if-user-has-enabled-full-screen-in-browser
+
+//console.log("isFullScreenEnabled Width diff = "  + (screen.width - window.innerWidth).toString() + 
+//" Height diff = "  + (screen.height - window.innerHeight).toString());
+
+if (screen.width == window.innerWidth && screen.height == window.innerHeight)
+{
+    return true;
+}
+else if (browserWindowHasDesktopWidth() && screen.height == window.innerHeight)
+{
+    // For the case debug (F12) mode where screen.width != window.innerWidth for full screen
+    return true;
+}
+else
+{
+    return false;
+}
+
+} // isFullScreenEnabled
+
+// Returns true if full screen has been enabled in the browser and the device is a 
+// smartphone (and browser for example is the app Fully Kiosk Browser)
+function isFullScreenEnabledForSmartphone()
+{
+var b_full_screen = isFullScreenEnabled();
+
+var b_smartphone = false;
+
+if (browserWindowHasDesktopWidth())
+{    
+    b_smartphone = false;
+}
+else
+{
+    b_smartphone = true;
+}
+
+if (b_full_screen && b_smartphone)
+{
+    return true;
+}
+else
+{
+    return false;
+}
+
+} // isFullScreenEnabledForSmartphone
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Fullsctreen Functions ///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+*/
+
 } // UtilDevice
