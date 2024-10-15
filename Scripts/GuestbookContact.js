@@ -1,5 +1,5 @@
 // File: GuestbookContact.js
-// Date: 2024-03-24
+// Date: 2024-10-15
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -294,7 +294,10 @@ class DeleteLastUploadedRecord
 {
     // Start function for the deletion of the last uploaded record
     // 1. Check that local storage data exists
-    // 2. Backup JazzGuestsUploaded.xml. Callback function is backupJazzGuestsXml
+    // 2. Check that the record exists in the object corresponding to JazzGuests.xml
+    // 3. Check that the record exists in the object corresponding to JazzGuestsUploaded.xml
+    // 4. Lock XML files for this user email and call this.reloadJazzGuestsObject when locked
+    //    Call UtilLock.setUserEmail,  UtilLock.setLockedCallbackFunctionName, UtilLock.lock 
     static start()
     {
         if (g_guestbook_data_last_record == null)
@@ -338,13 +341,10 @@ class DeleteLastUploadedRecord
 
         g_util_lock_object.lock();
 
-       //QQ UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
-       //QQ GuestbookServer.absoluteUrlJazzGuestsUploadedBackup(), 
-       //QQ  DeleteLastUploadedRecord.backupJazzGuestsXml);
-
     } // start
 
     // Reloads the JazzGuests.xml object
+    // 1. Call of reloadJazzGuestXmlObject with callback function this.reloadJazzGuestsUploadedObject
     static reloadJazzGuestsObject()
     {
         reloadJazzGuestXmlObject(DeleteLastUploadedRecord.reloadJazzGuestsUploadedObject);
@@ -352,6 +352,7 @@ class DeleteLastUploadedRecord
     } // reloadJazzGuestsObject
 
     // Reloads the JazzGuestsUploaded.xml object
+    // 1. Call of reloadJazzGuestUploadedXmlObject with callback function this.backupJazzGuestsUploaded
     static reloadJazzGuestsUploadedObject()
     {
         reloadJazzGuestUploadedXmlObject(DeleteLastUploadedRecord.backupJazzGuestsUploaded);
@@ -359,6 +360,7 @@ class DeleteLastUploadedRecord
     } // reloadJazzGuestsUploadedObject
 
     // Make a backup of JazzGuestsUploaded.xml
+    // 1. Call of UtilServer.copyFileCallback with callback function this.backupJazzGuestsUploaded
     static backupJazzGuestsUploaded()
     {
         UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
@@ -367,6 +369,7 @@ class DeleteLastUploadedRecord
     } // backupJazzGuestsUploaded
 
     // Backup JazzGuests.xml. Call back function is moveImageFromUploadedToBackupDir
+    // 1. Call of UtilServer.copyFileCallback with callback function this.moveImageFromUploadedToBackupDir
     static backupJazzGuestsXml()
     {
 
@@ -377,7 +380,13 @@ class DeleteLastUploadedRecord
     } // backupJazzGuestsXml
 
     // Moves the upload image from /www/JazzGuests/Uploaded/ to the backup directory
-    // Callback function is moveImageFromUploadedToBackupDir
+    // 1. Get record number in object JazzGuestsUploaded.xml. Call this.getDeleteRecordNumber
+    // 2. Get image file name. Call of JazzGuestsXml.getGuestFileName
+    // 3. Construct full path to existing file. Call of GuestbookServer.getUploadedXmlDirUrl
+    // 4. Construct full path to backup file. Call of GuestbookServer.getBackupDirUrl
+    // 5. Create the backup file and delete the existing file. 
+    //    When finished call this.moveImageFromJazzGuestDirToBackupDir
+    //    Call UtilServer.moveFileCallback
     static moveImageFromUploadedToBackupDir()
     {
         var xml_str = 'uploaded';
@@ -392,13 +401,19 @@ class DeleteLastUploadedRecord
     
         var output_move_file = GuestbookServer.getBackupDirUrl() + name_no_path;
 
-        UtilServer. moveFileCallback(input_move_file, output_move_file, DeleteLastUploadedRecord.moveImageFromJazzGuestDirToBackupDir);
+        UtilServer.moveFileCallback(input_move_file, output_move_file, DeleteLastUploadedRecord.moveImageFromJazzGuestDirToBackupDir);
 
     } // moveImageFromUploadedToBackupDir
 
 
     // Moves the upload image from /www/JazzGuests/ to the backup directory
-    // Callback function is deleteRecordSaveJazzGuestsUploadedXml
+    // 1. Get record number in object JazzGuests.xml. Call this.getDeleteRecordNumber
+    // 2. Get image file name. Call of JazzGuestsXml.getGuestFileName
+    // 3. Construct full path to existing file. Call of GuestbookServer.getUploadedXmlDirUrl
+    // 4. Construct full path to backup file. Call of GuestbookServer.getBackupDirUrl
+    // 5. Create the backup file and delete the existing file. 
+    //    When finished call this.deleteRecordSaveJazzGuestsUploadedXml
+    //    Call UtilServer.moveFileCallback
     static moveImageFromJazzGuestDirToBackupDir()
     {
         var xml_str = 'admin';
@@ -413,13 +428,16 @@ class DeleteLastUploadedRecord
     
         var output_move_file = GuestbookServer.getBackupDirUrl() + name_no_path;
 
-        UtilServer. moveFileCallback(input_move_file, output_move_file, 
+        UtilServer.moveFileCallback(input_move_file, output_move_file, 
                         DeleteLastUploadedRecord.deleteRecordSaveJazzGuestsUploadedXml);
 
     } // moveImageFromJazzGuestDirToBackupDir
 
     // Deletes the upload XML record and saves the file JazzGuestsUploaded.xml
-    // Callback function is deleteRecordSaveJazzGuestsdXml
+    // 1. Get record number in object JazzGuestsUploaded.xml. Call this.getDeleteRecordNumber
+    // 2. Delete the record. Call of JazzGuestsXml.deleteGuestNode
+    // 3. Save the file JazzGuestsUploaded.xml. When finished call this.deleteRecordSaveJazzGuestsdXml
+    //    Call of UtilServer.saveFileCallback
     static deleteRecordSaveJazzGuestsUploadedXml()
     {
         var xml_str = 'uploaded';
@@ -435,7 +453,10 @@ class DeleteLastUploadedRecord
     } // deleteRecordSaveJazzGuestsUploadedXml
 
     // Deletes the XML record and saves the file JazzGuests.xml
-    // Callback function is sendNoticationEmail
+    // 1. Get record number in object JazzGuest.xml. Call this.getDeleteRecordNumber
+    // 2. Delete the record. Call of JazzGuestsXml.deleteGuestNode
+    // 3. Save the file JazzGuest.xml. When finished call this.unlockFiles
+    //    Call of UtilServer.saveFileCallback
     static deleteRecordSaveJazzGuestsdXml()
     {
         var xml_str = 'admin';
@@ -453,6 +474,8 @@ class DeleteLastUploadedRecord
     // Unlock the files JazzGuests.xml and JazzGuestsUploaded.xml
     // (Actually making it possible for other users and Guestbook functions to add, delete and
     //  change Guestbook data on the server)
+    // 1. Set callback function name to this.sendNoticationEmail. 
+    //    Call of UtilLock.setUnlockedCallbackFunctionName and UtilLock.unlock
     static unlockFiles()
     {
         g_util_lock_object.setUnlockedCallbackFunctionName(DeleteLastUploadedRecord.sendNoticationEmail);
@@ -463,6 +486,9 @@ class DeleteLastUploadedRecord
 
     // Sends a notification email to the administrator
     // Callback function is finish
+    // 1. Set emailsender, receiver and content
+    // 2. Send the email. When finished call function this.finish.
+    //    Call of UtilEmail.sendCallback
     static sendNoticationEmail()
     {
         var email_from = GuestStr.emailCodeFrom();
@@ -498,6 +524,9 @@ class DeleteLastUploadedRecord
     } // sendNoticationEmail
 
     // Reloads the application
+    // 1. Initialize (delete) guest local storage data.
+    //    Call GuestStorage.initGuestbookData set global variable to null
+    // 2. Reload the application. Call of location.reload
     static finish()
     {
         GuestStorage.initGuestbookData();
