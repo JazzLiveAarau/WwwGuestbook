@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-03-24
+// Date: 2024-10-30
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -124,7 +124,7 @@ function appendUserUploadedRecordMakeBackups(i_record_uploaded_number, i_b_case_
 // reload must also the XML files be locked. Please refer to class UtilLock).
 function reloadJazzGuestXmlObject(i_callback_reload_xml_object)
 {
-    var n_level_xml = 1;
+    var n_level_xml = 2;
 
     var update_xml = false;
 
@@ -138,7 +138,7 @@ function reloadJazzGuestXmlObject(i_callback_reload_xml_object)
 // reloa must also the XML files be locked. Please refer to class UtilLock).
 function reloadJazzGuestUploadedXmlObject(i_callback_reload_xml_uploaded_object)
 {
-    var n_level_xml = 1;
+    var n_level_xml = 2;
 
     var update_xml = true;
 
@@ -150,7 +150,7 @@ function reloadJazzGuestUploadedXmlObject(i_callback_reload_xml_uploaded_object)
 // Start XML is the object corresponding to JazzGuests.xml
 function loadAllXmlObjectsForAdminAndUpload()
 {
-    var n_level_xml = 1;
+    var n_level_xml = 2;
 
     var update_xml = false;
 
@@ -161,7 +161,7 @@ function loadAllXmlObjectsForAdminAndUpload()
 // Load of XML object corresponding to JazzGuestsUploaded.xml
 function callbackGuestbookUploadedXml()
 {
-    var n_level_xml = 1;
+    var n_level_xml = 2;
 
     var update_xml = true;
 
@@ -194,7 +194,7 @@ function callbackSeasonXml()
         season_start_year = current_year;
     }
 
-    var n_level_xml = 1;
+    var n_level_xml = 2;
 
     g_season_xml = new SeasonXml(callbackApplicationXml, n_level_xml, season_start_year);
 
@@ -204,7 +204,7 @@ function callbackSeasonXml()
 function callbackApplicationXml()
 {
    // Number of directory levels to top directory for directory /www/XML/
-   var n_level_xml = 1;
+   var n_level_xml = 2;
 
    if (null == g_load_for_guestbook_admin)
    {
