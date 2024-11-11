@@ -1,5 +1,5 @@
 // File: GuestbookContact.js
-// Date: 2024-10-15
+// Date: 2024-11-11
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -84,7 +84,7 @@ class ChangeRecord
     
         var email_bcc = '';
     
-        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, ChangeRecord.finish);
+        UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, ChangeRecord.finish);
 
     } // sendNoticationEmail
 
@@ -124,7 +124,7 @@ class DeleteRecord
     
         var email_bcc = '';
     
-        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, DeleteRecord.finish);
+        UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, DeleteRecord.finish);
 
     } // sendNoticationEmail
 
@@ -164,7 +164,7 @@ class ReportBug
     
         var email_bcc = '';
     
-        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, ReportBug.finish);
+        UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, ReportBug.finish);
 
     } // sendNoticationEmail
 
@@ -204,7 +204,7 @@ class UserProposal
     
         var email_bcc = '';
     
-        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, UserProposal.finish);
+        UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, UserProposal.finish);
 
     } // sendNoticationEmail
 
@@ -244,7 +244,7 @@ class OtherCase
     
         var email_bcc = '';
     
-        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, OtherCase.finish);
+        UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, OtherCase.finish);
 
     } // sendNoticationEmail
 
@@ -488,7 +488,7 @@ class DeleteLastUploadedRecord
     // Callback function is finish
     // 1. Set emailsender, receiver and content
     // 2. Send the email. When finished call function this.finish.
-    //    Call of UtilEmail.sendCallback
+    //    Call of UtilEmail.sendSecureCallback
     static sendNoticationEmail()
     {
         var email_from = GuestStr.emailCodeFrom();
@@ -519,7 +519,7 @@ class DeleteLastUploadedRecord
         email_message = email_message + 'File: ' + g_guestbook_data_last_record.getImageFile() + '<br>';
         email_message = email_message + 'Text: ' + g_guestbook_data_last_record + '<br>';
     
-        UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, DeleteLastUploadedRecord.finish);
+        UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, DeleteLastUploadedRecord.finish);
 
     } // sendNoticationEmail
 

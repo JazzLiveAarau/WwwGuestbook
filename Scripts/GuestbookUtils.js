@@ -1,5 +1,5 @@
 // File: GuestbookUtils.js
-// Date: 2024-04-18
+// Date: 2024-11-11
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -343,7 +343,7 @@ class GuestbookData
             return false;
         }
 
-        if (this.inputCodeEqualToSecretCode())
+        if (this.inputCodeEqualToSpecialValue())
         {
             return true;
         }
@@ -377,12 +377,12 @@ class GuestbookData
 
     } // inputCodeEqualToRandomCode
 
-    // Secret code for the memnbers in the jazzclub
-    inputCodeEqualToSecretCode()
+    // Special value for the memnbers of the jazzclub
+    inputCodeEqualToSpecialValue()
     {
-        if (g_guestbook_data.m_input_one   == '8' && g_guestbook_data.m_input_two  == '9' && 
-            g_guestbook_data.m_input_three == '6' && g_guestbook_data.m_input_four == '8' && 
-            g_guestbook_data.m_input_five  == '0')
+        if (g_guestbook_data.m_input_one   == '0' && g_guestbook_data.m_input_two  == '8' && 
+            g_guestbook_data.m_input_three == '9' && g_guestbook_data.m_input_four == '6' && 
+            g_guestbook_data.m_input_five  == '8')
         {
             return true;
         }
@@ -390,7 +390,7 @@ class GuestbookData
         {
             return false;
         }
-    } // inputCodeEqualToSecretCode
+    } // inputCodeEqualToSpecialValue
 
     // Returns true if input code values have been set
     allInputCodeAreSet()

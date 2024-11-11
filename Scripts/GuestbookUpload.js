@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-10-07
+// Date: 2024-11-11
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -19,6 +19,8 @@ var g_guestbook_data_last_record = null;
 
 // Object JazzUploadImage control defined in WwwControls
 var g_upload_image_object = null;
+
+var g_email_secure = 'guestbook@jazzliveaarau.ch';
 
 // Flag telling if guestbook app is a test version for the JAZZ live AARAU mobile telephon
 // Querystring shall be ?TestVersion&MobileTelephone for this case
@@ -103,7 +105,9 @@ function callbackAllXmlObjectsCreatedForUpload()
 
     var image_max_size_mb = 1.5;
 
-    var default_img = 'https://jazzliveaarau.ch/Guestbook/Icons/default_upload_image.jpg';
+    // 20241111 var default_img = 'https://jazzliveaarau.ch/Guestbook/Icons/default_upload_image.jpg';
+
+    var default_img = 'Icons/default_upload_image.jpg';
 
     var caption_select_img = 'Bild wählen';
 
@@ -953,7 +957,7 @@ class AppendBothXml
             return;
         }    
     
-         UtilEmail.sendCallback(email_from, email_subject, email_message, email_to, email_bcc, g_guestbook_data.getAppendBothXmlCallback());
+         UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, g_guestbook_data.getAppendBothXmlCallback());
 
     } // sendNotificationEmail
 
@@ -1173,6 +1177,9 @@ function sendGuestbookCodeEmailToUser()
         return;
     }
 
+    UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, callbackSendGuestbookCodeEmailToUser);
+
+    /*QQQQQQQ
     var b_send = UtilEmail.send(email_from, email_subject, email_message, email_to, email_bcc);
 
     if (b_send)
@@ -1191,8 +1198,26 @@ function sendGuestbookCodeEmailToUser()
     {
         alert(GuestStr.emailCodeError(email_to));
     }
+    QQQQQQQ */
 
 } // sendGuestbookCodeEmailToUser
+
+// Callback from 
+function callbackSendGuestbookCodeEmailToUser()
+{
+    /*
+    if (!g_upload_test_version_mobile_telephone)
+    {
+        alert(GuestStr.emailCodeSent(email_to));
+    }
+    else
+    {
+        // For the mobile test version. The user (tester) need not to open the email app
+        alert(GuestStr.emailCodeSent(email_to) + " Der Code (nur im Test-Telefon gezeigt) ist " + random_code);
+    }
+    */
+
+} // callbackSendGuestbookCodeEmailToUser
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Email Functions /////////////////////////////////////////////
