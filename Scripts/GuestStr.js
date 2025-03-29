@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2025-03-27
+// Date: 2025-03-29
 // Author: Gunnar Liden
 
 // File content
@@ -460,7 +460,9 @@ class GuestStr
 
         ret_str = ret_str + 'Vielen Dank ' + i_names + '!' + '\n';
 
-        ret_str = ret_str + 'Bild und Texte sind aufgeladen' + '\n';
+        ret_str = ret_str + 'Bild und Text sind zum Server hochgeladen.' + '\n';
+
+        ret_str = ret_str + 'Wenn etwas mit dem Beitrag nicht gut wurde, kann man diesen letzten Beitrag selbst löschen und noch einmal hochladen.' + '\n';
 
         return  ret_str;
 
