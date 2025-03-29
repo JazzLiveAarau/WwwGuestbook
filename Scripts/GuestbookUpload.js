@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2024-11-11
+// Date: 2025-03-27
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -25,6 +25,9 @@ var g_email_secure = 'guestbook@jazzliveaarau.ch';
 // Flag telling if guestbook app is a test version for the JAZZ live AARAU mobile telephon
 // Querystring shall be ?TestVersion&MobileTelephone for this case
 var g_upload_test_version_mobile_telephone = false;
+
+// Instance of class UploadWindow handling the title and infor for the active window
+var g_upload_window = null;  
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
@@ -65,7 +68,7 @@ function callbackAllXmlObjectsCreatedForUpload()
 {
     g_guestbook_data = new GuestbookData();
 
-    setUploadGuestbookTitle();
+    //QQ Replaced by title for each window setUploadGuestbookTitle();
 
     createUpdateControls();
 
@@ -115,6 +118,8 @@ function callbackAllXmlObjectsCreatedForUpload()
             image_max_size_mb, default_img, caption_select_img, displayOrHideElementDivUploadButtonForwardTwo);
 
     g_upload_image_object = new JazzUploadImage(getIdDivUploadFileImage(), input_data);
+
+    g_upload_window = new UploadWindow(getElementDivUploadGuestbookTitle());
 
     JazzUploadImage.initDebugFile();
 
@@ -468,6 +473,8 @@ function clickGuestbookInfo()
 {
     var file_name = 'https://jazzliveaarau.ch/Guestbook/Info/InfoGuestbookUpload.htm';
 
+    var file_name = g_upload_window.getInfoUrl();
+
     window.open(file_name, '_blank');
 
 } // clickGuestbookInfo
@@ -489,6 +496,8 @@ function onClickContactButton()
 
     displayElementDivContactContainer();
 
+    g_upload_window.toContact();
+
 } // onClickContactButton
 
 // User clicked the contact cancel button
@@ -497,6 +506,8 @@ function onClickContactCancelButton()
     hideElementDivContactContainer();
 
     displayElementDivNamesEmailCode();
+
+    g_upload_window.cancelContact();
 
 } // onClickContactCancelButton
 
@@ -582,6 +593,7 @@ function onClickForwardOneButton()
     {
         alert(GuestStr.inputCodeError());
     }
+    g_upload_window.forward();
 
 } // onClickForwardOneButton
 
@@ -592,6 +604,8 @@ function onClickBackTwoButton()
     displayElementDivNamesEmailCode();
 
     hideElementDivUploadContainerTwo();
+
+    g_upload_window.backward();
 
 } // onClickReqireCodeButton
 
@@ -616,6 +630,8 @@ function onClickForwardTwoButton()
 
     setImageTextContainer();
 
+    g_upload_window.forward();
+
 } // onClickReqireCodeButton
 
 // User clicked the back part three (texts input) button
@@ -626,6 +642,8 @@ function onClickBackThreeButton()
     hideElementDivUploadTexts();
 
     displayElementDivUploadContainerTwo();
+
+    g_upload_window.backward();
 
 } // onClickReqireCodeButton
 
@@ -1125,6 +1143,7 @@ function setImageTextContainer()
 ///////////////////////// Start Set Functions /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+/* QQQQ Replaced by title for each window
 // Sets the title for the upload guest application
 function setUploadGuestbookTitle()
 {
@@ -1133,6 +1152,7 @@ function setUploadGuestbookTitle()
     el_div_application_title.innerHTML = GuestStr.titleGuestbookApplication();
 
 } // setUploadGuestbookTitle
+  Replaced by title for each window QQQQ */
 
 // Sets the title for the upload guest application
 function setUploadTestInstructions()
@@ -1221,6 +1241,165 @@ function callbackSendGuestbookCodeEmailToUser()
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Email Functions /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Upload Window /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// Holds the number of the active window
+class UploadWindow
+{
+    constructor(el_div_window_title)
+    {
+        // Container <div> element for the window title
+        this.m_el_div_window_title = el_div_window_title;
+
+        // Active index 
+        this.m_active_window_index = 0;
+
+        this.m_windows_title_array = GuestStr.getUploadWindowTitleArray();
+
+        // Maximum index number for function forward
+        this.m_n_forward_max = -12345;
+
+        // Minimum index number for function backward
+        this.m_n_forward_min = -12345;
+
+        // Active index for window contact (change of record)
+        this.m_contact_active_window_index = -12345;
+
+        this.init();
+
+    } // constructor
+
+    // Initialization
+    init()
+    {
+        if (null == this.m_el_div_window_title)
+        {
+            alert("UploadWindow.init m_el_div_window_title is null");
+
+            return;
+        }
+
+        var n_windows = this.m_windows_title_array.length;
+
+        this.m_n_forward_max = n_windows - 2; 
+
+        this.m_n_forward_min = 1; 
+
+        this.m_contact_active_window_index  = n_windows - 1; 
+
+        this.setTitle();
+
+    } // init
+
+    // Sets the title
+    setTitle()
+    {
+        var windows_title = this.m_windows_title_array[this.m_active_window_index];
+
+        this.m_el_div_window_title.innerHTML = windows_title;
+
+    } // setTitle
+
+    // Next window
+    // 1. Increase active number with one
+    // 2. Set the windows title. Call UploadWindow.title
+    forward()
+    {
+        if (this.m_active_window_index < this.m_n_forward_max)
+        {
+            this.m_active_window_index = this.m_active_window_index + 1;
+        }
+        else
+        {
+            alert("UploadWindow.forward m_active_window_index >= " +  this.m_n_forward_max.toString());
+
+            return;
+        }
+        
+        this.setTitle();
+
+    } // forward
+
+    // Previous window
+    // 1. Decrease active number with one
+    // 2. Set the windows title. Call UploadWindow.title
+    backward()
+    {
+        if (this.m_active_window_index >= 1)
+        {
+            this.m_active_window_index = this.m_active_window_index - 1;
+        }
+        else
+        {
+            alert("UploadWindow.backward m_active_window_index < " +  this.m_active_window_index.toString());
+
+            return;
+        }
+        
+        this.setTitle();
+
+    } // backward
+
+    // Windows contact
+    toContact()
+    {
+
+        this.m_active_window_index = this.m_contact_active_window_index;
+
+        this.setTitle();
+
+    } // toContact
+
+    // Back from contact
+    cancelContact()
+    {
+        this.m_active_window_index = 0;
+
+        this.setTitle();
+
+    } // cancelContact
+
+    // Returns the URL for information about an upload window
+    getInfoUrl()
+    {
+        var ret_url = null;
+
+        var dir_url = 'https://jazzliveaarau.ch/Guestbook/Info/';
+
+        if (0 == this.m_active_window_index)
+        {
+            var ret_url = dir_url + 'InfoGuestbookUploadNameEmailCode.htm';
+        }
+        else if (1 == this.m_active_window_index)
+        {
+            var ret_url = dir_url + 'InfoGuestbookUploadSelectPicture.htm';
+        }
+        else if (2 == this.m_active_window_index)
+        {
+            var ret_url = dir_url + 'InfoGuestbookUploadSetTexts.htm';
+        }
+        else if (3 == this.m_active_window_index)
+        {
+            var ret_url = dir_url + 'InfoGuestbookUploadContact.htm';
+        }
+        else
+        {
+            alert("UploadWindow.getInfoUrl m_active_window_index is not between 0 and 3");
+        }
+
+        return ret_url;
+
+    } // getInfoUrl
+    
+} // UploadWindow
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Upload Window ///////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////

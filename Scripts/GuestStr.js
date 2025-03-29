@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2024-10-03
+// Date: 2025-03-27
 // Author: Gunnar Liden
 
 // File content
@@ -517,7 +517,9 @@ class GuestStr
 
         ret_str = ret_str + 'Ein Selfie oder ein Konzert-Foto ist auch willkommen.' + '<br>' + '<br>';
 
-        ret_str = ret_str + 'Danach mit dieser App das Foto aufladen.';
+        ret_str = ret_str + 'Danach mit dieser App das Foto hochladen.' + '<br>' + '<br>';
+
+        ret_str = ret_str + 'Code verlangen für Änderung eines bestehenden Beitrags.';
 
         return  ret_str;
 
@@ -528,7 +530,7 @@ class GuestStr
     {
         var contact_case_array = [];
 
-        contact_case_array[0] = 'Grund noch nicht gewählt';
+        contact_case_array[0] = 'Grund noch nicht gewählt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 	
         contact_case_array[1] = 'Beitrag ändern';
     
@@ -617,7 +619,7 @@ class GuestStr
     // Caption for the button contact administrator
     static captionButtonContactAdministrator()
     {
-        return 'oder <br>Administrator kontaktieren';
+        return 'Änderung eines bestehenden Beitrags';
 
     } // captionButtonContactAdministrator
 
@@ -870,6 +872,23 @@ class GuestStr
         return  ret_str;
 
     } // placeholderTextAreaContactTextOtherMessage
+
+    // Returns an array with titles for the upload windows
+    static getUploadWindowTitleArray()
+    {
+        var upload_window_title_array = [];
+
+        upload_window_title_array[0] = 'Name, E-Mail und Code';
+	
+        upload_window_title_array[1] = 'Bild wählen';
+    
+        upload_window_title_array[2] = 'Texte eingeben';
+
+        upload_window_title_array[3] = 'Änderung eines Beitrags';
+
+        return upload_window_title_array;
+
+    } // getUploadWindowTitleArray
 
 
 } // GuestStr
