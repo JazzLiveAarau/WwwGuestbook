@@ -29,6 +29,9 @@ var g_upload_test_version_mobile_telephone = false;
 // Instance of class UploadWindow handling the title and infor for the active window
 var g_upload_window = null;  
 
+// Flag telling if one image has been uploaded
+var g_one_image_is_uploaded = false;
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +118,7 @@ function callbackAllXmlObjectsCreatedForUpload()
     var caption_select_img = 'Bild wählen';
 
     var input_data = new JazzUploadImageInput(upload_file_name, upload_file_extension, upload_path, 
-            image_max_size_mb, default_img, caption_select_img, displayOrHideElementDivUploadButtonForwardTwo);
+            image_max_size_mb, default_img, caption_select_img, eventDefaultImageIsUploaded);
 
     g_upload_image_object = new JazzUploadImage(getIdDivUploadFileImage(), input_data);
 
@@ -132,6 +135,28 @@ function callbackAllXmlObjectsCreatedForUpload()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Event Code ////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+// Event default image is uploaded
+// i_b_hide: true or false
+// There is (or was) a default image in the class JazzUploadImageInput. The object
+// will call this function for every image that has been uploaded. If it is the 
+// default image that was loaded this function will do nothing.
+// TODO callback functions should be added for the handling of the 
+// forward an back buttons. Both should be hidden when an image is being loaded
+// otherwise the app may fail. Parameter g_one_image_is_uploaded should also be
+// deleted
+function eventDefaultImageIsUploaded(i_b_hide)
+{
+    if (i_b_hide)
+    {
+        hideElementDivUploadButtonForwardTwo();
+    }
+    else
+    {
+        displayElementDivUploadButtonForwardTwo();
+    }
+
+} // eventSelectedImageIsUploaded
 
 function initAllInputCodes()
 {
@@ -585,6 +610,13 @@ function onClickForwardOneButton()
 
         displayElementDivUploadContainerTwo();
 
+        if (!g_one_image_is_uploaded)
+        {
+            hideElementDivUploadButtonForwardTwo();
+
+            g_one_image_is_uploaded = true;
+        }
+        
         // var default_img_file_name = 'Icons/default_upload_image.png';
 
         // Moved to init g_upload_image_object = new JazzUploadImage('guest_upload',  getIdDivUploadFileImage(), default_img_file_name);
