@@ -40,7 +40,7 @@ class GuestStr
     // Text for the request code email
     static emailCodeMessage(i_names)
     {
-        return 'Vielen Dank ' + i_names + ', dass Sie ein Bild zum JAZZ <i>live</i> AARAU Gästebuch aufladen möchten. <br> ' +
+        return 'Vielen Dank ' + i_names + ', dass Sie ein Bild zum JAZZ <i>live</i> AARAU Gästebuch hochladen möchten. <br> ' +
                            'Dazu brauchen Sie diesen Code: <br>';
         
     } // EmailCodeSubject
@@ -55,14 +55,14 @@ class GuestStr
     // Confirmation that a  request code email was sent
     static emailCodeSent(i_to)
     {
-        return 'Eine E-Mail mit dem Code für das Aufladen ist an ' + i_to + ' gesendet.';
+        return 'Eine E-Mail mit dem Code für das Hochladen ist an ' + i_to + ' gesendet.';
 
     } // emailCodeSent
 
     // Error message that sending the  request code email failed
     static emailCodeError(i_to)
     {
-        return 'Eine E-Mail mit dem Code ist an ' + i_to + ' konnte NICHT gesendet werden!';
+        return 'Eine E-Mail mit dem Code an ' + i_to + ' konnte NICHT gesendet werden!';
 
     } // emailCodeError
 
@@ -111,7 +111,7 @@ class GuestStr
     // Title (tooltip) for the textbox names
     static titleTextBoxNames()
     {
-        return 'Name oder Namen eingeben. Mehrere personen gerne mit Komma trennen';
+        return 'Name oder Namen eingeben. Mehrere Personen gerne mit Komma trennen';
 
     } // titleTextBoxNames
 
@@ -209,7 +209,7 @@ class GuestStr
     // Title (tooltip) for the button save
     static titleButtonSave()
     {
-        return 'Daten auflauden und speichern. Eine Bestätigung E-Mail wird gesendet';
+        return 'Daten hochladen und speichern. Eine Bestätigungs-E-Mail wird gesendet';
 
     } // titleButtonSave
 
@@ -223,7 +223,7 @@ class GuestStr
     // Title (tooltip) for theadmin button save
     static titleAdminButtonSave()
     {
-        return 'Daten auflauden und speichern';
+        return 'Daten hochladen und speichern';
 
     } // titleAdminButtonSave
 
@@ -238,7 +238,7 @@ class GuestStr
     // Title (tooltip) for the button confirm
     static titleButtonConfirm()
     {
-        return 'Bestätigung, das Bild ersetzt werden soll';
+        return 'Bestätigung, dass das Bild ersetzt werden soll';
 
     } // titleButtonConfirm
 
@@ -266,7 +266,7 @@ class GuestStr
     // Title (tooltip) for the button delete
     static titleButtonDelete()
     {
-        return 'Guestbuch-Eintrag kann gelöscht werden. Normal wird aber nicht publizieren Flagge verwendet';
+        return 'Guestbuch-Eintrag kann gelöscht werden. Normal wird aber die "Nicht publizieren" Flagge verwendet';
 
     } // titleButtonDelete
 
@@ -413,7 +413,7 @@ class GuestStr
     // Title (tooltip) for the checkbox new records
     static titleCheckBoxNewRecords()
     {
-        return 'Alle existierende (registrierte) oder neue vom Publikum aufgeladene';
+        return 'Alle existierenden (registrierte) oder neu vom Publikum aufgeladene';
 
     } // titleCheckBoxNewRecords
 
@@ -476,11 +476,11 @@ class GuestStr
 
         ret_str = ret_str + 'Vielen Dank ' + i_names + '!' + '\n';
 
-        ret_str = ret_str + 'Leider ist etwas falsch gegangen. Nichts wurde aufgeladen' + '\n';
+        ret_str = ret_str + 'Leider ist etwas falsch gegangen. Nichts wurde hochgeladen' + '\n';
 
         ret_str = ret_str + 'Bitte gerne Bild und Text an guestbook@jazzliveaarau.ch senden.' + '\n';
 
-        ret_str = ret_str + 'Wir werden dann den Beitrag zum Gästebuch aufladen.' + '\n';
+        ret_str = ret_str + 'Wir werden dann den Beitrag zum Gästebuch hochladen.' + '\n';
 
         return  ret_str;
 
@@ -538,7 +538,7 @@ class GuestStr
     
         contact_case_array[2] = 'Beitrag löschen';
 
-        contact_case_array[3] = 'Letzter Beitrag löschen';
+        contact_case_array[3] = 'Letzten Beitrag löschen';
     
         contact_case_array[4] = 'Fehler melden';
     
@@ -612,7 +612,7 @@ class GuestStr
     {
         var message_str = 'Danke, dass Sie uns kontaktieren. ' + 
                           'Ein E-Mail wurde an den Administrator (guestbook@jazzliveaarau.ch) gesendet.' + '\n' +
-                          'Innerhalb ein paar Tagen sollten Sie eine Antwort bekommen.'
+                          'Innerhalb einiger Tage sollten Sie eine Antwort bekommen.'
 
         return message_str;
 
@@ -628,7 +628,7 @@ class GuestStr
     // Title (tooltip) for the the button contact administrator
     static titleButtonContactAdministrator()
     {
-        return 'Gästebuch Administrator kontaktieren um Beitrag zu löschen oder modifizieren, Fehler zu melden oder etwas vorschlagen';
+        return 'Gästebuch Administrator kontaktieren um Beitrag zu löschen oder modifizieren, Fehler zu melden oder etwas vorzuschlagen';
 
     } // titleButtonContactAdministrator
 
@@ -691,14 +691,14 @@ class GuestStr
     // Label for the textbox last uploaded record
     static labelTextBoxLastRecord()
     {
-        return 'Letzer aufgeladenen Beitrag';
+        return 'Letzer hochgeladener Beitrag';
 
     } // labelTextBoxLastRecord
 
     // Title (tooltip) for the textbox last uploaded record
     static titleTextBoxLastRecord()
     {
-        return 'Zeigt den letzen aufgeladenen Beitrag';
+        return 'Zeigt den letzen hochgeladenen Beitrag';
 
     } // titleTextBoxLastRecord
 
@@ -756,7 +756,7 @@ class GuestStr
 
         ret_str = ret_str + 'Eine Mitteilung ist nicht notwendig. ' + '\n';
 
-        ret_str = ret_str + 'Mit Senden sollte den Beitrag automatisch gelöscht werden.' + '\n';
+        ret_str = ret_str + 'Mit Senden sollte der Beitrag automatisch gelöscht werden.' + '\n';
 
         return  ret_str;
 
@@ -766,7 +766,7 @@ class GuestStr
      static textTextAreaContactTextCaseChangeRecord()
      {
         var delete_text = '';
-        delete_text = delete_text + 'Bitte folgender Beitrag ändern' + '\n';
+        delete_text = delete_text + 'Bitte folgenden Beitrag ändern' + '\n';
         delete_text = delete_text + 'Titel: ' + '\n';
         delete_text = delete_text + 'Datum: ' + '\n';
         delete_text = delete_text + 'Namen: ' + '\n';
@@ -791,7 +791,7 @@ class GuestStr
      static textTextAreaContactTextCaseDeleteRecord()
      {
         var delete_text = '';
-        delete_text = delete_text + 'Bitte folgender Beitrag löschen' + '\n';
+        delete_text = delete_text + 'Bitte folgenden Beitrag löschen' + '\n';
         delete_text = delete_text + 'Titel: ' + '\n';
         delete_text = delete_text + 'Datum: ' + '\n';
         delete_text = delete_text + 'Namen: ' + '\n';
@@ -815,7 +815,7 @@ class GuestStr
     // Automatic delete is not possible. Data from last record is not available
     static errorAutomaticDeleteNotAvailable()
     {
-        var ret_str = 'Daten vom letzten Beitrag ist nicht gespeichert. Bitte eine andere Alternative wählen.';
+        var ret_str = 'Daten vom letzten Beitrag sind nicht gespeichert. Bitte eine andere Alternative wählen.';
 
         return  ret_str;
 
