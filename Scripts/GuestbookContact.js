@@ -293,9 +293,14 @@ function getContentNotificationEmail(i_subject)
 class DeleteLastUploadedRecord
 {
     // Start function for the deletion of the last uploaded record
-    // 1. Check that local storage data exists
-    // 2. Check that the record exists in the object corresponding to JazzGuests.xml
-    // 3. Check that the record exists in the object corresponding to JazzGuestsUploaded.xml
+    // Input data:
+    // g_guestbook_data_last_record: Object holding data from the last uploaded record
+    // g_guests_uploaded_xml: XML object corresponding to JazzGuestsUploaded.xml
+    // g_guests_xml:          XML object corresponding to JazzGuests.xml
+    //
+    // 1. Check that local storage data exists. If not return.
+    // 2. Existence check of the XML record number for JazzGuests.xml         corresponding to g_guestbook_data_last_record
+    // 3. Existence check of the XML record number for JazzGuestsUploaded.xml corresponding to g_guestbook_data_last_record
     // 4. Lock XML files for this user email and call this.reloadJazzGuestsObject when locked
     //    Call UtilLock.setUserEmail,  UtilLock.setLockedCallbackFunctionName, UtilLock.lock 
     static start()
@@ -539,9 +544,27 @@ class DeleteLastUploadedRecord
 
     } // finish
 
-    // Returns the record number to delete
-    // i_xml_str Eq. uploadwd JazzGuestsUploaded.xml  Eq. admin JazzGuests.xml
-    // Returns negative value for failure
+    // TODO This function shall be moved to new static class and name shall be changed
+    // This function is also needed for edit last record.
+    // Returns the record number for the record defined in a GuestStorage object 
+    //  Returns negative value for failure
+    //
+    // Input data:
+    // i_xml_str: Defines the XML object (g_guests_uploaded_xml or g_guests_xml) 
+    //            that shall be used by the function
+    //            Eq. uploadwd: XML object for file JazzGuestsUploaded.xml  
+    //            Eq. admin:    XML object for file JazzGuests.xml
+    //
+    // g_guestbook_data_last_record (instance of GuestStorage)
+    // 
+    // 1. Select XML object g_guests_uploaded_xml or g_guests_xml
+    // 2. Get number of XML records
+    // 3. Get comparison data from g_guestbook_data_last_record (GuestSorage):
+    //    Title, year, month, day and image file name
+    // 4. Loop for all XML records
+    // 4.1 Get title, year, month, day and image file name from the XML record
+    // 4.2 Compare title, year, month, day and image file name
+    //     If all are equal return the XML record number
     static getDeleteRecordNumber(i_xml_str)
     {
         var current_xml = null;
