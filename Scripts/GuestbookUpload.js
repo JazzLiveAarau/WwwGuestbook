@@ -948,6 +948,8 @@ class AppendBothXml
 
         g_guests_xml.setGuestRegNumberInt(n_records, g_guestbook_data.getXmlNewRegisterNumber());
 
+        AppendBothXml.setGuestbookDataFileNameRegNumber(n_records);
+
         debugGuestbookUpload('AppendBothXml.appendXmlUploadedData Record appended to JazzGuests.xlm object. Record ' 
                             + g_guestbook_data.getXmlNewRegisterNumber().toString());
 
@@ -1010,6 +1012,15 @@ class AppendBothXml
          UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, g_guestbook_data.getAppendBothXmlCallback());
 
     } // sendNotificationEmail
+
+    // Set registered file name and reg number in object GuestbookData (g_guestbook_data)
+    static setGuestbookDataFileNameRegNumber(i_record_number)
+    {
+        g_guestbook_data.setFileName(g_guests_xml.getGuestFileName(i_record_number));
+
+        g_guestbook_data.setRegNumber(g_guests_xml.getGuestRegNumber(i_record_number));
+
+    } // setGuestbookDataFileNameRegNumber
 
 } // AppendBothXml
 
@@ -1230,27 +1241,6 @@ function sendGuestbookCodeEmailToUser()
     }
 
     UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, callbackSendGuestbookCodeEmailToUser);
-
-    /*QQQQQQQ
-    var b_send = UtilEmail.send(email_from, email_subject, email_message, email_to, email_bcc);
-
-    if (b_send)
-    {
-        if (!g_upload_test_version_mobile_telephone)
-        {
-            alert(GuestStr.emailCodeSent(email_to));
-        }
-        else
-        {
-            // For the mobile test version. The user (tester) need not to open the email app
-            alert(GuestStr.emailCodeSent(email_to) + " Der Code (nur im Test-Telefon gezeigt) ist " + random_code);
-        }
-    }
-    else
-    {
-        alert(GuestStr.emailCodeError(email_to));
-    }
-    QQQQQQQ */
 
 } // sendGuestbookCodeEmailToUser
 

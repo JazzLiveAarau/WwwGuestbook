@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2025-03-29
+// Date: 2025-04-04
 // Author: Gunnar Liden
 
 // File content
@@ -533,18 +533,20 @@ class GuestStr
         var contact_case_array = [];
 
         contact_case_array[0] = 'Grund noch nicht gewählt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+        contact_case_array[1] = 'Letzten Beitrag ändern';
+
+        contact_case_array[2] = 'Letzten Beitrag löschen';
 	
-        contact_case_array[1] = 'Beitrag ändern';
+        contact_case_array[3] = 'Beitrag ändern';
     
-        contact_case_array[2] = 'Beitrag löschen';
+        contact_case_array[4] = 'Beitrag löschen';
 
-        contact_case_array[3] = 'Letzten Beitrag löschen';
+        contact_case_array[5] = 'Fehler melden';
     
-        contact_case_array[4] = 'Fehler melden';
-    
-        contact_case_array[5] = 'Vorschlag der App';
+        contact_case_array[6] = 'Vorschlag der App';
 
-        contact_case_array[6] = 'Anderes';
+        contact_case_array[7] = 'Anderes';
 
         return contact_case_array;
 
@@ -646,12 +648,26 @@ class GuestStr
 
     } // titleButtonContactAdministratorCancel
 
-    // Caption for the button send message to the contact administrator
+    // Caption for the contact exection button: Send message to the administrator
     static captionButtonContactAdministratorSend()
     {
         return 'Senden';
 
     } // captionButtonContactAdministratorSend
+
+    // Caption for the contact exection button: Open record to be edited
+    static captionButtonContactAdministratorOpen()
+    {
+        return 'Öffnen';
+
+    } // captionButtonContactAdministratorOpen
+
+    // Caption for the contact exection button: Delete record 
+    static captionButtonContactAdministratorDelete()
+    {
+        return 'Löschen';
+
+    } // captionButtonContactAdministratorDelete
 
     // Title (tooltip) for the the button send message to the contact administrator
     static titleButtonContactAdministratorSend()
@@ -812,14 +828,23 @@ class GuestStr
 
     } // placeholderTextAreaContactTextCaseDeleteRecord
 
-    // Automatic delete is not possible. Data from last record is not available
+    // Automatic delete is not possible. Data from a last record is not available
     static errorAutomaticDeleteNotAvailable()
     {
-        var ret_str = 'Daten vom letzten Beitrag sind nicht gespeichert. Bitte eine andere Alternative wählen.';
+        var ret_str = 'Löschen ist nicht möglich. Daten vom letzten Beitrag sind nicht gespeichert. Bitte eine andere Alternative wählen.';
 
         return  ret_str;
 
     } // errorAutomaticDeleteNotAvailable
+
+    // Edit record is not possible. Data from a last record is not available
+    static errorEditRecordNotAvailable()
+    {
+        var ret_str = 'Änderungen sind nicht möglich. Daten vom letzten Beitrag sind nicht gespeichert. Bitte eine andere Alternative wählen.';
+
+        return  ret_str;
+
+    } // errorEditRecordNotAvailable
 
      // Text for the textarea contact text case report bug
      static textTextAreaContactTextCaseReportBug()

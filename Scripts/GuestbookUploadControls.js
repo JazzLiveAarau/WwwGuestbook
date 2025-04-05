@@ -1,5 +1,5 @@
 // File: GuestbookUploadControls.js
-// Date: 2024-10-08
+// Date: 2025-04-04
 // Authors: Gunnar Lidén
 
 // Content
@@ -754,6 +754,33 @@ function createContactSendButton()
     g_contact_send_button.setTitle(GuestStr.titleButtonContactAdministratorSend());
 
 } // createContactSendButton
+
+// Set contact execute button to 'Send' and display the button
+function setAndDisplayContactExecuteButtonSend()
+{
+    g_contact_send_button.setCaption(GuestStr.captionButtonContactAdministratorSend());
+
+    displayElementDivContactSendButton();
+
+} // setAndDisplayContactExecuteButtonSend
+
+// Set contact execute button to 'Open' and display the button
+function setAndDisplayContactExecuteButtonOpen()
+{
+    g_contact_send_button.setCaption(GuestStr.captionButtonContactAdministratorOpen());
+
+    displayElementDivContactSendButton();
+
+} // setAndDisplayContactExecuteButtonOpen
+
+// Set contact execute button to 'Delete' and display the button
+function setAndDisplayContactExecuteButtonDelete()
+{
+    g_contact_send_button.setCaption(GuestStr.captionButtonContactAdministratorDelete());
+
+    displayElementDivContactSendButton();
+
+} // setAndDisplayContactExecuteButtonDelete
 
 // Create the contact from text box
 function createTextBoxContactFrom()

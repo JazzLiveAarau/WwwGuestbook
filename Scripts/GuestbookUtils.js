@@ -1,5 +1,5 @@
 // File: GuestbookUtils.js
-// Date: 2024-11-11
+// Date: 2025-04-04
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -44,6 +44,10 @@ class GuestbookData
 
         this.m_image_file = '';
 
+        this.m_file_name = '';
+
+        this.m_reg_number = '';
+
         this.m_random = null;
 
         // Generated code
@@ -71,6 +75,10 @@ class GuestbookData
 
         // The name of the JazzGuests.xml new image file
         this.m_xml_new_register_image_file_name = '';
+
+        // Flag telling if the user opened the record for editing
+        // For this case data is retrieved from GuestStorage
+        this.m_user_opened_record_for_edit = false;
 
         this.init();
 
@@ -243,6 +251,34 @@ class GuestbookData
         
     } // getImageFile
 
+    // Sets the registered file name (URL)
+    setFileName(i_file_name)
+    {
+        this.m_file_name = i_file_name;
+
+    } // setFileName
+
+    // Returns the registered file name (URL)
+    getFileName()
+    {
+        return this.m_file_name;
+        
+    } // getFileName
+
+    // Sets the registration number
+    setRegNumber(i_file_name)
+    {
+        this.m_reg_number = i_file_name;
+
+    } // setRegNumber
+
+    // Returns the registration number
+    getRegNumber()
+    {
+        return this.m_reg_number;
+        
+    } // getRegNumber
+
     // Sets image names
     setImageNames(i_names)
     {
@@ -312,6 +348,27 @@ class GuestbookData
         return this.m_remark;
 
     } // getImageRemark
+
+    // Sets the flag telling if record was openedfor edit to false
+    setUserOpenedRecordForEditToFalse()
+    {
+        this.m_user_opened_record_for_edit = false;
+
+    } // setUserOpenedRecordForEditToFalse
+
+    // Sets the flag telling if record was opened for edit to true
+    setUserOpenedRecordForEditToTrue()
+    {
+        this.m_user_opened_record_for_edit = true;
+
+    } // setUserOpenedRecordForEditToTrue
+
+     // Returns the flag telling if record was opened for edit
+     getUserOpenedRecordForEdit()
+     {
+         return this.m_user_opened_record_for_edit;
+ 
+     } // setUserOpenedRecordForEditToTrue   
 
     // Generate random code
     setRandomCode()
@@ -601,9 +658,56 @@ class GuestStorage
 
         guestbook_data.m_image_file = GuestStorage.getImageFile();
 
+        guestbook_data.m_file_name = GuestStorage.getFileName();
+
+        guestbook_data.m_reg_number = GuestStorage.getRegNumber();
+
         return guestbook_data;
 
     } // getGuestbookData
+
+    // Add local storage data to an instance of GuestbookData
+    // Flag is also set that the data is from the local storage 
+    static addGuestbookData(i_guestbook_data)
+    {
+        if (!GuestStorage.allDataIsSet())
+        {
+            return null;
+        }
+
+        var guestbook_data = i_guestbook_data;
+
+        guestbook_data.m_names = GuestStorage.getNames();
+
+        guestbook_data.m_email = GuestStorage.getEmail();
+
+        guestbook_data.m_title = GuestStorage.getTitle();
+
+        guestbook_data.m_text = GuestStorage.getText();
+
+        guestbook_data.m_remark = GuestStorage.getRemark();
+
+        guestbook_data.m_band = GuestStorage.getBand();
+
+        guestbook_data.m_musicians = GuestStorage.getMusicians();
+
+        guestbook_data.m_year = GuestStorage.getYear();
+
+        guestbook_data.m_month = GuestStorage.getMonth();
+
+        guestbook_data.m_day = GuestStorage.getDay();
+
+        guestbook_data.m_image_file = GuestStorage.getImageFile();
+
+        guestbook_data.m_file_name = GuestStorage.getFileName();
+
+        guestbook_data.m_reg_number = GuestStorage.getRegNumber();
+
+        guestbook_data.setUserOpenedRecordForEditToTrue();
+
+        return guestbook_data;
+
+    } // addGuestbookData
 
     // Set local storage data with the input instance of GuestbookData
     static setGuestbookData(i_guestbook_data)
@@ -637,6 +741,10 @@ class GuestStorage
 
         GuestStorage.setImageFile(i_guestbook_data.m_image_file);
 
+        GuestStorage.setFileName(i_guestbook_data.m_file_name);
+
+        GuestStorage.setRegNumber(i_guestbook_data.m_reg_number);
+
     } // setGuestbookData
 
     // Initialize local storage data 
@@ -665,6 +773,10 @@ class GuestStorage
         GuestStorage.setDay('');
 
         GuestStorage.setImageFile('');
+
+        GuestStorage.setFileName('');
+
+        GuestStorage.getRegNumber('');
 
     } // initGuestbookData
 
@@ -750,6 +862,21 @@ class GuestStorage
             ret_b_all = false;
         }
 
+        if (GuestStorage.getFileName() == null || GuestStorage.getFileName().length == 0)
+        {
+            console.log("GuestStorage.getFileName() is null or string is empty");
+            
+            ret_b_all = false;
+        }
+
+        if (GuestStorage.getRegNumber() == null || GuestStorage.getRegNumber().length == 0)
+        {
+            console.log("GuestStorage.getRegNumber() is null or string is empty");
+            
+            ret_b_all = false;
+        }
+    
+
         return ret_b_all;
 
     } // allDataIsSet
@@ -824,6 +951,18 @@ class GuestStorage
 
     } // getImageFile
 
+    static getFileName()
+    {
+        return localStorage.getItem(GuestStorage.getKeyFileName());
+
+    } // getFileName
+
+    static getRegNumber()
+    {
+        return localStorage.getItem(GuestStorage.getKeyRegNumber());
+
+    } // getRegNumber
+
     //////////////////////////////////////////////////
     /////////// Local Storage Set Functions //////////
     //////////////////////////////////////////////////
@@ -894,6 +1033,18 @@ class GuestStorage
 
     } // setImageFile
 
+    static setFileName(i_file_name)
+    {
+        localStorage.setItem(GuestStorage.getKeyFileName(), i_file_name);
+
+    } // setFileName
+
+    static setRegNumber(i_reg_number)
+    {
+        localStorage.setItem(GuestStorage.getKeyRegNumber(), i_reg_number);
+
+    } // setRegNumber
+
     //////////////////////////////////////////////////
     /////////// Local Storage Keys ///////////////////
     //////////////////////////////////////////////////
@@ -963,6 +1114,18 @@ class GuestStorage
         return "guestbook_image_file_str";
         
     } // getKeyImageFile
+
+    static getKeyFileName()
+    {
+        return "guestbook_file_name_str";
+        
+    } // getKeyFileName
+
+    static getKeyRegNumber()
+    {
+        return "guestbook_reg_number_str";
+        
+    } // getKeyRegNumber
 
 } // GuestStorage
 
