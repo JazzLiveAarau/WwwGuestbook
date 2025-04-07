@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2025-03-27
+// Date: 2025-04-05
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -697,6 +697,46 @@ function onClickForwardThreeButton()
 
 } // onClickForwardThreeButton
 
+// User the button open (and edit) the last uploaded edit
+// 1. Close the contact page (with the open button)
+//    Call of hideElementDivContactContainer
+// 2. Set the title for this window
+//    Call of UploadWindows.toUploadImage
+// 3. Get the URL for the image that shall be uploaded
+//    Call of GuestbookData.getFileName
+// 4. Set the image that shall be displayed
+//
+// 5. Display the image
+//    Call of JazzUploadImage.displayUploadedImage
+// 6. Set flag that image has been uploaded
+//    (determines if the forward button shall be displayed)
+// 7. Display the page for uploading the picture
+//    Call of displayElementDivUploadContainerTwo
+function onClickEditLastUploadedRecord()
+{
+    hideElementDivContactContainer();
+
+    g_upload_window.toUploadImage();
+
+    var abs_image_url = GuestbookServer.absoluteUrlJazzGuests();
+    // var image_url = g_guestbook_data.getFileName();
+
+    var image_displayed = g_guestbook_data.getImageFile();
+
+    var image_container_id = "id_div_jazzuploadimage_image_container";
+
+    var image_container_el = document.getElementById(image_container_id);
+
+    UtilImage.replaceImageInDivContainer(image_displayed, image_container_el);
+
+    g_one_image_is_uploaded = true;
+
+    displayElementDivUploadContainerTwo();
+
+    debugGuestbookUpload('onClickEditLastUploadedRecord User clicked edit the last uploaded record');
+
+} // onClickEditLastUploadedRecord
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Process Event Functions /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -1269,7 +1309,7 @@ function callbackSendGuestbookCodeEmailToUser()
 ///////////////////////// Start Upload Window /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// Holds the number of the active window
+// Sets the title for the active upload page
 class UploadWindow
 {
     constructor(el_div_window_title)
@@ -1277,9 +1317,10 @@ class UploadWindow
         // Container <div> element for the window title
         this.m_el_div_window_title = el_div_window_title;
 
-        // Active index 
+        // Active window index 
         this.m_active_window_index = 0;
 
+        // Array with titles for the upload windows
         this.m_windows_title_array = GuestStr.getUploadWindowTitleArray();
 
         // Maximum index number for function forward
@@ -1317,7 +1358,7 @@ class UploadWindow
 
     } // init
 
-    // Sets the title
+    // Sets the title defined by m_active_window_index
     setTitle()
     {
         var windows_title = this.m_windows_title_array[this.m_active_window_index];
@@ -1326,7 +1367,7 @@ class UploadWindow
 
     } // setTitle
 
-    // Next window
+    // Sets the title for the next window
     // 1. Increase active number with one
     // 2. Set the windows title. Call UploadWindow.title
     forward()
@@ -1346,7 +1387,7 @@ class UploadWindow
 
     } // forward
 
-    // Previous window
+    // Sets the title for the previous window
     // 1. Decrease active number with one
     // 2. Set the windows title. Call UploadWindow.title
     backward()
@@ -1366,7 +1407,7 @@ class UploadWindow
 
     } // backward
 
-    // Windows contact
+    // Sets the title for the page contact
     toContact()
     {
 
@@ -1376,7 +1417,16 @@ class UploadWindow
 
     } // toContact
 
-    // Back from contact
+    // Sets the title for the page upload window
+    toUploadImage()
+    {
+        this.m_active_window_index = 1;
+
+        this.setTitle();
+
+    } // toUploadImage
+
+    // Sets title for back from contact (page 1)
     cancelContact()
     {
         this.m_active_window_index = 0;
@@ -1385,7 +1435,7 @@ class UploadWindow
 
     } // cancelContact
 
-    // Returns the URL for information about an upload window
+    // Returns the URL to the page information HTML file
     getInfoUrl()
     {
         var ret_url = null;

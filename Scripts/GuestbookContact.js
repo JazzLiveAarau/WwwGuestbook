@@ -1,5 +1,5 @@
 // File: GuestbookContact.js
-// Date: 2025-04-04
+// Date: 2025-04-05
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -635,10 +635,10 @@ class ChangeLastUploadedRecord
 
     // Open page two of the Guestbook Upload app
     // 1. Open 'page' upload of image.
-    //    Call of onClickForwardOneButton
+    //    Call of onClickEditLastUploadedRecord
     static finish()
     {
-        onClickForwardOneButton();
+        onClickEditLastUploadedRecord();
 
     } // finish
 
