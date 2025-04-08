@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2025-04-05
+// Date: 2025-04-07
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -693,49 +693,57 @@ function onClickForwardThreeButton()
 
     debugGuestbookUpload('onClickForwardThreeButton User clicked save record');
 
-    AppendBothXml.start(callbackAppendBothXml);
+    var b_user_edited_record = g_guestbook_data.getUserOpenedRecordForEdit();
+
+    if (b_user_edited_record)
+    {
+        alert("TODO Call SaveEditedRecord.start");
+        
+        // SaveEditedRecord.start();
+    }
+    else
+    {
+        AppendBothXml.start(callbackAppendBothXml);
+    }
+
+    
 
 } // onClickForwardThreeButton
 
-// User the button open (and edit) the last uploaded edit
+// Set controls for edit of the last uploaded record
 // 1. Close the contact page (with the open button)
 //    Call of hideElementDivContactContainer
 // 2. Set the title for this window
 //    Call of UploadWindows.toUploadImage
-// 3. Get the URL for the image that shall be uploaded
-//    Call of GuestbookData.getFileName
-// 4. Set the image that shall be displayed
-//
+// 3. Get the URL for the image that will be uploaded after edit
+//    Please note that the registered image will be displayed here
+//    (and not the uploaded image as when the user adds a record)
+//    Call of GuestbookData.getFileName and  GuestbookServer.getHomepageUrl
 // 5. Display the image
-//    Call of JazzUploadImage.displayUploadedImage
-// 6. Set flag that image has been uploaded
-//    (determines if the forward button shall be displayed)
-// 7. Display the page for uploading the picture
+//    Call of JazzUploadImage.changeDefaultImageFile
+//    TODO Set page 3 controls
+// 7. Display the page for uploading the picture 
+//    This will be the starting page for editing the record. The user can
+//    can go back to the first page and change the names (but not the email).
 //    Call of displayElementDivUploadContainerTwo
-function onClickEditLastUploadedRecord()
+function setControlsEditLastUploadedRecord()
 {
+    debugGuestbookUpload('setControlsEditLastUploadedRecord Set controls for edit of record');
+
     hideElementDivContactContainer();
 
     g_upload_window.toUploadImage();
+    
+    var reg_image_url = g_guestbook_data.getFileNameAbsolute();
 
-    var abs_image_url = GuestbookServer.absoluteUrlJazzGuests();
-    // var image_url = g_guestbook_data.getFileName();
-
-    var image_displayed = g_guestbook_data.getImageFile();
-
-    var image_container_id = "id_div_jazzuploadimage_image_container";
-
-    var image_container_el = document.getElementById(image_container_id);
-
-    UtilImage.replaceImageInDivContainer(image_displayed, image_container_el);
-
-    g_one_image_is_uploaded = true;
+    g_upload_image_object.changeDefaultImageFile(reg_image_url);
 
     displayElementDivUploadContainerTwo();
 
-    debugGuestbookUpload('onClickEditLastUploadedRecord User clicked edit the last uploaded record');
+    
 
-} // onClickEditLastUploadedRecord
+} // setControlsEditLastUploadedRecord
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Process Event Functions /////////////////////////////////////
@@ -871,7 +879,7 @@ class AppendBothXml
     
     } // appendXmlUserInputData
 
-    // Make a backup of JazzGuests.xml and call 
+    // Make a backup of JazzGuests.xml and call AppendBothXml.constructImageFileNameAndCopy
     static backupJazzGuests()
     {
         UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
@@ -920,7 +928,7 @@ class AppendBothXml
     
         debugGuestbookUpload('AppendBothXml.constructImageFileNameAndCopy Image relative name = ' + rel_output_file_name);
     
-        g_guestbook_data.setXmlNewRegisterImageFileName(rel_output_file_name);
+        g_guestbook_data.setXmlNewRegisterImageFileName(output_image_file_name);
 
         UtilServer.copyFileCallback(input_image_file_name, output_image_file_name, AppendBothXml.appendXmlUploadedData);
 
@@ -1000,7 +1008,7 @@ class AppendBothXml
     } // appendXmlUploadedData
 
     // Unlock the files JazzGuests.xml and JazzGuestsUploaded.xml
-    // (Actually making it possible for other users and Guestbook functions to add, delete and
+    // (making it possible for other users and Guestbook functions to add, delete and
     //  change Guestbook data on the server)
     static unlockFiles()
     {
@@ -1063,6 +1071,79 @@ class AppendBothXml
     } // setGuestbookDataFileNameRegNumber
 
 } // AppendBothXml
+
+// Callback function after adding new record with class AppendBothXml functions
+function callbackSaveEditedRecord()
+{
+    location.reload();
+
+} // callbackSaveEditedRecord
+
+class saveEditedRecord
+{
+    // Start 
+    // 1. Lock the XML file. Set callback to function 
+    //    Call of UtilLock functionns setUserEmail, setLockedCallbackFunctionName and lock
+    static start()
+    {
+        var user_email = g_guestbook_data.getImageEmail();
+
+        g_util_lock_object.setUserEmail(user_email);
+
+        g_util_lock_object.setLockedCallbackFunctionName(saveEditedRecord.reloadJazzGuestsObject);
+
+        g_util_lock_object.lock();
+
+    } // start
+
+    // Reloads the JazzGuests.xml object and calls saveEditedRecord.backupJazzGuests
+    static reloadJazzGuestsObject()
+    {
+        reloadJazzGuestXmlObject(saveEditedRecord.backupJazzGuests);
+
+    } // reloadJazzGuestsObject
+
+    // Make a backup of JazzGuests.xml and call saveEditedRecord.changeJazzGuestsObject
+    static backupJazzGuests()
+    {
+        UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
+                                    GuestbookServer.absoluteUrlJazzGuestsBackup(), 
+                                    saveEditedRecord.changeXmlRecordAndSaveFile);
+    } // backupJazzGuests
+
+    // Changes the record in the JazzGuests XML objekt, saves JazzGuests.xml and 
+    // calls  
+    static changeXmlRecordAndSaveFile()
+    {
+        UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
+        GuestbookServer.getPrettyPrintContent(g_guests_xml), 
+        saveEditedRecord.unlockFiles);
+
+    } // changeXmlRecordAndSaveFile
+
+    // Unlock the files JazzGuests.xml and JazzGuestsUploaded.xml
+    // (making it possible for other users and Guestbook functions to add, delete and
+    //  change Guestbook data on the server)
+    static unlockFiles()
+    {
+        g_util_lock_object.setUnlockedCallbackFunctionName(saveEditedRecord.sendNotificationEmail);
+
+        g_util_lock_object.unlock();
+
+    } // unlockFiles
+
+    static sendNotificationEmail()
+    {
+
+    } // sendNotificationEmail
+
+    finish()
+    {
+
+    } // finish
+
+
+} // saveEditedRecord
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

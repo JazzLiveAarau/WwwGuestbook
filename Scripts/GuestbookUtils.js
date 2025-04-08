@@ -1,5 +1,5 @@
 // File: GuestbookUtils.js
-// Date: 2025-04-04
+// Date: 2025-04-08
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -265,6 +265,13 @@ class GuestbookData
         
     } // getFileName
 
+    // Returns the registered absolute file name (URL)
+    getFileNameAbsolute()
+    {
+        return GuestbookServer.getHomepageUrl() + this.getFileName();
+
+    } // getFileNameAbsolute
+
     // Sets the registration number
     setRegNumber(i_file_name)
     {
@@ -363,7 +370,7 @@ class GuestbookData
 
     } // setUserOpenedRecordForEditToTrue
 
-     // Returns the flag telling if record was opened for edit
+     // Returns true if the user opened the record for edit
      getUserOpenedRecordForEdit()
      {
          return this.m_user_opened_record_for_edit;
@@ -596,6 +603,17 @@ class GuestbookServer
 
     } // absoluteUrlJazzGuestsBackup
 
+    // Returns the input file name with path to directory Backups and with a time stamp
+    static absoluteBackupTimeStamp(i_file_name)
+    {
+        var file_name = UtilServer.getFileName(i_file_name);
+
+        var file_backup_url = GuestbookServer.getBackupDirUrl() + file_name + '_' + UtilDate.getTimeStamp();
+
+        return file_backup_url;
+
+    } // absoluteBackupTimeStamp
+
     static getPrettyPrintContent(i_xml_object)
     {
         var pretty_print = new PrettyPrintXml(i_xml_object.getXmlObject());
@@ -666,9 +684,9 @@ class GuestStorage
 
     } // getGuestbookData
 
-    // Add local storage data to an instance of GuestbookData
+    // Add local storage data to an instance of GuestbookData for edit 
     // Flag is also set that the data is from the local storage 
-    static addGuestbookData(i_guestbook_data)
+    static addGuestbookDataForEdit(i_guestbook_data)
     {
         if (!GuestStorage.allDataIsSet())
         {
@@ -707,7 +725,7 @@ class GuestStorage
 
         return guestbook_data;
 
-    } // addGuestbookData
+    } // addGuestbookDataForEdit
 
     // Set local storage data with the input instance of GuestbookData
     static setGuestbookData(i_guestbook_data)

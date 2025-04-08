@@ -614,31 +614,40 @@ class ChangeLastUploadedRecord
 
         UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
                                     GuestbookServer.absoluteUrlJazzGuestsBackup(), 
-                                    ChangeLastUploadedRecord.setGuestbookData);
+                                    ChangeLastUploadedRecord.setGuestbookDataForEdit);
 
     } // backupJazzGuestsXml
 
     // Sets the GuestbookData object g_guestbook_data
     // 1. Add data to GuestbookData object g_guestbook_data 
-    //    Call of GuestStorage.addGuestbookData.
+    //    Call of GuestStorage.addGuestbookDataForEdit.
     //    Flag is also set that data is from GuestStorage
     // 3. Open page two of the Guestbook Upload app
     //    Call of ChangeLastUploadedRecord.finish
-    static setGuestbookData()
+    static setGuestbookDataForEdit()
     {
-        g_guestbook_data = GuestStorage.addGuestbookData(g_guestbook_data);
+        g_guestbook_data = GuestStorage.addGuestbookDataForEdit(g_guestbook_data);
 
-        ChangeLastUploadedRecord.finish();
+        ChangeLastUploadedRecord.backupRegImage();
 
-    } // setGuestbookData
+    } // setGuestbookDataForEdit
 
+    // Make a backup of the registered image and call saveEditedRecord.changeJazzGuestsObject
+    static backupRegImage()
+    {
+        var reg_image_url = g_guestbook_data.getFileNameAbsolute();
+        
+        UtilServer.copyFileCallback(reg_image_url, 
+                                    GuestbookServer.absoluteBackupTimeStamp(reg_image_url), 
+                                    ChangeLastUploadedRecord.finish);
+    } // backupJazzGuests
 
     // Open page two of the Guestbook Upload app
     // 1. Open 'page' upload of image.
-    //    Call of onClickEditLastUploadedRecord
+    //    Call of setControlsEditLastUploadedRecord
     static finish()
     {
-        onClickEditLastUploadedRecord();
+        setControlsEditLastUploadedRecord();
 
     } // finish
 
