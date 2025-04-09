@@ -623,16 +623,16 @@ function onClickForwardOneButton()
 
         displayElementDivUploadContainerTwo();
 
-        if (!g_one_image_is_uploaded)
+        if (getEditRecorMode())
+        {
+            displayElementDivUploadButtonForwardTwo();
+        }
+        else if (!g_one_image_is_uploaded)
         {
             hideElementDivUploadButtonForwardTwo();
 
             g_one_image_is_uploaded = true;
         }
-        
-        // var default_img_file_name = 'Icons/default_upload_image.png';
-
-        // Moved to init g_upload_image_object = new JazzUploadImage('guest_upload',  getIdDivUploadFileImage(), default_img_file_name);
     }
     else
     {
@@ -674,6 +674,11 @@ function onClickForwardTwoButton()
     displayElementDivUploadTexts();
 
     setImageTextContainer();
+
+    if (getEditRecorMode())
+    {
+        displayElementDivUploadButtonForwardThree();
+    }
 
     g_upload_window.forward();
 
