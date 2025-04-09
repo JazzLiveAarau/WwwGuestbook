@@ -744,10 +744,12 @@ function onClickForwardThreeButton()
 //    Call of  UploadImageData.getImageTitle and JazzTextBox.setValue
 // 8. Set the image text page 3
 //    Call of  UploadImageData.getImageText and JazzTextBox.setValue
-// 9. Display the page for uploading the picture 
-//    This will be the starting page for editing the record. The user can
-//    can go back to the first page and change the names (but not the email).
-//    Call of displayElementDivUploadContainerTwo
+// 9. Set the concert dropdown if possible
+//    Call of setControlEditConcertDropdown
+// 10. Display the page for uploading the picture 
+//     This will be the starting page for editing the record. The user can
+//     can go back to the first page and change the names (but not the email).
+//     Call of displayElementDivUploadContainerTwo
 function setControlsEditLastUploadedRecord()
 {
     debugGuestbookUpload('setControlsEditLastUploadedRecord Set controls for edit of record');
@@ -772,9 +774,70 @@ function setControlsEditLastUploadedRecord()
 
     g_text_textarea.setValue(text_area);
 
+    setControlEditConcertDropdown();
+
     displayElementDivUploadContainerTwo();
 
 } // setControlsEditLastUploadedRecord
+
+// Sets the concert dopd
+function setControlEditConcertDropdown()
+{
+    if (null == g_upload_concert_drop_down)
+    {
+        alert("setControlEditConcertDropdown g_upload_concert_drop_down is null");
+
+        return;
+    }
+
+    if (null == g_upload_concert_drop_down.m_drop_down_name_array)
+    {
+        alert("Warnung setControlEditConcertDropdown m_drop_down_name_array is null");
+
+        return;    
+    }
+
+    var n_names = g_upload_concert_drop_down.m_drop_down_name_array.length;
+
+    if (n_names == 0)
+    {
+        return;
+    }
+
+    var band_name = g_guestbook_data.getBand();
+
+    var index_found = -1;
+
+    for (var index_name = 0; index_name < n_names; index_name++)
+    {
+        var current_name = g_upload_concert_drop_down.m_drop_down_name_array[index_name];
+
+        if (current_name == band_name)
+        {
+            index_found = index_name;
+
+            break;
+        }
+
+    }
+
+    if (index_found < 0)
+    {
+        return;
+    }
+
+    var n_option_numbers = g_upload_concert_drop_down.m_drop_down_number_array.length;
+
+    if (index_found >=  n_option_numbers)
+    {
+        return;
+    }
+
+    var select_option_number = g_upload_concert_drop_down.m_drop_down_number_array[index_found];
+
+    g_upload_concert_drop_down.setSelectOptionNumber(select_option_number);
+
+} // setControlEditConcertDropdown
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
