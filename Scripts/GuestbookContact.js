@@ -1,5 +1,5 @@
 // File: GuestbookContact.js
-// Date: 2025-04-05
+// Date: 2025-04-09
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -621,12 +621,15 @@ class ChangeLastUploadedRecord
     // Sets the GuestbookData object g_guestbook_data
     // 1. Add data to GuestbookData object g_guestbook_data 
     //    Call of GuestStorage.addGuestbookDataForEdit.
-    //    Flag is also set that data is from GuestStorage
+    // 2. Set edit of record mode to true
+    //    Call  setEditRecordModeToTrue
     // 3. Open page two of the Guestbook Upload app
     //    Call of ChangeLastUploadedRecord.finish
     static setGuestbookDataForEdit()
     {
         g_guestbook_data = GuestStorage.addGuestbookDataForEdit(g_guestbook_data);
+
+        setEditRecordModeToTrue();
 
         ChangeLastUploadedRecord.backupRegImage();
 
@@ -635,7 +638,7 @@ class ChangeLastUploadedRecord
     // Make a backup of the registered image and call saveEditedRecord.changeJazzGuestsObject
     static backupRegImage()
     {
-        var reg_image_url = g_guestbook_data.getFileNameAbsolute();
+        var reg_image_url = g_guestbook_data.getFileName();
         
         UtilServer.copyFileCallback(reg_image_url, 
                                     GuestbookServer.absoluteBackupTimeStamp(reg_image_url), 

@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2025-04-07
+// Date: 2025-04-09
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -32,6 +32,18 @@ var g_upload_window = null;
 // Flag telling if one image has been uploaded
 var g_one_image_is_uploaded = false;
 
+// Flag telling if the user or administrator edits record
+var g_edit_record_mode = false;
+
+// Set flag telling if the user or administrator edits record to true
+function setEditRecordModeToTrue(){ g_edit_record_mode = true; }
+
+// Set flag telling if the user or administrator edits record to false
+function setEditRecordModeToFalse(){ g_edit_record_mode = false; }
+
+// Returns true if the mode is 'Edit of a record'
+function getEditRecorMode(){ return g_edit_record_mode; }
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +59,8 @@ var g_one_image_is_uploaded = false;
 //    Call of GuestStorage.getGuestbookData
 // 3. Create the UtilLock object. The functions of this call is used to lock and unlock
 //    the files JazzGuests.xml and JazzGuestsUploaded.xml.
+// 4. Set the edit recor mode to false
+//    Call of setEditRecordModeToFalse
 function initGuestbookUpload()
 {
     g_load_for_guestbook_admin = false;
@@ -56,6 +70,8 @@ function initGuestbookUpload()
     g_guestbook_data_last_record = GuestStorage.getGuestbookData();
 
     initJazzGuestsLockUnlock();
+
+    setEditRecordModeToFalse();
 
     if (UtilQuery.isParamCurrentUrl('TestVersion') && UtilQuery.isParamCurrentUrl('MobileTelephone'))
     {
@@ -693,9 +709,11 @@ function onClickForwardThreeButton()
 
     debugGuestbookUpload('onClickForwardThreeButton User clicked save record');
 
-    var b_user_edited_record = g_guestbook_data.getUserOpenedRecordForEdit();
+    //QQQQQ var b_user_edited_record = g_guestbook_data.getUserOpenedRecordForEdit();
 
-    if (b_user_edited_record)
+    var b_edited_record_mode = getEditRecorMode();
+
+    if (b_edited_record_mode)
     {
         alert("TODO Call SaveEditedRecord.start");
         
@@ -719,10 +737,19 @@ function onClickForwardThreeButton()
 //    Please note that the registered image will be displayed here
 //    (and not the uploaded image as when the user adds a record)
 //    Call of GuestbookData.getFileName and  GuestbookServer.getHomepageUrl
-// 5. Display the image
+// 5. Display the image on page 2
 //    Call of JazzUploadImage.changeDefaultImageFile
-//    TODO Set page 3 controls
-// 7. Display the page for uploading the picture 
+// 6. Set guest names on page 1.
+//    The user is allowed to input any for edit of a record. Only
+//    email, texte, etc. must be identical to data in GuestStorage
+//    For the editing the names shall be equal to the original
+//    Please note that the user is allowed to change them by editing
+//    Call of UploadImageData.getNames and JazzTextBox.setValue
+// 7. Set the image header (title) text page 3
+//    Call of  UploadImageData.getImageTitle and JazzTextBox.setValue
+// 8. Set the image text page 3
+//    Call of  UploadImageData.getImageText and JazzTextBox.setValue
+// 9. Display the page for uploading the picture 
 //    This will be the starting page for editing the record. The user can
 //    can go back to the first page and change the names (but not the email).
 //    Call of displayElementDivUploadContainerTwo
@@ -734,13 +761,23 @@ function setControlsEditLastUploadedRecord()
 
     g_upload_window.toUploadImage();
     
-    var reg_image_url = g_guestbook_data.getFileNameAbsolute();
+    var reg_image_url = g_guestbook_data.getFileName();
 
     g_upload_image_object.changeDefaultImageFile(reg_image_url);
 
-    displayElementDivUploadContainerTwo();
+    var guest_names = g_guestbook_data.getImageNames();
 
-    
+    g_upload_names_text_box.setValue(guest_names);
+
+    var header_txt = g_guestbook_data.getImageTitle();
+
+    g_upload_title_text_box.setValue(header_txt);
+
+    var text_area = g_guestbook_data.getImageText();
+
+    g_text_textarea.setValue(text_area);
+
+    displayElementDivUploadContainerTwo();
 
 } // setControlsEditLastUploadedRecord
 
@@ -1168,7 +1205,12 @@ function getGuestbookNames()
 
     g_guestbook_data.m_names = guestbook_names;
 
-    GuestStorage.setNames(guestbook_names);
+    var b_edit_record_mode = getEditRecorMode();
+
+    if (!b_edit_record_mode)
+    {
+        GuestStorage.setNames(guestbook_names);
+    }
 
     return true;
 
@@ -1188,7 +1230,12 @@ function getGuestbookEmail()
 
     g_guestbook_data.m_email = guestbook_email;
 
-    GuestStorage.setEmail(guestbook_email);
+    var b_edit_record_mode = getEditRecorMode();
+
+    if (!b_edit_record_mode)
+    {
+        GuestStorage.setEmail(guestbook_email);
+    }
 
     return true;
 

@@ -1,5 +1,5 @@
 // File: GuestbookUtils.js
-// Date: 2025-04-08
+// Date: 2025-04-09
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -42,8 +42,10 @@ class GuestbookData
 
         this.m_day = "";
 
+        // Uploaded image relative name (URL)
         this.m_image_file = '';
 
+        // The registered absolute file name (URL)
         this.m_file_name = '';
 
         this.m_reg_number = '';
@@ -78,7 +80,7 @@ class GuestbookData
 
         // Flag telling if the user opened the record for editing
         // For this case data is retrieved from GuestStorage
-        this.m_user_opened_record_for_edit = false;
+        //QQQQQ this.m_user_opened_record_for_edit = false;
 
         this.init();
 
@@ -251,26 +253,19 @@ class GuestbookData
         
     } // getImageFile
 
-    // Sets the registered file name (URL)
+    // Sets the registered absolute file name (URL)
     setFileName(i_file_name)
     {
         this.m_file_name = i_file_name;
 
     } // setFileName
 
-    // Returns the registered file name (URL)
+    // Returns the registered absolute file name (URL)
     getFileName()
     {
         return this.m_file_name;
         
     } // getFileName
-
-    // Returns the registered absolute file name (URL)
-    getFileNameAbsolute()
-    {
-        return GuestbookServer.getHomepageUrl() + this.getFileName();
-
-    } // getFileNameAbsolute
 
     // Sets the registration number
     setRegNumber(i_file_name)
@@ -356,6 +351,7 @@ class GuestbookData
 
     } // getImageRemark
 
+    /*QQQQQQQ
     // Sets the flag telling if record was openedfor edit to false
     setUserOpenedRecordForEditToFalse()
     {
@@ -375,7 +371,9 @@ class GuestbookData
      {
          return this.m_user_opened_record_for_edit;
  
-     } // setUserOpenedRecordForEditToTrue   
+     } // getUserOpenedRecordForEdit   
+
+     QQQ*/
 
     // Generate random code
     setRandomCode()
@@ -721,7 +719,7 @@ class GuestStorage
 
         guestbook_data.m_reg_number = GuestStorage.getRegNumber();
 
-        guestbook_data.setUserOpenedRecordForEditToTrue();
+        //QQQQ guestbook_data.setUserOpenedRecordForEditToTrue();
 
         return guestbook_data;
 
