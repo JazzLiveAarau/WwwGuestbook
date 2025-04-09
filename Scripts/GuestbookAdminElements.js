@@ -41,19 +41,3 @@ function getIdDivImageContainer()
     return 'id_div_admin_image_container';
 
 } // getIdDivImageContainer
-
-/*QQQQ
-// Returns the element input type file
-function getElementInputFile()
-{
-    return document.getElementById(getIdInputFile());
-
-} // getElementInputFile
-
-// Returns the identity of the element input type file
-function getIdInputFile()
-{
-    return 'id_fileupload';
-
-} // getIdInputFile
-QQQ*/

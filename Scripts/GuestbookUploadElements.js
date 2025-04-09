@@ -315,22 +315,6 @@ function getIdDivUploadButtonBackTwo()
 
 } // getIdDivUploadButtonBackTwo
 
-/* QQQQ 20250329 Replaced by eventDefaultImageIsUploaded
-// Display or hide the container element div for the button forward container part two
-function displayOrHideElementDivUploadButtonForwardTwo(i_b_hide)
-{
-    if (i_b_hide)
-    {
-        hideElementDivUploadButtonForwardTwo();
-    }
-    else
-    {
-        displayElementDivUploadButtonForwardTwo();
-    }
-    
-} // displayOrHideElementDivUploadButtonForwardTwo
-  20250329 Replaced by eventDefaultImageIsUploaded QQQQ  */
-
 // Hides the container element div for the button forward container part two
 function hideElementDivUploadButtonForwardTwo()
 {

@@ -77,7 +77,6 @@ function initGuestbookUpload()
     {
         g_upload_test_version_mobile_telephone = true;
 
-        //QQ alert("initGuestbookUpload Test version for mobile telephone");
     }
 
 } // initGuestbookUpload
@@ -86,8 +85,6 @@ function initGuestbookUpload()
 function callbackAllXmlObjectsCreatedForUpload()
 {
     g_guestbook_data = new GuestbookData();
-
-    //QQ Replaced by title for each window setUploadGuestbookTitle();
 
     createUpdateControls();
 
@@ -708,8 +705,6 @@ function onClickForwardThreeButton()
     hideElementDivUploadButtonForwardThree();
 
     debugGuestbookUpload('onClickForwardThreeButton User clicked save record');
-
-    //QQQQQ var b_user_edited_record = g_guestbook_data.getUserOpenedRecordForEdit();
 
     var b_edited_record_mode = getEditRecorMode();
 
@@ -1353,17 +1348,6 @@ function setImageTextContainer()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// Start Set Functions /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-/* QQQQ Replaced by title for each window
-// Sets the title for the upload guest application
-function setUploadGuestbookTitle()
-{
-    var el_div_application_title = getElementDivUploadGuestbookTitle();
-
-    el_div_application_title.innerHTML = GuestStr.titleGuestbookApplication();
-
-} // setUploadGuestbookTitle
-  Replaced by title for each window QQQQ */
 
 // Sets the title for the upload guest application
 function setUploadTestInstructions()

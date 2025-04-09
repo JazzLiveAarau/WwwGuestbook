@@ -78,10 +78,6 @@ class GuestbookData
         // The name of the JazzGuests.xml new image file
         this.m_xml_new_register_image_file_name = '';
 
-        // Flag telling if the user opened the record for editing
-        // For this case data is retrieved from GuestStorage
-        //QQQQQ this.m_user_opened_record_for_edit = false;
-
         this.init();
 
     } // constructor
@@ -246,9 +242,6 @@ class GuestbookData
     // Returns the image file name (URL)
     getImageFile()
     {
-        // TODO 
-        //QQQQ ?????? var ret_file_name = this.m_image_file.substring(6);
-        
         return this.m_image_file;
         
     } // getImageFile
@@ -350,30 +343,6 @@ class GuestbookData
         return this.m_remark;
 
     } // getImageRemark
-
-    /*QQQQQQQ
-    // Sets the flag telling if record was openedfor edit to false
-    setUserOpenedRecordForEditToFalse()
-    {
-        this.m_user_opened_record_for_edit = false;
-
-    } // setUserOpenedRecordForEditToFalse
-
-    // Sets the flag telling if record was opened for edit to true
-    setUserOpenedRecordForEditToTrue()
-    {
-        this.m_user_opened_record_for_edit = true;
-
-    } // setUserOpenedRecordForEditToTrue
-
-     // Returns true if the user opened the record for edit
-     getUserOpenedRecordForEdit()
-     {
-         return this.m_user_opened_record_for_edit;
- 
-     } // getUserOpenedRecordForEdit   
-
-     QQQ*/
 
     // Generate random code
     setRandomCode()
@@ -718,8 +687,6 @@ class GuestStorage
         guestbook_data.m_file_name = GuestStorage.getFileName();
 
         guestbook_data.m_reg_number = GuestStorage.getRegNumber();
-
-        //QQQQ guestbook_data.setUserOpenedRecordForEditToTrue();
 
         return guestbook_data;
 
