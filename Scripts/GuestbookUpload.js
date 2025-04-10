@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2025-04-09
+// Date: 2025-04-10
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -42,7 +42,7 @@ function setEditRecordModeToTrue(){ g_edit_record_mode = true; }
 function setEditRecordModeToFalse(){ g_edit_record_mode = false; }
 
 // Returns true if the mode is 'Edit of a record'
-function getEditRecorMode(){ return g_edit_record_mode; }
+function getEditRecordMode(){ return g_edit_record_mode; }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
@@ -131,7 +131,7 @@ function callbackAllXmlObjectsCreatedForUpload()
     var caption_select_img = 'Bild wählen';
 
     var input_data = new JazzUploadImageInput(upload_file_name, upload_file_extension, upload_path, 
-            image_max_size_mb, default_img, caption_select_img, eventDefaultImageIsUploaded);
+            image_max_size_mb, default_img, caption_select_img, eventImageIsUploaded);
 
     g_upload_image_object = new JazzUploadImage(getIdDivUploadFileImage(), input_data);
 
@@ -158,7 +158,7 @@ function callbackAllXmlObjectsCreatedForUpload()
 // forward an back buttons. Both should be hidden when an image is being loaded
 // otherwise the app may fail. Parameter g_one_image_is_uploaded should also be
 // deleted
-function eventDefaultImageIsUploaded(i_b_hide)
+function eventImageIsUploaded(i_b_hide)
 {
     if (i_b_hide)
     {
@@ -623,7 +623,7 @@ function onClickForwardOneButton()
 
         displayElementDivUploadContainerTwo();
 
-        if (getEditRecorMode())
+        if (getEditRecordMode())
         {
             displayElementDivUploadButtonForwardTwo();
         }
@@ -667,7 +667,18 @@ function onClickForwardTwoButton()
         return;
     }
 
-    g_guestbook_data.setImageFile(image_file_url);
+    var b_edit_mode = getEditRecordMode();
+
+    if (!b_edit_mode)
+    {
+        g_guestbook_data.setImageFile(image_file_url);
+    }
+    else if ( userUploadedAnImageInEditMode())
+    {
+        // Change name only if in edit mode and when the user has uploaded a new image
+
+        g_guestbook_data.setImageFile(image_file_url);
+    }
 
     hideElementDivUploadContainerTwo();
 
@@ -675,7 +686,7 @@ function onClickForwardTwoButton()
 
     setImageTextContainer();
 
-    if (getEditRecorMode())
+    if (getEditRecordMode())
     {
         displayElementDivUploadButtonForwardThree();
     }
@@ -683,6 +694,34 @@ function onClickForwardTwoButton()
     g_upload_window.forward();
 
 } // onClickReqireCodeButton
+
+// Returns true if the user uploaded one or more images in edit mode
+// TODO Bad solution. Implement something else in JazzUploadImage!
+// For every new image there will be two (2) calls. Why?
+// In edit mode is the default image replaced ==> n_loaded_images = 2
+// (The user never klicked on the upload button for replace ...)
+// Upload of a new image  ==> n_loaded_images = 4
+function userUploadedAnImageInEditMode()
+{
+    var ret_uploaded = false;
+
+    var b_edit_mode = getEditRecordMode();
+
+    if (!b_edit_mode)
+    {
+        return ret_uploaded;
+    }
+
+    var n_loaded_images = g_upload_image_object.getNumberOfUploadedImages();
+
+    if (n_loaded_images >= 4)
+    {
+        ret_uploaded = true;
+    }
+
+    return ret_uploaded;
+
+} // userUploadedAnImageInEditMode
 
 // User clicked the back part three (texts input) button
 function onClickBackThreeButton()
@@ -711,13 +750,11 @@ function onClickForwardThreeButton()
 
     debugGuestbookUpload('onClickForwardThreeButton User clicked save record');
 
-    var b_edited_record_mode = getEditRecorMode();
+    var b_edited_record_mode = getEditRecordMode();
 
     if (b_edited_record_mode)
-    {
-        alert("TODO Call SaveEditedRecord.start");
-        
-        // SaveEditedRecord.start();
+    {  
+        SaveEditedRecord.start();
     }
     else
     {
@@ -1172,76 +1209,20 @@ class AppendBothXml
 
 } // AppendBothXml
 
-// Callback function after adding new record with class AppendBothXml functions
-function callbackSaveEditedRecord()
+class SaveEditedRecord
 {
-    location.reload();
-
-} // callbackSaveEditedRecord
-
-class saveEditedRecord
-{
-    // Start 
-    // 1. Lock the XML file. Set callback to function 
-    //    Call of UtilLock functionns setUserEmail, setLockedCallbackFunctionName and lock
     static start()
     {
-        var user_email = g_guestbook_data.getImageEmail();
+        var image_file = g_guestbook_data.getImageFile();
 
-        g_util_lock_object.setUserEmail(user_email);
+        var reg_file = g_guestbook_data.getFileName();
 
-        g_util_lock_object.setLockedCallbackFunctionName(saveEditedRecord.reloadJazzGuestsObject);
+        var reg_number = g_guestbook_data.getRegNumber();
 
-        g_util_lock_object.lock();
-
-    } // start
-
-    // Reloads the JazzGuests.xml object and calls saveEditedRecord.backupJazzGuests
-    static reloadJazzGuestsObject()
-    {
-        reloadJazzGuestXmlObject(saveEditedRecord.backupJazzGuests);
-
-    } // reloadJazzGuestsObject
-
-    // Make a backup of JazzGuests.xml and call saveEditedRecord.changeJazzGuestsObject
-    static backupJazzGuests()
-    {
-        UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
-                                    GuestbookServer.absoluteUrlJazzGuestsBackup(), 
-                                    saveEditedRecord.changeXmlRecordAndSaveFile);
-    } // backupJazzGuests
-
-    // Changes the record in the JazzGuests XML objekt, saves JazzGuests.xml and 
-    // calls  
-    static changeXmlRecordAndSaveFile()
-    {
-        UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
-        GuestbookServer.getPrettyPrintContent(g_guests_xml), 
-        saveEditedRecord.unlockFiles);
-
-    } // changeXmlRecordAndSaveFile
-
-    // Unlock the files JazzGuests.xml and JazzGuestsUploaded.xml
-    // (making it possible for other users and Guestbook functions to add, delete and
-    //  change Guestbook data on the server)
-    static unlockFiles()
-    {
-        g_util_lock_object.setUnlockedCallbackFunctionName(saveEditedRecord.sendNotificationEmail);
-
-        g_util_lock_object.unlock();
-
-    } // unlockFiles
-
-    static sendNotificationEmail()
-    {
-
-    } // sendNotificationEmail
-
-    finish()
-    {
-
-    } // finish
-
+        debugGuestbookUpload('SaveEditedRecord.start image_file= ' + image_file);
+        debugGuestbookUpload('SaveEditedRecord.start image_file= ' + reg_file);
+        debugGuestbookUpload('SaveEditedRecord.start reg_number= ' + reg_number.toString());        
+    }
 
 } // saveEditedRecord
 
@@ -1268,7 +1249,7 @@ function getGuestbookNames()
 
     g_guestbook_data.m_names = guestbook_names;
 
-    var b_edit_record_mode = getEditRecorMode();
+    var b_edit_record_mode = getEditRecordMode();
 
     if (!b_edit_record_mode)
     {
@@ -1293,7 +1274,7 @@ function getGuestbookEmail()
 
     g_guestbook_data.m_email = guestbook_email;
 
-    var b_edit_record_mode = getEditRecorMode();
+    var b_edit_record_mode = getEditRecordMode();
 
     if (!b_edit_record_mode)
     {

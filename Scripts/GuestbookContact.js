@@ -635,7 +635,7 @@ class ChangeLastUploadedRecord
 
     } // setGuestbookDataForEdit
 
-    // Make a backup of the registered image and call saveEditedRecord.changeJazzGuestsObject
+    // Make a backup of the registered image and call LastUploadedRecord.finish
     static backupRegImage()
     {
         var reg_image_url = g_guestbook_data.getFileName();
