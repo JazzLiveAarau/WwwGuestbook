@@ -1341,12 +1341,13 @@ class SaveEditedRecord
 
     } // unlockFiles
 
-    // Sen a notificatin email to the administrator
+    // Send a notificatin email to the administrator
+    // Call of sendNoticationEmailToAdministrator. Callback function SaveEditedRecord.finish
     static sendNotificationEmail()
     {
-        debugGuestbookUpload('SaveEditedRecord.sendNotificationEmail TODO Send email to the administrator');
+        var email_case = 'last_edited';
 
-        SaveEditedRecord.finish();
+        sendNoticationEmailToAdministrator(email_case, g_guestbook_data, SaveEditedRecord.finish);
 
     } // sendNotificationEmail
 
@@ -1359,9 +1360,7 @@ class SaveEditedRecord
     {
         GuestStorage.setGuestbookData(g_guestbook_data);
 
-        alert("TODO Message for the user: Changed record has been saved");
-
-        // alert(GuestStr.emailWasSentToTheAdministrator(""));
+        alert(GuestStr.guestbookEditedRecordIsSaved(g_guestbook_data.getImageNames()));
 
         location.reload();
 

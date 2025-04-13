@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2025-04-04
+// Date: 2025-04-13
 // Author: Gunnar Liden
 
 // File content
@@ -462,11 +462,24 @@ class GuestStr
 
         ret_str = ret_str + 'Bild und Text sind zum Server hochgeladen.' + '\n';
 
-        ret_str = ret_str + 'Wenn etwas mit dem Beitrag nicht gut wurde, kann man diesen letzten Beitrag selbst löschen und noch einmal hochladen.' + '\n';
+        ret_str = ret_str + 'Wenn etwas mit dem Beitrag nicht gut wurde, kann man diesen letzten Beitrag selbst ändern.' + '\n';
 
         return  ret_str;
 
     } // guestbookRecordIsUploaded
+
+    // Thanks to user for uploading an image
+    static guestbookEditedRecordIsSaved(i_names)
+    {
+        var ret_str = '';
+
+        ret_str = ret_str + 'Vielen Dank ' + i_names + '!' + '\n';
+
+        ret_str = ret_str + 'Geänderten Beitrag ist gespeichert' + '\n';
+
+        return  ret_str;
+
+    } // guestbookEditedRecordIsSaved
 
 
     // User upload of an image failed
@@ -572,6 +585,13 @@ class GuestStr
         return 'Beitrag wurde gelöscht von ';
 
     } // emailGuestbookRecordDeletedSubject
+
+    // Subject for the guestbook email record deleted by user
+    static emailGuestbookRecordEditedSubject()
+    {
+        return 'Beitrag wurde geändert von ';
+
+    } // emailGuestbookRecordEditedSubject
 
     // Email subject: Request for a record change
     static emailSubjectRequestRecordChange()

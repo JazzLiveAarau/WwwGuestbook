@@ -1,5 +1,5 @@
 // File: GuestbookCommon..js
-// Date: 2024-10-30
+// Date: 2025-04-13
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -227,6 +227,87 @@ function callbackApplicationXml()
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Load XML ////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Notication Email //////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // Sends a notification email to the administrator
+    // Input data:
+    // i_case: last_deleted, last_edited or new_uploaded
+    // i_guestbook_data: Instance of the class GuestbookData
+    // i_callback_function: Callback function
+    //
+    // 1. Set title depending on the case
+    //    Call of GuestStr.emailGuestbookRecordDeletedSubject, 
+    //    emailGuestbookRecordEditedSubject or emailGuestbookSubject
+    // 2. Set emailsender and receiver
+    //    Call of GuestStr.emailCodeFrom and GuestStr.emailCodeFrom
+    // 3. Set the content
+    //    Get the data from the input GuestbookData object
+    // 2. Send the email. When finished call the input callback function
+    //    Call of UtilEmail.sendSecureCallback
+    function sendNoticationEmailToAdministrator(i_case, i_guestbook_data, i_callback_function)
+    {
+        var email_subject = '';
+
+        if (i_case == 'last_deleted')
+        {
+            email_subject = GuestStr.emailGuestbookRecordDeletedSubject() + i_guestbook_data.getImageNames();
+        }
+        else if (i_case == 'last_edited')
+        {
+            email_subject = GuestStr.emailGuestbookRecordEditedSubject() + i_guestbook_data.getImageNames();
+        }
+        else if (i_case == 'new_uploaded')
+        {
+            email_subject = GuestStr.emailGuestbookSubject() + i_guestbook_data.getImageNames();
+        }
+        else
+        {
+            alert("sendNoticationEmailToAdministrator Unknown case= " + i_case);
+
+            i_callback_function();
+        }
+
+
+        var email_from = GuestStr.emailCodeFrom();
+
+        var email_to = GuestStr.emailCodeFrom();
+    
+    
+        var email_bcc = '';
+    
+        var textarea_str = i_guestbook_data.getImageText();
+    
+        textarea_str = UtilString.stringWindowsToHtml(textarea_str);
+    
+        var email_message = '';
+    
+        var record_date = UtilDate.getIsoDateString(i_guestbook_data.getYear(), 
+                                                    i_guestbook_data.getMonth(), 
+                                                    i_guestbook_data.getDay());
+    
+        email_message = email_message + 'Datum:      ' + record_date                       + '<br>';
+        email_message = email_message + 'Email:      ' + i_guestbook_data.getImageEmail()  + '<br>';
+        email_message = email_message + 'Names:      ' + i_guestbook_data.getImageNames()  + '<br>';
+        email_message = email_message + 'Title:      ' + i_guestbook_data.getImageTitle()  + '<br>';
+        email_message = email_message + 'Band:       ' + i_guestbook_data.getBand()        + '<br>';
+        email_message = email_message + 'Musicians:  ' + i_guestbook_data.getMusicians()   + '<br>';
+        email_message = email_message + 'Remark:     ' + i_guestbook_data.getImageRemark() + '<br>';
+        email_message = email_message + 'Uploadfile: ' + i_guestbook_data.getImageFile()   + '<br>';
+        email_message = email_message + 'Regfile:    ' + i_guestbook_data.getFileName()    + '<br>';
+        email_message = email_message + 'Regnumber:  ' + i_guestbook_data.getRegNumber()   + '<br>';
+        email_message = email_message + 'Text: <br>'   + textarea_str + '<br>';
+    
+        UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, i_callback_function);
+
+    } // sendNoticationEmail
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Notication Email ////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
