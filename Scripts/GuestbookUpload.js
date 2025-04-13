@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2025-04-10
+// Date: 2025-04-13
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -1209,20 +1209,213 @@ class AppendBothXml
 
 } // AppendBothXml
 
+// Save after editing a record
 class SaveEditedRecord
 {
+    // Start function saving data after editing a record
+    // 1. Debug output defining input data and actions
+    //    Call of SaveEditedRecord.debugStart
+    // 2. Lock the XML file. Set callback to function reloadJazzGuestsObject
+    //    Call of UtilLock functionns setUserEmail, setLockedCallbackFunctionName and lock
     static start()
     {
+        SaveEditedRecord.debugStart();
+
+        var user_email = g_guestbook_data.getImageEmail();
+
+        g_util_lock_object.setUserEmail(user_email);
+
+        g_util_lock_object.setLockedCallbackFunctionName(SaveEditedRecord.copyNewImageFile);
+
+        g_util_lock_object.lock();
+
+    } // start
+
+    // Copy image file from directory JazzGuests/Uploaded to JazzGuests if user changed the image
+    // 1. Call SaveEditedRecord.reloadJazzGuestsObject if no new picture was selected
+    //    Call of userUploadedAnImageInEditMode
+    // 2. Get file names and copy (overwrite) registered image file.
+    //    Callback function SaveEditedRecord.reloadJazzGuestsObject. Call of GuestbookData.getImageFile, 
+    //    GuestbookData.getFileName and UtilServer.copyFileCallback
+    static copyNewImageFile()
+    {
+        var b_user_uploaded_new_image = userUploadedAnImageInEditMode();
+
+        if (!b_user_uploaded_new_image)
+        {
+            SaveEditedRecord.reloadJazzGuestsObject();
+        }
+
+        var new_image_file_name = g_guestbook_data.getImageFile();
+
+        var reg_image_file_name = g_guestbook_data.getFileName();
+
+        UtilServer.copyFileCallback(new_image_file_name, reg_image_file_name, SaveEditedRecord.reloadJazzGuestsObject);
+
+    } // copyNewImageFile
+
+    // Reloads the JazzGuests.xml object with callback function SaveEditedRecord.backupJazzGuests
+    // Call of reloadJazzGuestXmlObject
+    static reloadJazzGuestsObject()
+    {
+        reloadJazzGuestXmlObject(SaveEditedRecord.backupJazzGuests);
+
+    } // reloadJazzGuestsObject
+
+   // Make a backup of JazzGuests.xml with callback function SaveEditedRecord.changeXmlRecordAndSaveFile
+   // Call of UtilServer.copyFileCallback
+   static backupJazzGuests()
+   {
+       UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
+                                   GuestbookServer.absoluteUrlJazzGuestsBackup(), 
+                                   SaveEditedRecord.changeXmlRecordAndSaveFile);
+   } // backupJazzGuests
+
+    // Changes the record in the JazzGuests XML object and save JazzGuests.xml
+    // 1. Get the registratin number 
+    //    Call of GuestbookData.getRegNumber (object g_guestbook_data)
+    // 2. Get the record number for this registration number
+    //    Call of JazzGuestsXml.getRecordNumberForRegistrationNumber (object g_guests_xml)
+    // 3. Change the record with data from the GuestbookData object g_guestbook_data
+    //    Call of GuestbookData function: getYear, getMonth, getDay, getBand, getMusicians, 
+    //    getImageTitle, getImageText and getImageNames
+    //    Call of JazzGuestsXml functions: setGuestYear, setGuestMonth, setGuestDay,
+    //    setGuestBand, setGuestMusicians, setGuestHeader, setGuestText and setGuestNames 
+    // 4. Save the XML file with callback function SaveEditedRecord.unlockFiles
+    //    Call of UtilServer.saveFileCallback
+    static changeXmlRecordAndSaveFile()
+    {
+        var registration_number = g_guestbook_data.getRegNumber();
+
+        var record_number = g_guests_xml.getRecordNumberForRegistrationNumber(registration_number);
+
+        g_guests_xml.setGuestYear(record_number, g_guestbook_data.getYear());
+
+        g_guests_xml.setGuestMonth(record_number, g_guestbook_data.getMonth());
+
+        g_guests_xml.setGuestDay(record_number, g_guestbook_data.getDay());
+
+        g_guests_xml.setGuestBand(record_number, g_guestbook_data.getBand());
+
+        g_guests_xml.setGuestMusicians(record_number, g_guestbook_data.getMusicians());
+
+        g_guests_xml.setGuestHeader(record_number, g_guestbook_data.getImageTitle());
+
+        g_guests_xml.setGuestText(record_number, g_guestbook_data.getImageText());
+
+        g_guests_xml.setGuestNames(record_number, g_guestbook_data.getImageNames());
+
+        // Not set by edit g_guests_xml.setGuestRemark(record_number, g_guestbook_data.getImageRemark());
+
+        // Registered file name not changed g_guests_xml.setGuestFileName(record_number, g_guestbook_data.getFileName());
+
+        // Uploaded file name is in JazzGuestUploaded.xml. This name is only used for copying the image file if the
+        // user has uploaded a new image. Pleas note that the upload image name not is used for the editing or
+        // deleteion of the last uploaded record. The user may make multiple editio0ns
+
+        // g_guests_xml.setGuestFileType(record_number, Not used ...
+
+        // g_guests_xml.setGuestAvatar(record_number, Not yet used ...
+
+        // Not allowed to change g_guests_xml.setGuestEmail(record_number, g_guestbook_data.getImageEmail());
+
+        // g_guests_xml.setGuestTelephone(record_number, Not yet used ...
+
+
+        UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
+        GuestbookServer.getPrettyPrintContent(g_guests_xml), 
+        SaveEditedRecord.unlockFiles);
+
+    } // changeXmlRecordAndSaveFile
+
+   // Unlock the file JazzGuests.xml 
+    // (making it possible for other users and Guestbook functions to add, delete and
+    //  change Guestbook data on the server)
+    // 1. Set unlock callback function to SaveEditedRecord.sendNotificationEmail
+    // 2. Unlock. Call UtilLock.unlock
+    static unlockFiles()
+    {
+        g_util_lock_object.setUnlockedCallbackFunctionName(SaveEditedRecord.sendNotificationEmail);
+
+        g_util_lock_object.unlock();
+
+    } // unlockFiles
+
+    // Sen a notificatin email to the administrator
+    static sendNotificationEmail()
+    {
+        debugGuestbookUpload('SaveEditedRecord.sendNotificationEmail TODO Send email to the administrator');
+
+        SaveEditedRecord.finish();
+
+    } // sendNotificationEmail
+
+    // Finish funtion for the change of a record
+    // 1. Set the storage date for the (new) last uploaded record
+    //    Call of GuestStorage.setGuestbookData
+    // 3. Popup message to the used that the changed record has benn saved
+    //    Call of GuestStr.TODO and alert
+    static finish()
+    {
+        GuestStorage.setGuestbookData(g_guestbook_data);
+
+        alert("TODO Message for the user: Changed record has been saved");
+
+        // alert(GuestStr.emailWasSentToTheAdministrator(""));
+
+        location.reload();
+
+    } // finish
+
+
+    // Bebug output for the start situation
+    static debugStart()
+    {
+        debugGuestbookUpload('SaveEditedRecord.debugStart ***************** Start **********************************');
+
+        debugGuestbookUpload('User has edited a record and klicked save (on page 3)');
+
+        debugGuestbookUpload('A backup of the XML file and the registered image is already made with class ChangeLastUploadedRecord');
+
         var image_file = g_guestbook_data.getImageFile();
 
         var reg_file = g_guestbook_data.getFileName();
 
-        var reg_number = g_guestbook_data.getRegNumber();
+        var registration_number = g_guestbook_data.getRegNumber();
 
-        debugGuestbookUpload('SaveEditedRecord.start image_file= ' + image_file);
-        debugGuestbookUpload('SaveEditedRecord.start image_file= ' + reg_file);
-        debugGuestbookUpload('SaveEditedRecord.start reg_number= ' + reg_number.toString());        
-    }
+        var record_number = g_guests_xml.getRecordNumberForRegistrationNumber(registration_number);
+
+        var b_user_uploaded_new_image = userUploadedAnImageInEditMode();
+
+        debugGuestbookUpload('The record to be save has registration number ' + registration_number);  
+
+        debugGuestbookUpload('The record number is ' + record_number.toString());   
+
+        debugGuestbookUpload('The name of the registered image in the directory JazzGuests is ');
+        debugGuestbookUpload(reg_file);
+
+        debugGuestbookUpload('The name of the uploaded file in the directory JazzGuests/Uploaded is ');
+        debugGuestbookUpload(image_file);
+
+        if (!b_user_uploaded_new_image)
+        {
+            debugGuestbookUpload('The user did not upload a new image:');
+            debugGuestbookUpload('The upload image name will not be changed in the XML file');
+        }
+        else
+        {
+            debugGuestbookUpload('The user has uploaded a new image:');
+            debugGuestbookUpload('The upload image name will be changed in the XML file and');
+            debugGuestbookUpload('the uploaded file be copied to the JazzGuests directory.');
+        }
+
+        debugGuestbookUpload('Data that shall be written to the XML file is in the GuestbookData object g_guestbook_data');
+
+        debugGuestbookUpload('SaveEditedRecord.debugStart ***************** End ************************************');
+
+        g_guestbook_data.debugOutput();
+        
+    } // debugStart
 
 } // saveEditedRecord
 

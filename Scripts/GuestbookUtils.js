@@ -1,5 +1,5 @@
 // File: GuestbookUtils.js
-// Date: 2025-04-09
+// Date: 2025-04-13
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -81,6 +81,29 @@ class GuestbookData
         this.init();
 
     } // constructor
+
+    // Debug output of the data 
+    debugOutput()
+    {
+        debugGuestbookUpload('GuestbookData.debugOutput ***************** Start **********************************');
+
+        debugGuestbookUpload('m_names=      ' + this.m_names);
+        debugGuestbookUpload('m_email=      ' + this.m_email);
+        debugGuestbookUpload('m_title=      ' + this.m_title);
+        debugGuestbookUpload('m_text=       ' + this.m_text);
+        debugGuestbookUpload('m_remark=     ' + this.m_remark);
+        debugGuestbookUpload('m_band=       ' + this.m_band);
+        debugGuestbookUpload('m_musicians=  ' + this.m_musicians);
+        debugGuestbookUpload('m_year=       ' + this.m_year);
+        debugGuestbookUpload('m_month=      ' + this.m_month);
+        debugGuestbookUpload('m_day=        ' + this.m_day);
+        debugGuestbookUpload('m_image_file= ' + this.m_image_file);
+        debugGuestbookUpload('m_file_name=  ' + this.m_file_name);
+        debugGuestbookUpload('m_reg_number= ' + this.m_reg_number);
+ 
+        debugGuestbookUpload('GuestbookData.debugOutput ***************** End ************************************');
+
+    } // debugOutput
 
     // Initialization
     init()
@@ -338,7 +361,7 @@ class GuestbookData
     } // setImageRemark
 
     // Returns the image remark
-    getImageRemark(i_remark)
+    getImageRemark()
     {
         return this.m_remark;
 

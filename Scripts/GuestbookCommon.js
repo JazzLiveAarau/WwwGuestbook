@@ -144,7 +144,7 @@ function reloadJazzGuestUploadedXmlObject(i_callback_reload_xml_uploaded_object)
 
     g_guests_uploaded_xml = new JazzGuestsXml(i_callback_reload_xml_uploaded_object, n_level_xml, update_xml);
 
-} // reloadJazzGuestXmlObjects
+} // reloadJazzGuestUploadedXmlObject
 
 // Loads all XML objects for Guestbook Admin and Upload
 // Start XML is the object corresponding to JazzGuests.xml
