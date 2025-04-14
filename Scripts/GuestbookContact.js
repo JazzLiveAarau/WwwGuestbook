@@ -1,5 +1,5 @@
 // File: GuestbookContact.js
-// Date: 2025-04-09
+// Date: 2025-04-14
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -297,7 +297,7 @@ function getContentNotificationEmail(i_subject)
 
 } // getContentNotificationEmail
 
-// Functions that automatically delete the last uploaded record
+// Functions that automatically deletes the last uploaded record
 class DeleteLastUploadedRecord
 {
     // Start function for the deletion of the last uploaded record
@@ -323,20 +323,10 @@ class DeleteLastUploadedRecord
             return;
         }    
 
-        var xml_str = 'uploaded';
+        debugGuestbookUpload("DeleteLastUploadedRecord.start Enter");
 
-        var uploaded_record_number = LastUploadedRecord.getXmlRecordNumber(xml_str);
-    
-        if (uploaded_record_number <= 0)
-        {
-            debugGuestbookUpload('DeleteLastUploadedRecord.start An uploaded record is not found');
-    
-            alert("DeleteLastUploadedRecord.start An uploaded record is not found");
-    
-            return;
-        }
-    
-        xml_str = 'admin';
+
+        var xml_str = 'admin';
         
         var admin_record_number = LastUploadedRecord.getXmlRecordNumber(xml_str);
     
@@ -363,6 +353,8 @@ class DeleteLastUploadedRecord
     // 1. Call of reloadJazzGuestXmlObject with callback function this.reloadJazzGuestsUploadedObject
     static reloadJazzGuestsObject()
     {
+        debugGuestbookUpload("DeleteLastUploadedRecord.reloadJazzGuestsObject Enter");
+        
         reloadJazzGuestXmlObject(DeleteLastUploadedRecord.reloadJazzGuestsUploadedObject);
 
     } // reloadJazzGuestsObject
@@ -371,6 +363,8 @@ class DeleteLastUploadedRecord
     // 1. Call of reloadJazzGuestUploadedXmlObject with callback function this.backupJazzGuestsUploaded
     static reloadJazzGuestsUploadedObject()
     {
+        debugGuestbookUpload("DeleteLastUploadedRecord.reloadJazzGuestsUploadedObject Enter");
+        
         reloadJazzGuestUploadedXmlObject(DeleteLastUploadedRecord.backupJazzGuestsUploaded);
 
     } // reloadJazzGuestsUploadedObject
@@ -379,6 +373,8 @@ class DeleteLastUploadedRecord
     // 1. Call of UtilServer.copyFileCallback with callback function this.backupJazzGuestsUploaded
     static backupJazzGuestsUploaded()
     {
+        debugGuestbookUpload("DeleteLastUploadedRecord.backupJazzGuestsUploaded Enter");
+
         UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
                                     GuestbookServer.absoluteUrlJazzGuestsUploadedBackup(), 
                                     DeleteLastUploadedRecord.backupJazzGuestsXml);
@@ -388,6 +384,7 @@ class DeleteLastUploadedRecord
     // 1. Call of UtilServer.copyFileCallback with callback function this.moveImageFromUploadedToBackupDir
     static backupJazzGuestsXml()
     {
+        debugGuestbookUpload("DeleteLastUploadedRecord.backupJazzGuestsXml Enter");
 
         UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
                                     GuestbookServer.absoluteUrlJazzGuestsBackup(), 
@@ -397,6 +394,7 @@ class DeleteLastUploadedRecord
 
     // Moves the upload image from /www/JazzGuests/Uploaded/ to the backup directory
     // 1. Get record number in object JazzGuestsUploaded.xml. Call this.getDeleteRecordNumber
+    //    If not existing call DeleteLastUploadedRecord.moveImageFromJazzGuestDirToBackupDir
     // 2. Get image file name. Call of JazzGuestsXml.getGuestFileName
     // 3. Construct full path to existing file. Call of GuestbookServer.getUploadedXmlDirUrl
     // 4. Construct full path to backup file. Call of GuestbookServer.getBackupDirUrl
@@ -405,19 +403,30 @@ class DeleteLastUploadedRecord
     //    Call UtilServer.moveFileCallback
     static moveImageFromUploadedToBackupDir()
     {
+        debugGuestbookUpload("DeleteLastUploadedRecord.moveImageFromUploadedToBackupDir Enter");
+        
         var xml_str = 'uploaded';
 
         var uploaded_record_number = LastUploadedRecord.getXmlRecordNumber(xml_str);
 
-        var uploaded_file_name = g_guests_uploaded_xml.getGuestFileName(uploaded_record_number);
+        if (uploaded_record_number > 0)
+        {
+            var uploaded_file_name = g_guests_uploaded_xml.getGuestFileName(uploaded_record_number);
 
-        var name_no_path = UtilServer.getFileName(uploaded_file_name);
+            var name_no_path = UtilServer.getFileName(uploaded_file_name);
+        
+            var input_move_file = GuestbookServer.getUploadedXmlDirUrl() + name_no_path;
+        
+            var output_move_file = GuestbookServer.getBackupDirUrl() + name_no_path;
     
-        var input_move_file = GuestbookServer.getUploadedXmlDirUrl() + name_no_path;
-    
-        var output_move_file = GuestbookServer.getBackupDirUrl() + name_no_path;
+            UtilServer.moveFileCallback(input_move_file, output_move_file, DeleteLastUploadedRecord.moveImageFromJazzGuestDirToBackupDir);
+        }
+        else
+        {
+            debugGuestbookUpload("DeleteLastUploadedRecord.moveImageFromUploadedToBackupDir Record not found. Call moveImageFromJazzGuestDirToBackupDir directly");
 
-        UtilServer.moveFileCallback(input_move_file, output_move_file, DeleteLastUploadedRecord.moveImageFromJazzGuestDirToBackupDir);
+            DeleteLastUploadedRecord.moveImageFromJazzGuestDirToBackupDir();
+        }
 
     } // moveImageFromUploadedToBackupDir
 
@@ -432,9 +441,18 @@ class DeleteLastUploadedRecord
     //    Call UtilServer.moveFileCallback
     static moveImageFromJazzGuestDirToBackupDir()
     {
+        debugGuestbookUpload("DeleteLastUploadedRecord.moveImageFromJazzGuestDirToBackupDir Enter");
+        
         var xml_str = 'admin';
         
         var admin_record_number = LastUploadedRecord.getXmlRecordNumber(xml_str);
+
+        if (admin_record_number < 0)
+        {
+            alert("DeleteLastUploadedRecord.moveImageFromJazzGuestDirToBackupDir admin_record_number < 0");
+
+            return;
+        }
 
         var uploaded_file_name = g_guests_xml.getGuestFileName(admin_record_number);
 
@@ -456,15 +474,26 @@ class DeleteLastUploadedRecord
     //    Call of UtilServer.saveFileCallback
     static deleteRecordSaveJazzGuestsUploadedXml()
     {
+        debugGuestbookUpload("DeleteLastUploadedRecord.deleteRecordSaveJazzGuestsUploadedXml Enter");
+
         var xml_str = 'uploaded';
 
         var uploaded_record_number = LastUploadedRecord.getXmlRecordNumber(xml_str);
 
-        g_guests_uploaded_xml.deleteGuestNode(uploaded_record_number);
+        if (uploaded_record_number > 0)
+        {
+            g_guests_uploaded_xml.deleteGuestNode(uploaded_record_number);
 
-        UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
-                                    GuestbookServer.getPrettyPrintContent(g_guests_uploaded_xml), 
-                                    DeleteLastUploadedRecord.deleteRecordSaveJazzGuestsdXml);
+            UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
+                                        GuestbookServer.getPrettyPrintContent(g_guests_uploaded_xml), 
+                                        DeleteLastUploadedRecord.deleteRecordSaveJazzGuestsdXml);
+        }
+        else
+        {
+            debugGuestbookUpload("DeleteLastUploadedRecord.deleteRecordSaveJazzGuestsUploadedXml Record not found. Call deleteRecordSaveJazzGuestsdXml direct");
+
+            DeleteLastUploadedRecord.deleteRecordSaveJazzGuestsdXml();
+        }
 
     } // deleteRecordSaveJazzGuestsUploadedXml
 
@@ -475,6 +504,8 @@ class DeleteLastUploadedRecord
     //    Call of UtilServer.saveFileCallback
     static deleteRecordSaveJazzGuestsdXml()
     {
+        debugGuestbookUpload("DeleteLastUploadedRecord.deleteRecordSaveJazzGuestsdXml Enter");
+
         var xml_str = 'admin';
         
         var admin_record_number = LastUploadedRecord.getXmlRecordNumber(xml_str);
@@ -494,6 +525,8 @@ class DeleteLastUploadedRecord
     //    Call of UtilLock.setUnlockedCallbackFunctionName and UtilLock.unlock
     static unlockFiles()
     {
+        debugGuestbookUpload("DeleteLastUploadedRecord.unlockFiles Enter");
+
         g_util_lock_object.setUnlockedCallbackFunctionName(DeleteLastUploadedRecord.sendNoticationEmail);
 
         g_util_lock_object.unlock();
@@ -507,35 +540,11 @@ class DeleteLastUploadedRecord
     //    Call of UtilEmail.sendSecureCallback
     static sendNoticationEmail()
     {
-        var email_from = GuestStr.emailCodeFrom();
+        debugGuestbookUpload("DeleteLastUploadedRecord.sendNoticationEmail Enter");
 
-        var email_to = GuestStr.emailCodeFrom();
-    
-        var email_subject = GuestStr.emailGuestbookRecordDeletedSubject() + g_guestbook_data_last_record.getImageNames();
-    
-        var email_bcc = '';
-    
-        var textarea_str = g_guestbook_data_last_record.getImageText();
-    
-        textarea_str = UtilString.stringWindowsToHtml(textarea_str);
-    
-        var email_message = '';
-    
-        var record_date = UtilDate.getIsoDateString(g_guestbook_data_last_record.getYear(), 
-                                                    g_guestbook_data_last_record.getMonth(), 
-                                                    g_guestbook_data_last_record.getDay());
-    
-        email_message = email_message + 'Datum: ' + record_date + '<br>';
-        email_message = email_message + 'Email: ' + g_guestbook_data_last_record.getImageEmail() + '<br>';
-        email_message = email_message + 'Names: ' + g_guestbook_data_last_record.getImageNames() + '<br>';
-        email_message = email_message + 'Title: ' + g_guestbook_data_last_record.getImageTitle() + '<br>';
-        email_message = email_message + 'Band: ' + g_guestbook_data_last_record.getBand() + '<br>';
-        email_message = email_message + 'Musicians: ' + g_guestbook_data_last_record.getMusicians() + '<br>';
-        email_message = email_message + 'Remark: ' + g_guestbook_data_last_record.getImageRemark() + '<br>';
-        email_message = email_message + 'File: ' + g_guestbook_data_last_record.getImageFile() + '<br>';
-        email_message = email_message + 'Text: ' + g_guestbook_data_last_record + '<br>';
-    
-        UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, DeleteLastUploadedRecord.finish);
+        var email_case = 'last_deleted';
+
+        sendNoticationEmailToAdministrator(email_case, g_guestbook_data_last_record, DeleteLastUploadedRecord.finish);
 
     } // sendNoticationEmail
 
@@ -545,6 +554,8 @@ class DeleteLastUploadedRecord
     // 2. Reload the application. Call of location.reload
     static finish()
     {
+        debugGuestbookUpload("DeleteLastUploadedRecord.finish Enter");
+
         GuestStorage.initGuestbookData();
 
         g_guestbook_data_last_record = null;
@@ -638,10 +649,10 @@ class ChangeLastUploadedRecord
     // Make a backup of the registered image and call LastUploadedRecord.finish
     static backupRegImage()
     {
-        var reg_image_url = g_guestbook_data.getFileName();
+        var abs_reg_image_url = g_guestbook_data.getAbsoluteFileName();
         
-        UtilServer.copyFileCallback(reg_image_url, 
-                                    GuestbookServer.absoluteBackupTimeStamp(reg_image_url), 
+        UtilServer.copyFileCallback(abs_reg_image_url, 
+                                    GuestbookServer.absoluteBackupTimeStamp(abs_reg_image_url), 
                                     ChangeLastUploadedRecord.finish);
     } // backupJazzGuests
 
@@ -691,7 +702,7 @@ class LastUploadedRecord
         }
         else
         {
-            alert("DeleteLastUploadedRecord.getXmlRecordNumber Error i_xml_str= " + i_xml_str);
+            alert("LastUploadedRecord.getXmlRecordNumber Error i_xml_str= " + i_xml_str);
     
             return -9;
         }
@@ -731,13 +742,13 @@ class LastUploadedRecord
                 {
                     if (i_xml_str == 'uploaded' && guest_file == search_file)
                     {
-                        debugGuestbookUpload('DeleteLastUploadedRecord.getXmlRecordNumber uploaded rec_number= ' + rec_number.toString());
+                        debugGuestbookUpload('LastUploadedRecord.getXmlRecordNumber uploaded rec_number= ' + rec_number.toString());
     
                         return rec_number;
                     }
                     else if (i_xml_str == 'admin')
                     {
-                        debugGuestbookUpload('DeleteLastUploadedRecord.getXmlRecordNumber admin rec_number= ' + rec_number.toString());
+                        debugGuestbookUpload('LastUploadedRecord.getXmlRecordNumber admin rec_number= ' + rec_number.toString());
     
                         return rec_number;
                     }
@@ -746,7 +757,7 @@ class LastUploadedRecord
     
         } // rec_number
 
-        debugGuestbookUpload('DeleteLastUploadedRecord.getXmlRecordNumber Error. Record is NOT found ');
+        debugGuestbookUpload('LastUploadedRecord.getXmlRecordNumber Record is NOT found ('+  i_xml_str + ')');
     
         return -1;
     

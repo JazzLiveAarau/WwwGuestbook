@@ -276,12 +276,23 @@ class GuestbookData
 
     } // setFileName
 
-    // Returns the registered absolute file name (URL)
+    // Returns the registered relative file name (URL)
     getFileName()
     {
         return this.m_file_name;
         
     } // getFileName
+
+    // Returns the registered absolute file name (URL)
+    getAbsoluteFileName()
+    {
+        var file_name_without_path = UtilServer.getFileName(this.m_file_name);
+
+        var ret_abs = GuestbookServer.getJazzGuestsDirUrl() + file_name_without_path;
+
+        return ret_abs;
+
+    } // getAbsoluteFileName
 
     // Sets the registration number
     setRegNumber(i_file_name)

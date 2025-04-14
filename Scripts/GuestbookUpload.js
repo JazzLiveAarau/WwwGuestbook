@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2025-04-13
+// Date: 2025-04-14
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -800,9 +800,9 @@ function setControlsEditLastUploadedRecord()
 
     g_upload_window.toUploadImage();
     
-    var reg_image_url = g_guestbook_data.getFileName();
+    var abs_reg_image_url = g_guestbook_data.getAbsoluteFileName();
 
-    g_upload_image_object.changeDefaultImageFile(reg_image_url);
+    g_upload_image_object.changeDefaultImageFile(abs_reg_image_url);
 
     var guest_names = g_guestbook_data.getImageNames();
 
@@ -1065,7 +1065,8 @@ class AppendBothXml
     
         debugGuestbookUpload('AppendBothXml.constructImageFileNameAndCopy Image relative name = ' + rel_output_file_name);
     
-        g_guestbook_data.setXmlNewRegisterImageFileName(output_image_file_name);
+        // Please not that this relative path will be stored in the XML JazzGuests.xml
+        g_guestbook_data.setXmlNewRegisterImageFileName(rel_output_file_name);
 
         UtilServer.copyFileCallback(input_image_file_name, output_image_file_name, AppendBothXml.appendXmlUploadedData);
 
@@ -1162,39 +1163,9 @@ class AppendBothXml
 
         GuestStorage.setGuestbookData(g_guestbook_data);
 
-        var email_from = GuestStr.emailCodeFrom();
+        var email_case = 'new_uploaded';
 
-        var email_to = GuestStr.emailCodeFrom();
-    
-        var email_subject = GuestStr.emailGuestbookSubject() + g_guestbook_data.getImageNames();
-    
-        var email_bcc = '';
-    
-        var textarea_str = g_guestbook_data.getImageText();
-    
-        textarea_str = UtilString.stringWindowsToHtml(textarea_str);
-    
-        var email_message = '';
-    
-        var record_date = UtilDate.getIsoDateString(g_guestbook_data.getYear(), g_guestbook_data.getMonth(), g_guestbook_data.getDay());
-    
-        email_message = email_message + 'Datum: ' + record_date + '<br>';
-        email_message = email_message + 'Email: ' + g_guestbook_data.getImageEmail() + '<br>';
-        email_message = email_message + 'Names: ' + g_guestbook_data.getImageNames() + '<br>';
-        email_message = email_message + 'Title: ' + g_guestbook_data.getImageTitle() + '<br>';
-        email_message = email_message + 'Band: ' + g_guestbook_data.getBand() + '<br>';
-        email_message = email_message + 'Musicians: ' + g_guestbook_data.getMusicians() + '<br>';
-        email_message = email_message + 'Remark: ' + g_guestbook_data.getImageRemark() + '<br>';
-        email_message = email_message + 'Text: ' + textarea_str + '<br>';
-    
-        if (!UtilServer.execApplicationOnServer())
-        {
-            alert("sendNotificationEmail PHP cannot execute with Visual Studio Live Server.");
-
-            return;
-        }    
-    
-         UtilEmail.sendSecureCallback(email_from, email_subject, email_message, email_to, email_bcc, g_email_secure, g_guestbook_data.getAppendBothXmlCallback());
+        sendNoticationEmailToAdministrator(email_case, g_guestbook_data, g_guestbook_data.getAppendBothXmlCallback());
 
     } // sendNotificationEmail
 
@@ -1221,6 +1192,8 @@ class SaveEditedRecord
     {
         SaveEditedRecord.debugStart();
 
+        debugGuestbookUpload("SaveEditedRecord.start Enter");
+
         var user_email = g_guestbook_data.getImageEmail();
 
         g_util_lock_object.setUserEmail(user_email);
@@ -1239,18 +1212,24 @@ class SaveEditedRecord
     //    GuestbookData.getFileName and UtilServer.copyFileCallback
     static copyNewImageFile()
     {
+        debugGuestbookUpload("SaveEditedRecord.copyNewImageFile Enter");
+
         var b_user_uploaded_new_image = userUploadedAnImageInEditMode();
 
-        if (!b_user_uploaded_new_image)
+        if (b_user_uploaded_new_image)
         {
+            var new_image_file_name = g_guestbook_data.getImageFile();
+
+            var abs_reg_image_file_name = g_guestbook_data.getAbsoluteFileName();
+    
+            UtilServer.copyFileCallback(new_image_file_name, abs_reg_image_file_name, SaveEditedRecord.reloadJazzGuestsObject);
+        }
+        else
+        {
+            debugGuestbookUpload("SaveEditedRecord.copyNewImageFile User did not upload a new window. Call reloadJazzGuestsObject direct");
+
             SaveEditedRecord.reloadJazzGuestsObject();
         }
-
-        var new_image_file_name = g_guestbook_data.getImageFile();
-
-        var reg_image_file_name = g_guestbook_data.getFileName();
-
-        UtilServer.copyFileCallback(new_image_file_name, reg_image_file_name, SaveEditedRecord.reloadJazzGuestsObject);
 
     } // copyNewImageFile
 
@@ -1258,6 +1237,8 @@ class SaveEditedRecord
     // Call of reloadJazzGuestXmlObject
     static reloadJazzGuestsObject()
     {
+        debugGuestbookUpload("SaveEditedRecord.reloadJazzGuestsObject Enter");
+
         reloadJazzGuestXmlObject(SaveEditedRecord.backupJazzGuests);
 
     } // reloadJazzGuestsObject
@@ -1266,6 +1247,8 @@ class SaveEditedRecord
    // Call of UtilServer.copyFileCallback
    static backupJazzGuests()
    {
+       debugGuestbookUpload("SaveEditedRecord.backupJazzGuests Enter");
+
        UtilServer.copyFileCallback(GuestbookServer.absoluteUrlJazzGuests(), 
                                    GuestbookServer.absoluteUrlJazzGuestsBackup(), 
                                    SaveEditedRecord.changeXmlRecordAndSaveFile);
@@ -1285,9 +1268,18 @@ class SaveEditedRecord
     //    Call of UtilServer.saveFileCallback
     static changeXmlRecordAndSaveFile()
     {
+        debugGuestbookUpload("SaveEditedRecord.changeXmlRecordAndSaveFile Enter");
+
         var registration_number = g_guestbook_data.getRegNumber();
 
         var record_number = g_guests_xml.getRecordNumberForRegistrationNumber(registration_number);
+
+        if (record_number < 0)
+        {
+            alert("saveEditedRecord.changeXmlRecordAndSaveFile getRecordNumberForRegistrationNumber failed for registration_number= " + registration_number);
+
+            return;
+        }
 
         g_guests_xml.setGuestYear(record_number, g_guestbook_data.getYear());
 
@@ -1335,6 +1327,8 @@ class SaveEditedRecord
     // 2. Unlock. Call UtilLock.unlock
     static unlockFiles()
     {
+        debugGuestbookUpload("SaveEditedRecord.unlockFiles Enter");
+
         g_util_lock_object.setUnlockedCallbackFunctionName(SaveEditedRecord.sendNotificationEmail);
 
         g_util_lock_object.unlock();
@@ -1345,6 +1339,8 @@ class SaveEditedRecord
     // Call of sendNoticationEmailToAdministrator. Callback function SaveEditedRecord.finish
     static sendNotificationEmail()
     {
+        debugGuestbookUpload("SaveEditedRecord.sendNotificationEmail Enter");
+
         var email_case = 'last_edited';
 
         sendNoticationEmailToAdministrator(email_case, g_guestbook_data, SaveEditedRecord.finish);
@@ -1358,6 +1354,8 @@ class SaveEditedRecord
     //    Call of GuestStr.TODO and alert
     static finish()
     {
+        debugGuestbookUpload("SaveEditedRecord.finish Enter");
+
         GuestStorage.setGuestbookData(g_guestbook_data);
 
         alert(GuestStr.guestbookEditedRecordIsSaved(g_guestbook_data.getImageNames()));
