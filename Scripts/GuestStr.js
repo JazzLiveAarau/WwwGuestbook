@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2025-04-13
+// Date: 2025-04-14
 // Author: Gunnar Liden
 
 // File content
@@ -438,6 +438,14 @@ class GuestStr
         return 'Bitte einen neuen Code verlangen für die geänderte E-Mail Adresse';
 
     } // emailChangedNewCodeRequired
+
+    // Change of the email address after getting the code will erase all input data.
+    // Continue?
+    static changedEmailRequiresNewCode()
+    {
+        return 'Änderung einer E-Mail Adresse wird eingegebene Daten  löschen. \nFortsetzen?';
+
+    } // changedEmailRequiresNewCode
 
     // The user klicks the button for part three (input texts) and an image is not uploaded
     // This error message the user to upload an image

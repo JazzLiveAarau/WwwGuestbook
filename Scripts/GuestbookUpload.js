@@ -398,12 +398,16 @@ function onInputTextUpdateEmail()
     if (!g_guestbook_data.inputCodeEqualToRandomCode())
     {
         g_guestbook_data.m_email = guestbook_email;
-
     }
     else
     {
         if (g_guestbook_data.m_email != guestbook_email)
         {
+            if (!continueChangingEmailAddress())
+            {
+                return;
+            }
+
             hideElementDivButtonSendCode();
 
             hideElementDivInputCode();
@@ -415,6 +419,25 @@ function onInputTextUpdateEmail()
     }
 
 } // onInputTextUdateEmail
+
+// Returns true if the user will change the email address
+// Resets the email control and returns false if not
+function continueChangingEmailAddress()
+{
+
+    var prompt_str = GuestStr.changedEmailRequiresNewCode();
+
+    var b_confirm = confirm(prompt_str);
+
+    if (b_confirm == true)
+    {
+        return true;
+    }
+    g_upload_email_text_box.setValue(g_guestbook_data.m_email);
+
+    return false;
+    
+} // continueChangingEmailAddress
 
 // User selected a concert
 function eventSelectUploadConcertDropDown()
