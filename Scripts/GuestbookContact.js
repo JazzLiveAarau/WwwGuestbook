@@ -1,5 +1,5 @@
 // File: GuestbookContact.js
-// Date: 2025-04-14
+// Date: 2025-04-15
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -709,7 +709,7 @@ class LastUploadedRecord
     
         var n_records = current_xml.getNumberOfGuestRecords();
     
-        var search_title = g_guestbook_data_last_record.getImageTitle();
+        var search_title = g_guestbook_data_last_record.getImageTitleEscaped();
     
         var search_year = g_guestbook_data_last_record.getYear();
     
