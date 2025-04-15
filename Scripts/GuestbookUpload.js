@@ -1,5 +1,5 @@
 // File: GuestbookUpload.js
-// Date: 2025-04-14
+// Date: 2025-04-15
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -44,6 +44,11 @@ function setEditRecordModeToFalse(){ g_edit_record_mode = false; }
 // Returns true if the mode is 'Edit of a record'
 function getEditRecordMode(){ return g_edit_record_mode; }
 
+// For debug to file www/JazzGuests/Debug/GuestbookDebug.txt
+var g_debug_to_file = null;
+
+var g_make_debug_to_files = false;
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End Global Parameters ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -77,6 +82,17 @@ function initGuestbookUpload()
     {
         g_upload_test_version_mobile_telephone = true;
 
+    }
+
+    if (g_make_debug_to_files)
+    {
+        alert("initGuestbookUpload Debug files will be initialized");
+
+        UtilServer.initDebugFile('GuestbookUpload'); 
+
+        g_debug_to_file = new DebugToFile();
+
+        g_debug_is_initialized = true;
     }
 
 } // initGuestbookUpload
@@ -1031,7 +1047,7 @@ class AppendBothXml
     
         g_guests_uploaded_xml.setGuestRegNumber(n_records, 'Will be set when moved to JazzGuests.xml');
     
-        debugGuestbookUpload('AppendBothXml.appendUploaded All members set. Status= ' + g_guests_xml.getGuestStatus(n_records));
+        debugGuestbookUpload('AppendBothXml.appendUploaded All members set. Status= ' + g_guests_uploaded_xml.getGuestStatus(n_records));
 
         UtilServer.saveFileCallback(GuestbookServer.absoluteUrlJazzGuestsUploaded(), 
                                     GuestbookServer.getPrettyPrintContent(g_guests_uploaded_xml), 
@@ -1399,11 +1415,19 @@ class SaveEditedRecord
 
         var image_file = g_guestbook_data.getImageFile();
 
+        debugGuestbookUpload('image_file=' + image_file);
+
         var reg_file = g_guestbook_data.getFileName();
+
+        debugGuestbookUpload('reg_file=' + reg_file);
 
         var registration_number = g_guestbook_data.getRegNumber();
 
+        debugGuestbookUpload('registration_number=' + registration_number);
+
         var record_number = g_guests_xml.getRecordNumberForRegistrationNumber(registration_number);
+
+        debugGuestbookUpload('record_number=' + record_number.toString());
 
         var b_user_uploaded_new_image = userUploadedAnImageInEditMode();
 
@@ -1858,6 +1882,11 @@ function debugGuestbookUpload(i_msg_str)
     console.log('GuestbookUpload: ' + i_msg_str);
 
     UtilServer.appendDebugFile('GuestbookUpload: ' + i_msg_str, 'GuestbookAdminSave');
+
+    if (g_debug_to_file != null)
+    {
+        g_debug_to_file.append(i_msg_str);
+    }
 
 } // debugGuestbookUpload
 

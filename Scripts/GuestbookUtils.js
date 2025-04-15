@@ -615,6 +615,13 @@ class GuestbookServer
 
     } // absoluteBackupTimeStamp
 
+    // Returns the absolute URL to the debug file
+    static absoluteDebugFileName()
+    {
+        return GuestbookServer.getHomepageUrl() + 'JazzGuests/Debug/' + 'GuestbookDebug.txt';
+
+    } // absoluteDebugFileName
+
     static getPrettyPrintContent(i_xml_object)
     {
         var pretty_print = new PrettyPrintXml(i_xml_object.getXmlObject());
@@ -630,6 +637,57 @@ class GuestbookServer
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// End GuestbookServer Class ///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Start Debug File ////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+class DebugToFile
+{
+    constructor()
+    {
+        this.m_abs_debug_file_name =  GuestbookServer.absoluteDebugFileName();
+
+        this.m_content_file = '';
+
+        this.init();
+    }
+
+    init()
+    {
+        this.m_content_file = 'Debug from application Guestbook' + '\n'+
+                              '--------------------------------'  + '\n';
+        this.save();
+
+    } // init
+
+    // Append row to content and save file
+    append(i_row)
+    {
+        this.m_content_file = this.m_content_file + '\n' + i_row;
+
+        this.save();
+
+    } // append
+
+    // Saves the file
+    save()
+    {
+        UtilServer.saveFileCallback(this.m_abs_debug_file_name, this.m_content_file, DebugToFile.callbackDebug);
+
+    } // save
+
+    // Callback function after save
+    static callbackDebug()
+    {
+        
+    } // callbackDebug
+
+} // DebugToFile
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// End Debug File //////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////
