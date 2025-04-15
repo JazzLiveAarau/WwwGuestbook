@@ -1478,13 +1478,6 @@ function getGuestbookNames()
 
     g_guestbook_data.m_names = guestbook_names;
 
-    var b_edit_record_mode = getEditRecordMode();
-
-    if (!b_edit_record_mode)
-    {
-        GuestStorage.setNames(guestbook_names);
-    }
-
     return true;
 
 } // getGuestbookNames
@@ -1502,13 +1495,6 @@ function getGuestbookEmail()
     }
 
     g_guestbook_data.m_email = guestbook_email;
-
-    var b_edit_record_mode = getEditRecordMode();
-
-    if (!b_edit_record_mode)
-    {
-        GuestStorage.setEmail(guestbook_email);
-    }
 
     return true;
 
