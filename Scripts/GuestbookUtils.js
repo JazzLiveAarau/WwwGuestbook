@@ -1,5 +1,5 @@
 // File: GuestbookUtils.js
-// Date: 2025-04-13
+// Date: 2025-04-15
 // Author: Gunnar Lidén
 
 // Inhalt
@@ -199,6 +199,13 @@ class GuestbookData
         
     } // getBand
 
+    // Returns the image band name with escaped chars for XML
+    getBandEscaped()
+    {
+        return UtilXml.escapeString(this.m_band);
+        
+    } // getBandEscaped
+
     // Sets the image musician names
     setMusicians(i_musicians)
     {
@@ -212,6 +219,13 @@ class GuestbookData
         return this.m_musicians;
         
     } // getMusicians
+
+    // Returns the iimage musician names with escaped chars for XML
+    getMusiciansEscaped()
+    {
+        return UtilXml.escapeString(this.m_musicians);
+        
+    } // getMusiciansEscaped
 
     // Sets the image year
     setYear(i_year)
@@ -322,6 +336,13 @@ class GuestbookData
 
     } // getImageNames
 
+    // Returns the image names with escaped chars for XML
+    getImageNamesEscaped()
+    {
+        return UtilXml.escapeString(this.m_names);
+        
+    } // getImageNamesEscaped
+
     // Sets the image email
     setImageEmail(i_email)
     {
@@ -350,6 +371,13 @@ class GuestbookData
         
     } // getImageTitle
 
+    // Returns the image title with escaped chars for XML
+    getImageTitleEscaped()
+    {
+        return UtilXml.escapeString(this.m_title);
+        
+    } // getImageTitleEscaped
+
     // Sets the image text
     setImageText(i_text)
     {
@@ -364,6 +392,13 @@ class GuestbookData
         
     } // getImageText
 
+    // Returns the image text with escaped chars for XML
+    getImageTextEscaped()
+    {
+        return UtilXml.escapeString(this.m_text);
+        
+    } // getImageTextEscaped
+
     // Sets the image remark
     setImageRemark(i_remark)
     {
@@ -377,6 +412,13 @@ class GuestbookData
         return this.m_remark;
 
     } // getImageRemark
+
+    // Returns the image remark with escaped chars for XML
+    getImageRemarkEscaped()
+    {
+        return UtilXml.escapeString(this.m_remark);
+        
+    } // getImageRemarkEscaped
 
     // Generate random code
     setRandomCode()

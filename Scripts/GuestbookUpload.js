@@ -1003,26 +1003,28 @@ class AppendBothXml
         g_guests_uploaded_xml.setGuestMonth(n_records, g_guestbook_data.getMonth());
     
         g_guests_uploaded_xml.setGuestDay(n_records, g_guestbook_data.getDay());
+
+        g_guests_uploaded_xml.setGuestBand(n_records, g_guestbook_data.getBandEscaped());  
+        //QQ g_guests_uploaded_xml.setGuestBand(n_records, g_guestbook_data.getBand());
     
-        g_guests_uploaded_xml.setGuestBand(n_records, g_guestbook_data.getBand());
+        g_guests_uploaded_xml.setGuestMusicians(n_records, g_guestbook_data.getMusiciansEscaped());
+        //QQ g_guests_uploaded_xml.setGuestMusicians(n_records, g_guestbook_data.getMusicians());
     
-        g_guests_uploaded_xml.setGuestMusicians(n_records, g_guestbook_data.getMusicians());
+        g_guests_uploaded_xml.setGuestHeader(n_records, g_guestbook_data.getImageTitleEscaped());
+        //QQ escaped_data = UtilXml.escapeString( g_guestbook_data.getImageTitle());
+        //QQ g_guests_uploaded_xml.setGuestHeader(n_records, escaped_data);
     
-        escaped_data = UtilXml.escapeString( g_guestbook_data.getImageTitle());
+        g_guests_uploaded_xml.setGuestText(n_records,  g_guestbook_data.getImageTextEscaped());
+        //QQ escaped_data = UtilXml.escapeString( g_guestbook_data.getImageText());
+        //QQ g_guests_uploaded_xml.setGuestText(n_records, escaped_data);
     
-        g_guests_uploaded_xml.setGuestHeader(n_records, escaped_data);
+        g_guests_uploaded_xml.setGuestNames(n_records, g_guestbook_data.getImageNamesEscaped());
+        //QQ escaped_data = UtilXml.escapeString( g_guestbook_data.getImageNames());
+        //QQ g_guests_uploaded_xml.setGuestNames(n_records, escaped_data);
     
-        escaped_data = UtilXml.escapeString( g_guestbook_data.getImageText());
-    
-        g_guests_uploaded_xml.setGuestText(n_records, escaped_data);
-    
-        escaped_data = UtilXml.escapeString( g_guestbook_data.getImageNames());
-      
-        g_guests_uploaded_xml.setGuestNames(n_records, escaped_data);
-    
-        escaped_data = UtilXml.escapeString( g_guestbook_data.getImageRemark());
-    
-        g_guests_uploaded_xml.setGuestRemark(n_records, escaped_data);
+        g_guests_uploaded_xml.setGuestRemark(n_records, g_guestbook_data.getImageRemarkEscaped());
+        //QQ escaped_data = UtilXml.escapeString( g_guestbook_data.getImageRemark());
+        //QQ g_guests_uploaded_xml.setGuestRemark(n_records, escaped_data);
     
         g_guests_uploaded_xml.setGuestFileName(n_records, g_guestbook_data.getImageFile());
     
@@ -1326,17 +1328,22 @@ class SaveEditedRecord
 
         g_guests_xml.setGuestDay(record_number, g_guestbook_data.getDay());
 
-        g_guests_xml.setGuestBand(record_number, g_guestbook_data.getBand());
+        g_guests_xml.setGuestBand(record_number, g_guestbook_data.getBandEscaped());
+        //QQ g_guests_xml.setGuestBand(record_number, g_guestbook_data.getBand());
 
-        g_guests_xml.setGuestMusicians(record_number, g_guestbook_data.getMusicians());
+        g_guests_xml.setGuestMusicians(record_number, g_guestbook_data.getMusiciansEscaped());
+        //QQ g_guests_xml.setGuestMusicians(record_number, g_guestbook_data.getMusicians());
 
-        g_guests_xml.setGuestHeader(record_number, g_guestbook_data.getImageTitle());
+        g_guests_xml.setGuestHeader(record_number, g_guestbook_data.getImageTitleEscaped());
+        //QQ g_guests_xml.setGuestHeader(record_number, g_guestbook_data.getImageTitle());
 
-        g_guests_xml.setGuestText(record_number, g_guestbook_data.getImageText());
+        g_guests_xml.setGuestText(record_number, g_guestbook_data.getImageTextEscaped());
+        //QQ g_guests_xml.setGuestText(record_number, g_guestbook_data.getImageText());
 
-        g_guests_xml.setGuestNames(record_number, g_guestbook_data.getImageNames());
+        g_guests_xml.setGuestNames(record_number, g_guestbook_data.getImageNamesEscaped());
+        //QQ g_guests_xml.setGuestNames(record_number, g_guestbook_data.getImageNames());
 
-        // Not set by edit g_guests_xml.setGuestRemark(record_number, g_guestbook_data.getImageRemark());
+        // Not set by edit g_guests_xml.setGuestRemark(record_number, g_guestbook_data.getImageRemarkEscaped());
 
         // Registered file name not changed g_guests_xml.setGuestFileName(record_number, g_guestbook_data.getFileName());
 
