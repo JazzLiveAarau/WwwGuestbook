@@ -1,5 +1,5 @@
 // File: GuestStr.js
-// Date: 2025-04-14
+// Date: 2025-04-18
 // Author: Gunnar Liden
 
 // File content
@@ -559,9 +559,9 @@ class GuestStr
 
         contact_case_array[2] = 'Letzten Beitrag löschen';
 	
-        contact_case_array[3] = 'Beitrag ändern';
+        contact_case_array[3] = 'Änderung eines Beitrags verlangen';
     
-        contact_case_array[4] = 'Beitrag löschen';
+        contact_case_array[4] = 'Löschen eines Beitrags verlangen';
 
         contact_case_array[5] = 'Fehler melden';
     
